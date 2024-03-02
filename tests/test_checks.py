@@ -44,6 +44,7 @@ def test_unique_should_should_accept_list_and_polars_select():
     given = pl.DataFrame({"a": [1, 2]})
     when = given.pipe(checks.unique, ["a"])
     testing.assert_frame_equal(given, when)
+
     given = pl.DataFrame({"a": [1, 2]})
     when = given.pipe(checks.unique, pl.col("a"))
     testing.assert_frame_equal(given, when)
@@ -64,15 +65,13 @@ def test_accepted_values():
     short_items = {"b": ["a", "b", "c"]}
     when = given.pipe(checks.accepted_values, short_items)
     testing.assert_frame_equal(given, when)
-    # items["A"] = [1, 2]
-    # with pytest.raises(AssertionError):
-    #     ck.has_vals_within_set(df, items)
 
 
 def test_accepted_values_should_error_on_out_of_range_values():
     items = {"a": [1, 2, 3], "b": ["a", "b", "c"]}
     given = pl.DataFrame(items)
-
     items = {"a": [1, 2], "b": ["a", "b", "c"]}
-    with pytest.raises(checks.PolarsCheckError):
+
+    with pytest.raises(checks.PolarsCheckError) as err:
         given.pipe(checks.accepted_values, items)
+    assert err.value.df.shape == (1, 2)

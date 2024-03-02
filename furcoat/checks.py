@@ -31,5 +31,5 @@ def accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFrame:
     ]
     improper_data = data.filter(pl.Expr.or_(*mask_for_improper_values))
     if not improper_data.is_empty():
-        raise PolarsCheckError
+        raise PolarsCheckError(improper_data)
     return data
