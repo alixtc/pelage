@@ -141,5 +141,26 @@ def test_not_null_proportion_errors_with_too_many_nulls():
     with pytest.raises(checks.PolarsCheckError) as err:
         given.pipe(checks.not_null_proportion, {"a": 0.9})
 
-    expected_err_df = pl.DataFrame({"column": ["a"], "not_null_proportion": [0.5]})
+    expected_err_df = pl.DataFrame(
+        {
+            "column": ["a"],
+            "not_null_proportion": [0.5],
+            "min_prop": [0.9],
+            "max_prop": [1],
+        }
+    )
     testing.assert_frame_equal(err.value.df, expected_err_df)
+
+
+def test_format_ranges_by_has_columns_and_min_max():
+    items = {"a": 0.5, "b": (0.9, 0.95)}
+    given = checks._format_ranges_by_columns(items)
+
+    expected = pl.DataFrame(
+        [
+            ("a", 0.5, 1.0),
+            ("b", 0.9, 0.95),
+        ],
+        schema=["column", "min_prop", "max_prop"],
+    )
+    testing.assert_frame_equal(given, expected)

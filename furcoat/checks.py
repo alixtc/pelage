@@ -85,19 +85,34 @@ def not_null_proportion(
         _description_
     """
 
-    ranges = {k: (v if isinstance(v, tuple) else (v, 1)) for k, v in items.items()}
-    null_proportion_per_column = [
-        (pl.col("column") == col) & ~(pl.col("not_null_proportion").is_between(*val))
-        for col, val in ranges.items()
-    ]
+    pl_ranges = _format_ranges_by_columns(items)
 
     out_of_range_null_proportions = (
         (data.null_count() / len(data))
         .melt(variable_name="column", value_name="null_proportion")
         .with_columns(not_null_proportion=1 - pl.col("null_proportion"))
-        .filter(pl.Expr.or_(*null_proportion_per_column))
+        .join(pl_ranges, on="column", how="inner")
+        .filter(
+            pl.col("not_null_proportion")
+            .is_between(
+                pl.col("min_prop"),
+                pl.col("max_prop"),
+            )
+            .not_()
+        )
         .drop("null_proportion")
     )
     if not out_of_range_null_proportions.is_empty():
         raise PolarsCheckError(out_of_range_null_proportions)
     return data
+
+
+def _format_ranges_by_columns(
+    items: dict[str, float | tuple[float, float]]
+) -> pl.DataFrame:
+    ranges = {k: (v if isinstance(v, tuple) else (v, 1)) for k, v in items.items()}
+    pl_ranges = pl.DataFrame(
+        [(k, v[0], v[1]) for k, v in ranges.items()],
+        schema=["column", "min_prop", "max_prop"],
+    )
+    return pl_ranges
