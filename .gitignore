@@ -9,4 +9,5 @@ raw_data/
 
 .python-version
 .vscode
+poetry.lock
 notebooks
