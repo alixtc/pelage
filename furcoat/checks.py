@@ -12,6 +12,12 @@ class PolarsCheckError(Exception):
         return f"There was an improper value in the passed DataFrame:\n{non_empty_df}"
 
 
+def has_shape(data: pl.DataFrame, shape: tuple[int, int]) -> pl.DataFrame:
+    if data.shape != shape:
+        raise PolarsCheckError
+    return data
+
+
 def has_no_nulls(data: pl.DataFrame) -> pl.DataFrame:
     if data.null_count().sum_horizontal().item() > 0:
         raise PolarsCheckError

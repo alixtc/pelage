@@ -22,6 +22,18 @@ def test_polar_check_error_should_have_clearer_error_message_with_dataframe_inpu
     assert str(error.df) in str(error)
 
 
+def test_is_shape():
+    given = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
+    when = given.pipe(checks.has_shape, (3, 2))
+    testing.assert_frame_equal(given, when)
+
+
+def test_is_shape_should_error_on_wrong_shape():
+    given = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
+    with pytest.raises(checks.PolarsCheckError):
+        given.pipe(checks.has_shape, (2, 2))
+
+
 def test_has_no_nulls_returns_df_when_all_values_defined():
     given = pl.DataFrame({"a": [1, 2]})
     when = given.pipe(checks.has_no_nulls)
