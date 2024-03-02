@@ -5,10 +5,10 @@ install_requirements:
 	@pip install -r requirements.txt
 
 check_code:
-	@flake8 scripts/* fur-coat/*.py
+	@flake8 scripts/* furcoat/*.py
 
 black:
-	@black scripts/* fur-coat/*.py
+	@black scripts/* furcoat/*.py
 
 test:
 	@coverage run -m pytest tests/*.py
@@ -22,8 +22,8 @@ clean:
 	@rm -f .coverage
 	@rm -fr */__pycache__ */*.pyc __pycache__
 	@rm -fr build dist
-	@rm -fr fur-coat-*.dist-info
-	@rm -fr fur-coat.egg-info
+	@rm -fr furcoat-*.dist-info
+	@rm -fr furcoat.egg-info
 
 install:
 	@pip install . -U
