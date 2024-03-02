@@ -91,3 +91,26 @@ def test_accepted_values_should_error_on_out_of_range_values():
     with pytest.raises(checks.PolarsCheckError) as err:
         given.pipe(checks.accepted_values, items)
     assert err.value.df.shape == (1, 2)
+
+
+def test_not_accepted_values():
+    given = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
+    when = given.pipe(checks.not_accepted_values, {"a": [4, 5]})
+    testing.assert_frame_equal(given, when)
+
+
+def test_not_accepted_values_should_accept_pl_expr():
+    given = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
+    when = given.pipe(checks.not_accepted_values, {"^b$": ["d", ""]})
+    testing.assert_frame_equal(given, when)
+
+
+def test_not_accepted_values_should_error_on_out_of_range_values():
+    given = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
+    items = {"a": [1], "b": ["a", "c"]}
+
+    with pytest.raises(checks.PolarsCheckError) as err:
+        given.pipe(checks.not_accepted_values, items)
+    testing.assert_frame_equal(
+        err.value.df, pl.DataFrame({"a": [1, 3], "b": ["a", "c"]})
+    )
