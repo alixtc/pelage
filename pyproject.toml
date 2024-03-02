@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "furcoat"
+version = "0.1.0"
+description = "This package contains a collection of tests to improve your Polars data analysis superpowers"
+authors = ["Alix Tiran-Cappello <alix.tiran-cappello@laposte.net>"]
+license = "GNU General Public License v3 (GPLv3)"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+polars = "^0.20.13"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.2.0"
+pytest = "^8.0.2"
+isort = "^5.13.2"
+ruff = "^0.3.0"
+pre-commit = "^3.6.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
