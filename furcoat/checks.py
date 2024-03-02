@@ -5,7 +5,12 @@ from polars.type_aliases import IntoExpr
 
 
 class PolarsCheckError(Exception):
-    pass
+    def __init__(self, df: pl.DataFrame = pl.DataFrame()) -> None:
+        self.df = df
+
+    def __str__(self) -> str:
+        non_empty_df = self.df if not self.df.is_empty() else ""
+        return f"There was an improper value in the passed DataFrame:\n{non_empty_df}"
 
 
 def has_no_nulls(data: pl.DataFrame) -> pl.DataFrame:

@@ -5,6 +5,23 @@ from polars import testing
 from furcoat import checks
 
 
+def test_polar_check_error_has_simple_message_when_used_directly():
+    error = checks.PolarsCheckError()
+    assert error.df.is_empty()
+    assert "There was an improper value in the passed DataFrame:\n" == str(error)
+
+
+def test_polar_check_error_should_accept_df_as_input():
+    error = checks.PolarsCheckError(pl.DataFrame({"a": [1]}))
+    testing.assert_frame_equal(error.df, pl.DataFrame({"a": [1]}))
+
+
+def test_polar_check_error_should_have_clearer_error_message_with_dataframe_input():
+    error = checks.PolarsCheckError(pl.DataFrame({"a": [1]}))
+    assert "There was an improper value in the passed DataFrame:" in str(error)
+    assert str(error.df) in str(error)
+
+
 def test_has_no_nulls_returns_df_when_all_values_defined():
     given = pl.DataFrame({"a": [1, 2]})
     when = given.pipe(checks.has_no_nulls)
@@ -56,12 +73,6 @@ def test_accepted_values_should_error_on_out_of_range_values():
     items = {"a": [1, 2, 3], "b": ["a", "b", "c"]}
     given = pl.DataFrame(items)
 
-    items = {
-        "a": [
-            1,
-            2,
-        ],
-        "b": ["a", "b", "c"],
-    }
+    items = {"a": [1, 2], "b": ["a", "b", "c"]}
     with pytest.raises(checks.PolarsCheckError):
         given.pipe(checks.accepted_values, items)
