@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "furcoat"
-version = "0.1.0"
+version = "0.1.2"
 description = "This package contains a collection of tests to improve your Polars data analysis superpowers"
 authors = ["Alix Tiran-Cappello <alix.tiran-cappello@laposte.net>"]
 license = "GNU General Public License v3 (GPLv3)"
@@ -17,6 +17,7 @@ isort = "^5.13.2"
 ruff = "^0.3.0"
 pre-commit = "^3.6.2"
 coverage = "^7.4.3"
+ipykernel = "^6.29.3"
 
 
 [build-system]
