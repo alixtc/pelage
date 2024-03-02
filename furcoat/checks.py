@@ -18,3 +18,13 @@ def unique(data: pl.DataFrame, columns: IntoExpr | Iterable[IntoExpr]) -> pl.Dat
     if data.select(columns).is_duplicated().any():
         raise PolarsCheckError
     return data
+
+
+def accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFrame:
+    mask_for_improper_values = [
+        ~pl.col(col).is_in(values) for col, values in items.items()
+    ]
+    improper_data = data.filter(pl.Expr.or_(*mask_for_improper_values))
+    if not improper_data.is_empty():
+        raise PolarsCheckError
+    return data
