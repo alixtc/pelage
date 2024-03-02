@@ -70,3 +70,34 @@ def not_accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFr
     if not improper_data.is_empty():
         raise PolarsCheckError(improper_data)
     return data
+
+
+def not_null_proportion(
+    data: pl.DataFrame, items: dict[str, float | tuple[float, float]]
+) -> pl.DataFrame:
+    """Asserts that the proportion of non-null values present in a column is between
+    a specified range [at_least, at_most] where at_most is an optional argument
+    (default: 1.0).
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
+
+    ranges = {k: (v if isinstance(v, tuple) else (v, 1)) for k, v in items.items()}
+    null_proportion_per_column = [
+        (pl.col("column") == col) & ~(pl.col("not_null_proportion").is_between(*val))
+        for col, val in ranges.items()
+    ]
+
+    out_of_range_null_proportions = (
+        (data.null_count() / len(data))
+        .melt(variable_name="column", value_name="null_proportion")
+        .with_columns(not_null_proportion=1 - pl.col("null_proportion"))
+        .filter(pl.Expr.or_(*null_proportion_per_column))
+        .drop("null_proportion")
+    )
+    if not out_of_range_null_proportions.is_empty():
+        raise PolarsCheckError(out_of_range_null_proportions)
+    return data

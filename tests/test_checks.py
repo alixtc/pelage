@@ -114,3 +114,32 @@ def test_not_accepted_values_should_error_on_out_of_range_values():
     testing.assert_frame_equal(
         err.value.df, pl.DataFrame({"a": [1, 3], "b": ["a", "c"]})
     )
+
+
+def test_not_null_proportion_accept_proportion_range_or_single_input():
+    given = pl.DataFrame({"a": [1, 2, 3]})
+    when = given.pipe(checks.not_null_proportion, {"a": (0.1, 1.0)})
+    testing.assert_frame_equal(given, when)
+
+    when = given.pipe(checks.not_null_proportion, {"a": 0.1})
+    testing.assert_frame_equal(given, when)
+
+
+def test_not_null_proportion_accept_multiple_inpute():
+    given = pl.DataFrame(
+        {
+            "a": [1, None, None],
+            "b": [1, 2, None],
+        }
+    )
+    when = given.pipe(checks.not_null_proportion, {"a": 0.1, "b": 0.1})
+    testing.assert_frame_equal(given, when)
+
+
+def test_not_null_proportion_errors_with_too_many_nulls():
+    given = pl.DataFrame({"a": [1, None]})
+    with pytest.raises(checks.PolarsCheckError) as err:
+        given.pipe(checks.not_null_proportion, {"a": 0.9})
+
+    expected_err_df = pl.DataFrame({"column": ["a"], "not_null_proportion": [0.5]})
+    testing.assert_frame_equal(err.value.df, expected_err_df)
