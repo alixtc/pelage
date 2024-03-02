@@ -1,7 +1,6 @@
 from typing import Iterable
 
 import polars as pl
-from polars.type_aliases import IntoExpr
 
 
 class PolarsCheckError(Exception):
@@ -19,9 +18,11 @@ def has_no_nulls(data: pl.DataFrame) -> pl.DataFrame:
     return data
 
 
-def unique(data: pl.DataFrame, columns: IntoExpr | Iterable[IntoExpr]) -> pl.DataFrame:
-    if data.select(columns).is_duplicated().any():
-        raise PolarsCheckError
+def unique(data: pl.DataFrame, columns: str | Iterable[str] | pl.Expr) -> pl.DataFrame:
+    cols = pl.col(columns) if not isinstance(columns, pl.Expr) else columns
+    improper_data = data.filter(pl.any_horizontal(cols.is_duplicated()))
+    if not improper_data.is_empty():
+        raise PolarsCheckError(improper_data)
     return data
 
 

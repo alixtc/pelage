@@ -51,9 +51,10 @@ def test_unique_should_should_accept_list_and_polars_select():
 
 
 def test_unique_should_throw_error_on_duplicates():
-    given = pl.DataFrame({"a": [1, 1]})
-    with pytest.raises(checks.PolarsCheckError):
+    given = pl.DataFrame({"a": [1, 1, 2]})
+    with pytest.raises(checks.PolarsCheckError) as err:
         given.pipe(checks.unique, "a")
+    testing.assert_frame_equal(err.value.df, pl.DataFrame({"a": [1, 1]}))
 
 
 def test_accepted_values():
