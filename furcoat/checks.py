@@ -33,6 +33,16 @@ def unique(data: pl.DataFrame, columns: str | Iterable[str] | pl.Expr) -> pl.Dat
 
 
 def accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFrame:
+    """Raises error if columns contains values not specified in `items`
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+    items : dict[str, list]
+        A dictionnary where keys are a string compatible with a pl.Expr, to be used with
+        pl.col(). The value for each key is a list of all authorized values in the
+        dataframe.
+    """
     mask_for_improper_values = [
         ~pl.col(col).is_in(values) for col, values in items.items()
     ]

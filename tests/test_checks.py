@@ -75,8 +75,11 @@ def test_accepted_values():
     when = given.pipe(checks.accepted_values, items)
     testing.assert_frame_equal(given, when)
 
-    short_items = {"b": ["a", "b", "c"]}
-    when = given.pipe(checks.accepted_values, short_items)
+
+def test_accepted_values_should_accept_pl_expr():
+    items = {"a": [1, 2, 3], "b": ["a", "b", "c"]}
+    given = pl.DataFrame(items)
+    when = given.pipe(checks.accepted_values, {"^a$": [1, 2, 3]})
     testing.assert_frame_equal(given, when)
 
 
