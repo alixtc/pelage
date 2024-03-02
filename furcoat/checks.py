@@ -32,6 +32,22 @@ def unique(data: pl.DataFrame, columns: str | Iterable[str] | pl.Expr) -> pl.Dat
     return data
 
 
+def not_constant(
+    data: pl.DataFrame, columns: str | Iterable[str] | pl.Expr
+) -> pl.DataFrame:
+    cols = pl.col(columns) if not isinstance(columns, pl.Expr) else columns
+    constant_columns = (
+        data.select(cols.n_unique())
+        .melt(variable_name="column", value_name="n_distinct")
+        .filter(pl.col("n_distinct") == 1)
+    )
+
+    if not constant_columns.is_empty():
+        raise PolarsCheckError(constant_columns)
+
+    return data
+
+
 def accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFrame:
     """Raises error if columns contains values not specified in `items`
 

@@ -69,6 +69,28 @@ def test_unique_should_throw_error_on_duplicates():
     testing.assert_frame_equal(err.value.df, pl.DataFrame({"a": [1, 1]}))
 
 
+def test_not_constant():
+    given = pl.DataFrame({"a": [1, 2]})
+    when = given.pipe(checks.not_constant, "a")
+    testing.assert_frame_equal(given, when)
+
+
+def test_not_constant_throws_error_on_constant_columns():
+    given = pl.DataFrame({"b": [1, 1]})
+    with pytest.raises(checks.PolarsCheckError):
+        given.pipe(checks.not_constant, "b")
+
+
+def test_not_constant_accept_different_types_of_input():
+    given = pl.DataFrame({"a": [1, 2], "b": ["A", "B"]})
+    when = given.pipe(checks.not_constant, ["a", "b"])
+    testing.assert_frame_equal(given, when)
+
+    given = pl.DataFrame({"a": [1, 2], "b": ["A", "B"]})
+    when = given.pipe(checks.not_constant, pl.col("a"))
+    testing.assert_frame_equal(given, when)
+
+
 def test_accepted_values():
     items = {"a": [1, 2, 3], "b": ["a", "b", "c"]}
     given = pl.DataFrame(items)
