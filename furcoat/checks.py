@@ -75,14 +75,18 @@ def not_accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFr
 def not_null_proportion(
     data: pl.DataFrame, items: dict[str, float | tuple[float, float]]
 ) -> pl.DataFrame:
-    """Asserts that the proportion of non-null values present in a column is between
+    """sserts that the proportion of non-null values present in a column is between
     a specified range [at_least, at_most] where at_most is an optional argument
     (default: 1.0).
 
-    Returns
-    -------
-    _type_
+    Parameters
+    ----------
+    data : pl.DataFrame
         _description_
+    items : dict[str, float  |  tuple[float, float]]
+        Limit ranges for the proportion of not null value in the format:
+            column_name : 0.333,
+            column_name : (0.25, 0.44)
     """
 
     pl_ranges = _format_ranges_by_columns(items)
