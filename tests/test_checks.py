@@ -1,3 +1,5 @@
+from textwrap import dedent
+
 import polars as pl
 import pytest
 from polars import testing
@@ -5,21 +7,46 @@ from polars import testing
 from furcoat import checks
 
 
-def test_polar_check_error_has_simple_message_when_used_directly():
-    error = checks.PolarsAssertError()
-    assert error.df.is_empty()
-    assert "There was an improper value in the passed DataFrame:\n" == str(error)
+def test_dataframe_error_message_format():
+    data = pl.DataFrame({"a": ["a", "b"], "b": [1, 2]})
+    message = "Additional message"
+
+    expected_message = """
+    shape: (2, 2)
+    ┌─────┬─────┐
+    │ a   ┆ b   │
+    │ --- ┆ --- │
+    │ str ┆ i64 │
+    ╞═════╪═════╡
+    │ a   ┆ 1   │
+    │ b   ┆ 2   │
+    └─────┴─────┘
+    There is an error in the above DataFrame:
+    -->Additional message
+    """
+    formatted_msg = str(checks.PolarsAssertError(data, message))
+    assert formatted_msg in dedent(expected_message)
 
 
-def test_polar_check_error_should_accept_df_as_input():
-    error = checks.PolarsAssertError(pl.DataFrame({"a": [1]}))
-    testing.assert_frame_equal(error.df, pl.DataFrame({"a": [1]}))
+def test_dataframe_error_message_format_accept_only_message():
+    message = "Additional message"
+
+    expected_message = """
+    There is an error in the DataFrame that was passed:
+    -->Additional message
+    """
+
+    formatted_msg = str(checks.PolarsAssertError(supp_message=message))
+    assert formatted_msg in dedent(expected_message)
 
 
-def test_polar_check_error_should_have_clearer_error_message_with_dataframe_input():
-    error = checks.PolarsAssertError(pl.DataFrame({"a": [1]}))
-    assert "There was an improper value in the passed DataFrame:" in str(error)
-    assert str(error.df) in str(error)
+def test_dataframe_error_message_format_accepts_no_arguments():
+    expected_message = """
+    There is an error in the DataFrame that was passed:
+    -->"""
+
+    formatted_msg = str(checks.PolarsAssertError())
+    assert formatted_msg in dedent(expected_message)
 
 
 @pytest.mark.parametrize(

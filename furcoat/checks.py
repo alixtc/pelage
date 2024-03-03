@@ -5,12 +5,19 @@ from polars.type_aliases import ClosedInterval, IntoExpr
 
 
 class PolarsAssertError(Exception):
-    def __init__(self, df: pl.DataFrame = pl.DataFrame()) -> None:
+    def __init__(
+        self, df: pl.DataFrame = pl.DataFrame(), supp_message: str = ""
+    ) -> None:
+        self.supp_message = supp_message
         self.df = df
 
     def __str__(self) -> str:
-        non_empty_df = self.df if not self.df.is_empty() else ""
-        return f"There was an improper value in the passed DataFrame:\n{non_empty_df}"
+        if self.df.is_empty():
+            base_message = "There is an error in the DataFrame that was passed:"
+        else:
+            base_message = f"\n{self.df}\nThere is an error in the above DataFrame:"
+
+        return f"{base_message}\n-->{self.supp_message}"
 
 
 def has_shape(data: pl.DataFrame, shape: tuple[int, int]) -> pl.DataFrame:
@@ -169,7 +176,10 @@ def accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFrame:
     ]
     improper_data = data.filter(pl.Expr.or_(*mask_for_improper_values))
     if not improper_data.is_empty():
-        raise PolarsAssertError(improper_data)
+        raise PolarsAssertError(
+            improper_data,
+            "It contains values that have not been white-listed in `items`",
+        )
     return data
 
 
@@ -189,7 +199,9 @@ def not_accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFr
     ]
     improper_data = data.filter(pl.Expr.or_(*mask_for_improper_values))
     if not improper_data.is_empty():
-        raise PolarsAssertError(improper_data)
+        raise PolarsAssertError(
+            improper_data, "This DataFrame contains values marked as forbidden"
+        )
     return data
 
 
@@ -228,7 +240,10 @@ def not_null_proportion(
         .drop("null_proportion")
     )
     if not out_of_range_null_proportions.is_empty():
-        raise PolarsAssertError(out_of_range_null_proportions)
+        raise PolarsAssertError(
+            out_of_range_null_proportions,
+            "Some columns contains a proportion of nulls beyond specified limits",
+        )
     return data
 
 
@@ -271,5 +286,7 @@ def accepted_range(
     ]
     out_of_range = data.filter(pl.Expr.or_(*forbidden_ranges))
     if not out_of_range.is_empty():
-        raise PolarsAssertError(out_of_range)
+        raise PolarsAssertError(
+            out_of_range, "Some values are beyond the acceptable ranges defined"
+        )
     return data
