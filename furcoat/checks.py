@@ -14,6 +14,7 @@ class PolarsCheckError(Exception):
 
 
 def has_shape(data: pl.DataFrame, shape: tuple[int, int]) -> pl.DataFrame:
+    """Check if a DataFrame has the specified shape"""
     if data.shape != shape:
         raise PolarsCheckError
     return data
@@ -90,6 +91,15 @@ def has_no_infs(
     data: pl.DataFrame,
     columns: Optional[str | Iterable[str] | pl.Expr] = None,
 ) -> pl.DataFrame:
+    """Check if a DataFrame has any infinite (inf) values.
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        The input DataFrame to check for null values.
+    columns : Optional[str | Iterable[str] | pl.Expr], optional
+        Columns to consider for null value check. By default, all columns are checked.
+    """
     selected_columns = _sanitize_column_inputs(columns)
     inf_values = data.filter(pl.any_horizontal(selected_columns.is_infinite()))
     if not inf_values.is_empty():
@@ -101,6 +111,15 @@ def unique(
     data: pl.DataFrame,
     columns: Optional[str | Iterable[str] | pl.Expr] = None,
 ) -> pl.DataFrame:
+    """Check if a DataFrame columns have unique values.
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        The input DataFrame to check for null values.
+    columns : Optional[str | Iterable[str] | pl.Expr], optional
+        Columns to consider for null value check. By default, all columns are checked.
+    """
     selected_cols = _sanitize_column_inputs(columns)
     improper_data = data.filter(pl.any_horizontal(selected_cols.is_duplicated()))
     if not improper_data.is_empty():
@@ -112,6 +131,15 @@ def not_constant(
     data: pl.DataFrame,
     columns: Optional[str | Iterable[str] | pl.Expr] = None,
 ) -> pl.DataFrame:
+    """Check if a DataFrame has constant columns.
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        The input DataFrame to check for null values.
+    columns : Optional[str | Iterable[str] | pl.Expr], optional
+        Columns to consider for null value check. By default, all columns are checked.
+    """
     selected_cols = _sanitize_column_inputs(columns)
     constant_columns = (
         data.select(selected_cols.n_unique())
