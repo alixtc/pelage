@@ -10,4 +10,5 @@ raw_data/
 .python-version
 .vscode
 poetry.lock
-notebooks
+notebooks/test*
+notebooks/_*.ipynb
