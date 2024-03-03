@@ -312,6 +312,13 @@ def maintains_relationships(
     other_keys = set(other_df.get_column(column))
 
     if local_keys != other_keys:
-        raise PolarsAssertError
+        if local_keys > other_keys:
+            set_diff = sorted(list(local_keys - other_keys)[:5])
+            msg = f"Some values were added to col '{column}', for ex: {*set_diff,}"
+            raise PolarsAssertError(supp_message=msg)
+        else:
+            set_diff = sorted(list(other_keys - local_keys)[:5])
+            msg = f"Some values were removed from col '{column}', for ex: {*set_diff,}"
+            raise PolarsAssertError(supp_message=msg)
 
     return data

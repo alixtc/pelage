@@ -297,12 +297,20 @@ def test_maintains_relationships():
 
 def test_maintains_relationships_should_errors_if_some_values_are_dropped():
     initial_df = pl.DataFrame({"a": ["a", "b"]})
-    final_df = pl.DataFrame(
-        {
-            "a": [
-                "a",
-            ]
-        }
-    )
+    final_df = pl.DataFrame({"a": ["a"]})
     with pytest.raises(checks.PolarsAssertError):
         final_df.pipe(checks.maintains_relationships, initial_df, "a")
+
+
+def test_maintains_relationships_should_specify_some_changing_values():
+    initial_df = pl.DataFrame({"a": ["a", "b", "c"]})
+    final_df = pl.DataFrame({"a": ["a"]})
+    with pytest.raises(checks.PolarsAssertError) as err:
+        final_df.pipe(checks.maintains_relationships, initial_df, "a")
+    assert "Some values were removed from col 'a', for ex: ('b', 'c')" in str(err.value)
+
+    initial_df = pl.DataFrame({"a": ["a"]})
+    final_df = pl.DataFrame({"a": ["a", "b", "c"]})
+    with pytest.raises(checks.PolarsAssertError) as err:
+        final_df.pipe(checks.maintains_relationships, initial_df, "a")
+    assert "Some values were added to col 'a', for ex: ('b', 'c')" in str(err.value)
