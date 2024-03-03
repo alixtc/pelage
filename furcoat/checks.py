@@ -23,6 +23,47 @@ def has_no_nulls(
     data: pl.DataFrame,
     columns: Optional[str | Iterable[str] | pl.Expr] = None,
 ) -> pl.DataFrame:
+    """Check if a DataFrame has any null (missing) values.
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        The input DataFrame to check for null values.
+    columns : Optional[str | Iterable[str] | pl.Expr], optional
+        Columns to consider for null value check. By default, all columns are checked.
+
+    Examples
+    --------
+    >>> import polars as pl
+    >>> from furcoat import checks
+    >>> df = pl.DataFrame({
+    ...     "A": [1, 2],
+    ...     "B": [None, 5]
+    ... })
+    >>> df
+    shape: (4, 2)
+    ┌─────┬─────┐
+    │ A   ┆ B   │
+    │ --- ┆ --- │
+    │ i64 ┆ i64 │
+    ╞═════╪═════╡
+    │ 1   ┆     │
+    ├─────┼─────┤
+    │ 2   ┆ 5   │
+    └─────┴─────┘
+    >>> checks.has_no_nulls(df)
+    PolarsCheckError: DataFrame contains null values in column(s):
+    shape: (4, 2)
+    ┌─────┬─────┐
+    │ A   ┆ B   │
+    │ --- ┆ --- │
+    │ i64 ┆ i64 │
+    ╞═════╪═════╡
+    │ 1   ┆     │
+    ├─────┼─────┤
+    │ 2   ┆ 5   │
+    └─────┴─────┘
+    """
     selected_columns = _sanitize_column_inputs(columns)
     null_count = (
         data.select(selected_columns.null_count())
