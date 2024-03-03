@@ -1,11 +1,24 @@
 # ----------------------------------
 #          INSTALL & TEST
 # ----------------------------------
-install_requirements:
-	@pip install -r requirements.txt
+
+pre_install:
+	pyenv virtualenv 3.12 FC3.12
+	pyenv virtualenv 3.11 FC3.11
+	pyenv virtualenv 3.10 FC3.10
+	pyenv virtualenv 3.9 FC3.9
+	echo "Run the following commands:
+		pyenv local FC3.10
+		pyenv shell FC3.10
+	"
+
+install:
+	pip install poetry tox
+	poetry shell
+	poetry install
 
 check_code:
-	@flake8 scripts/* furcoat/*.py
+	@pre-commit run --all-files
 
 black:
 	@black scripts/* furcoat/*.py
@@ -13,9 +26,6 @@ black:
 test:
 	@coverage run -m pytest tests/*.py
 	@coverage report -m --omit="${VIRTUAL_ENV}/lib/python*"
-
-ftest:
-	@Write me
 
 clean:
 	@rm -f */version.txt
@@ -25,10 +35,8 @@ clean:
 	@rm -fr furcoat-*.dist-info
 	@rm -fr furcoat.egg-info
 
-install:
-	@pip install . -U
 
-all: clean install test black check_code
+all: clean install test check_code
 
 count_lines:
 	@find ./ -name '*.py' -exec  wc -l {} \; | sort -n| awk \
