@@ -12,10 +12,10 @@ class PolarsAssertError(Exception):
         self.df = df
 
     def __str__(self) -> str:
-        if self.df.is_empty():
-            base_message = "There is an error in the DataFrame that was passed:"
-        else:
-            base_message = f"\n{self.df}\nThere is an error in the above DataFrame:"
+        base_message = "Error with the DataFrame passed to the check function:"
+
+        if not self.df.is_empty():
+            base_message = f"\n{self.df}\n{base_message}"
 
         return f"{base_message}\n-->{self.supp_message}"
 

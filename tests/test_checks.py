@@ -21,7 +21,7 @@ def test_dataframe_error_message_format():
     │ a   ┆ 1   │
     │ b   ┆ 2   │
     └─────┴─────┘
-    There is an error in the above DataFrame:
+    Error with the DataFrame passed to the check function:
     -->Additional message
     """
     formatted_msg = str(checks.PolarsAssertError(data, message))
@@ -32,7 +32,7 @@ def test_dataframe_error_message_format_accept_only_message():
     message = "Additional message"
 
     expected_message = """
-    There is an error in the DataFrame that was passed:
+    Error with the DataFrame passed to the check function:
     -->Additional message
     """
 
@@ -42,7 +42,7 @@ def test_dataframe_error_message_format_accept_only_message():
 
 def test_dataframe_error_message_format_accepts_no_arguments():
     expected_message = """
-    There is an error in the DataFrame that was passed:
+    Error with the DataFrame passed to the check function:
     -->"""
 
     formatted_msg = str(checks.PolarsAssertError())
