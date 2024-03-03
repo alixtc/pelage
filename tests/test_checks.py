@@ -46,6 +46,17 @@ def test_has_no_nulls_throws_error_on_null_values():
         given.pipe(checks.has_no_nulls)
 
 
+def test_has_no_nulls_indicates_columns_with_nulls_in_error_message():
+    given = pl.DataFrame({"a": [1, None]})
+    expected = pl.DataFrame(
+        {"column": ["a"], "null_count": [1]},
+        schema={"column": pl.Utf8, "null_count": pl.UInt32},
+    )
+    with pytest.raises(checks.PolarsCheckError) as err:
+        given.pipe(checks.has_no_nulls)
+    testing.assert_frame_equal(err.value.df, expected)
+
+
 def test_has_no_infs_returns_df_when_all_values_defined():
     given = pl.DataFrame({"a": [1, 2]})
     when = given.pipe(checks.has_no_infs)

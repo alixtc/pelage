@@ -20,8 +20,13 @@ def has_shape(data: pl.DataFrame, shape: tuple[int, int]) -> pl.DataFrame:
 
 
 def has_no_nulls(data: pl.DataFrame) -> pl.DataFrame:
-    if data.null_count().sum_horizontal().item() > 0:
-        raise PolarsCheckError
+    null_count = (
+        data.null_count()
+        .melt(variable_name="column", value_name="null_count")
+        .filter(pl.col("null_count") > 0)
+    )
+    if not null_count.is_empty():
+        raise PolarsCheckError(null_count)
     return data
 
 
