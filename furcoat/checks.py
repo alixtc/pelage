@@ -290,3 +290,28 @@ def accepted_range(
             out_of_range, "Some values are beyond the acceptable ranges defined"
         )
     return data
+
+
+def maintains_relationships(
+    data: pl.DataFrame, other_df: pl.DataFrame, column: str
+) -> pl.DataFrame:
+    """Function to help ensuring that set of values in selected column remains  the
+    same in both DataFrames. This helps to maintain referential integrity.
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        Dataframe after transformation
+    other_df : pl.DataFrame
+        Distant dataframe usually the one before transformation
+    column : str
+        Column to check for keys/ids
+    """
+
+    local_keys = set(data.get_column(column))
+    other_keys = set(other_df.get_column(column))
+
+    if local_keys != other_keys:
+        raise PolarsAssertError
+
+    return data

@@ -286,3 +286,23 @@ def test_accepted_range_errors_on_two_different_ranges():
 
     expected = pl.DataFrame({"a": [1, 3], "b": [1, 3]})
     testing.assert_frame_equal(err.value.df, expected)
+
+
+def test_maintains_relationships():
+    initial_df = pl.DataFrame({"a": ["a", "b"]})
+    final_df = pl.DataFrame({"a": ["a", "b"]})
+    when = final_df.pipe(checks.maintains_relationships, initial_df, "a")
+    testing.assert_frame_equal(when, final_df)
+
+
+def test_maintains_relationships_should_errors_if_some_values_are_dropped():
+    initial_df = pl.DataFrame({"a": ["a", "b"]})
+    final_df = pl.DataFrame(
+        {
+            "a": [
+                "a",
+            ]
+        }
+    )
+    with pytest.raises(checks.PolarsAssertError):
+        final_df.pipe(checks.maintains_relationships, initial_df, "a")
