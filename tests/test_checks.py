@@ -46,6 +46,20 @@ def test_has_no_nulls_throws_error_on_null_values():
         given.pipe(checks.has_no_nulls)
 
 
+def test_has_no_infs_returns_df_when_all_values_defined():
+    given = pl.DataFrame({"a": [1, 2]})
+    when = given.pipe(checks.has_no_infs)
+    testing.assert_frame_equal(given, when)
+
+
+def test_has_no_infs_throws_error_on_inf_values():
+    given = pl.DataFrame({"a": [1, None, float("inf")]})
+    with pytest.raises(checks.PolarsCheckError) as err:
+        given.pipe(checks.has_no_infs)
+    expected = pl.DataFrame({"a": [float("inf")]})
+    testing.assert_frame_equal(err.value.df, expected)
+
+
 def test_unique_should_return_df_if_column_has_unique_values():
     given = pl.DataFrame({"a": [1, 2]})
     when = given.pipe(checks.unique, "a")

@@ -25,6 +25,13 @@ def has_no_nulls(data: pl.DataFrame) -> pl.DataFrame:
     return data
 
 
+def has_no_infs(data: pl.DataFrame) -> pl.DataFrame:
+    inf_values = data.filter(pl.any_horizontal(pl.all().is_infinite()))
+    if not inf_values.is_empty():
+        raise PolarsCheckError(inf_values)
+    return data
+
+
 def unique(data: pl.DataFrame, columns: str | Iterable[str] | pl.Expr) -> pl.DataFrame:
     cols = pl.col(columns) if not isinstance(columns, pl.Expr) else columns
     improper_data = data.filter(pl.any_horizontal(cols.is_duplicated()))
