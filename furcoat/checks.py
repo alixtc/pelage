@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import Iterable, Optional
 
 import polars as pl
 from polars.type_aliases import ClosedInterval, IntoExpr
@@ -19,9 +19,13 @@ def has_shape(data: pl.DataFrame, shape: tuple[int, int]) -> pl.DataFrame:
     return data
 
 
-def has_no_nulls(data: pl.DataFrame) -> pl.DataFrame:
+def has_no_nulls(
+    data: pl.DataFrame,
+    columns: Optional[str | Iterable[str] | pl.Expr] = None,
+) -> pl.DataFrame:
+    selected_columns = _sanitize_column_inputs(columns)
     null_count = (
-        data.null_count()
+        data.select(selected_columns.null_count())
         .melt(variable_name="column", value_name="null_count")
         .filter(pl.col("null_count") > 0)
     )
@@ -30,27 +34,46 @@ def has_no_nulls(data: pl.DataFrame) -> pl.DataFrame:
     return data
 
 
-def has_no_infs(data: pl.DataFrame) -> pl.DataFrame:
-    inf_values = data.filter(pl.any_horizontal(pl.all().is_infinite()))
+def _sanitize_column_inputs(
+    columns: Optional[str | Iterable[str] | pl.Expr] = None,
+) -> pl.Expr:
+    if columns is None:
+        return pl.all()
+    elif isinstance(columns, pl.Expr):
+        return columns
+    else:
+        return pl.col(columns)
+
+
+def has_no_infs(
+    data: pl.DataFrame,
+    columns: Optional[str | Iterable[str] | pl.Expr] = None,
+) -> pl.DataFrame:
+    selected_columns = _sanitize_column_inputs(columns)
+    inf_values = data.filter(pl.any_horizontal(selected_columns.is_infinite()))
     if not inf_values.is_empty():
         raise PolarsCheckError(inf_values)
     return data
 
 
-def unique(data: pl.DataFrame, columns: str | Iterable[str] | pl.Expr) -> pl.DataFrame:
-    cols = pl.col(columns) if not isinstance(columns, pl.Expr) else columns
-    improper_data = data.filter(pl.any_horizontal(cols.is_duplicated()))
+def unique(
+    data: pl.DataFrame,
+    columns: Optional[str | Iterable[str] | pl.Expr] = None,
+) -> pl.DataFrame:
+    selected_cols = _sanitize_column_inputs(columns)
+    improper_data = data.filter(pl.any_horizontal(selected_cols.is_duplicated()))
     if not improper_data.is_empty():
         raise PolarsCheckError(improper_data)
     return data
 
 
 def not_constant(
-    data: pl.DataFrame, columns: str | Iterable[str] | pl.Expr
+    data: pl.DataFrame,
+    columns: Optional[str | Iterable[str] | pl.Expr] = None,
 ) -> pl.DataFrame:
-    cols = pl.col(columns) if not isinstance(columns, pl.Expr) else columns
+    selected_cols = _sanitize_column_inputs(columns)
     constant_columns = (
-        data.select(cols.n_unique())
+        data.select(selected_cols.n_unique())
         .melt(variable_name="column", value_name="n_distinct")
         .filter(pl.col("n_distinct") == 1)
     )

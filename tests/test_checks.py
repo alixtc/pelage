@@ -22,6 +22,20 @@ def test_polar_check_error_should_have_clearer_error_message_with_dataframe_inpu
     assert str(error.df) in str(error)
 
 
+@pytest.mark.parametrize(
+    "input,expected",
+    [
+        ("a", pl.col("a")),
+        ("b", pl.col("b")),
+        (pl.col("b"), pl.col("b")),
+        (None, pl.all()),
+    ],
+)
+def test_sanitize_column_inputs_works_with(input, expected):
+    given = checks._sanitize_column_inputs(input)
+    assert str(given) == str(expected)
+
+
 def test_is_shape():
     given = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
     when = given.pipe(checks.has_shape, (3, 2))
