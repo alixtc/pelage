@@ -186,3 +186,37 @@ def test_format_ranges_by_has_columns_and_min_max():
         schema=["column", "min_prop", "max_prop"],
     )
     testing.assert_frame_equal(given, expected)
+
+
+def test_accepted_range():
+    given = pl.DataFrame({"a": [1, 2, 3]})
+    when = given.pipe(checks.accepted_range, {"a": (1, 3)})
+    testing.assert_frame_equal(given, when)
+
+
+def test_accepted_range_is_compatible_with_is_between_syntax():
+    given = pl.DataFrame({"a": ["b", "c"]})
+    when = given.pipe(checks.accepted_range, {"a": (pl.lit("a"), pl.lit("d"), "right")})
+    testing.assert_frame_equal(given, when)
+    when = given.pipe(checks.accepted_range, {"a": (pl.lit("a"), pl.lit("d"), "left")})
+    testing.assert_frame_equal(given, when)
+    when = given.pipe(checks.accepted_range, {"a": (pl.lit("a"), pl.lit("d"), "both")})
+    testing.assert_frame_equal(given, when)
+    when = given.pipe(checks.accepted_range, {"a": (pl.lit("a"), pl.lit("d"), "none")})
+    testing.assert_frame_equal(given, when)
+
+
+def test_accepted_range_erros_when_values_are_out_of_range():
+    given = pl.DataFrame({"a": [1, 2, 3]})
+    with pytest.raises(checks.PolarsCheckError) as err:
+        given.pipe(checks.accepted_range, {"a": (0, 2)})
+    testing.assert_frame_equal(err.value.df, pl.DataFrame({"a": [3]}))
+
+
+def test_accepted_range_errors_on_two_different_ranges():
+    given = pl.DataFrame({"a": [1, 2, 3], "b": [1, 2, 3]})
+    with pytest.raises(checks.PolarsCheckError) as err:
+        given.pipe(checks.accepted_range, {"a": (0, 2), "b": (2, 3)})
+
+    expected = pl.DataFrame({"a": [1, 3], "b": [1, 3]})
+    testing.assert_frame_equal(err.value.df, expected)

@@ -1,6 +1,7 @@
 from typing import Iterable
 
 import polars as pl
+from polars.type_aliases import ClosedInterval, IntoExpr
 
 
 class PolarsCheckError(Exception):
@@ -136,3 +137,35 @@ def _format_ranges_by_columns(
         schema=["column", "min_prop", "max_prop"],
     )
     return pl_ranges
+
+
+def accepted_range(
+    data: pl.DataFrame,
+    items: dict[
+        str, tuple[IntoExpr, IntoExpr] | tuple[IntoExpr, IntoExpr, ClosedInterval]
+    ],
+) -> pl.DataFrame:
+    """Check that all the values from specifed columns in the dict `items` are within
+    the indicated range.
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+    items : dict[
+            str, tuple[IntoExpr, IntoExpr]  |  tuple[IntoExpr, IntoExpr, ClosedInterval]
+        ]
+        Any type of inputs that match the following signature:
+        `column_name: (boundaries)` where `boundaries is compatible with the Polars
+        method `is_between()` syntax.
+
+    """
+    closed_boundaries = {
+        k: (v if len(v) == 3 else (*v, "both")) for k, v in items.items()
+    }
+    forbidden_ranges = [
+        pl.col(k).is_between(*v).not_() for k, v in closed_boundaries.items()
+    ]
+    out_of_range = data.filter(pl.Expr.or_(*forbidden_ranges))
+    if not out_of_range.is_empty():
+        raise PolarsCheckError(out_of_range)
+    return data
