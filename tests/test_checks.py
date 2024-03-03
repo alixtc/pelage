@@ -6,18 +6,18 @@ from furcoat import checks
 
 
 def test_polar_check_error_has_simple_message_when_used_directly():
-    error = checks.PolarsCheckError()
+    error = checks.PolarsAssertError()
     assert error.df.is_empty()
     assert "There was an improper value in the passed DataFrame:\n" == str(error)
 
 
 def test_polar_check_error_should_accept_df_as_input():
-    error = checks.PolarsCheckError(pl.DataFrame({"a": [1]}))
+    error = checks.PolarsAssertError(pl.DataFrame({"a": [1]}))
     testing.assert_frame_equal(error.df, pl.DataFrame({"a": [1]}))
 
 
 def test_polar_check_error_should_have_clearer_error_message_with_dataframe_input():
-    error = checks.PolarsCheckError(pl.DataFrame({"a": [1]}))
+    error = checks.PolarsAssertError(pl.DataFrame({"a": [1]}))
     assert "There was an improper value in the passed DataFrame:" in str(error)
     assert str(error.df) in str(error)
 
@@ -44,7 +44,7 @@ def test_is_shape():
 
 def test_is_shape_should_error_on_wrong_shape():
     given = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
-    with pytest.raises(checks.PolarsCheckError):
+    with pytest.raises(checks.PolarsAssertError):
         given.pipe(checks.has_shape, (2, 2))
 
 
@@ -56,7 +56,7 @@ def test_has_no_nulls_returns_df_when_all_values_defined():
 
 def test_has_no_nulls_throws_error_on_null_values():
     given = pl.DataFrame({"a": [1, None]})
-    with pytest.raises(checks.PolarsCheckError):
+    with pytest.raises(checks.PolarsAssertError):
         given.pipe(checks.has_no_nulls)
 
 
@@ -66,7 +66,7 @@ def test_has_no_nulls_indicates_columns_with_nulls_in_error_message():
         {"column": ["a"], "null_count": [1]},
         schema={"column": pl.Utf8, "null_count": pl.UInt32},
     )
-    with pytest.raises(checks.PolarsCheckError) as err:
+    with pytest.raises(checks.PolarsAssertError) as err:
         given.pipe(checks.has_no_nulls)
     testing.assert_frame_equal(err.value.df, expected)
 
@@ -79,7 +79,7 @@ def test_has_no_infs_returns_df_when_all_values_defined():
 
 def test_has_no_infs_throws_error_on_inf_values():
     given = pl.DataFrame({"a": [1, None, float("inf")]})
-    with pytest.raises(checks.PolarsCheckError) as err:
+    with pytest.raises(checks.PolarsAssertError) as err:
         given.pipe(checks.has_no_infs)
     expected = pl.DataFrame({"a": [float("inf")]})
     testing.assert_frame_equal(err.value.df, expected)
@@ -103,7 +103,7 @@ def test_unique_should_should_accept_list_and_polars_select():
 
 def test_unique_should_throw_error_on_duplicates():
     given = pl.DataFrame({"a": [1, 1, 2]})
-    with pytest.raises(checks.PolarsCheckError) as err:
+    with pytest.raises(checks.PolarsAssertError) as err:
         given.pipe(checks.unique, "a")
     testing.assert_frame_equal(err.value.df, pl.DataFrame({"a": [1, 1]}))
 
@@ -116,7 +116,7 @@ def test_not_constant():
 
 def test_not_constant_throws_error_on_constant_columns():
     given = pl.DataFrame({"b": [1, 1]})
-    with pytest.raises(checks.PolarsCheckError):
+    with pytest.raises(checks.PolarsAssertError):
         given.pipe(checks.not_constant, "b")
 
 
@@ -149,7 +149,7 @@ def test_accepted_values_should_error_on_out_of_range_values():
     given = pl.DataFrame(items)
     items = {"a": [1, 2], "b": ["a", "b", "c"]}
 
-    with pytest.raises(checks.PolarsCheckError) as err:
+    with pytest.raises(checks.PolarsAssertError) as err:
         given.pipe(checks.accepted_values, items)
     assert err.value.df.shape == (1, 2)
 
@@ -170,7 +170,7 @@ def test_not_accepted_values_should_error_on_out_of_range_values():
     given = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
     items = {"a": [1], "b": ["a", "c"]}
 
-    with pytest.raises(checks.PolarsCheckError) as err:
+    with pytest.raises(checks.PolarsAssertError) as err:
         given.pipe(checks.not_accepted_values, items)
     testing.assert_frame_equal(
         err.value.df, pl.DataFrame({"a": [1, 3], "b": ["a", "c"]})
@@ -199,7 +199,7 @@ def test_not_null_proportion_accept_multiple_inpute():
 
 def test_not_null_proportion_errors_with_too_many_nulls():
     given = pl.DataFrame({"a": [1, None]})
-    with pytest.raises(checks.PolarsCheckError) as err:
+    with pytest.raises(checks.PolarsAssertError) as err:
         given.pipe(checks.not_null_proportion, {"a": 0.9})
 
     expected_err_df = pl.DataFrame(
@@ -247,14 +247,14 @@ def test_accepted_range_is_compatible_with_is_between_syntax():
 
 def test_accepted_range_erros_when_values_are_out_of_range():
     given = pl.DataFrame({"a": [1, 2, 3]})
-    with pytest.raises(checks.PolarsCheckError) as err:
+    with pytest.raises(checks.PolarsAssertError) as err:
         given.pipe(checks.accepted_range, {"a": (0, 2)})
     testing.assert_frame_equal(err.value.df, pl.DataFrame({"a": [3]}))
 
 
 def test_accepted_range_errors_on_two_different_ranges():
     given = pl.DataFrame({"a": [1, 2, 3], "b": [1, 2, 3]})
-    with pytest.raises(checks.PolarsCheckError) as err:
+    with pytest.raises(checks.PolarsAssertError) as err:
         given.pipe(checks.accepted_range, {"a": (0, 2), "b": (2, 3)})
 
     expected = pl.DataFrame({"a": [1, 3], "b": [1, 3]})

@@ -4,7 +4,7 @@ import polars as pl
 from polars.type_aliases import ClosedInterval, IntoExpr
 
 
-class PolarsCheckError(Exception):
+class PolarsAssertError(Exception):
     def __init__(self, df: pl.DataFrame = pl.DataFrame()) -> None:
         self.df = df
 
@@ -16,7 +16,7 @@ class PolarsCheckError(Exception):
 def has_shape(data: pl.DataFrame, shape: tuple[int, int]) -> pl.DataFrame:
     """Check if a DataFrame has the specified shape"""
     if data.shape != shape:
-        raise PolarsCheckError
+        raise PolarsAssertError
     return data
 
 
@@ -53,7 +53,7 @@ def has_no_nulls(
     │ 2   ┆ 5   │
     └─────┴─────┘
     >>> checks.has_no_nulls(df)
-    PolarsCheckError: DataFrame contains null values in column(s):
+    PolarsAssertError: DataFrame contains null values in column(s):
     shape: (4, 2)
     ┌─────┬─────┐
     │ A   ┆ B   │
@@ -72,7 +72,7 @@ def has_no_nulls(
         .filter(pl.col("null_count") > 0)
     )
     if not null_count.is_empty():
-        raise PolarsCheckError(null_count)
+        raise PolarsAssertError(null_count)
     return data
 
 
@@ -103,7 +103,7 @@ def has_no_infs(
     selected_columns = _sanitize_column_inputs(columns)
     inf_values = data.filter(pl.any_horizontal(selected_columns.is_infinite()))
     if not inf_values.is_empty():
-        raise PolarsCheckError(inf_values)
+        raise PolarsAssertError(inf_values)
     return data
 
 
@@ -123,7 +123,7 @@ def unique(
     selected_cols = _sanitize_column_inputs(columns)
     improper_data = data.filter(pl.any_horizontal(selected_cols.is_duplicated()))
     if not improper_data.is_empty():
-        raise PolarsCheckError(improper_data)
+        raise PolarsAssertError(improper_data)
     return data
 
 
@@ -148,7 +148,7 @@ def not_constant(
     )
 
     if not constant_columns.is_empty():
-        raise PolarsCheckError(constant_columns)
+        raise PolarsAssertError(constant_columns)
 
     return data
 
@@ -169,7 +169,7 @@ def accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFrame:
     ]
     improper_data = data.filter(pl.Expr.or_(*mask_for_improper_values))
     if not improper_data.is_empty():
-        raise PolarsCheckError(improper_data)
+        raise PolarsAssertError(improper_data)
     return data
 
 
@@ -189,7 +189,7 @@ def not_accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFr
     ]
     improper_data = data.filter(pl.Expr.or_(*mask_for_improper_values))
     if not improper_data.is_empty():
-        raise PolarsCheckError(improper_data)
+        raise PolarsAssertError(improper_data)
     return data
 
 
@@ -228,7 +228,7 @@ def not_null_proportion(
         .drop("null_proportion")
     )
     if not out_of_range_null_proportions.is_empty():
-        raise PolarsCheckError(out_of_range_null_proportions)
+        raise PolarsAssertError(out_of_range_null_proportions)
     return data
 
 
@@ -271,5 +271,5 @@ def accepted_range(
     ]
     out_of_range = data.filter(pl.Expr.or_(*forbidden_ranges))
     if not out_of_range.is_empty():
-        raise PolarsCheckError(out_of_range)
+        raise PolarsAssertError(out_of_range)
     return data
