@@ -7,8 +7,8 @@ continue and be more confident about your data quality. Here is how to
 use it:
 
 ``` python
-
 import polars as pl
+
 from furcoat import checks
 
 validated_data = (
@@ -23,51 +23,19 @@ validated_data = (
     .with_columns(pl.col("a").cast(str).alias("new_a"))
 )
 
-validated_data
+print(validated_data)
 ```
 
-<div><style>
-.dataframe > thead > tr,
-.dataframe > tbody > tr {
-  text-align: right;
-  white-space: pre-wrap;
-}
-</style>
-<small>shape: (3, 3)</small>
-
-<table class="dataframe" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">a</th>
-<th data-quarto-table-cell-role="th">b</th>
-<th data-quarto-table-cell-role="th">new_a</th>
-</tr>
-<tr class="odd">
-<th>i64</th>
-<th>str</th>
-<th>str</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>"a"</td>
-<td>"1"</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>"b"</td>
-<td>"2"</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>"c"</td>
-<td>"3"</td>
-</tr>
-</tbody>
-</table>
-
-</div>
+    shape: (3, 3)
+    ┌─────┬─────┬───────┐
+    │ a   ┆ b   ┆ new_a │
+    │ --- ┆ --- ┆ ---   │
+    │ i64 ┆ str ┆ str   │
+    ╞═════╪═════╪═══════╡
+    │ 1   ┆ a   ┆ 1     │
+    │ 2   ┆ b   ┆ 2     │
+    │ 3   ┆ c   ┆ 3     │
+    └─────┴─────┴───────┘
 
 Here is a example of the error messages that if the checks fail:
 
@@ -87,17 +55,17 @@ except Exception as err:
     ╞═════╪═════╪═══════╡
     │ 3   ┆ c   ┆ 3     │
     └─────┴─────┴───────┘
-    Error with the DataFrame passed to the check function:
+    There is an error in the DataFrame passed to the check function:
     -->This DataFrame contains values marked as forbidden
 
 Here are the main keys points:
 
--   Each `furcoat` check returns the original `polars` DataFrame if the
-    data is valid. It allows you continue your analysis by chaining
-    additional transformations.
+- Each `furcoat` check returns the original `polars` DataFrame if the
+  data is valid. It allows you continue your analysis by chaining
+  additional transformations.
 
--   `furcoat` raises an meaningful error message each time the data does
-    not meet your expectations.
+- `furcoat` raises an meaningful error message each time the data does
+  not meet your expectations.
 
 # Installation
 
@@ -130,11 +98,11 @@ possible transition towards SQL, and using the same tests in SQL. This
 is why we implemented most of the checks that have been developed for
 `DBT` tool box, notably :
 
--   [DBT generic
-    checks](https://docs.getdbt.com/docs/build/data-tests#generic-data-tests)
--   [DBT utils
-    test](https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file)
--   (Soon to comme: DBT expectations)
+- [DBT generic
+  checks](https://docs.getdbt.com/docs/build/data-tests#generic-data-tests)
+- [DBT utils
+  test](https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file)
+- (Soon to comme: DBT expectations)
 
 We believe that data quality checks should be written as close as
 possible to the data exploration phase, and we hope that providing
