@@ -360,6 +360,7 @@ def test_unique_combination_of_columns_base_error_message_format():
     [
         ("a", 'See above, selected: col("a")'),
         (["a", "b"], 'See above, selected: cols(["a", "b"])'),
+        (pl.Utf8, "See above, selected: [String]"),
         (None, "See above, selected: *"),
     ],
 )
