@@ -59,9 +59,14 @@ def test_dataframe_error_message_format_accepts_no_arguments():
         (None, pl.all()),
     ],
 )
-def test_sanitize_column_inputs_works_with(input, expected):
+def test_sanitize_column_inputs_works_with_(input, expected):
     given = checks._sanitize_column_inputs(input)
     assert str(given) == str(expected)
+
+
+def test_sanitize_column_inputs_for_type_checker_pl_dtypes():
+    given = checks._sanitize_column_inputs(pl.Int64)
+    assert str(given) == str(pl.col(pl.Int64))
 
 
 def test_is_shape():

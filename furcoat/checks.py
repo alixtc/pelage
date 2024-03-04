@@ -1,7 +1,9 @@
-from typing import Iterable, Optional
+from typing import Iterable, Optional, Union
 
 import polars as pl
-from polars.type_aliases import ClosedInterval, IntoExpr
+from polars.type_aliases import ClosedInterval, IntoExpr, PolarsDataType
+
+PolarColumnType = Union[PolarsDataType, Iterable[PolarsDataType], pl.Expr]
 
 
 class PolarsAssertError(Exception):
@@ -29,7 +31,7 @@ def has_shape(data: pl.DataFrame, shape: tuple[int, int]) -> pl.DataFrame:
 
 def has_no_nulls(
     data: pl.DataFrame,
-    columns: Optional[str | Iterable[str] | pl.Expr] = None,
+    columns: Optional[str | Iterable[str] | PolarColumnType] = None,
 ) -> pl.DataFrame:
     """Check if a DataFrame has any null (missing) values.
 
@@ -37,7 +39,7 @@ def has_no_nulls(
     ----------
     data : pl.DataFrame
         The input DataFrame to check for null values.
-    columns : Optional[str | Iterable[str] | pl.Expr], optional
+    columns : Optional[str | Iterable[str] | PolarColumnType], optional
         Columns to consider for null value check. By default, all columns are checked.
 
     Examples
@@ -86,7 +88,7 @@ def has_no_nulls(
 
 
 def _sanitize_column_inputs(
-    columns: Optional[str | Iterable[str] | pl.Expr] = None,
+    columns: Optional[str | Iterable[str] | PolarColumnType] = None,
 ) -> pl.Expr:
     if columns is None:
         return pl.all()
@@ -98,7 +100,7 @@ def _sanitize_column_inputs(
 
 def has_no_infs(
     data: pl.DataFrame,
-    columns: Optional[str | Iterable[str] | pl.Expr] = None,
+    columns: Optional[str | Iterable[str] | PolarColumnType] = None,
 ) -> pl.DataFrame:
     """Check if a DataFrame has any infinite (inf) values.
 
@@ -106,7 +108,7 @@ def has_no_infs(
     ----------
     data : pl.DataFrame
         The input DataFrame to check for null values.
-    columns : Optional[str | Iterable[str] | pl.Expr], optional
+    columns : Optional[str | Iterable[str] | PolarColumnType], optional
         Columns to consider for null value check. By default, all columns are checked.
     """
     selected_columns = _sanitize_column_inputs(columns)
@@ -118,7 +120,7 @@ def has_no_infs(
 
 def unique(
     data: pl.DataFrame,
-    columns: Optional[str | Iterable[str] | pl.Expr] = None,
+    columns: Optional[str | Iterable[str] | PolarColumnType] = None,
 ) -> pl.DataFrame:
     """Check if a DataFrame columns have unique values.
 
@@ -126,7 +128,7 @@ def unique(
     ----------
     data : pl.DataFrame
         The input DataFrame to check for null values.
-    columns : Optional[str | Iterable[str] | pl.Expr], optional
+    columns : Optional[str | Iterable[str] | PolarColumnType], optional
         Columns to consider for null value check. By default, all columns are checked.
     """
     selected_cols = _sanitize_column_inputs(columns)
@@ -138,7 +140,7 @@ def unique(
 
 def not_constant(
     data: pl.DataFrame,
-    columns: Optional[str | Iterable[str] | pl.Expr] = None,
+    columns: Optional[str | Iterable[str] | PolarColumnType] = None,
 ) -> pl.DataFrame:
     """Check if a DataFrame has constant columns.
 
@@ -146,7 +148,7 @@ def not_constant(
     ----------
     data : pl.DataFrame
         The input DataFrame to check for null values.
-    columns : Optional[str | Iterable[str] | pl.Expr], optional
+    columns : Optional[str | Iterable[str] | PolarColumnType], optional
         Columns to consider for null value check. By default, all columns are checked.
     """
     selected_cols = _sanitize_column_inputs(columns)
