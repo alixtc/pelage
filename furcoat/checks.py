@@ -138,6 +138,20 @@ def unique(
     return data
 
 
+def unique_combination_of_columns(
+    data: pl.DataFrame,
+    columns: Optional[str | Iterable[str] | PolarColumnType] = None,
+) -> pl.DataFrame:
+    cols = _sanitize_column_inputs(columns)
+    non_unique_combinations = data.group_by(cols).len().filter(pl.col("len") > 1)
+    if not non_unique_combinations.is_empty():
+        raise PolarsAssertError(
+            non_unique_combinations,
+            f"Some combinations of columns are not unique. See above, selected: {cols}",
+        )
+    return data
+
+
 def not_constant(
     data: pl.DataFrame,
     columns: Optional[str | Iterable[str] | PolarColumnType] = None,

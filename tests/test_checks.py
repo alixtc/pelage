@@ -320,3 +320,55 @@ def test_maintains_relationships_should_specify_some_changing_values():
     with pytest.raises(plg.PolarsAssertError) as err:
         final_df.pipe(plg.maintains_relationships, initial_df, "a")
     assert "Some values were added to col 'a', for ex: ('b', 'c')" in str(err.value)
+
+
+def test_unique_combination_of_columns():
+    given = pl.DataFrame({"a": ["a", "b"]})
+    when = given.pipe(plg.unique_combination_of_columns, "a")
+    testing.assert_frame_equal(given, when)
+
+
+def test_unique_combination_of_columns_use_all_columns_by_default():
+    given = pl.DataFrame({"a": ["a", "b"]})
+    when = given.pipe(plg.unique_combination_of_columns)
+    testing.assert_frame_equal(given, when)
+
+
+def test_unique_combination_of_columns_accepts_list_as_input():
+    given = pl.DataFrame({"a": ["a", "a"], "b": [1, 2]})
+    when = given.pipe(plg.unique_combination_of_columns, ["a", "b"])
+    testing.assert_frame_equal(given, when)
+
+
+def test_unique_combination_of_columns_should_err_for_non_unicity():
+    given = pl.DataFrame({"a": ["a", "a"]})
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(plg.unique_combination_of_columns, "a")
+
+
+def test_unique_combination_of_columns_base_error_message_format():
+    given = pl.DataFrame({"a": ["a", "a"]})
+    with pytest.raises(plg.PolarsAssertError) as err:
+        given.pipe(plg.unique_combination_of_columns, "a")
+
+    base_message = "Some combinations of columns are not unique."
+    assert base_message in str(err.value)
+
+
+@pytest.mark.parametrize(
+    "columns,custom_message",
+    [
+        ("a", 'See above, selected: col("a")'),
+        (["a", "b"], 'See above, selected: cols(["a", "b"])'),
+        (None, "See above, selected: *"),
+    ],
+)
+def test_unique_combination_of_columns_error_message_format(columns, custom_message):
+    given = pl.DataFrame({"a": ["a", "a"], "b": [1, 1]})
+    with pytest.raises(plg.PolarsAssertError) as err:
+        given.pipe(plg.unique_combination_of_columns, columns)
+
+    base_message = "Some combinations of columns are not unique."
+
+    assert base_message in str(err.value)
+    assert custom_message in str(err.value)
