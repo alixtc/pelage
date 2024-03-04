@@ -79,7 +79,9 @@ def has_no_nulls(
         .filter(pl.col("null_count") > 0)
     )
     if not null_count.is_empty():
-        raise PolarsAssertError(null_count)
+        raise PolarsAssertError(
+            null_count, "There were unexpected nulls in the columns above"
+        )
     return data
 
 
