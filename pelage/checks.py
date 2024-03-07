@@ -45,7 +45,7 @@ def has_no_nulls(
     Examples
     --------
     >>> import polars as pl
-    >>> from furcoat import checks
+    >>> from pelage import checks
     >>> df = pl.DataFrame({
     ...     "A": [1, 2],
     ...     "B": [None, 5]

@@ -21,7 +21,7 @@ check_code:
 	@pre-commit run --all-files
 
 black:
-	@black scripts/* furcoat/*.py
+	@black scripts/* pelage/*.py
 
 test:
 	@coverage run -m pytest tests/*.py
@@ -32,8 +32,8 @@ clean:
 	@rm -f .coverage
 	@rm -fr */__pycache__ */*.pyc __pycache__
 	@rm -fr build dist
-	@rm -fr furcoat-*.dist-info
-	@rm -fr furcoat.egg-info
+	@rm -fr pelage-*.dist-info
+	@rm -fr pelage.egg-info
 
 
 all: clean install test check_code

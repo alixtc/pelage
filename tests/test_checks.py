@@ -4,8 +4,8 @@ import polars as pl
 import pytest
 from polars import testing
 
-import furcoat as plg
-from furcoat import checks
+import pelage as plg
+from pelage import checks
 
 
 def test_dataframe_error_message_format():
