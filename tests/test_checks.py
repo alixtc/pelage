@@ -422,3 +422,21 @@ def test_is_monotonic_error_give_out_specifyic_error_message():
         given.pipe(plg.is_monotonic, "int")
     expected_msg = 'Column "int" expected to be monotonic but is not, try .sort("int")'
     assert expected_msg in str(err.value)
+
+
+def test_custom_checks_works_for_simple_filter():
+    given = pl.DataFrame({"int": [1, 1, 1]})
+    when = given.pipe(plg.custom_check, pl.col("int") == 1)
+    testing.assert_frame_equal(given, when)
+
+
+def test_custom_checks_errors_the_condition_returns_a_non_empty():
+    given = pl.DataFrame({"int": [1, 2, 1]})
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(plg.custom_check, pl.col("int") != 2)
+
+
+def test_custom_checks_accept_over_clauses():
+    given = pl.DataFrame({"a": [1, 1, 2, 2], "b": [1, 2, 3, 4]})
+    when = given.pipe(plg.custom_check, pl.col("b").max().over("b") <= 4)
+    testing.assert_frame_equal(given, when)

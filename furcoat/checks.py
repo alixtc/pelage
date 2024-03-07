@@ -378,3 +378,26 @@ def is_monotonic(
         )
         raise PolarsAssertError(supp_message=error_msg)
     return data
+
+
+def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
+    """Use custom Polars expression to check the DataFrame, the expression when used
+    through the dataframe method `.filter()` should return an empty dataframe.
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        _description_
+    expresion : pl.Expr
+        _description_
+
+    Returns
+    -------
+    pl.DataFrame
+        _description_
+
+    """
+    bad_data = data.filter(expresion.not_())
+    if not bad_data.is_empty():
+        raise PolarsAssertError
+    return data
