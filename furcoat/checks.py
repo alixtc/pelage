@@ -122,12 +122,13 @@ def unique(
     data: pl.DataFrame,
     columns: Optional[str | Iterable[str] | PolarColumnType] = None,
 ) -> pl.DataFrame:
-    """Check if a DataFrame columns have unique values.
+    """Check if there are no duplicated values in each one of the selected columns
+    independently, i.e. it is a column oriented check.
 
     Parameters
     ----------
     data : pl.DataFrame
-        The input DataFrame to check for null values.
+        The input DataFrame to check for unique values.
     columns : Optional[str | Iterable[str] | PolarColumnType], optional
         Columns to consider for null value check. By default, all columns are checked.
     """
@@ -142,6 +143,19 @@ def unique_combination_of_columns(
     data: pl.DataFrame,
     columns: Optional[str | Iterable[str] | PolarColumnType] = None,
 ) -> pl.DataFrame:
+    """Ensure that the selected column have a unique combination per row.
+    This function is particularly helpful to establish the granularity of a dataframe,
+    i.e. this is a row oriented check.
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        _description_
+    columns : Optional[str  |  Iterable[str]  |  PolarColumnType], optional
+        _description_, by default None
+
+    Returns
+    """
     cols = _sanitize_column_inputs(columns)
     non_unique_combinations = data.group_by(cols).len().filter(pl.col("len") > 1)
     if not non_unique_combinations.is_empty():
