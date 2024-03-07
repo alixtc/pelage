@@ -1,9 +1,11 @@
-from typing import Iterable, Optional, Union
+from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 import polars as pl
 from polars.type_aliases import ClosedInterval, IntoExpr, PolarsDataType
 
-PolarColumnType = Union[PolarsDataType, Iterable[PolarsDataType], pl.Expr]
+PolarColumnType = Union[
+    str, Iterable[str], PolarsDataType, Iterable[PolarsDataType], pl.Expr
+]
 
 
 class PolarsAssertError(Exception):
@@ -22,7 +24,7 @@ class PolarsAssertError(Exception):
         return f"{base_message}\n-->{self.supp_message}"
 
 
-def has_shape(data: pl.DataFrame, shape: tuple[int, int]) -> pl.DataFrame:
+def has_shape(data: pl.DataFrame, shape: Tuple[int, int]) -> pl.DataFrame:
     """Check if a DataFrame has the specified shape"""
     if data.shape != shape:
         raise PolarsAssertError
@@ -31,7 +33,7 @@ def has_shape(data: pl.DataFrame, shape: tuple[int, int]) -> pl.DataFrame:
 
 def has_no_nulls(
     data: pl.DataFrame,
-    columns: Optional[str | Iterable[str] | PolarColumnType] = None,
+    columns: Optional[PolarColumnType] = None,
 ) -> pl.DataFrame:
     """Check if a DataFrame has any null (missing) values.
 
@@ -39,7 +41,7 @@ def has_no_nulls(
     ----------
     data : pl.DataFrame
         The input DataFrame to check for null values.
-    columns : Optional[str | Iterable[str] | PolarColumnType], optional
+    columns : Optional[PolarColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
 
     Examples
@@ -88,7 +90,7 @@ def has_no_nulls(
 
 
 def _sanitize_column_inputs(
-    columns: Optional[str | Iterable[str] | PolarColumnType] = None,
+    columns: Optional[PolarColumnType] = None,
 ) -> pl.Expr:
     if columns is None:
         return pl.all()
@@ -100,7 +102,7 @@ def _sanitize_column_inputs(
 
 def has_no_infs(
     data: pl.DataFrame,
-    columns: Optional[str | Iterable[str] | PolarColumnType] = None,
+    columns: Optional[PolarColumnType] = None,
 ) -> pl.DataFrame:
     """Check if a DataFrame has any infinite (inf) values.
 
@@ -108,7 +110,7 @@ def has_no_infs(
     ----------
     data : pl.DataFrame
         The input DataFrame to check for null values.
-    columns : Optional[str | Iterable[str] | PolarColumnType], optional
+    columns : Optional[PolarColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
     """
     selected_columns = _sanitize_column_inputs(columns)
@@ -120,7 +122,7 @@ def has_no_infs(
 
 def unique(
     data: pl.DataFrame,
-    columns: Optional[str | Iterable[str] | PolarColumnType] = None,
+    columns: Optional[PolarColumnType] = None,
 ) -> pl.DataFrame:
     """Check if there are no duplicated values in each one of the selected columns
     independently, i.e. it is a column oriented check.
@@ -129,7 +131,7 @@ def unique(
     ----------
     data : pl.DataFrame
         The input DataFrame to check for unique values.
-    columns : Optional[str | Iterable[str] | PolarColumnType], optional
+    columns : Optional[PolarColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
     """
     selected_cols = _sanitize_column_inputs(columns)
@@ -141,7 +143,7 @@ def unique(
 
 def unique_combination_of_columns(
     data: pl.DataFrame,
-    columns: Optional[str | Iterable[str] | PolarColumnType] = None,
+    columns: Optional[PolarColumnType] = None,
 ) -> pl.DataFrame:
     """Ensure that the selected column have a unique combination per row.
     This function is particularly helpful to establish the granularity of a dataframe,
@@ -168,7 +170,7 @@ def unique_combination_of_columns(
 
 def not_constant(
     data: pl.DataFrame,
-    columns: Optional[str | Iterable[str] | PolarColumnType] = None,
+    columns: Optional[PolarColumnType] = None,
 ) -> pl.DataFrame:
     """Check if a DataFrame has constant columns.
 
@@ -176,7 +178,7 @@ def not_constant(
     ----------
     data : pl.DataFrame
         The input DataFrame to check for null values.
-    columns : Optional[str | Iterable[str] | PolarColumnType], optional
+    columns : Optional[PolarColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
     """
     selected_cols = _sanitize_column_inputs(columns)
@@ -192,15 +194,15 @@ def not_constant(
     return data
 
 
-def accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFrame:
+def accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFrame:
     """Raises error if columns contains values not specified in `items`
 
     Parameters
     ----------
     data : pl.DataFrame
-    items : dict[str, list]
+    items : Dict[str, List]
         A dictionnary where keys are a string compatible with a pl.Expr, to be used with
-        pl.col(). The value for each key is a list of all authorized values in the
+        pl.col(). The value for each key is a List of all authorized values in the
         dataframe.
     """
     mask_for_improper_values = [
@@ -210,20 +212,20 @@ def accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFrame:
     if not improper_data.is_empty():
         raise PolarsAssertError(
             improper_data,
-            "It contains values that have not been white-listed in `items`",
+            "It contains values that have not been white-Listed in `items`",
         )
     return data
 
 
-def not_accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFrame:
-    """Raises error if columns contains values specified in list of forbbiden `items`
+def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFrame:
+    """Raises error if columns contains values specified in List of forbbiden `items`
 
     Parameters
     ----------
     data : pl.DataFrame
-    items : dict[str, list]
+    items : Dict[str, List]
         A dictionnary where keys are a string compatible with a pl.Expr, to be used with
-        pl.col(). The value for each key is a list of all forbidden values in the
+        pl.col(). The value for each key is a List of all forbidden values in the
         dataframe.
     """
     mask_for_improper_values = [
@@ -238,7 +240,7 @@ def not_accepted_values(data: pl.DataFrame, items: dict[str, list]) -> pl.DataFr
 
 
 def not_null_proportion(
-    data: pl.DataFrame, items: dict[str, float | tuple[float, float]]
+    data: pl.DataFrame, items: Dict[str, Union[float, Tuple[float, float]]]
 ) -> pl.DataFrame:
     """sserts that the proportion of non-null values present in a column is between
     a specified range [at_least, at_most] where at_most is an optional argument
@@ -248,7 +250,7 @@ def not_null_proportion(
     ----------
     data : pl.DataFrame
         _description_
-    items : dict[str, float  |  tuple[float, float]]
+    items : Dict[str, float  |  Tuple[float, float]]
         Limit ranges for the proportion of not null value in the format:
             column_name : 0.333,
             column_name : (0.25, 0.44)
@@ -280,7 +282,7 @@ def not_null_proportion(
 
 
 def _format_ranges_by_columns(
-    items: dict[str, float | tuple[float, float]]
+    items: Dict[str, Union[float, Tuple[float, float]]]
 ) -> pl.DataFrame:
     ranges = {k: (v if isinstance(v, tuple) else (v, 1)) for k, v in items.items()}
     pl_ranges = pl.DataFrame(
@@ -292,8 +294,8 @@ def _format_ranges_by_columns(
 
 def accepted_range(
     data: pl.DataFrame,
-    items: dict[
-        str, tuple[IntoExpr, IntoExpr] | tuple[IntoExpr, IntoExpr, ClosedInterval]
+    items: Dict[
+        str, Union[Tuple[IntoExpr, IntoExpr], Tuple[IntoExpr, IntoExpr, ClosedInterval]]
     ],
 ) -> pl.DataFrame:
     """Check that all the values from specifed columns in the dict `items` are within
@@ -302,8 +304,8 @@ def accepted_range(
     Parameters
     ----------
     data : pl.DataFrame
-    items : dict[
-            str, tuple[IntoExpr, IntoExpr]  |  tuple[IntoExpr, IntoExpr, ClosedInterval]
+    items : Dict[
+            str, Tuple[IntoExpr, IntoExpr]  |  Tuple[IntoExpr, IntoExpr, ClosedInterval]
         ]
         Any type of inputs that match the following signature:
         `column_name: (boundaries)` where `boundaries is compatible with the Polars
