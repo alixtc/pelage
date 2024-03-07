@@ -373,3 +373,52 @@ def test_unique_combination_of_columns_error_message_format(columns, custom_mess
 
     assert base_message in str(err.value)
     assert custom_message in str(err.value)
+
+
+@pytest.mark.parametrize("column,", ["int", "dates", "datetimes"])
+def test_is_monotonic_works_with_int_float_dates_datetimes(column):
+    given = pl.DataFrame(
+        {
+            "int": [1, 2, 3],
+            "dates": ["2022-01-01", "2023-01-01", "2023-01-02"],
+        }
+    ).with_columns(
+        dates=pl.col("dates").str.to_date(),
+        datetimes=pl.col("dates").str.to_datetime(),
+    )
+    when = given.pipe(plg.is_monotonic, column)
+    testing.assert_frame_equal(given, when)
+
+
+def test_is_monotonic_error_when_not_monotonic():
+    given = pl.DataFrame({"int": [1, 2, 1]})
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(plg.is_monotonic, "int")
+
+    given = pl.DataFrame({"int": [1, 2, 2]})
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(plg.is_monotonic, "int")
+
+
+def test_is_monotonic_can_specify_decreasing_monotonic():
+    given = pl.DataFrame({"int": [3, 2, 1]})
+    when = given.pipe(plg.is_monotonic, "int", decreasing=True)
+    testing.assert_frame_equal(given, when)
+
+
+def test_is_monotonic_can_accept_non_strictly_monotonic():
+    given = pl.DataFrame({"int": [1, 2, 2]})
+    when = given.pipe(plg.is_monotonic, "int", strict=False)
+    testing.assert_frame_equal(given, when)
+
+    given = pl.DataFrame({"int": [3, 2, 2]})
+    when = given.pipe(plg.is_monotonic, "int", decreasing=True, strict=False)
+    testing.assert_frame_equal(given, when)
+
+
+def test_is_monotonic_error_give_out_specifyic_error_message():
+    given = pl.DataFrame({"int": [1, 2, 1]})
+    with pytest.raises(plg.PolarsAssertError) as err:
+        given.pipe(plg.is_monotonic, "int")
+    expected_msg = 'Column "int" expected to be monotonic but is not, try .sort("int")'
+    assert expected_msg in str(err.value)

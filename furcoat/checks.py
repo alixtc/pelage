@@ -354,3 +354,27 @@ def maintains_relationships(
             raise PolarsAssertError(supp_message=msg)
 
     return data
+
+
+def is_monotonic(
+    data: pl.DataFrame, column: str, decreasing: bool = False, strict: bool = True
+) -> pl.DataFrame:
+    # Cast necessary for dates and datetimes
+    diff_column = data.get_column(column).diff().cast(int)
+
+    if not decreasing and not strict:
+        comparisons = (diff_column >= 0).all()
+    if not decreasing and strict:
+        comparisons = (diff_column > 0).all()
+    if decreasing and not strict:
+        comparisons = (diff_column <= 0).all()
+    if decreasing and strict:
+        comparisons = (diff_column < 0).all()
+
+    if not comparisons:
+        error_msg = (
+            f'Column "{column}" expected to be monotonic but is not,'
+            + f' try .sort("{column}")'
+        )
+        raise PolarsAssertError(supp_message=error_msg)
+    return data
