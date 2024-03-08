@@ -13,4 +13,6 @@ poetry.lock
 notebooks/test*
 notebooks/_*.ipynb
 
+# For publication
 .tox/
+dist/
