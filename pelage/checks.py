@@ -4,7 +4,7 @@ import polars as pl
 from packaging import version
 from polars.type_aliases import ClosedInterval, IntoExpr, PolarsDataType
 
-PolarColumnType = Union[
+PolarsColumnType = Union[
     str, Iterable[str], PolarsDataType, Iterable[PolarsDataType], pl.Expr
 ]
 
@@ -34,7 +34,7 @@ def has_shape(data: pl.DataFrame, shape: Tuple[int, int]) -> pl.DataFrame:
 
 def has_no_nulls(
     data: pl.DataFrame,
-    columns: Optional[PolarColumnType] = None,
+    columns: Optional[PolarsColumnType] = None,
 ) -> pl.DataFrame:
     """Check if a DataFrame has any null (missing) values.
 
@@ -42,7 +42,7 @@ def has_no_nulls(
     ----------
     data : pl.DataFrame
         The input DataFrame to check for null values.
-    columns : Optional[PolarColumnType] , optional
+    columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
 
     Examples
@@ -91,7 +91,7 @@ def has_no_nulls(
 
 
 def _sanitize_column_inputs(
-    columns: Optional[PolarColumnType] = None,
+    columns: Optional[PolarsColumnType] = None,
 ) -> pl.Expr:
     if columns is None:
         return pl.all()
@@ -103,7 +103,7 @@ def _sanitize_column_inputs(
 
 def has_no_infs(
     data: pl.DataFrame,
-    columns: Optional[PolarColumnType] = None,
+    columns: Optional[PolarsColumnType] = None,
 ) -> pl.DataFrame:
     """Check if a DataFrame has any infinite (inf) values.
 
@@ -111,7 +111,7 @@ def has_no_infs(
     ----------
     data : pl.DataFrame
         The input DataFrame to check for null values.
-    columns : Optional[PolarColumnType] , optional
+    columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
     """
     selected_columns = _sanitize_column_inputs(columns)
@@ -123,7 +123,7 @@ def has_no_infs(
 
 def unique(
     data: pl.DataFrame,
-    columns: Optional[PolarColumnType] = None,
+    columns: Optional[PolarsColumnType] = None,
 ) -> pl.DataFrame:
     """Check if there are no duplicated values in each one of the selected columns
     independently, i.e. it is a column oriented check.
@@ -132,7 +132,7 @@ def unique(
     ----------
     data : pl.DataFrame
         The input DataFrame to check for unique values.
-    columns : Optional[PolarColumnType] , optional
+    columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
     """
     selected_cols = _sanitize_column_inputs(columns)
@@ -155,7 +155,7 @@ def _non_unique_comibation(data: pl.DataFrame, columns: pl.Expr) -> pl.DataFrame
 
 def unique_combination_of_columns(
     data: pl.DataFrame,
-    columns: Optional[PolarColumnType] = None,
+    columns: Optional[PolarsColumnType] = None,
 ) -> pl.DataFrame:
     """Ensure that the selected column have a unique combination per row.
     This function is particularly helpful to establish the granularity of a dataframe,
@@ -165,7 +165,7 @@ def unique_combination_of_columns(
     ----------
     data : pl.DataFrame
         _description_
-    columns : Optional[str  |  Iterable[str]  |  PolarColumnType], optional
+    columns : Optional[str  |  Iterable[str]  |  PolarsColumnType], optional
         _description_, by default None
 
     Returns
@@ -182,7 +182,7 @@ def unique_combination_of_columns(
 
 def not_constant(
     data: pl.DataFrame,
-    columns: Optional[PolarColumnType] = None,
+    columns: Optional[PolarsColumnType] = None,
 ) -> pl.DataFrame:
     """Check if a DataFrame has constant columns.
 
@@ -190,7 +190,7 @@ def not_constant(
     ----------
     data : pl.DataFrame
         The input DataFrame to check for null values.
-    columns : Optional[PolarColumnType] , optional
+    columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
     """
     selected_cols = _sanitize_column_inputs(columns)
