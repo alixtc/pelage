@@ -12,3 +12,5 @@ raw_data/
 poetry.lock
 notebooks/test*
 notebooks/_*.ipynb
+
+.tox/
