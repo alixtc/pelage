@@ -1,6 +1,7 @@
 from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 import polars as pl
+from packaging import version
 from polars.type_aliases import ClosedInterval, IntoExpr, PolarsDataType
 
 PolarColumnType = Union[
@@ -141,6 +142,17 @@ def unique(
     return data
 
 
+def _non_unique_comibation(data: pl.DataFrame, columns: pl.Expr) -> pl.DataFrame:
+    if version.parse(pl.__version__) < version.parse("0.20.0"):
+        return (
+            data.group_by(columns)
+            .agg(pl.count().alias("len"))
+            .filter(pl.col("len") > 1)
+        )
+    else:
+        return data.group_by(columns).len().filter(pl.col("len") > 1)
+
+
 def unique_combination_of_columns(
     data: pl.DataFrame,
     columns: Optional[PolarColumnType] = None,
@@ -159,7 +171,7 @@ def unique_combination_of_columns(
     Returns
     """
     cols = _sanitize_column_inputs(columns)
-    non_unique_combinations = data.group_by(cols).len().filter(pl.col("len") > 1)
+    non_unique_combinations = _non_unique_comibation(data, cols)
     if not non_unique_combinations.is_empty():
         raise PolarsAssertError(
             non_unique_combinations,
