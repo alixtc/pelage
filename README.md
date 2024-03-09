@@ -9,7 +9,7 @@ use it:
 ``` python
 import polars as pl
 
-from pelage import checks
+import pelage as plg
 
 validated_data = (
     pl.DataFrame(
@@ -18,8 +18,8 @@ validated_data = (
             "b": ["a", "b", "c"],
         }
     )
-    .pipe(checks.has_shape, (3, 2))
-    .pipe(checks.has_no_nulls)
+    .pipe(plg.has_shape, (3, 2))
+    .pipe(plg.has_no_nulls)
     .with_columns(pl.col("a").cast(str).alias("new_a"))
 )
 
@@ -41,8 +41,8 @@ Here is a example of the error messages that if the checks fail:
 
 ``` python
 try:
-    validated_data.pipe(checks.not_accepted_values, {"new_a": ["3"]})
-except Exception as err:
+    validated_data.pipe(plg.not_accepted_values, {"new_a": ["3"]})
+except plg.PolarsAssertError as err:
     print(err)
 ```
 
@@ -55,7 +55,7 @@ except Exception as err:
     ╞═════╪═════╪═══════╡
     │ 3   ┆ c   ┆ 3     │
     └─────┴─────┴───────┘
-    There is an error in the DataFrame passed to the check function:
+    Error with the DataFrame passed to the check function:
     -->This DataFrame contains values marked as forbidden
 
 Here are the main keys points:
@@ -121,3 +121,12 @@ by polars.
 
 Note: For now, only the classical DataFrame API is available, but we
 plan to implement the LazyFrame API soon enough.
+
+# Why pelage?
+
+`pelage` is the french word designating an animal fur, and particularly
+in the case of polar bears, it shields them from water, temperature
+variations and act as a strong camouflage. With the skin in constitutes
+one strong barrier against the changes in the outside world, and it is
+therefore well-suited for a package design to help with defensive
+analysis.
