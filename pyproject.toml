@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pelage"
-version = "0.1.1"
+version = "0.1.2"
 description = "This package contains a collection of tests to improve your Polars data analysis superpowers"
 authors = ["Alix Tiran-Cappello <alix.tiran-cappello@laposte.net>"]
 license = "MIT"
