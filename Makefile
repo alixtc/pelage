@@ -11,6 +11,7 @@ install:
 
 check_code:
 	@pre-commit run --all-files
+	@tox run
 
 black:
 	@black scripts/* pelage/*.py testsma/*.py
