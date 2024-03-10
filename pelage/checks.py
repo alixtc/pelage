@@ -4,6 +4,8 @@ import polars as pl
 from packaging import version
 from polars.type_aliases import ClosedInterval, IntoExpr, PolarsDataType
 
+from pelage import utils
+
 PolarsColumnType = Union[
     str, Iterable[str], PolarsDataType, Iterable[PolarsDataType], pl.Expr
 ]
@@ -29,6 +31,30 @@ def has_shape(data: pl.DataFrame, shape: Tuple[int, int]) -> pl.DataFrame:
     """Check if a DataFrame has the specified shape"""
     if data.shape != shape:
         raise PolarsAssertError
+    return data
+
+
+def has_columns(data: pl.DataFrame, names: Union[str, List[str]]) -> pl.DataFrame:
+    if isinstance(names, str):
+        # Because set(str) explodes the string
+        names = [names]
+    mising_columns = set(names) - set(data.columns)
+    if mising_columns:
+        raise PolarsAssertError
+    return data
+
+
+def has_dtypes(data: pl.DataFrame, items: Dict[str, PolarsDataType]) -> pl.DataFrame:
+    missing_columns = set(items.keys()) - set(data.columns)
+    if missing_columns:
+        message = f"Dtype check, some expected columns are missing:{missing_columns}"
+        raise PolarsAssertError(supp_message=message)
+
+    bad_column_type_requirement = set(items.items()) - set(data.schema.items())
+    if bad_column_type_requirement:
+        message = utils.compare_schema(data.schema, items)
+        message = f"Some columns don't have the expected type:\n{message}"
+        raise PolarsAssertError(supp_message=message)
     return data
 
 
