@@ -492,3 +492,25 @@ def test_custom_checks_accept_over_clauses():
     given = pl.DataFrame({"a": [1, 1, 2, 2], "b": [1, 2, 3, 4]})
     when = given.pipe(plg.custom_check, pl.col("b").max().over("b") <= 4)
     testing.assert_frame_equal(given, when)
+
+
+def test_has_mandatory_values():
+    given = pl.DataFrame({"a": [1, 2]})
+    when = given.pipe(checks.has_mandatory_values, {"a": [1, 2]})
+    testing.assert_frame_equal(given, when)
+
+
+def test_has_mandatory_values_should_error_on_missing_elements():
+    given = pl.DataFrame({"a": [1, 2]})
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(checks.has_mandatory_values, {"a": [3]})
+
+
+def test_has_mandatory_values_should_give_feedback_on_missing_values():
+    given = pl.DataFrame({"a": [1, 1], "b": ["x", "y"]})
+    with pytest.raises(plg.PolarsAssertError) as err:
+        given.pipe(checks.has_mandatory_values, {"a": [1, 2], "b": ["s", "t"]})
+
+    expected = {"a": [2], "b": ["s", "t"]}
+    assert "Missing mandatory values the columns:" in str(err.value)
+    assert str(expected) in str(err.value)

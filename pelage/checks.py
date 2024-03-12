@@ -277,6 +277,23 @@ def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFr
     return data
 
 
+def has_mandatory_values(data: pl.DataFrame, items: Dict[str, list]) -> pl.DataFrame:
+    selected_data = data.select(pl.col(items.keys())).unique()
+    missing = {}
+    for key in items:
+        required_values = set(items[key])
+        present_values = set(selected_data.get_column(key))
+        should_be_present = required_values - present_values
+        if should_be_present:
+            missing[key] = sorted(should_be_present)
+
+    if missing:
+        raise PolarsAssertError(
+            supp_message=f"Missing mandatory values the columns: {missing}"
+        )
+    return data
+
+
 def not_null_proportion(
     data: pl.DataFrame, items: Dict[str, Union[float, Tuple[float, float]]]
 ) -> pl.DataFrame:
