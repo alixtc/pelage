@@ -35,6 +35,49 @@ def has_shape(data: pl.DataFrame, shape: Tuple[int, int]) -> pl.DataFrame:
 
 
 def has_columns(data: pl.DataFrame, names: Union[str, List[str]]) -> pl.DataFrame:
+    """Check if a DataFrame has the specified
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        The DataFrame to check for column presence.
+    names : Union[str, List[str]]
+        The names of the columns to check.
+
+    Examples
+    --------
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
+    >>> df.pipe(plg.has_columns, "b")
+    shape: (3, 2)
+    ┌─────┬─────┐
+    │ a   ┆ b   │
+    │ --- ┆ --- │
+    │ i64 ┆ str │
+    ╞═════╪═════╡
+    │ 1   ┆ a   │
+    │ 2   ┆ b   │
+    │ 3   ┆ c   │
+    └─────┴─────┘
+    >>> df.pipe(plg.has_columns, "c")
+    Traceback (most recent call last):
+        ...
+    pelage.checks.PolarsAssertError: Error with the DataFrame passed to the check function:
+    -->
+    >>> df.pipe(plg.has_columns, ["a", "b"])
+    shape: (3, 2)
+    ┌─────┬─────┐
+    │ a   ┆ b   │
+    │ --- ┆ --- │
+    │ i64 ┆ str │
+    ╞═════╪═════╡
+    │ 1   ┆ a   │
+    │ 2   ┆ b   │
+    │ 3   ┆ c   │
+    └─────┴─────┘
+    >>>
+    """  # noqa: E501
     if isinstance(names, str):
         # Because set(str) explodes the string
         names = [names]
@@ -45,6 +88,40 @@ def has_columns(data: pl.DataFrame, names: Union[str, List[str]]) -> pl.DataFram
 
 
 def has_dtypes(data: pl.DataFrame, items: Dict[str, PolarsDataType]) -> pl.DataFrame:
+    """Check that the columns have the expected types
+
+    Examples
+    --------
+    >>> import polars as pl
+    >>> from pelage import checks
+    >>> df = pl.DataFrame({
+    ...     "name": ["Alice", "Bob", "Charlie"],
+    ...     "age": [20, 30, 40],
+    ...     "city": ["New York", "London", "Paris"],
+    ... })
+    >>> checks.has_dtypes(df, {
+    ...     "name": pl.String,
+    ...     "age": pl.Int64,
+    ...     "city": pl.String,
+    ... })
+    shape: (3, 3)
+    ┌─────────┬─────┬──────────┐
+    │ name    ┆ age ┆ city     │
+    │ ---     ┆ --- ┆ ---      │
+    │ str     ┆ i64 ┆ str      │
+    ╞═════════╪═════╪══════════╡
+    │ Alice   ┆ 20  ┆ New York │
+    │ Bob     ┆ 30  ┆ London   │
+    │ Charlie ┆ 40  ┆ Paris    │
+    └─────────┴─────┴──────────┘
+    >>> checks.has_dtypes(df, {
+    ...     "age": pl.String,
+    ...     "city": pl.Int64,
+    ... })
+    Traceback (most recent call last):
+        ...
+    pelage.checks.PolarsAssertError:
+    """
     missing_columns = set(items.keys()) - set(data.columns)
     if missing_columns:
         message = f"Dtype check, some expected columns are missing:{missing_columns}"
@@ -80,28 +157,29 @@ def has_no_nulls(
     ...     "B": [None, 5]
     ... })
     >>> df
-    shape: (4, 2)
-    ┌─────┬─────┐
-    │ A   ┆ B   │
-    │ --- ┆ --- │
-    │ i64 ┆ i64 │
-    ╞═════╪═════╡
-    │ 1   ┆     │
-    ├─────┼─────┤
-    │ 2   ┆ 5   │
-    └─────┴─────┘
+    shape: (2, 2)
+    ┌─────┬──────┐
+    │ A   ┆ B    │
+    │ --- ┆ ---  │
+    │ i64 ┆ i64  │
+    ╞═════╪══════╡
+    │ 1   ┆ null │
+    │ 2   ┆ 5    │
+    └─────┴──────┘
     >>> checks.has_no_nulls(df)
-    PolarsAssertError: DataFrame contains null values in column(s):
-    shape: (4, 2)
-    ┌─────┬─────┐
-    │ A   ┆ B   │
-    │ --- ┆ --- │
-    │ i64 ┆ i64 │
-    ╞═════╪═════╡
-    │ 1   ┆     │
-    ├─────┼─────┤
-    │ 2   ┆ 5   │
-    └─────┴─────┘
+    Traceback (most recent call last):
+        ...
+    pelage.checks.PolarsAssertError:
+    shape: (1, 2)
+    ┌────────┬────────────┐
+    │ column ┆ null_count │
+    │ ---    ┆ ---        │
+    │ str    ┆ u32        │
+    ╞════════╪════════════╡
+    │ B      ┆ 1          │
+    └────────┴────────────┘
+    Error with the DataFrame passed to the check function:
+    -->There were unexpected nulls in the columns above
     """
     selected_columns = _sanitize_column_inputs(columns)
     null_count = (
@@ -139,6 +217,44 @@ def has_no_infs(
         The input DataFrame to check for null values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
+
+    Examples
+    --------
+    >>> import polars as pl
+    >>> import pelage as plg
+
+
+    >>> df = pl.DataFrame(
+    ...     {
+    ...         "a": [1, 2],
+    ...         "b": [1.0, float("inf")],
+    ...     }
+    ... )
+    >>>
+    >>> plg.has_no_infs(df)
+    Traceback (most recent call last):
+      ...
+    pelage.checks.PolarsAssertError:
+    shape: (1, 2)
+    ┌─────┬─────┐
+    │ a   ┆ b   │
+    │ --- ┆ --- │
+    │ i64 ┆ f64 │
+    ╞═════╪═════╡
+    │ 2   ┆ inf │
+    └─────┴─────┘
+    Error with the DataFrame passed to the check function:
+    -->
+    >>> plg.has_no_infs(df, ["a"])  # or  plg.has_no_infs(df, "a")
+    shape: (2, 2)
+    ┌─────┬─────┐
+    │ a   ┆ b   │
+    │ --- ┆ --- │
+    │ i64 ┆ f64 │
+    ╞═════╪═════╡
+    │ 1   ┆ 1.0 │
+    │ 2   ┆ inf │
+    └─────┴─────┘
     """
     selected_columns = _sanitize_column_inputs(columns)
     inf_values = data.filter(pl.any_horizontal(selected_columns.is_infinite()))
@@ -458,3 +574,9 @@ def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     if not bad_data.is_empty():
         raise PolarsAssertError
     return data
+
+
+if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
