@@ -610,9 +610,3 @@ def mutualy_exclusive_ranges(
     if len(overlapping_ranges) > 0:
         raise PolarsAssertError(df=overlapping_ranges)
     return data
-
-
-if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
