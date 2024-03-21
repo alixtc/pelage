@@ -514,3 +514,44 @@ def test_has_mandatory_values_should_give_feedback_on_missing_values():
     expected = {"a": [2], "b": ["s", "t"]}
     assert "Missing mandatory values the columns:" in str(err.value)
     assert str(expected) in str(err.value)
+
+
+def test_mutualy_exclusive_ranges_allows_to_specify_low_and_high_bounds():
+    given = pl.DataFrame(
+        [
+            [1, 2],
+            [3, 4],
+        ],
+        schema=["a", "b"],
+    )
+    when = given.pipe(plg.mutualy_exclusive_ranges, low_bound="a", high_bound="b")
+    testing.assert_frame_equal(given, when)
+
+
+def test_mutualy_exclusive_ranges_should_error_on_overlapping_intervals():
+    given = pl.DataFrame(
+        [
+            [1, 3],
+            [2, 4],
+        ],
+        schema=["a", "b"],
+    )
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(plg.mutualy_exclusive_ranges, low_bound="a", high_bound="b")
+
+
+def test_mutualy_exclusive_ranges_allows_to_group_by_anoterh_column():
+    given = pl.DataFrame(
+        [
+            ["A", 1, 3],
+            ["B", 2, 4],
+        ],
+        schema=["group", "a", "b"],
+    )
+    when = given.pipe(
+        plg.mutualy_exclusive_ranges,
+        low_bound="a",
+        high_bound="b",
+        partition_by="group",
+    )
+    testing.assert_frame_equal(given, when)

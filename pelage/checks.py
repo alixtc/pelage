@@ -10,6 +10,8 @@ PolarsColumnType = Union[
     str, Iterable[str], PolarsDataType, Iterable[PolarsDataType], pl.Expr
 ]
 
+PolarsOverClauseInput = Union[IntoExpr, Iterable[IntoExpr]]
+
 
 class PolarsAssertError(Exception):
     def __init__(
@@ -453,7 +455,7 @@ def not_null_proportion(
 
 
 def _format_ranges_by_columns(
-    items: Dict[str, Union[float, Tuple[float, float]]]
+    items: Dict[str, Union[float, Tuple[float, float]]],
 ) -> pl.DataFrame:
     ranges = {k: (v if isinstance(v, tuple) else (v, 1)) for k, v in items.items()}
     pl_ranges = pl.DataFrame(
@@ -573,6 +575,40 @@ def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     bad_data = data.filter(expresion.not_())
     if not bad_data.is_empty():
         raise PolarsAssertError
+    return data
+
+
+def mutualy_exclusive_ranges(
+    data: pl.DataFrame,
+    low_bound: str,
+    high_bound: str,
+    partition_by: Optional[PolarsOverClauseInput] = None,
+) -> pl.DataFrame:
+    """Ensure that the specified columns contains no overlapping intervals.
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        _description_
+    low_bound : str
+        _description_
+    high_bound : str
+        _description_
+    partition_by : IntoExpr | Iterable[IntoExpr], optional
+        Parameter  compatible with `.over()` to split the verification by group,
+        by default None
+
+    """
+    is_overlapping_interval = pl.col(high_bound).shift() <= pl.col(low_bound)
+
+    if partition_by is not None:
+        is_overlapping_interval = is_overlapping_interval.over(partition_by)
+
+    overlapping_ranges = data.sort(low_bound, high_bound).filter(
+        is_overlapping_interval
+    )
+    if len(overlapping_ranges) > 0:
+        raise PolarsAssertError(df=overlapping_ranges)
     return data
 
 
