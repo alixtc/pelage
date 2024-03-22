@@ -559,3 +559,18 @@ def test_mutualy_exclusive_ranges_allows_to_group_by_anoterh_column():
         partition_by="group",
     )
     testing.assert_frame_equal(given, when)
+
+
+def test_column_is_within_n_std_accepts_tuple_args():
+    given = pl.DataFrame({"a": [1, 2, 2, 1]})
+
+    when = given.pipe(plg.column_is_within_n_std, ("a", 2))
+
+    testing.assert_frame_equal(given, when)
+
+
+def test_column_is_within_n_std_shoud_error_on_outliers():
+    given = pl.DataFrame({"a": list(range(0, 10)) + [5000]})
+
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(plg.column_is_within_n_std, ("a", 2))

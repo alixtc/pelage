@@ -620,3 +620,21 @@ def mutualy_exclusive_ranges(
     if len(overlapping_ranges) > 0:
         raise PolarsAssertError(df=overlapping_ranges)
     return data
+
+
+def column_is_within_n_std(
+    data: pl.DataFrame,
+    items: Tuple[PolarsColumnType, int],
+) -> pl.DataFrame:
+    col_selection = _sanitize_column_inputs(items[0])
+    n_std = items[1]
+    outliers = data.filter(
+        col_selection.is_between(
+            col_selection.mean() - n_std * col_selection.std(),
+            col_selection.mean() + n_std * col_selection.std(),
+        ).not_()
+    )
+    if len(outliers) > 0:
+        raise PolarsAssertError(df=outliers)
+
+    return data
