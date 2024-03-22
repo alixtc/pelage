@@ -30,9 +30,39 @@ class PolarsAssertError(Exception):
 
 
 def has_shape(data: pl.DataFrame, shape: Tuple[int, int]) -> pl.DataFrame:
-    """Check if a DataFrame has the specified shape"""
+    """Check if a DataFrame has the specified shape
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        Input data
+    shape : Tuple[int, int]
+        Tuple with the expected dataframe shape, as from the `.shape()` method
+
+    Examples
+    --------
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame({"a": [1, 2], "b": ["a", "b"]})
+    >>> df.pipe(plg.has_shape, (2, 2))
+    shape: (2, 2)
+    ┌─────┬─────┐
+    │ a   ┆ b   │
+    │ --- ┆ --- │
+    │ i64 ┆ str │
+    ╞═════╪═════╡
+    │ 1   ┆ a   │
+    │ 2   ┆ b   │
+    └─────┴─────┘
+    >>> df.pipe(plg.has_shape, (1, 2))
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    Error with the DataFrame passed to the check function:
+    -->The data has not the expected shape
+    """
     if data.shape != shape:
-        raise PolarsAssertError
+        raise PolarsAssertError(supp_message="The data has not the expected shape")
     return data
 
 
@@ -608,6 +638,42 @@ def maintains_relationships(
 def is_monotonic(
     data: pl.DataFrame, column: str, decreasing: bool = False, strict: bool = True
 ) -> pl.DataFrame:
+    """Verify that values in a column are consecutively increasing or decreasing
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        _description_
+    column : str
+        _description_
+    decreasing : bool, optional
+        _description_, by default False
+    strict : bool, optional
+        _description_, by default True
+
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df =     given = pl.DataFrame({"int": [1, 2, 1]})
+    >>> df = pl.DataFrame({"int": [1, 2, 3], "str": ["x", "y", "z"]})
+    >>> df.pipe(plg.is_monotonic, "int")
+    shape: (3, 2)
+    ┌─────┬─────┐
+    │ int ┆ str │
+    │ --- ┆ --- │
+    │ i64 ┆ str │
+    ╞═════╪═════╡
+    │ 1   ┆ x   │
+    │ 2   ┆ y   │
+    │ 3   ┆ z   │
+    └─────┴─────┘
+    >>> bad = pl.DataFrame({"int": [1, 2, 1], "str": ["x", "y", "z"]})
+    >>> bad.pipe(plg.is_monotonic, "int")
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    Error with the DataFrame passed to the check function:
+    -->Column "int" expected to be monotonic but is not, try .sort("int")
+    """
     # Cast necessary for dates and datetimes
     diff_column = data.get_column(column).diff().cast(int)
 
