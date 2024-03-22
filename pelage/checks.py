@@ -277,7 +277,7 @@ def unique(
     data : pl.DataFrame
         The input DataFrame to check for unique values.
     columns : Optional[PolarsColumnType] , optional
-        Columns to consider for null value check. By default, all columns are checked.
+        Columns to consider for uniqueness check. By default, all columns are checked.
     """
     selected_cols = _sanitize_column_inputs(columns)
     improper_data = data.filter(pl.any_horizontal(selected_cols.is_duplicated()))
@@ -309,8 +309,8 @@ def unique_combination_of_columns(
     ----------
     data : pl.DataFrame
         _description_
-    columns : Optional[str  |  Iterable[str]  |  PolarsColumnType], optional
-        _description_, by default None
+    columns : Optional[PolarsColumnType] , optional
+        Columns to consider for row unicity. By default, all columns are checked.
 
     Returns
     """
@@ -424,9 +424,14 @@ def not_null_proportion(
     data : pl.DataFrame
         _description_
     items : Dict[str, float  |  Tuple[float, float]]
-        Limit ranges for the proportion of not null value in the format:
-            column_name : 0.333,
-            column_name : (0.25, 0.44)
+        Limit ranges for the proportion of not null value for selected columns.
+        Any of the following formats is valid:
+        {
+            "column_name_a" : 0.333,
+            "column_name_b" : (0.25, 0.44),
+        }
+        When specifying a single float, the higher bound of the range will automatically
+        be set to 1.0, i.e. (given_float, 1.0)
     """
 
     pl_ranges = _format_ranges_by_columns(items)
@@ -589,13 +594,13 @@ def mutualy_exclusive_ranges(
     Parameters
     ----------
     data : pl.DataFrame
-        _description_
+        Data to check
     low_bound : str
-        _description_
+        Name of column containing the lower bound of the interval
     high_bound : str
-        _description_
+        Name of column containing the higher bound of the interval
     partition_by : IntoExpr | Iterable[IntoExpr], optional
-        Parameter  compatible with `.over()` to split the verification by group,
+        Parameter compatible with `.over()` function to split the check by groups,
         by default None
 
     """
