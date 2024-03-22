@@ -24,7 +24,9 @@ class PolarsAssertError(Exception):
         base_message = "Error with the DataFrame passed to the check function:"
 
         if not self.df.is_empty():
-            base_message = f"\n{self.df}\n{base_message}"
+            base_message = f"Test\n{self.df}\n{base_message}"
+        else:
+            base_message = f"Test\n{base_message}"
 
         return f"{base_message}\n-->{self.supp_message}"
 
@@ -65,7 +67,8 @@ def has_columns(data: pl.DataFrame, names: Union[str, List[str]]) -> pl.DataFram
     >>> df.pipe(plg.has_columns, "c")
     Traceback (most recent call last):
         ...
-    pelage.checks.PolarsAssertError: Error with the DataFrame passed to the check function:
+    pelage.checks.PolarsAssertError: Test
+    Error with the DataFrame passed to the check function:
     -->
     >>> df.pipe(plg.has_columns, ["a", "b"])
     shape: (3, 2)
@@ -122,7 +125,11 @@ def has_dtypes(data: pl.DataFrame, items: Dict[str, PolarsDataType]) -> pl.DataF
     ... })
     Traceback (most recent call last):
         ...
-    pelage.checks.PolarsAssertError:
+    pelage.checks.PolarsAssertError: Test
+    Error with the DataFrame passed to the check function:
+    -->Some columns don't have the expected type:
+    column='age', expected_type=String, real_dtype=Int64
+    column='city', expected_type=Int64, real_dtype=String
     """
     missing_columns = set(items.keys()) - set(data.columns)
     if missing_columns:
@@ -171,7 +178,7 @@ def has_no_nulls(
     >>> checks.has_no_nulls(df)
     Traceback (most recent call last):
         ...
-    pelage.checks.PolarsAssertError:
+    pelage.checks.PolarsAssertError: Test
     shape: (1, 2)
     ┌────────┬────────────┐
     │ column ┆ null_count │
@@ -236,7 +243,7 @@ def has_no_infs(
     >>> plg.has_no_infs(df)
     Traceback (most recent call last):
       ...
-    pelage.checks.PolarsAssertError:
+    pelage.checks.PolarsAssertError: Test
     shape: (1, 2)
     ┌─────┬─────┐
     │ a   ┆ b   │
