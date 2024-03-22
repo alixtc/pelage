@@ -283,11 +283,46 @@ def unique(
         The input DataFrame to check for unique values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for uniqueness check. By default, all columns are checked.
+
+    Examples
+    --------
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame({"a": [1, 2]})
+    >>> df.pipe(plg.unique, "a")  # Can also use ["a", ...], pl.col("a)
+    shape: (2, 1)
+    ┌─────┐
+    │ a   │
+    │ --- │
+    │ i64 │
+    ╞═════╡
+    │ 1   │
+    │ 2   │
+    └─────┘
+    >>> df = pl.DataFrame({"a": [1, 1, 2]})
+    >>> df.pipe(plg.unique, "a")
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (2, 1)
+    ┌─────┐
+    │ a   │
+    │ --- │
+    │ i64 │
+    ╞═════╡
+    │ 1   │
+    │ 1   │
+    └─────┘
+    Error with the DataFrame passed to the check function:
+    -->Somes values are duplicated within the specified columns
     """
     selected_cols = _sanitize_column_inputs(columns)
     improper_data = data.filter(pl.any_horizontal(selected_cols.is_duplicated()))
     if not improper_data.is_empty():
-        raise PolarsAssertError(improper_data)
+        raise PolarsAssertError(
+            df=improper_data,
+            supp_message="Somes values are duplicated within the specified columns",
+        )
     return data
 
 
@@ -317,7 +352,36 @@ def unique_combination_of_columns(
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for row unicity. By default, all columns are checked.
 
-    Returns
+    Examples
+    --------
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame({"a": ["a", "a"], "b": [1, 2]})
+    >>> df.pipe(plg.unique_combination_of_columns, ["a", "b"])
+    shape: (2, 2)
+    ┌─────┬─────┐
+    │ a   ┆ b   │
+    │ --- ┆ --- │
+    │ str ┆ i64 │
+    ╞═════╪═════╡
+    │ a   ┆ 1   │
+    │ a   ┆ 2   │
+    └─────┴─────┘
+    >>> bad = pl.DataFrame({"a": ["X", "X"]})
+    >>> bad.pipe(plg.unique_combination_of_columns, "a")
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (1, 2)
+    ┌─────┬─────┐
+    │ a   ┆ len │
+    │ --- ┆ --- │
+    │ str ┆ u32 │
+    ╞═════╪═════╡
+    │ X   ┆ 2   │
+    └─────┴─────┘
+    Error with the DataFrame passed to the check function:
+    -->Some combinations of columns are not unique. See above, selected: col("a")
     """
     cols = _sanitize_column_inputs(columns)
     non_unique_combinations = _non_unique_comibation(data, cols)
