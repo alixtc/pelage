@@ -240,7 +240,9 @@ def test_accepted_values_should_error_on_out_of_range_values():
 
     with pytest.raises(plg.PolarsAssertError) as err:
         given.pipe(plg.accepted_values, items)
-    assert err.value.df.shape == (1, 2)
+
+    expected = pl.DataFrame({"a": [3]})
+    testing.assert_frame_equal(err.value.df, expected)
 
 
 def test_not_accepted_values():
