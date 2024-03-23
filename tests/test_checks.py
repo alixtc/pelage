@@ -257,7 +257,7 @@ def test_not_accepted_values_should_accept_pl_expr():
     testing.assert_frame_equal(given, when)
 
 
-def test_not_accepted_values_should_error_on_out_of_range_values():
+def test_not_accepted_values_should_error_on_forbidden_values():
     given = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
     items = {"a": [1], "b": ["a", "c"]}
 

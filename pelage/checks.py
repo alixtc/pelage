@@ -460,6 +460,9 @@ def accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFrame:
         pl.col(). The value for each key is a List of all authorized values in the
         dataframe.
 
+    Examples
+    ________
+
     >>> import polars as pl
     >>> import pelage as plg
     >>> items = {"a": [1, 2, 3], "b": ["a", "b", "c"]}
@@ -499,8 +502,8 @@ def accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFrame:
     if not improper_data.is_empty():
         bad_column_names = [
             col.name
-            for col in improper_data.select(pl.Expr.or_(*mask_for_improper_values))
-            if col.all()
+            for col in improper_data.select(mask_for_improper_values)
+            if col.any()
         ]
         raise PolarsAssertError(
             improper_data.select(bad_column_names),
@@ -520,14 +523,55 @@ def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFr
         A dictionnary where keys are a string compatible with a pl.Expr, to be used with
         pl.col(). The value for each key is a List of all forbidden values in the
         dataframe.
+
+    Examples
+    ________
+
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame(
+    ...     {"a": [1, 2, 3], "b": ["a", "b", "c"]}
+    ... )
+    >>> df.pipe(plg.not_accepted_values, {"a": [4, 5]})
+    shape: (3, 2)
+    ┌─────┬─────┐
+    │ a   ┆ b   │
+    │ --- ┆ --- │
+    │ i64 ┆ str │
+    ╞═════╪═════╡
+    │ 1   ┆ a   │
+    │ 2   ┆ b   │
+    │ 3   ┆ c   │
+    └─────┴─────┘
+    >>> df.pipe(plg.not_accepted_values, {"b": ["a", "b"]})
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (2, 1)
+    ┌─────┐
+    │ b   │
+    │ --- │
+    │ str │
+    ╞═════╡
+    │ a   │
+    │ b   │
+    └─────┘
+    Error with the DataFrame passed to the check function:
+    -->This DataFrame contains values marked as forbidden
     """
     mask_for_improper_values = [
         pl.col(col).is_in(values) for col, values in items.items()
     ]
     improper_data = data.filter(pl.Expr.or_(*mask_for_improper_values))
     if not improper_data.is_empty():
+        bad_column_names = [
+            col.name
+            for col in improper_data.select(mask_for_improper_values)
+            if col.any()
+        ]
         raise PolarsAssertError(
-            improper_data, "This DataFrame contains values marked as forbidden"
+            improper_data.select(bad_column_names),
+            "This DataFrame contains values marked as forbidden",
         )
     return data
 
