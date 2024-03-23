@@ -234,6 +234,7 @@ def has_no_nulls(
 def _sanitize_column_inputs(
     columns: Optional[PolarsColumnType] = None,
 ) -> pl.Expr:
+    """Ensure that input can be converted to a `pl.col()` expression"""
     if columns is None:
         return pl.all()
     elif isinstance(columns, pl.Expr):
@@ -435,6 +436,38 @@ def not_constant(
         The input DataFrame to check for null values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
+
+    Examples
+    ________
+
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame({"a": [1, 2]})
+    >>> df.pipe(plg.not_constant, "a")
+    shape: (2, 1)
+    ┌─────┐
+    │ a   │
+    │ --- │
+    │ i64 │
+    ╞═════╡
+    │ 1   │
+    │ 2   │
+    └─────┘
+    >>> df = pl.DataFrame({"b": [1, 1]})
+    >>> df.pipe(plg.not_constant)
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (1, 2)
+    ┌────────┬────────────┐
+    │ column ┆ n_distinct │
+    │ ---    ┆ ---        │
+    │ str    ┆ u32        │
+    ╞════════╪════════════╡
+    │ b      ┆ 1          │
+    └────────┴────────────┘
+    Error with the DataFrame passed to the check function:
+    -->Some columns are constant
     """
     selected_cols = _sanitize_column_inputs(columns)
     constant_columns = (
@@ -444,7 +477,10 @@ def not_constant(
     )
 
     if not constant_columns.is_empty():
-        raise PolarsAssertError(constant_columns)
+        raise PolarsAssertError(
+            constant_columns,
+            supp_message="Some columns are constant",
+        )
 
     return data
 
@@ -577,6 +613,40 @@ def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFr
 
 
 def has_mandatory_values(data: pl.DataFrame, items: Dict[str, list]) -> pl.DataFrame:
+    """_summary_
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        To check.
+    items : Dict[str, list]
+        _description_
+
+    Returns
+    -------
+    pl.DataFrame
+        _description_
+
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame({"a": [1, 2]})
+    >>> df.pipe(plg.has_mandatory_values, {"a": [1, 2]})
+    shape: (2, 1)
+    ┌─────┐
+    │ a   │
+    │ --- │
+    │ i64 │
+    ╞═════╡
+    │ 1   │
+    │ 2   │
+    └─────┘
+    >>> df.pipe(plg.has_mandatory_values, {"a": [3, 4]})
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    Error with the DataFrame passed to the check function:
+    -->Missing mandatory values in the following columns: {'a': [3, 4]}
+    """
     selected_data = data.select(pl.col(items.keys())).unique()
     missing = {}
     for key in items:
@@ -588,7 +658,7 @@ def has_mandatory_values(data: pl.DataFrame, items: Dict[str, list]) -> pl.DataF
 
     if missing:
         raise PolarsAssertError(
-            supp_message=f"Missing mandatory values the columns: {missing}"
+            supp_message=f"Missing mandatory values in the following columns: {missing}"
         )
     return data
 

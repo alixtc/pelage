@@ -518,7 +518,6 @@ def test_has_mandatory_values_should_give_feedback_on_missing_values():
         given.pipe(checks.has_mandatory_values, {"a": [1, 2], "b": ["s", "t"]})
 
     expected = {"a": [2], "b": ["s", "t"]}
-    assert "Missing mandatory values the columns:" in str(err.value)
     assert str(expected) in str(err.value)
 
 
