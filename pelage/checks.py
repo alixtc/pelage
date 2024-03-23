@@ -438,7 +438,7 @@ def not_constant(
         Columns to consider for null value check. By default, all columns are checked.
 
     Examples
-    ________
+    --------
 
     >>> import polars as pl
     >>> import pelage as plg
@@ -497,7 +497,7 @@ def accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFrame:
         dataframe.
 
     Examples
-    ________
+    --------
 
     >>> import polars as pl
     >>> import pelage as plg
@@ -561,7 +561,7 @@ def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFr
         dataframe.
 
     Examples
-    ________
+    --------
 
     >>> import polars as pl
     >>> import pelage as plg
@@ -613,12 +613,12 @@ def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFr
 
 
 def has_mandatory_values(data: pl.DataFrame, items: Dict[str, list]) -> pl.DataFrame:
-    """_summary_
+    """Ensure that all specified values are present in their respective column.
 
     Parameters
     ----------
     data : pl.DataFrame
-        To check.
+        To check
     items : Dict[str, list]
         _description_
 
@@ -627,6 +627,9 @@ def has_mandatory_values(data: pl.DataFrame, items: Dict[str, list]) -> pl.DataF
     pl.DataFrame
         _description_
 
+
+    Examples
+    --------
     >>> import polars as pl
     >>> import pelage as plg
     >>> df = pl.DataFrame({"a": [1, 2]})
@@ -683,6 +686,43 @@ def not_null_proportion(
         }
         When specifying a single float, the higher bound of the range will automatically
         be set to 1.0, i.e. (given_float, 1.0)
+
+    Examples
+    --------
+
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame(
+    ...         {
+    ...             "a": [1, None, None],
+    ...             "b": [1, 2, None],
+    ...         }
+    ...     )
+    >>> df.pipe(plg.not_null_proportion, {"a": 0.33, "b": 0.66})
+    shape: (3, 2)
+    ┌──────┬──────┐
+    │ a    ┆ b    │
+    │ ---  ┆ ---  │
+    │ i64  ┆ i64  │
+    ╞══════╪══════╡
+    │ 1    ┆ 1    │
+    │ null ┆ 2    │
+    │ null ┆ null │
+    └──────┴──────┘
+    >>> df.pipe(plg.not_null_proportion, {"a": 0.7})
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (1, 4)
+    ┌────────┬─────────────────────┬──────────┬──────────┐
+    │ column ┆ not_null_proportion ┆ min_prop ┆ max_prop │
+    │ ---    ┆ ---                 ┆ ---      ┆ ---      │
+    │ str    ┆ f64                 ┆ f64      ┆ i64      │
+    ╞════════╪═════════════════════╪══════════╪══════════╡
+    │ a      ┆ 0.333333            ┆ 0.7      ┆ 1        │
+    └────────┴─────────────────────┴──────────┴──────────┘
+    Error with the DataFrame passed to the check function:
+    -->Some columns contains a proportion of nulls beyond specified limits
     """
 
     pl_ranges = _format_ranges_by_columns(items)
