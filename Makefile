@@ -31,6 +31,9 @@ clean:
 
 all: clean install test check_code
 
-quarto_doc:
-	@quarto render  notebooks/initial_readme.ipynb
-	@mv -f notebooks/initial_readme.md README.md
+
+publish_checks:
+	quarto render notebooks/initial_readme.ipynb && mv -f notebooks/initial_readme.md README.md
+	@python -m doctest pelage/checks.py
+	@echo "doctest check passed"
+	@tox run
