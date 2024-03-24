@@ -613,3 +613,25 @@ def test_column_is_within_n_std_accepts_list_of_tuple_args():
 
     with pytest.raises(plg.PolarsAssertError):
         given.pipe(plg.column_is_within_n_std, ("b", 2), ("c", 2))
+
+
+def test_at_least_one_should_return_df_is_one_value_is_not_null():
+    given = pl.DataFrame({"a": [None, 1]})
+    when = given.pipe(plg.at_least_one)
+    testing.assert_frame_equal(given, when)
+
+
+def test_at_least_one_should_error_if_all_values_are_nulls():
+    given = pl.DataFrame({"a": [None, None]})
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(plg.at_least_one)
+
+
+def test_at_least_one_should_accept_column_selection():
+    given = pl.DataFrame({"a": [None, None], "b": [1, None]})
+
+    when = given.pipe(plg.at_least_one, "b")
+    testing.assert_frame_equal(given, when)
+
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(plg.at_least_one)

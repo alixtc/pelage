@@ -761,6 +761,57 @@ def _format_ranges_by_columns(
     return pl_ranges
 
 
+def at_least_one(
+    data: pl.DataFrame,
+    columns: Optional[PolarsColumnType] = None,
+) -> pl.DataFrame:
+    """Ensure that there is at least one not null value in the designated columns.
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        To check
+    columns : Optional[PolarsColumnType], optional
+       Columns to consider to check the presence of at least one value.
+       By default, all columns are checked.
+
+    Examples
+    --------
+
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame({"a": [None, None], "b": [1, None]})
+    >>> df.pipe(plg.at_least_one, "b")
+    shape: (2, 2)
+    ┌──────┬──────┐
+    │ a    ┆ b    │
+    │ ---  ┆ ---  │
+    │ null ┆ i64  │
+    ╞══════╪══════╡
+    │ null ┆ 1    │
+    │ null ┆ null │
+    └──────┴──────┘
+
+    >>> df.pipe(plg.at_least_one)
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    Error with the DataFrame passed to the check function:
+    -->Some columns contains only null values: ['a']
+    """
+    selected_columns = _sanitize_column_inputs(columns)
+
+    are_column_nulls = data.select(selected_columns).null_count() == len(data)
+
+    null_columns = [col.name for col in are_column_nulls if col.all()]
+
+    if null_columns:
+        raise PolarsAssertError(
+            supp_message=f"Some columns contains only null values: {null_columns}"
+        )
+    return data
+
+
 def accepted_range(
     data: pl.DataFrame,
     items: Dict[
