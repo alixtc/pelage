@@ -496,7 +496,7 @@ def test_custom_checks_errors_the_condition_returns_a_non_empty():
 
 def test_custom_checks_accept_over_clauses():
     given = pl.DataFrame({"a": [1, 1, 2, 2], "b": [1, 2, 3, 4]})
-    when = given.pipe(plg.custom_check, pl.col("b").max().over("b") <= 4)
+    when = given.pipe(plg.custom_check, pl.col("b").max().over("a") <= 4)
     testing.assert_frame_equal(given, when)
 
 
@@ -528,6 +528,7 @@ def test_mutualy_exclusive_ranges_allows_to_specify_low_and_high_bounds():
             [3, 4],
         ],
         schema=["a", "b"],
+        orient="row",
     )
     when = given.pipe(plg.mutualy_exclusive_ranges, low_bound="a", high_bound="b")
     testing.assert_frame_equal(given, when)
@@ -540,9 +541,30 @@ def test_mutualy_exclusive_ranges_should_error_on_overlapping_intervals():
             [2, 4],
         ],
         schema=["a", "b"],
+        orient="row",
     )
     with pytest.raises(plg.PolarsAssertError):
         given.pipe(plg.mutualy_exclusive_ranges, low_bound="a", high_bound="b")
+
+
+def test_mutually_exclusive_ranges_should_return_both_overlapping_intervals_and_index():
+    given = pl.DataFrame(
+        [
+            [1, 3],
+            [2, 4],
+            [5, 7],
+            [6, 8],
+            [9, 9],
+        ],
+        schema=["a", "b"],
+        orient="row",
+    )
+
+    with pytest.raises(plg.PolarsAssertError) as err:
+        given.pipe(plg.mutualy_exclusive_ranges, low_bound="a", high_bound="b")
+
+    expected = given.pipe(plg.checks._add_row_index).head(4)
+    testing.assert_frame_equal(err.value.df, expected)
 
 
 def test_mutualy_exclusive_ranges_allows_to_group_by_anoterh_column():

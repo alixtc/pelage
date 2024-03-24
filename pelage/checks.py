@@ -889,24 +889,58 @@ def is_monotonic(
 
 def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     """Use custom Polars expression to check the DataFrame, the expression when used
-    through the dataframe method `.filter()` should return an empty dataframe.
+        through the dataframe method `.filter()` should return an empty dataframe.
 
     Parameters
     ----------
     data : pl.DataFrame
-        _description_
+        To check
     expresion : pl.Expr
-        _description_
+        Polar Expression that can be passed to the `.filter()` method.
 
     Returns
     -------
     pl.DataFrame
         _description_
 
+    Examples
+    --------
+
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame({"a": [1, 2, 3]})
+    >>> df.pipe(plg.custom_check, pl.col("a") != 4)
+    shape: (3, 1)
+    ┌─────┐
+    │ a   │
+    │ --- │
+    │ i64 │
+    ╞═════╡
+    │ 1   │
+    │ 2   │
+    │ 3   │
+    └─────┘
+    >>> df.pipe(plg.custom_check, pl.col("a") != 3)
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (1, 1)
+    ┌─────┐
+    │ a   │
+    │ --- │
+    │ i64 │
+    ╞═════╡
+    │ 3   │
+    └─────┘
+    Error with the DataFrame passed to the check function:
+    -->Unexpected data in `Custom Check`: [(col("a")) != (3)].not()
     """
     bad_data = data.filter(expresion.not_())
     if not bad_data.is_empty():
-        raise PolarsAssertError
+        raise PolarsAssertError(
+            df=bad_data,
+            supp_message=f"Unexpected data in `Custom Check`: {str(expresion.not_())}",
+        )
     return data
 
 
@@ -930,18 +964,95 @@ def mutualy_exclusive_ranges(
         Parameter compatible with `.over()` function to split the check by groups,
         by default None
 
+    Examples
+    --------
+
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame(
+    ...     [
+    ...         [1, 2],
+    ...         [3, 4],
+    ...     ],
+    ...     schema=["a", "b"], orient="row"
+    ... )
+    >>> df.pipe(plg.mutualy_exclusive_ranges, low_bound="a", high_bound="b")
+    shape: (2, 2)
+    ┌─────┬─────┐
+    │ a   ┆ b   │
+    │ --- ┆ --- │
+    │ i64 ┆ i64 │
+    ╞═════╪═════╡
+    │ 1   ┆ 2   │
+    │ 3   ┆ 4   │
+    └─────┴─────┘
+    >>> df = pl.DataFrame(
+    ...     [
+    ...         [1, 3],
+    ...         [2, 4],
+    ...         [5, 7],
+    ...         [6, 8],
+    ...         [9, 9],
+    ...     ],
+    ...     schema=["a", "b"],
+    ...     orient="row",
+    ... )
+    >>> df.pipe(plg.mutualy_exclusive_ranges, low_bound="a", high_bound="b")
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (4, 3)
+    ┌───────┬─────┬─────┐
+    │ index ┆ a   ┆ b   │
+    │ ---   ┆ --- ┆ --- │
+    │ u32   ┆ i64 ┆ i64 │
+    ╞═══════╪═════╪═════╡
+    │ 0     ┆ 1   ┆ 3   │
+    │ 1     ┆ 2   ┆ 4   │
+    │ 2     ┆ 5   ┆ 7   │
+    │ 3     ┆ 6   ┆ 8   │
+    └───────┴─────┴─────┘
+    Error with the DataFrame passed to the check function:
+    -->There were overlapping intervals:
+    DataFrame was sorted by: ['a', 'b'],
+    Interval columns: low_bound='a', high_bound='b'
     """
-    is_overlapping_interval = pl.col(high_bound).shift() <= pl.col(low_bound)
+    is_overlapping_interval = pl.col(low_bound) <= pl.col(high_bound).shift()
+    sorting_columns = [low_bound, high_bound]
 
     if partition_by is not None:
         is_overlapping_interval = is_overlapping_interval.over(partition_by)
+        sorting_columns = [partition_by, low_bound, high_bound]
 
-    overlapping_ranges = data.sort(low_bound, high_bound).filter(
-        is_overlapping_interval
+    indexes_of_overlaps = is_overlapping_interval.arg_true()
+
+    overlapping_ranges = (
+        data.sort(*sorting_columns)
+        .pipe(_add_row_index)
+        .filter(
+            pl.col("index").is_in(indexes_of_overlaps)
+            | pl.col("index").is_in(indexes_of_overlaps - 1)
+        )
     )
+
     if len(overlapping_ranges) > 0:
-        raise PolarsAssertError(df=overlapping_ranges)
+        message = (
+            "There were overlapping intervals:\n"
+            + f"DataFrame was sorted by: {sorting_columns},\n"
+            + f"Interval columns: {low_bound=}, {high_bound=}"
+        )
+        raise PolarsAssertError(
+            df=overlapping_ranges,
+            supp_message=message,
+        )
     return data
+
+
+def _add_row_index(data: pl.DataFrame) -> pl.DataFrame:
+    if version.parse(pl.__version__) < version.parse("0.20.0"):
+        return data.with_row_count().rename({"row_nr": "index"})
+    else:
+        return data.with_row_index()
 
 
 def column_is_within_n_std(
