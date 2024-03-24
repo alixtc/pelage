@@ -1058,16 +1058,90 @@ def _add_row_index(data: pl.DataFrame) -> pl.DataFrame:
 def column_is_within_n_std(
     data: pl.DataFrame,
     items: Tuple[PolarsColumnType, int],
+    *args: Tuple[PolarsColumnType, int],
 ) -> pl.DataFrame:
-    col_selection = _sanitize_column_inputs(items[0])
-    n_std = items[1]
-    outliers = data.filter(
-        col_selection.is_between(
-            col_selection.mean() - n_std * col_selection.std(),
-            col_selection.mean() + n_std * col_selection.std(),
+    """Function asserting values are within a given STD range, thus ensuring the absence
+    of outliers.
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        To check.
+    items : Tuple[PolarsColumnType, int]
+        A column name / column type with the number of STD authorized for the values
+        within. Must be of the following form: `(col_name, n_std)`
+
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame(
+    ...     {
+    ...         "a": list(range(0, 11)),
+    ...         "b": list(range(0, 11)),
+    ...         "c": list(range(0, 10)) + [5000],
+    ...     }
+    ... )
+    >>> df.pipe(plg.column_is_within_n_std, ("a", 2), ("b", 3))
+    shape: (11, 3)
+    ┌─────┬─────┬──────┐
+    │ a   ┆ b   ┆ c    │
+    │ --- ┆ --- ┆ ---  │
+    │ i64 ┆ i64 ┆ i64  │
+    ╞═════╪═════╪══════╡
+    │ 0   ┆ 0   ┆ 0    │
+    │ 1   ┆ 1   ┆ 1    │
+    │ 2   ┆ 2   ┆ 2    │
+    │ 3   ┆ 3   ┆ 3    │
+    │ 4   ┆ 4   ┆ 4    │
+    │ …   ┆ …   ┆ …    │
+    │ 6   ┆ 6   ┆ 6    │
+    │ 7   ┆ 7   ┆ 7    │
+    │ 8   ┆ 8   ┆ 8    │
+    │ 9   ┆ 9   ┆ 9    │
+    │ 10  ┆ 10  ┆ 5000 │
+    └─────┴─────┴──────┘
+    >>> df.pipe(plg.column_is_within_n_std, ("b", 2), ("c", 2))
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (1, 1)
+    ┌──────┐
+    │ c    │
+    │ ---  │
+    │ i64  │
+    ╞══════╡
+    │ 5000 │
+    └──────┘
+    Error with the DataFrame passed to the check function:
+    -->There are some outliers outside the specified mean±std range
+    Impacted columns: ['c']
+    """
+    check_items = [items, *args]
+
+    pairs_to_check = [
+        (_sanitize_column_inputs(col), n_std) for col, n_std in check_items
+    ]
+
+    columns_not_within_stds = [
+        col.is_between(
+            col.mean() - n_std * col.std(),
+            col.mean() + n_std * col.std(),
         ).not_()
-    )
+        for col, n_std in pairs_to_check
+    ]
+
+    outliers = data.filter(pl.Expr.or_(*columns_not_within_stds))
     if len(outliers) > 0:
-        raise PolarsAssertError(df=outliers)
+        bad_column_names = [
+            col.name for col in data.select(columns_not_within_stds) if col.any()
+        ]
+
+        raise PolarsAssertError(
+            df=outliers.select(bad_column_names),
+            supp_message=(
+                "There are some outliers outside the specified mean±std range"
+                + "\n"
+                + f"Impacted columns: {bad_column_names}"
+            ),
+        )
 
     return data

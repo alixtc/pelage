@@ -597,3 +597,19 @@ def test_column_is_within_n_std_shoud_error_on_outliers():
 
     with pytest.raises(plg.PolarsAssertError):
         given.pipe(plg.column_is_within_n_std, ("a", 2))
+
+
+def test_column_is_within_n_std_accepts_list_of_tuple_args():
+    given = pl.DataFrame(
+        {
+            "a": list(range(0, 11)),
+            "b": list(range(0, 11)),
+            "c": list(range(0, 10)) + [5000],
+        }
+    )
+
+    when = given.pipe(plg.column_is_within_n_std, ("a", 2), ("b", 3))
+    testing.assert_frame_equal(given, when)
+
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(plg.column_is_within_n_std, ("b", 2), ("c", 2))
