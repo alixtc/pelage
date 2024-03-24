@@ -11,13 +11,13 @@ python = ">= 3.8, < 3.13"
 polars = " >= 0.19 < 0.21"
 
 [tool.poetry.group.dev.dependencies]
-black = "^24.2.0"
-pytest = "^8.0.2"
-isort = "^5.13.2"
-ruff = "^0.3.0"
-pre-commit = "^3.6.2"
-coverage = "^7.4.3"
-ipykernel = "^6.29.3"
+black = ">=24.2.0"
+pytest = ">=8.0.2"
+isort = ">=5.13.2"
+ruff = ">=0.3.0"
+pre-commit = "*"
+coverage = ">=7.4.3"
+ipykernel = ">=6.29.3"
 
 
 [build-system]
