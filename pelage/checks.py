@@ -6,6 +6,10 @@ from polars.type_aliases import ClosedInterval, IntoExpr, PolarsDataType
 
 from pelage import utils
 
+PolarsColumnBounds = Union[
+    Tuple[IntoExpr, IntoExpr], Tuple[IntoExpr, IntoExpr, ClosedInterval]
+]
+
 PolarsColumnType = Union[
     str, Iterable[str], PolarsDataType, Iterable[PolarsDataType], pl.Expr
 ]
@@ -772,8 +776,8 @@ def at_least_one(
     data : pl.DataFrame
         To check
     columns : Optional[PolarsColumnType], optional
-       Columns to consider to check the presence of at least one value.
-       By default, all columns are checked.
+        Columns to consider to check the presence of at least one value.
+        By default, all columns are checked.
 
     Examples
     --------
@@ -813,24 +817,77 @@ def at_least_one(
 
 
 def accepted_range(
-    data: pl.DataFrame,
-    items: Dict[
-        str, Union[Tuple[IntoExpr, IntoExpr], Tuple[IntoExpr, IntoExpr, ClosedInterval]]
-    ],
+    data: pl.DataFrame, items: Dict[str, PolarsColumnBounds]
 ) -> pl.DataFrame:
     """Check that all the values from specifed columns in the dict `items` are within
-    the indicated range.
+        the indicated range.
 
     Parameters
     ----------
     data : pl.DataFrame
-    items : Dict[
-            str, Tuple[IntoExpr, IntoExpr]  |  Tuple[IntoExpr, IntoExpr, ClosedInterval]
-        ]
+    items : Dict[str, PolarsColumnBounds]
         Any type of inputs that match the following signature:
         `column_name: (boundaries)` where `boundaries is compatible with the Polars
         method `is_between()` syntax.
 
+        For example: {
+            "col_a": (low, high),
+            "col_b", (low_b, high_b, "right"),
+            "col_c", (low_c, high_c, "none"),
+            ...
+            }
+
+    Examples
+    --------
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame({"a": [1, 2, 3]})
+    >>> df.pipe(plg.accepted_range, {"a": (0, 2)})
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (1, 1)
+    ┌─────┐
+    │ a   │
+    │ --- │
+    │ i64 │
+    ╞═════╡
+    │ 3   │
+    └─────┘
+    Error with the DataFrame passed to the check function:
+    -->Some values are beyond the acceptable ranges defined
+    >>> df.pipe(plg.accepted_range, {"a": (1, 3)})
+    shape: (3, 1)
+    ┌─────┐
+    │ a   │
+    │ --- │
+    │ i64 │
+    ╞═════╡
+    │ 1   │
+    │ 2   │
+    │ 3   │
+    └─────┘
+    >>> df = pl.DataFrame({"a": ["b", "c"]})
+    >>> df.pipe(plg.accepted_range, {"a": (pl.lit("a"), pl.lit("d"), "right")})
+    shape: (2, 1)
+    ┌─────┐
+    │ a   │
+    │ --- │
+    │ str │
+    ╞═════╡
+    │ b   │
+    │ c   │
+    └─────┘
+    >>> df.pipe(plg.accepted_range, {"a": (pl.lit("a"), pl.lit("d"), "left")})
+    shape: (2, 1)
+    ┌─────┐
+    │ a   │
+    │ --- │
+    │ str │
+    ╞═════╡
+    │ b   │
+    │ c   │
+    └─────┘
     """
     closed_boundaries = {
         k: (v if len(v) == 3 else (*v, "both")) for k, v in items.items()
@@ -850,7 +907,7 @@ def maintains_relationships(
     data: pl.DataFrame, other_df: pl.DataFrame, column: str
 ) -> pl.DataFrame:
     """Function to help ensuring that set of values in selected column remains  the
-    same in both DataFrames. This helps to maintain referential integrity.
+        same in both DataFrames. This helps to maintain referential integrity.
 
     Parameters
     ----------
@@ -860,6 +917,31 @@ def maintains_relationships(
         Distant dataframe usually the one before transformation
     column : str
         Column to check for keys/ids
+
+    Examples
+    --------
+
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> initial_df = pl.DataFrame({"a": ["a", "b"]})
+    >>> final_df = pl.DataFrame({"a": ["a", "b"]})
+    >>> final_df.pipe(plg.maintains_relationships, initial_df, "a")
+    shape: (2, 1)
+    ┌─────┐
+    │ a   │
+    │ --- │
+    │ str │
+    ╞═════╡
+    │ a   │
+    │ b   │
+    └─────┘
+    >>> final_df = pl.DataFrame({"a": ["a"]})
+    >>> final_df.pipe(plg.maintains_relationships, initial_df, "a")
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    Error with the DataFrame passed to the check function:
+    -->Some values were removed from col 'a', for ex: ('b',)
     """
 
     local_keys = set(data.get_column(column))
@@ -893,6 +975,9 @@ def is_monotonic(
         _description_, by default False
     strict : bool, optional
         _description_, by default True
+
+    Examples
+    --------
 
     >>> import polars as pl
     >>> import pelage as plg
@@ -1121,6 +1206,9 @@ def column_is_within_n_std(
     items : Tuple[PolarsColumnType, int]
         A column name / column type with the number of STD authorized for the values
         within. Must be of the following form: `(col_name, n_std)`
+
+    Examples
+    --------
 
     >>> import polars as pl
     >>> import pelage as plg
