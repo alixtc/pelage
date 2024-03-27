@@ -521,7 +521,7 @@ def test_has_mandatory_values_should_give_feedback_on_missing_values():
     assert str(expected) in str(err.value)
 
 
-def test_mutualy_exclusive_ranges_allows_to_specify_low_and_high_bounds():
+def test_mutually_exclusive_ranges_allows_to_specify_low_and_high_bounds():
     given = pl.DataFrame(
         [
             [1, 2],
@@ -530,11 +530,11 @@ def test_mutualy_exclusive_ranges_allows_to_specify_low_and_high_bounds():
         schema=["a", "b"],
         orient="row",
     )
-    when = given.pipe(plg.mutualy_exclusive_ranges, low_bound="a", high_bound="b")
+    when = given.pipe(plg.mutually_exclusive_ranges, low_bound="a", high_bound="b")
     testing.assert_frame_equal(given, when)
 
 
-def test_mutualy_exclusive_ranges_should_error_on_overlapping_intervals():
+def test_mutually_exclusive_ranges_should_error_on_overlapping_intervals():
     given = pl.DataFrame(
         [
             [1, 3],
@@ -544,7 +544,7 @@ def test_mutualy_exclusive_ranges_should_error_on_overlapping_intervals():
         orient="row",
     )
     with pytest.raises(plg.PolarsAssertError):
-        given.pipe(plg.mutualy_exclusive_ranges, low_bound="a", high_bound="b")
+        given.pipe(plg.mutually_exclusive_ranges, low_bound="a", high_bound="b")
 
 
 def test_mutually_exclusive_ranges_should_return_both_overlapping_intervals_and_index():
@@ -561,13 +561,13 @@ def test_mutually_exclusive_ranges_should_return_both_overlapping_intervals_and_
     )
 
     with pytest.raises(plg.PolarsAssertError) as err:
-        given.pipe(plg.mutualy_exclusive_ranges, low_bound="a", high_bound="b")
+        given.pipe(plg.mutually_exclusive_ranges, low_bound="a", high_bound="b")
 
     expected = given.pipe(plg.checks._add_row_index).head(4)
     testing.assert_frame_equal(err.value.df, expected)
 
 
-def test_mutualy_exclusive_ranges_allows_to_group_by_anoterh_column():
+def test_mutually_exclusive_ranges_allows_to_group_by_anoterh_column():
     given = pl.DataFrame(
         [
             ["A", 1, 3],
@@ -576,7 +576,7 @@ def test_mutualy_exclusive_ranges_allows_to_group_by_anoterh_column():
         schema=["group", "a", "b"],
     )
     when = given.pipe(
-        plg.mutualy_exclusive_ranges,
+        plg.mutually_exclusive_ranges,
         low_bound="a",
         high_bound="b",
         partition_by="group",

@@ -1174,7 +1174,7 @@ def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     return data
 
 
-def mutualy_exclusive_ranges(
+def mutually_exclusive_ranges(
     data: pl.DataFrame,
     low_bound: str,
     high_bound: str,
@@ -1211,7 +1211,7 @@ def mutualy_exclusive_ranges(
     ...     ],
     ...     schema=["a", "b"], orient="row"
     ... )
-    >>> df.pipe(plg.mutualy_exclusive_ranges, low_bound="a", high_bound="b")
+    >>> df.pipe(plg.mutually_exclusive_ranges, low_bound="a", high_bound="b")
     shape: (2, 2)
     ┌─────┬─────┐
     │ a   ┆ b   │
@@ -1232,7 +1232,7 @@ def mutualy_exclusive_ranges(
     ...     schema=["a", "b"],
     ...     orient="row",
     ... )
-    >>> df.pipe(plg.mutualy_exclusive_ranges, low_bound="a", high_bound="b")
+    >>> df.pipe(plg.mutually_exclusive_ranges, low_bound="a", high_bound="b")
     Traceback (most recent call last):
     ...
     pelage.checks.PolarsAssertError: Details
