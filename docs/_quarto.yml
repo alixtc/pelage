@@ -1,6 +1,6 @@
 project:
   type: website
-  output-dir: site
+  output-dir: _site
 
 format:
   html:
