@@ -43,6 +43,11 @@ def has_shape(data: pl.DataFrame, shape: Tuple[int, int]) -> pl.DataFrame:
     shape : Tuple[int, int]
         Tuple with the expected dataframe shape, as from the `.shape()` method
 
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
+
     Examples
     --------
     >>> import polars as pl
@@ -79,6 +84,11 @@ def has_columns(data: pl.DataFrame, names: Union[str, List[str]]) -> pl.DataFram
         The DataFrame to check for column presence.
     names : Union[str, List[str]]
         The names of the columns to check.
+
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
 
     Examples
     --------
@@ -126,6 +136,25 @@ def has_columns(data: pl.DataFrame, names: Union[str, List[str]]) -> pl.DataFram
 
 def has_dtypes(data: pl.DataFrame, items: Dict[str, PolarsDataType]) -> pl.DataFrame:
     """Check that the columns have the expected types
+
+    Parameters
+    ----------
+    data : pl.DataFrame
+        To check
+    items : Dict[str, PolarsDataType]
+        A dictionnary of column name with their expected polars data type :
+        `{
+            "col_a": pl.String,
+            "col_b": pl.Int64,
+            "col_c": pl.Float64,
+            ...
+        }`
+
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
+
 
     Examples
     --------
@@ -188,6 +217,12 @@ def has_no_nulls(
         The input DataFrame to check for null values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
+
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
+
 
     Examples
     --------
@@ -260,19 +295,22 @@ def has_no_infs(
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
 
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
+
+
     Examples
     --------
     >>> import polars as pl
     >>> import pelage as plg
-
-
     >>> df = pl.DataFrame(
     ...     {
     ...         "a": [1, 2],
     ...         "b": [1.0, float("inf")],
     ...     }
     ... )
-    >>>
     >>> plg.has_no_infs(df)
     Traceback (most recent call last):
       ...
@@ -318,6 +356,12 @@ def unique(
         The input DataFrame to check for unique values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for uniqueness check. By default, all columns are checked.
+
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
+
 
     Examples
     --------
@@ -387,6 +431,12 @@ def unique_combination_of_columns(
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for row unicity. By default, all columns are checked.
 
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
+
+
     Examples
     --------
     >>> import polars as pl
@@ -440,6 +490,12 @@ def not_constant(
         The input DataFrame to check for null values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
+
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
+
 
     Examples
     --------
@@ -499,6 +555,12 @@ def accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFrame:
         A dictionnary where keys are a string compatible with a pl.Expr, to be used with
         pl.col(). The value for each key is a List of all authorized values in the
         dataframe.
+
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
+
 
     Examples
     --------
@@ -563,6 +625,12 @@ def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFr
         A dictionnary where keys are a string compatible with a pl.Expr, to be used with
         pl.col(). The value for each key is a List of all forbidden values in the
         dataframe.
+
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
+
 
     Examples
     --------
@@ -629,8 +697,7 @@ def has_mandatory_values(data: pl.DataFrame, items: Dict[str, list]) -> pl.DataF
     Returns
     -------
     pl.DataFrame
-        _description_
-
+        The original polars DataFrame when the check passes
 
     Examples
     --------
@@ -690,6 +757,11 @@ def not_null_proportion(
         }
         When specifying a single float, the higher bound of the range will automatically
         be set to 1.0, i.e. (given_float, 1.0)
+
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
 
     Examples
     --------
@@ -779,6 +851,11 @@ def at_least_one(
         Columns to consider to check the presence of at least one value.
         By default, all columns are checked.
 
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
+
     Examples
     --------
 
@@ -836,6 +913,11 @@ def accepted_range(
             "col_c", (low_c, high_c, "none"),
             ...
             }
+
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
 
     Examples
     --------
@@ -918,6 +1000,11 @@ def maintains_relationships(
     column : str
         Column to check for keys/ids
 
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
+
     Examples
     --------
 
@@ -968,13 +1055,20 @@ def is_monotonic(
     Parameters
     ----------
     data : pl.DataFrame
-        _description_
+        To check
     column : str
-        _description_
+        Name of the column that should be monotonic.
     decreasing : bool, optional
-        _description_, by default False
+        Should the column be decreasing, by default False
     strict : bool, optional
-        _description_, by default True
+        The series must be stricly increasing or decreasing, no consecutive equal values
+        are allowed, by default True
+
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
+
 
     Examples
     --------
@@ -1037,7 +1131,7 @@ def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     Returns
     -------
     pl.DataFrame
-        _description_
+        The original polars DataFrame when the check passes
 
     Examples
     --------
@@ -1099,6 +1193,11 @@ def mutualy_exclusive_ranges(
     partition_by : IntoExpr | Iterable[IntoExpr], optional
         Parameter compatible with `.over()` function to split the check by groups,
         by default None
+
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
 
     Examples
     --------
@@ -1206,6 +1305,11 @@ def column_is_within_n_std(
     items : Tuple[PolarsColumnType, int]
         A column name / column type with the number of STD authorized for the values
         within. Must be of the following form: `(col_name, n_std)`
+
+    Returns
+    -------
+    pl.DataFrame
+        The original polars DataFrame when the check passes
 
     Examples
     --------
