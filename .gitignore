@@ -16,3 +16,6 @@ notebooks/_*.ipynb
 # For publication
 .tox/
 dist/
+
+/.quarto/
+_site/
