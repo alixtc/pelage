@@ -1,0 +1,52 @@
+project:
+  type: website
+  output-dir: site
+
+format:
+  html:
+    page-layout: full
+
+# tell quarto to read the generated sidebar
+metadata-files:
+  - _sidebar.yml
+
+
+quartodoc:
+  # the name used to import the package you want to create reference docs for
+  package: pelage
+
+  # write sidebar data to this file
+  sidebar: _sidebar.yml
+
+  sections:
+    - title: Check functions
+      desc: Functions to inspect docstrings.
+      package: pelage.checks
+      contents:
+      - has_shape
+      - has_columns
+      - has_dtypes
+      - has_no_nulls
+      - has_no_infs
+      - unique
+      - unique_combination_of_columns
+      - not_constant
+      - accepted_values
+      - not_accepted_values
+      - has_mandatory_values
+      - not_null_proportion
+      - at_least_one
+      - accepted_range
+      - maintains_relationships
+      - is_monotonic
+      - custom_check
+      - mutually_exclusive_ranges
+      - column_is_within_n_std
+    - title: Types and Exceptions
+      desc: Types aliases and custom exceptions
+      package: pelage.checks
+      contents:
+        - PolarsAssertError
+        - PolarsColumnType
+        - PolarsColumnBounds
+        - PolarsOverClauseInput

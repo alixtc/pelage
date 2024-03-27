@@ -18,4 +18,3 @@ notebooks/_*.ipynb
 dist/
 
 /.quarto/
-_site/
