@@ -1,3 +1,7 @@
+"""Module containing the main checks for pelage.
+
+Use the syntax `import pelage as plg` rather than `from pelage import checks`
+"""
 from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 import polars as pl
