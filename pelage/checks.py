@@ -1123,19 +1123,29 @@ def is_monotonic(
 
 def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     """Use custom Polars expression to check the DataFrame, the expression when used
-        through the dataframe method `.filter()` should return an empty dataframe.
+    through the dataframe method `.filter()` should return an empty dataframe.
+    This expression should capture values that are not wanted in the dataframe. For
+    instance, if a column should not contain the value `4`, use the expression
+    `pl.col("column") == 4`.
+
+    Though it may appear counter-intuitive, this behavior mimic the one proposed by DBT,
+    and in order to facilitate interoperability between polars and DBT, it was decided
+    to follow the same pattern
+
 
     Parameters
     ----------
     data : pl.DataFrame
         To check
     expresion : pl.Expr
-        Polar Expression that can be passed to the `.filter()` method.
+        Polar Expression that can be passed to the `.filter()` method. As describe
+        above, use an expression that should keep forbidden values when passed to the
+        filter
 
     Returns
     -------
     pl.DataFrame
-        The original polars DataFrame when the check passes
+        The original polars DataFrame when the check passes.
 
     Examples
     --------
@@ -1143,7 +1153,7 @@ def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     >>> import polars as pl
     >>> import pelage as plg
     >>> df = pl.DataFrame({"a": [1, 2, 3]})
-    >>> df.pipe(plg.custom_check, pl.col("a") != 4)
+    >>> df.pipe(plg.custom_check, pl.col("a") == 4)
     shape: (3, 1)
     ┌─────┐
     │ a   │
@@ -1154,7 +1164,7 @@ def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     │ 2   │
     │ 3   │
     └─────┘
-    >>> df.pipe(plg.custom_check, pl.col("a") != 3)
+    >>> df.pipe(plg.custom_check, pl.col("a") == 3)
     Traceback (most recent call last):
     ...
     pelage.checks.PolarsAssertError: Details
@@ -1167,13 +1177,13 @@ def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     │ 3   │
     └─────┘
     Error with the DataFrame passed to the check function:
-    -->Unexpected data in `Custom Check`: [(col("a")) != (3)].not()
+    -->Unexpected data in `Custom Check`: [(col("a")) == (3)]
     """
-    bad_data = data.filter(expresion.not_())
+    bad_data = data.filter(expresion)
     if not bad_data.is_empty():
         raise PolarsAssertError(
             df=bad_data,
-            supp_message=f"Unexpected data in `Custom Check`: {str(expresion.not_())}",
+            supp_message=f"Unexpected data in `Custom Check`: {str(expresion)}",
         )
     return data
 
