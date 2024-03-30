@@ -1,5 +1,6 @@
 # Welcome to pelage!
 
+
 The goal of this project is to provide a simple way to test your
 `polars` code on the fly, while doing your analysis. The main idea is to
 chain a series of meaningful checks on your data so that you can
