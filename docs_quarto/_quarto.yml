@@ -1,6 +1,6 @@
 project:
   type: website
-  output-dir: _site
+  output-dir: ../docs/
 
 format:
   html:
@@ -42,11 +42,8 @@ quartodoc:
       - custom_check
       - mutually_exclusive_ranges
       - column_is_within_n_std
-    - title: Types and Exceptions
+    - title: Exceptions
       desc: Types aliases and custom exceptions
       package: pelage.checks
       contents:
         - PolarsAssertError
-        - PolarsColumnType
-        - PolarsColumnBounds
-        - PolarsOverClauseInput

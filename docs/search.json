@@ -136,7 +136,7 @@
     "href": "reference/custom_check.html",
     "title": "custom_check",
     "section": "",
-    "text": "checks.custom_check(data, expresion)\nUse custom Polars expression to check the DataFrame, the expression when used through the dataframe method .filter() should return an empty dataframe.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndata\npolars.polars.DataFrame\nTo check\nrequired\n\n\nexpresion\npolars.polars.Expr\nPolar Expression that can be passed to the .filter() method.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\npolars.polars.DataFrame\nThe original polars DataFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2, 3]})\n&gt;&gt;&gt; df.pipe(plg.custom_check, pl.col(\"a\") != 4)\nshape: (3, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n│ 3   │\n└─────┘\n&gt;&gt;&gt; df.pipe(plg.custom_check, pl.col(\"a\") != 3)\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 3   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;Unexpected data in `Custom Check`: [(col(\"a\")) != (3)].not()",
+    "text": "checks.custom_check(data, expresion)\nUse custom Polars expression to check the DataFrame, the expression when used through the dataframe method .filter() should return an empty dataframe. This expression should capture values that are not wanted in the dataframe. For instance, if a column should not contain the value 4, use the expression pl.col(\"column\") == 4.\nThough it may appear counter-intuitive, this behavior mimic the one proposed by DBT, and in order to facilitate interoperability between polars and DBT, it was decided to follow the same pattern\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndata\npolars.polars.DataFrame\nTo check\nrequired\n\n\nexpresion\npolars.polars.Expr\nPolar Expression that can be passed to the .filter() method. As describe above, use an expression that should keep forbidden values when passed to the filter\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\npolars.polars.DataFrame\nThe original polars DataFrame when the check passes.\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2, 3]})\n&gt;&gt;&gt; df.pipe(plg.custom_check, pl.col(\"a\") == 4)\nshape: (3, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n│ 3   │\n└─────┘\n&gt;&gt;&gt; df.pipe(plg.custom_check, pl.col(\"a\") == 3)\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 3   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;Unexpected data in `Custom Check`: [(col(\"a\")) == (3)]",
     "crumbs": [
       "Check functions",
       "custom_check"
@@ -147,7 +147,7 @@
     "href": "reference/custom_check.html#parameters",
     "title": "custom_check",
     "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndata\npolars.polars.DataFrame\nTo check\nrequired\n\n\nexpresion\npolars.polars.Expr\nPolar Expression that can be passed to the .filter() method.\nrequired",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\ndata\npolars.polars.DataFrame\nTo check\nrequired\n\n\nexpresion\npolars.polars.Expr\nPolar Expression that can be passed to the .filter() method. As describe above, use an expression that should keep forbidden values when passed to the filter\nrequired",
     "crumbs": [
       "Check functions",
       "custom_check"
@@ -158,7 +158,7 @@
     "href": "reference/custom_check.html#returns",
     "title": "custom_check",
     "section": "",
-    "text": "Type\nDescription\n\n\n\n\npolars.polars.DataFrame\nThe original polars DataFrame when the check passes",
+    "text": "Type\nDescription\n\n\n\n\npolars.polars.DataFrame\nThe original polars DataFrame when the check passes.",
     "crumbs": [
       "Check functions",
       "custom_check"
@@ -169,7 +169,7 @@
     "href": "reference/custom_check.html#examples",
     "title": "custom_check",
     "section": "",
-    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2, 3]})\n&gt;&gt;&gt; df.pipe(plg.custom_check, pl.col(\"a\") != 4)\nshape: (3, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n│ 3   │\n└─────┘\n&gt;&gt;&gt; df.pipe(plg.custom_check, pl.col(\"a\") != 3)\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 3   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;Unexpected data in `Custom Check`: [(col(\"a\")) != (3)].not()",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2, 3]})\n&gt;&gt;&gt; df.pipe(plg.custom_check, pl.col(\"a\") == 4)\nshape: (3, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n│ 3   │\n└─────┘\n&gt;&gt;&gt; df.pipe(plg.custom_check, pl.col(\"a\") == 3)\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 3   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;Unexpected data in `Custom Check`: [(col(\"a\")) == (3)]",
     "crumbs": [
       "Check functions",
       "custom_check"
@@ -268,7 +268,7 @@
     "href": "reference/index.html",
     "title": "Function reference",
     "section": "",
-    "text": "Functions to inspect docstrings.\n\n\n\nhas_shape\nCheck if a DataFrame has the specified shape\n\n\nhas_columns\nCheck if a DataFrame has the specified\n\n\nhas_dtypes\nCheck that the columns have the expected types\n\n\nhas_no_nulls\nCheck if a DataFrame has any null (missing) values.\n\n\nhas_no_infs\nCheck if a DataFrame has any infinite (inf) values.\n\n\nunique\nCheck if there are no duplicated values in each one of the selected columns\n\n\nunique_combination_of_columns\nEnsure that the selected column have a unique combination per row.\n\n\nnot_constant\nCheck if a DataFrame has constant columns.\n\n\naccepted_values\nRaises error if columns contains values not specified in items\n\n\nnot_accepted_values\nRaises error if columns contains values specified in List of forbbiden items\n\n\nhas_mandatory_values\nEnsure that all specified values are present in their respective column.\n\n\nnot_null_proportion\nsserts that the proportion of non-null values present in a column is between\n\n\nat_least_one\nEnsure that there is at least one not null value in the designated columns.\n\n\naccepted_range\nCheck that all the values from specifed columns in the dict items are within\n\n\nmaintains_relationships\nFunction to help ensuring that set of values in selected column remains the\n\n\nis_monotonic\nVerify that values in a column are consecutively increasing or decreasing\n\n\ncustom_check\nUse custom Polars expression to check the DataFrame, the expression when used\n\n\nmutually_exclusive_ranges\nEnsure that the specified columns contains no overlapping intervals.\n\n\ncolumn_is_within_n_std\nFunction asserting values are within a given STD range, thus ensuring the absence\n\n\n\n\n\n\nTypes aliases and custom exceptions\n\n\n\nPolarsAssertError\n\n\n\nPolarsColumnType\n\n\n\nPolarsColumnBounds\n\n\n\nPolarsOverClauseInput",
+    "text": "Functions to inspect docstrings.\n\n\n\nhas_shape\nCheck if a DataFrame has the specified shape\n\n\nhas_columns\nCheck if a DataFrame has the specified\n\n\nhas_dtypes\nCheck that the columns have the expected types\n\n\nhas_no_nulls\nCheck if a DataFrame has any null (missing) values.\n\n\nhas_no_infs\nCheck if a DataFrame has any infinite (inf) values.\n\n\nunique\nCheck if there are no duplicated values in each one of the selected columns\n\n\nunique_combination_of_columns\nEnsure that the selected column have a unique combination per row.\n\n\nnot_constant\nCheck if a DataFrame has constant columns.\n\n\naccepted_values\nRaises error if columns contains values not specified in items\n\n\nnot_accepted_values\nRaises error if columns contains values specified in List of forbbiden items\n\n\nhas_mandatory_values\nEnsure that all specified values are present in their respective column.\n\n\nnot_null_proportion\nsserts that the proportion of non-null values present in a column is between\n\n\nat_least_one\nEnsure that there is at least one not null value in the designated columns.\n\n\naccepted_range\nCheck that all the values from specifed columns in the dict items are within\n\n\nmaintains_relationships\nFunction to help ensuring that set of values in selected column remains the\n\n\nis_monotonic\nVerify that values in a column are consecutively increasing or decreasing\n\n\ncustom_check\nUse custom Polars expression to check the DataFrame, the expression when used\n\n\nmutually_exclusive_ranges\nEnsure that the specified columns contains no overlapping intervals.\n\n\ncolumn_is_within_n_std\nFunction asserting values are within a given STD range, thus ensuring the absence\n\n\n\n\n\n\nTypes aliases and custom exceptions\n\n\n\nPolarsAssertError",
     "crumbs": [
       "Function reference"
     ]
@@ -284,11 +284,11 @@
     ]
   },
   {
-    "objectID": "reference/index.html#types-and-exceptions",
-    "href": "reference/index.html#types-and-exceptions",
+    "objectID": "reference/index.html#exceptions",
+    "href": "reference/index.html#exceptions",
     "title": "Function reference",
     "section": "",
-    "text": "Types aliases and custom exceptions\n\n\n\nPolarsAssertError\n\n\n\nPolarsColumnType\n\n\n\nPolarsColumnBounds\n\n\n\nPolarsOverClauseInput",
+    "text": "Types aliases and custom exceptions\n\n\n\nPolarsAssertError",
     "crumbs": [
       "Function reference"
     ]
@@ -430,11 +430,7 @@
     "href": "reference/PolarsColumnType.html",
     "title": "PolarsColumnType",
     "section": "",
-    "text": "PolarsColumnType\nchecks.PolarsColumnType",
-    "crumbs": [
-      "Types and Exceptions",
-      "PolarsColumnType"
-    ]
+    "text": "PolarsColumnType\nchecks.PolarsColumnType"
   },
   {
     "objectID": "reference/unique.html",
@@ -661,11 +657,7 @@
     "href": "reference/PolarsOverClauseInput.html",
     "title": "PolarsOverClauseInput",
     "section": "",
-    "text": "PolarsOverClauseInput\nchecks.PolarsOverClauseInput",
-    "crumbs": [
-      "Types and Exceptions",
-      "PolarsOverClauseInput"
-    ]
+    "text": "PolarsOverClauseInput\nchecks.PolarsOverClauseInput"
   },
   {
     "objectID": "reference/column_is_within_n_std.html",
@@ -804,11 +796,7 @@
     "href": "reference/PolarsColumnBounds.html",
     "title": "PolarsColumnBounds",
     "section": "",
-    "text": "PolarsColumnBounds\nchecks.PolarsColumnBounds",
-    "crumbs": [
-      "Types and Exceptions",
-      "PolarsColumnBounds"
-    ]
+    "text": "PolarsColumnBounds\nchecks.PolarsColumnBounds"
   },
   {
     "objectID": "reference/PolarsAssertError.html",
@@ -817,7 +805,7 @@
     "section": "",
     "text": "PolarsAssertError\nchecks.PolarsAssertError(self, df=pl.DataFrame(), supp_message='')",
     "crumbs": [
-      "Types and Exceptions",
+      "Exceptions",
       "PolarsAssertError"
     ]
   },
