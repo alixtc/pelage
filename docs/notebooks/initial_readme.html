@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Pelage: Defensive analysis for Polars</title>
+<title>Pelage: Defensive analysis for Polars - Welcome to pelage!</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -63,8 +63,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../reference/column_is_within_n_std.html" rel="next">
-<link href="../reference/custom_check.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -105,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -123,11 +121,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../notebooks/initial_readme.html">
+    <a class="nav-link active" href="../notebooks/initial_readme.html" aria-current="page">
 <span class="menu-text">Get started</span></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" href="../reference/index.html" aria-current="page">
+    <a class="nav-link" href="../reference/index.html">
 <span class="menu-text">API Reference</span></a>
   </li>
 </ul>
@@ -143,307 +141,118 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/has_shape.html">Check functions</a></li><li class="breadcrumb-item"><a href="../reference/mutually_exclusive_ranges.html">mutually_exclusive_ranges</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="sidebar-menu-container">
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Reference</span></a>
-  </div>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container">
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Check functions</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a>
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_shape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_shape</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_columns.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_columns</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_dtypes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_dtypes</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_no_nulls.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_no_nulls</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_no_infs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_no_infs</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/unique.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">unique</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/unique_combination_of_columns.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">unique_combination_of_columns</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/not_constant.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">not_constant</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/accepted_values.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">accepted_values</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/not_accepted_values.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">not_accepted_values</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_mandatory_values.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_mandatory_values</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/not_null_proportion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">not_null_proportion</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/at_least_one.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">at_least_one</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/accepted_range.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">accepted_range</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/maintains_relationships.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">maintains_relationships</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/is_monotonic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">is_monotonic</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/custom_check.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">custom_check</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/mutually_exclusive_ranges.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">mutually_exclusive_ranges</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/column_is_within_n_std.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">column_is_within_n_std</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container">
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Exceptions</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a>
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/PolarsAssertError.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">PolarsAssertError</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
 
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Welcome to pelage!</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page">
 
 
 
 
-<section id="pelage.checks.mutually_exclusive_ranges" class="level1">
-<h1>mutually_exclusive_ranges</h1>
-<p><code>checks.mutually_exclusive_ranges(data, low_bound, high_bound, partition_by=None)</code></p>
-<p>Ensure that the specified columns contains no overlapping intervals.</p>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
-<table class="table">
-<colgroup>
-<col style="width: 7%">
-<col style="width: 40%">
-<col style="width: 45%">
-<col style="width: 5%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>data</code></td>
-<td>polars.polars.DataFrame</td>
-<td>Data to check</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>low_bound</code></td>
-<td>str</td>
-<td>Name of column containing the lower bound of the interval</td>
-<td><em>required</em></td>
-</tr>
-<tr class="odd">
-<td><code>high_bound</code></td>
-<td>str</td>
-<td>Name of column containing the higher bound of the interval</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>partition_by</code></td>
-<td>polars.type_aliases.IntoExpr | typing.Iterable[polars.type_aliases.IntoExpr]</td>
-<td>Parameter compatible with <code>.over()</code> function to split the check by groups, by default None</td>
-<td><code>None</code></td>
-</tr>
-</tbody>
-</table>
+  </div>
+
+
+
+</header>
+
+
+<p>The goal of this project is to provide a simple way to test your <code>polars</code> code on the fly, while doing your analysis. The main idea is to chain a series of meaningful checks on your data so that you can continue and be more confident about your data quality. Here is how to use it:</p>
+<div id="cell-2" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pelage <span class="im">as</span> plg</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>validated_data <span class="op">=</span> (</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    pl.DataFrame(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"a"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"b"</span>: [<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>],</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    .pipe(plg.has_shape, (<span class="dv">3</span>, <span class="dv">2</span>))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    .pipe(plg.has_no_nulls)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    .with_columns(pl.col(<span class="st">"a"</span>).cast(<span class="bu">str</span>).alias(<span class="st">"new_a"</span>))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(validated_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>shape: (3, 3)
+┌─────┬─────┬───────┐
+│ a   ┆ b   ┆ new_a │
+│ --- ┆ --- ┆ ---   │
+│ i64 ┆ str ┆ str   │
+╞═════╪═════╪═══════╡
+│ 1   ┆ a   ┆ 1     │
+│ 2   ┆ b   ┆ 2     │
+│ 3   ┆ c   ┆ 3     │
+└─────┴─────┴───────┘</code></pre>
+</div>
+</div>
+<p>Here is a example of the error messages that if the checks fail:</p>
+<div id="cell-4" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    validated_data.pipe(plg.not_accepted_values, {<span class="st">"new_a"</span>: [<span class="st">"3"</span>]})</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> plg.PolarsAssertError <span class="im">as</span> err:</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(err)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+shape: (1, 3)
+┌─────┬─────┬───────┐
+│ a   ┆ b   ┆ new_a │
+│ --- ┆ --- ┆ ---   │
+│ i64 ┆ str ┆ str   │
+╞═════╪═════╪═══════╡
+│ 3   ┆ c   ┆ 3     │
+└─────┴─────┴───────┘
+Error with the DataFrame passed to the check function:
+--&gt;This DataFrame contains values marked as forbidden</code></pre>
+</div>
+</div>
+<p>Here are the main keys points:</p>
+<ul>
+<li><p>Each <code>pelage</code> check returns the original <code>polars</code> DataFrame if the data is valid. It allows you continue your analysis by chaining additional transformations.</p></li>
+<li><p><code>pelage</code> raises an meaningful error message each time the data does not meet your expectations.</p></li>
+</ul>
+<section id="installation" class="level1">
+<h1>Installation</h1>
+<p>Install the package directly via PIP:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pelage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="returns" class="level2">
-<h2 class="anchored" data-anchor-id="returns">Returns</h2>
-<table class="table">
-<colgroup>
-<col style="width: 32%">
-<col style="width: 67%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>polars.polars.DataFrame</td>
-<td>The original polars DataFrame when the check passes</td>
-</tr>
-</tbody>
-</table>
+<section id="main-concepts" class="level1">
+<h1>Main Concepts</h1>
+<p><strong>Defensive analysis:</strong></p>
+<p>The main idea of <code>pelage</code> is to leverage your possibility for defensive analysis, similarly to other python packages such as “bulwark” or “engarde”. However <code>pelage</code> rely mainly on possibility to directly pipe and chain transformations provided by the fantastic <code>polars</code> API rather than using decorators.</p>
+<p>Additionally, some efforts have been put to have type hints for the provided functions in order to ensure full compatibility with your IDE across your chaining.</p>
+<p><strong>Interoperability:</strong></p>
+<p>The polars DSL and syntax have been develop with the idea to make the transition to SQL much easier. In this perspective, <code>pelage</code> wants to facilitate the use of tests to ensure data quality while enabling a possible transition towards SQL, and using the same tests in SQL. This is why we implemented most of the checks that have been developed for <code>DBT</code> tool box, notably :</p>
+<ul>
+<li><a href="https://docs.getdbt.com/docs/build/data-tests#generic-data-tests">DBT generic checks</a></li>
+<li><a href="https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file">DBT utils test</a></li>
+<li>(Soon to comme: DBT expectations)</li>
+</ul>
+<p>We believe that data quality checks should be written as close as possible to the data exploration phase, and we hope that providing theses checks in a context where it is easier to visualize your data will be helpful. Similarly, we know that it is sometimes much easier to industrialize SQL data pipelines, in this perspective the similarity between <code>pelage</code> and <code>dbt</code> testing capabilities should make the transition much smoother.</p>
+<p><strong>Leveraging <code>polars</code> <u>blazing speed</u>:</strong></p>
+<p>Although it is written in python most of <code>pelage</code> checks are written in a way that enable the polars API to work its magic. We try to use a syntax that is compatible with fast execution and parallelism provided by polars.</p>
+<p>Note: For now, only the classical DataFrame API is available, but we plan to implement the LazyFrame API soon enough.</p>
 </section>
-<section id="examples" class="level2">
-<h2 class="anchored" data-anchor-id="examples">Examples</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> polars <span class="im">as</span> pl</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> pelage <span class="im">as</span> plg</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df <span class="op">=</span> pl.DataFrame(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>...     [</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>...         [<span class="dv">1</span>, <span class="dv">2</span>],</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>...         [<span class="dv">3</span>, <span class="dv">4</span>],</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>...     ],</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>...     schema<span class="op">=</span>[<span class="st">"a"</span>, <span class="st">"b"</span>], orient<span class="op">=</span><span class="st">"row"</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>... )</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df.pipe(plg.mutually_exclusive_ranges, low_bound<span class="op">=</span><span class="st">"a"</span>, high_bound<span class="op">=</span><span class="st">"b"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>shape: (<span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>┌─────┬─────┐</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>│ a   ┆ b   │</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>│ <span class="op">---</span> ┆ <span class="op">---</span> │</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>│ i64 ┆ i64 │</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>╞═════╪═════╡</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">1</span>   ┆ <span class="dv">2</span>   │</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">3</span>   ┆ <span class="dv">4</span>   │</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>└─────┴─────┘</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df <span class="op">=</span> pl.DataFrame(</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>...     [</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>...         [<span class="dv">1</span>, <span class="dv">3</span>],</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>...         [<span class="dv">2</span>, <span class="dv">4</span>],</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>...         [<span class="dv">5</span>, <span class="dv">7</span>],</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>...         [<span class="dv">6</span>, <span class="dv">8</span>],</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>...         [<span class="dv">9</span>, <span class="dv">9</span>],</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>...     ],</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>...     schema<span class="op">=</span>[<span class="st">"a"</span>, <span class="st">"b"</span>],</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>...     orient<span class="op">=</span><span class="st">"row"</span>,</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>... )</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df.pipe(plg.mutually_exclusive_ranges, low_bound<span class="op">=</span><span class="st">"a"</span>, high_bound<span class="op">=</span><span class="st">"b"</span>)</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>Traceback (most recent call last):</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>pelage.checks.PolarsAssertError: Details</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>shape: (<span class="dv">4</span>, <span class="dv">3</span>)</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>┌───────┬─────┬─────┐</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>│ index ┆ a   ┆ b   │</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>│ <span class="op">---</span>   ┆ <span class="op">---</span> ┆ <span class="op">---</span> │</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>│ u32   ┆ i64 ┆ i64 │</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>╞═══════╪═════╪═════╡</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">0</span>     ┆ <span class="dv">1</span>   ┆ <span class="dv">3</span>   │</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">1</span>     ┆ <span class="dv">2</span>   ┆ <span class="dv">4</span>   │</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">2</span>     ┆ <span class="dv">5</span>   ┆ <span class="dv">7</span>   │</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">3</span>     ┆ <span class="dv">6</span>   ┆ <span class="dv">8</span>   │</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>└───────┴─────┴─────┘</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">with</span> the DataFrame passed to the check function:</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="op">--&gt;</span>There were overlapping intervals:</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>DataFrame was <span class="bu">sorted</span> by: [<span class="st">'a'</span>, <span class="st">'b'</span>],</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>Interval columns: low_bound<span class="op">=</span><span class="st">'a'</span>, high_bound<span class="op">=</span><span class="st">'b'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="why-pelage" class="level1">
+<h1>Why pelage?</h1>
+<p><code>pelage</code> is the french word designating an animal fur, and particularly in the case of polar bears, it shields them from water, temperature variations and act as a strong camouflage. With the skin in constitutes one strong barrier against the changes in the outside world, and it is therefore well-suited for a package design to help with defensive analysis.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -856,18 +665,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation column-page-right">
-  <div class="nav-page nav-page-previous">
-      <a href="../reference/custom_check.html" class="pagination-link" aria-label="custom_check">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">custom_check</span>
-      </a>
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../reference/column_is_within_n_std.html" class="pagination-link" aria-label="column_is_within_n_std">
-        <span class="nav-page-text">column_is_within_n_std</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 
 

@@ -1,4 +1,5 @@
 project:
+  title: Pelage
   type: website
   output-dir: .
 
@@ -6,19 +7,38 @@ project:
 format:
   html:
     page-layout: full
+    theme: zephyr
 
 # tell quarto to read the generated sidebar
 metadata-files:
   - _sidebar.yml
 
+website:
+  title: "Pelage: Defensive analysis for Polars"
+  description: "Pelage documentation website"
+  page-navigation: true
+
+  navbar:
+    pinned: true
+    sidebar: _sidebar.yml
+    left:
+      - text: Get started
+        file: notebooks/initial_readme.html
+      - text: API Reference
+        file: reference/index.html
+    right:
+      - icon: git
+        href: https://github.com/alixtc/pelage/
+        text: Git
+
 
 quartodoc:
   # the name used to import the package you want to create reference docs for
   package: pelage
+  title: Reference
 
   # write sidebar data to this file
   sidebar: _sidebar.yml
-
   sections:
     - title: Check functions
       desc: Functions to inspect docstrings.
