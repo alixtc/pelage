@@ -32,8 +32,12 @@ clean:
 all: clean install test check_code
 
 
+
+update readme:
+	quarto render docs/notebooks/initial_readme.ipynb --to gfm && mv -f docs/notebooks/initial_readme.md README.md
+
 publish_checks:
-	quarto render notebooks/initial_readme.ipynb && mv -f notebooks/initial_readme.md README.md
+	make update readme
 	@python -m doctest pelage/checks.py
 	@echo "doctest check passed"
 	@tox run
