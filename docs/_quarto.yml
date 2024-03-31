@@ -8,6 +8,7 @@ format:
   html:
     page-layout: full
     theme: zephyr
+    toc: true
 
 # tell quarto to read the generated sidebar
 metadata-files:
@@ -17,10 +18,8 @@ website:
   title: "Pelage: Defensive analysis for Polars"
   description: "Pelage documentation website"
   page-navigation: true
-
   navbar:
     pinned: true
-    sidebar: _sidebar.yml
     left:
       - text: Get started
         file: notebooks/initial_readme.html
