@@ -247,20 +247,20 @@ Error with the DataFrame passed to the check function:
 <p>The main idea of <code>pelage</code> is to leverage your possibility for defensive analysis, similarly to other python packages such as “bulwark” or “engarde”. However <code>pelage</code> rely mainly on possibility to directly pipe and chain transformations provided by the fantastic <code>polars</code> API rather than using decorators.</p>
 <p>Additionally, some efforts have been put to have type hints for the provided functions in order to ensure full compatibility with your IDE across your chaining.</p>
 <p><strong>Interoperability:</strong></p>
-<p>The polars DSL and syntax have been develop with the idea to make the transition to SQL much easier. In this perspective, <code>pelage</code> wants to facilitate the use of tests to ensure data quality while enabling a possible transition towards SQL, and using the same tests in SQL. This is why we implemented most of the checks that have been developed for <code>DBT</code> tool box, notably :</p>
+<p>The polars DSL and syntax have been develop with the idea to make the transition to SQL much easier. In this perspective, <code>pelage</code> wants to facilitate the use of tests to ensure data quality while enabling a possible transition towards SQL, and using the same tests in SQL. This is why we implemented most of the checks that have been developed for <code>DBT</code> tool box, notably:</p>
 <ul>
 <li><a href="https://docs.getdbt.com/docs/build/data-tests#generic-data-tests">DBT generic checks</a></li>
 <li><a href="https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file">DBT utils test</a></li>
-<li>(Soon to comme: DBT expectations)</li>
+<li>(Soon to come: DBT expectations)</li>
 </ul>
 <p>We believe that data quality checks should be written as close as possible to the data exploration phase, and we hope that providing theses checks in a context where it is easier to visualize your data will be helpful. Similarly, we know that it is sometimes much easier to industrialize SQL data pipelines, in this perspective the similarity between <code>pelage</code> and <code>dbt</code> testing capabilities should make the transition much smoother.</p>
-<p><strong>Leveraging <code>polars</code> <u>blazing speed</u>:</strong></p>
+<p><strong>Leveraging <code>polars</code> blazing speed:</strong></p>
 <p>Although it is written in python most of <code>pelage</code> checks are written in a way that enable the polars API to work its magic. We try to use a syntax that is compatible with fast execution and parallelism provided by polars.</p>
 <p>Note: For now, only the classical DataFrame API is available, but we plan to implement the LazyFrame API soon enough.</p>
 </section>
 <section id="why-pelage" class="level1">
 <h1>Why pelage?</h1>
-<p><code>pelage</code> is the french word designating an animal fur, and particularly in the case of polar bears, it shields them from water, temperature variations and act as a strong camouflage. With the skin in constitutes one strong barrier against the changes in the outside world, and it is therefore well-suited for a package design to help with defensive analysis.</p>
+<p><code>pelage</code> is the french word designating an animal fur, and particularly in the case of polar bears, it shields them from water, temperature variations and act as a strong camouflage. With the skin it constitutes a strong barrier against the changes in the outside world, and it is therefore well-suited name for a package designed to help with defensive analysis.</p>
 
 
 </section>
