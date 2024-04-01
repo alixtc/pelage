@@ -40,7 +40,7 @@ quartodoc:
   sidebar: _sidebar.yml
   sections:
     - title: Check functions
-      desc: Functions to inspect docstrings.
+      desc: List of check functions.
       package: pelage.checks
       contents:
       - has_shape
