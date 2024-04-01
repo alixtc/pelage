@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Pelage: Defensive analysis for Polars - Welcome to pelage!</title>
+<title>Pelage: Defensive analysis for Polars</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -151,7 +151,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
 
   <ul>
-  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#welcome-to-pelage" id="toc-welcome-to-pelage" class="nav-link active" data-scroll-target="#welcome-to-pelage">Welcome to pelage!</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
   <li><a href="#main-concepts" id="toc-main-concepts" class="nav-link" data-scroll-target="#main-concepts">Main Concepts</a></li>
   <li><a href="#why-pelage" id="toc-why-pelage" class="nav-link" data-scroll-target="#why-pelage">Why pelage?</a></li>
   </ul>
@@ -160,27 +161,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Welcome to pelage!</h1>
-</div>
 
 
 
-<div class="quarto-title-meta column-page-left">
-
-
-
-
-  </div>
-
-
-
-</header>
-
-
+<p><img src="https://img.shields.io/github/v/release/alixtc/pelage?color=orange.png" class="img-fluid" alt="release"> <img src="https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Falixtc%2Fpelage%2Fmaster%2Fpyproject.toml&amp;query=%24.tool.poetry.dependencies.python&amp;label=Python%20version" class="img-fluid" alt="python version"> <img src="https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Falixtc%2Fpelage%2Fmaster%2Fpyproject.toml&amp;query=%24.tool.poetry.dependencies.polars&amp;label=Polars" class="img-fluid" alt="polars version"> <img src="https://img.shields.io/github/license/alixtc/pelage.png" class="img-fluid" alt="Licence"></p>
+<section id="welcome-to-pelage" class="level1">
+<h1>Welcome to pelage!</h1>
 <p>The goal of this project is to provide a simple way to test your <code>polars</code> code on the fly, while doing your analysis. The main idea is to chain a series of meaningful checks on your data so that you can continue and be more confident about your data quality. Here is how to use it:</p>
-<div id="cell-2" class="cell" data-execution_count="3">
+<div id="cell-3" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pelage <span class="im">as</span> plg</span>
@@ -212,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Here is a example of the error messages that if the checks fail:</p>
-<div id="cell-4" class="cell" data-execution_count="6">
+<div id="cell-5" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    validated_data.pipe(plg.not_accepted_values, {<span class="st">"new_a"</span>: [<span class="st">"3"</span>]})</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> plg.PolarsAssertError <span class="im">as</span> err:</span>
@@ -236,6 +224,7 @@ Error with the DataFrame passed to the check function:
 <li><p>Each <code>pelage</code> check returns the original <code>polars</code> DataFrame if the data is valid. It allows you continue your analysis by chaining additional transformations.</p></li>
 <li><p><code>pelage</code> raises an meaningful error message each time the data does not meet your expectations.</p></li>
 </ul>
+</section>
 <section id="installation" class="level1">
 <h1>Installation</h1>
 <p>Install the package directly via PIP:</p>

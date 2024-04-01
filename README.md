@@ -1,5 +1,13 @@
-# Welcome to pelage!
 
+
+![release](https://img.shields.io/github/v/release/alixtc/pelage?color=orange.png)
+![python
+version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Falixtc%2Fpelage%2Fmaster%2Fpyproject.toml&query=%24.tool.poetry.dependencies.python&label=Python%20version)
+![polars
+version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Falixtc%2Fpelage%2Fmaster%2Fpyproject.toml&query=%24.tool.poetry.dependencies.polars&label=Polars)
+![Licence](https://img.shields.io/github/license/alixtc/pelage.png)
+
+# Welcome to pelage!
 
 The goal of this project is to provide a simple way to test your
 `polars` code on the fly, while doing your analysis. The main idea is to
