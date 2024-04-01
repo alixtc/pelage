@@ -97,13 +97,13 @@ transition to SQL much easier. In this perspective, `pelage` wants to
 facilitate the use of tests to ensure data quality while enabling a
 possible transition towards SQL, and using the same tests in SQL. This
 is why we implemented most of the checks that have been developed for
-`DBT` tool box, notably :
+`DBT` tool box, notably:
 
 - [DBT generic
   checks](https://docs.getdbt.com/docs/build/data-tests#generic-data-tests)
 - [DBT utils
   test](https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file)
-- (Soon to comme: DBT expectations)
+- (Soon to come: DBT expectations)
 
 We believe that data quality checks should be written as close as
 possible to the data exploration phase, and we hope that providing
@@ -113,7 +113,7 @@ industrialize SQL data pipelines, in this perspective the similarity
 between `pelage` and `dbt` testing capabilities should make the
 transition much smoother.
 
-**Leveraging `polars` <u>blazing speed</u>:**
+**Leveraging `polars` blazing speed:**
 
 Although it is written in python most of `pelage` checks are written in
 a way that enable the polars API to work its magic. We try to use a
@@ -127,7 +127,7 @@ plan to implement the LazyFrame API soon enough.
 
 `pelage` is the french word designating an animal fur, and particularly
 in the case of polar bears, it shields them from water, temperature
-variations and act as a strong camouflage. With the skin in constitutes
-one strong barrier against the changes in the outside world, and it is
-therefore well-suited for a package design to help with defensive
+variations and act as a strong camouflage. With the skin it constitutes
+a strong barrier against the changes in the outside world, and it is
+therefore well-suited name for a package designed to help with defensive
 analysis.
