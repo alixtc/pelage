@@ -153,7 +153,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#welcome-to-pelage" id="toc-welcome-to-pelage" class="nav-link active" data-scroll-target="#welcome-to-pelage">Welcome to pelage!</a></li>
   <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#main-concepts" id="toc-main-concepts" class="nav-link" data-scroll-target="#main-concepts">Main Concepts</a></li>
+  <li><a href="#main-concepts" id="toc-main-concepts" class="nav-link" data-scroll-target="#main-concepts">Main Concepts</a>
+  <ul class="collapse">
+  <li><a href="#defensive-analysis" id="toc-defensive-analysis" class="nav-link" data-scroll-target="#defensive-analysis">Defensive analysis:</a></li>
+  <li><a href="#interoperability" id="toc-interoperability" class="nav-link" data-scroll-target="#interoperability">Interoperability:</a></li>
+  <li><a href="#leveraging-polars-blazing-speed" id="toc-leveraging-polars-blazing-speed" class="nav-link" data-scroll-target="#leveraging-polars-blazing-speed">Leveraging <code>polars</code> blazing speed:</a></li>
+  </ul></li>
   <li><a href="#why-pelage" id="toc-why-pelage" class="nav-link" data-scroll-target="#why-pelage">Why pelage?</a></li>
   </ul>
 </nav>
@@ -168,24 +173,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="welcome-to-pelage" class="level1">
 <h1>Welcome to pelage!</h1>
 <p>The goal of this project is to provide a simple way to test your <code>polars</code> code on the fly, while doing your analysis. The main idea is to chain a series of meaningful checks on your data so that you can continue and be more confident about your data quality. Here is how to use it:</p>
-<div id="cell-3" class="cell" data-execution_count="3">
+<div id="cell-3" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pelage <span class="im">as</span> plg</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>validated_data <span class="op">=</span> (</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    pl.DataFrame(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        {</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"a"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"b"</span>: [<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>],</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    .pipe(plg.has_shape, (<span class="dv">3</span>, <span class="dv">2</span>))</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    .pipe(plg.has_no_nulls)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    .with_columns(pl.col(<span class="st">"a"</span>).cast(<span class="bu">str</span>).alias(<span class="st">"new_a"</span>))</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(validated_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pelage <span class="im">as</span> plg</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pl.DataFrame(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"a"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"b"</span>: [<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>],</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>validated_data <span class="op">=</span> (</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    data.pipe(plg.has_shape, (<span class="dv">3</span>, <span class="dv">2</span>))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    .pipe(plg.has_no_nulls)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"a"</span>).cast(<span class="bu">str</span>).alias(<span class="st">"new_a"</span>),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(validated_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>shape: (3, 3)
 ┌─────┬─────┬───────┐
@@ -200,21 +206,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Here is a example of the error messages that if the checks fail:</p>
-<div id="cell-5" class="cell" data-execution_count="6">
+<div id="cell-5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    validated_data.pipe(plg.not_accepted_values, {<span class="st">"new_a"</span>: [<span class="st">"3"</span>]})</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> plg.PolarsAssertError <span class="im">as</span> err:</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(err)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-shape: (1, 3)
-┌─────┬─────┬───────┐
-│ a   ┆ b   ┆ new_a │
-│ --- ┆ --- ┆ ---   │
-│ i64 ┆ str ┆ str   │
-╞═════╪═════╪═══════╡
-│ 3   ┆ c   ┆ 3     │
-└─────┴─────┴───────┘
+<pre><code>Details
+shape: (1, 1)
+┌───────┐
+│ new_a │
+│ ---   │
+│ str   │
+╞═══════╡
+│ 3     │
+└───────┘
 Error with the DataFrame passed to the check function:
 --&gt;This DataFrame contains values marked as forbidden</code></pre>
 </div>
@@ -232,10 +238,13 @@ Error with the DataFrame passed to the check function:
 </section>
 <section id="main-concepts" class="level1">
 <h1>Main Concepts</h1>
-<p><strong>Defensive analysis:</strong></p>
+<section id="defensive-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="defensive-analysis">Defensive analysis:</h2>
 <p>The main idea of <code>pelage</code> is to leverage your possibility for defensive analysis, similarly to other python packages such as “bulwark” or “engarde”. However <code>pelage</code> rely mainly on possibility to directly pipe and chain transformations provided by the fantastic <code>polars</code> API rather than using decorators.</p>
 <p>Additionally, some efforts have been put to have type hints for the provided functions in order to ensure full compatibility with your IDE across your chaining.</p>
-<p><strong>Interoperability:</strong></p>
+</section>
+<section id="interoperability" class="level2">
+<h2 class="anchored" data-anchor-id="interoperability">Interoperability:</h2>
 <p>The polars DSL and syntax have been develop with the idea to make the transition to SQL much easier. In this perspective, <code>pelage</code> wants to facilitate the use of tests to ensure data quality while enabling a possible transition towards SQL, and using the same tests in SQL. This is why we implemented most of the checks that have been developed for <code>DBT</code> tool box, notably:</p>
 <ul>
 <li><a href="https://docs.getdbt.com/docs/build/data-tests#generic-data-tests">DBT generic checks</a></li>
@@ -243,9 +252,12 @@ Error with the DataFrame passed to the check function:
 <li>(Soon to come: DBT expectations)</li>
 </ul>
 <p>We believe that data quality checks should be written as close as possible to the data exploration phase, and we hope that providing theses checks in a context where it is easier to visualize your data will be helpful. Similarly, we know that it is sometimes much easier to industrialize SQL data pipelines, in this perspective the similarity between <code>pelage</code> and <code>dbt</code> testing capabilities should make the transition much smoother.</p>
-<p><strong>Leveraging <code>polars</code> blazing speed:</strong></p>
+</section>
+<section id="leveraging-polars-blazing-speed" class="level2">
+<h2 class="anchored" data-anchor-id="leveraging-polars-blazing-speed">Leveraging <code>polars</code> blazing speed:</h2>
 <p>Although it is written in python most of <code>pelage</code> checks are written in a way that enable the polars API to work its magic. We try to use a syntax that is compatible with fast execution and parallelism provided by polars.</p>
 <p>Note: For now, only the classical DataFrame API is available, but we plan to implement the LazyFrame API soon enough.</p>
+</section>
 </section>
 <section id="why-pelage" class="level1">
 <h1>Why pelage?</h1>

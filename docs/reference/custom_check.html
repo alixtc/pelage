@@ -336,8 +336,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="pelage.checks.custom_check" class="level1">
 <h1>custom_check</h1>
 <p><code>checks.custom_check(data, expresion)</code></p>
-<p>Use custom Polars expression to check the DataFrame, the expression when used through the dataframe method <code>.filter()</code> should return an empty dataframe. This expression should capture values that are not wanted in the dataframe. For instance, if a column should not contain the value <code>4</code>, use the expression <code>pl.col("column") == 4</code>.</p>
-<p>Though it may appear counter-intuitive, this behavior mimic the one proposed by DBT, and in order to facilitate interoperability between polars and DBT, it was decided to follow the same pattern</p>
+<p>Use custom Polars expression to check the DataFrame, based on <code>.filter()</code>. The expression when used through the dataframe method <code>.filter()</code> should return an empty dataframe. This expression should express the requierement for values that are not wanted in the dataframe. For instance, if a column should not contain the value <code>4</code>, use the expression <code>pl.col("column") != 4</code>.</p>
+<p>Analog to DBT utils fonction: <code>expression_is_true</code></p>
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="table">
@@ -397,7 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> polars <span class="im">as</span> pl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> pelage <span class="im">as</span> plg</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df <span class="op">=</span> pl.DataFrame({<span class="st">"a"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]})</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df.pipe(plg.custom_check, pl.col(<span class="st">"a"</span>) <span class="op">==</span> <span class="dv">4</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df.pipe(plg.custom_check, pl.col(<span class="st">"a"</span>) <span class="op">&lt;</span> <span class="dv">4</span>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>shape: (<span class="dv">3</span>, <span class="dv">1</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>┌─────┐</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>│ a   │</span>
@@ -408,7 +408,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">2</span>   │</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">3</span>   │</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>└─────┘</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df.pipe(plg.custom_check, pl.col(<span class="st">"a"</span>) <span class="op">==</span> <span class="dv">3</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df.pipe(plg.custom_check, pl.col(<span class="st">"a"</span>) <span class="op">!=</span> <span class="dv">3</span>)</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Traceback (most recent call last):</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>...</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>pelage.checks.PolarsAssertError: Details</span>
@@ -421,7 +421,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">3</span>   │</span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>└─────┘</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">with</span> the DataFrame passed to the check function:</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="op">--&gt;</span>Unexpected data <span class="kw">in</span> `Custom Check`: [(col(<span class="st">"a"</span>)) <span class="op">==</span> (<span class="dv">3</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="op">--&gt;</span>Unexpected data <span class="kw">in</span> `Custom Check`: [(col(<span class="st">"a"</span>)) <span class="op">!=</span> (<span class="dv">3</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

@@ -17,19 +17,20 @@ use it:
 
 ``` python
 import polars as pl
-
 import pelage as plg
 
+data = pl.DataFrame(
+    {
+        "a": [1, 2, 3],
+        "b": ["a", "b", "c"],
+    }
+)
 validated_data = (
-    pl.DataFrame(
-        {
-            "a": [1, 2, 3],
-            "b": ["a", "b", "c"],
-        }
-    )
-    .pipe(plg.has_shape, (3, 2))
+    data.pipe(plg.has_shape, (3, 2))
     .pipe(plg.has_no_nulls)
-    .with_columns(pl.col("a").cast(str).alias("new_a"))
+    .with_columns(
+        pl.col("a").cast(str).alias("new_a"),
+    )
 )
 
 print(validated_data)
@@ -55,15 +56,15 @@ except plg.PolarsAssertError as err:
     print(err)
 ```
 
-
-    shape: (1, 3)
-    ┌─────┬─────┬───────┐
-    │ a   ┆ b   ┆ new_a │
-    │ --- ┆ --- ┆ ---   │
-    │ i64 ┆ str ┆ str   │
-    ╞═════╪═════╪═══════╡
-    │ 3   ┆ c   ┆ 3     │
-    └─────┴─────┴───────┘
+    Details
+    shape: (1, 1)
+    ┌───────┐
+    │ new_a │
+    │ ---   │
+    │ str   │
+    ╞═══════╡
+    │ 3     │
+    └───────┘
     Error with the DataFrame passed to the check function:
     -->This DataFrame contains values marked as forbidden
 
@@ -86,7 +87,7 @@ pip install pelage
 
 # Main Concepts
 
-**Defensive analysis:**
+## Defensive analysis:
 
 The main idea of `pelage` is to leverage your possibility for defensive
 analysis, similarly to other python packages such as “bulwark” or
@@ -98,7 +99,7 @@ Additionally, some efforts have been put to have type hints for the
 provided functions in order to ensure full compatibility with your IDE
 across your chaining.
 
-**Interoperability:**
+## Interoperability:
 
 The polars DSL and syntax have been develop with the idea to make the
 transition to SQL much easier. In this perspective, `pelage` wants to
@@ -121,7 +122,7 @@ industrialize SQL data pipelines, in this perspective the similarity
 between `pelage` and `dbt` testing capabilities should make the
 transition much smoother.
 
-**Leveraging `polars` blazing speed:**
+## Leveraging `polars` blazing speed:
 
 Although it is written in python most of `pelage` checks are written in
 a way that enable the polars API to work its magic. We try to use a

@@ -9,6 +9,8 @@ format:
     page-layout: full
     theme: zephyr
     toc: true
+    code-block-border-left: true
+    highlight-style: breezedark
 
 # tell quarto to read the generated sidebar
 metadata-files:

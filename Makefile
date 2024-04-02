@@ -34,12 +34,11 @@ all: clean install test check_code
 
 render docs:
 	quarto render docs
-
-update readme:
 	quarto render docs/notebooks/initial_readme.ipynb --to gfm --output README.md
+	pre-commit run --files docs/*
+
 
 publish_checks:
-	make update readme
 	make render docs
 	@python -m doctest pelage/checks.py
 	@echo "doctest check passed"
