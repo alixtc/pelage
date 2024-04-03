@@ -500,6 +500,20 @@ def test_custom_checks_accept_over_clauses():
     testing.assert_frame_equal(given, when)
 
 
+def test_custom_checks_should_select_only_affected_columns():
+    given = pl.DataFrame(
+        {
+            "a": [1, 1, 2, 2],
+            "b": [1, 2, 3, 4],
+            "c": [1, 2, 3, 4],
+        }
+    )
+    with pytest.raises(plg.PolarsAssertError) as err:
+        given.pipe(plg.custom_check, pl.col("b").max().over("a") <= 3)
+
+    assert {"a", "b"} == set(err.value.df.columns)
+
+
 def test_has_mandatory_values():
     given = pl.DataFrame({"a": [1, 2]})
     when = given.pipe(checks.has_mandatory_values, {"a": [1, 2]})

@@ -2,6 +2,7 @@
 
 Use the syntax `import pelage as plg` rather than `from pelage import checks`
 """
+
 from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 import polars as pl
@@ -1179,8 +1180,9 @@ def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     """
     bad_data = data.filter(expresion.not_())
     if not bad_data.is_empty():
+        columns_in_expression = set(expresion.meta.root_names())
         raise PolarsAssertError(
-            df=bad_data,
+            df=bad_data.select(columns_in_expression),
             supp_message=f"Unexpected data in `Custom Check`: {str(expresion)}",
         )
     return data
