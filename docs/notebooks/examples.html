@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Pelage: Defensive analysis for Polars</title>
+<title>Pelage: Defensive analysis for Polars - Examples</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,14 +57,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../reference/PolarsAssertError.html" rel="next">
-<link href="../reference/mutually_exclusive_ranges.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -101,11 +99,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -127,11 +128,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Get started</span></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" href="../reference/index.html" aria-current="page">
+    <a class="nav-link" href="../reference/index.html">
 <span class="menu-text">API Reference</span></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../notebooks/examples.html">
+    <a class="nav-link active" href="../notebooks/examples.html" aria-current="page">
 <span class="menu-text">Examples</span></a>
   </li>
 </ul>
@@ -147,299 +148,425 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/has_shape.html">Check functions</a></li><li class="breadcrumb-item"><a href="../reference/column_is_within_n_std.html">column_is_within_n_std</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="sidebar-menu-container">
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">API Reference</span></a>
-  </div>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container">
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Check functions</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a>
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_shape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_shape</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_columns.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_columns</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_dtypes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_dtypes</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_no_nulls.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_no_nulls</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_no_infs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_no_infs</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/unique.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">unique</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/unique_combination_of_columns.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">unique_combination_of_columns</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/not_constant.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">not_constant</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/accepted_values.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">accepted_values</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/not_accepted_values.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">not_accepted_values</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_mandatory_values.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_mandatory_values</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/not_null_proportion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">not_null_proportion</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/at_least_one.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">at_least_one</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/accepted_range.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">accepted_range</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/maintains_relationships.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">maintains_relationships</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/is_monotonic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">is_monotonic</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/custom_check.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">custom_check</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/mutually_exclusive_ranges.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">mutually_exclusive_ranges</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/column_is_within_n_std.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">column_is_within_n_std</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container">
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Exceptions</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a>
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/PolarsAssertError.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">PolarsAssertError</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
 
   <ul>
-  <li><a href="#pelage.checks.column_is_within_n_std" id="toc-pelage.checks.column_is_within_n_std" class="nav-link active" data-scroll-target="#pelage.checks.column_is_within_n_std">column_is_within_n_std</a>
+  <li><a href="#imports" id="toc-imports" class="nav-link active" data-scroll-target="#imports">Imports</a></li>
+  <li><a href="#basic-data-transformations" id="toc-basic-data-transformations" class="nav-link" data-scroll-target="#basic-data-transformations">Basic data transformations</a></li>
+  <li><a href="#focus-on-the-errors" id="toc-focus-on-the-errors" class="nav-link" data-scroll-target="#focus-on-the-errors">Focus on the errors</a>
   <ul class="collapse">
-  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters">Parameters</a></li>
-  <li><a href="#returns" id="toc-returns" class="nav-link" data-scroll-target="#returns">Returns</a></li>
-  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  <li><a href="#error-message" id="toc-error-message" class="nav-link" data-scroll-target="#error-message">Error message</a></li>
+  <li><a href="#investigating-the-cause-of-the-failure" id="toc-investigating-the-cause-of-the-failure" class="nav-link" data-scroll-target="#investigating-the-cause-of-the-failure">Investigating the cause of the failure</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content column-body" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Examples</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-left">
 
 
 
 
-<section id="pelage.checks.column_is_within_n_std" class="level1">
-<h1>column_is_within_n_std</h1>
-<p><code>checks.column_is_within_n_std(data, items, *args)</code></p>
-<p>Function asserting values are within a given STD range, thus ensuring the absence of outliers.</p>
-<section id="parameters" class="level2">
-<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
-<table class="table">
-<colgroup>
-<col style="width: 4%">
-<col style="width: 25%">
-<col style="width: 64%">
-<col style="width: 5%">
-</colgroup>
+  </div>
+
+
+
+</header>
+
+
+<p>This notebook contains a few examples on how to use <code>pelage</code>. The idea is to illustrate what the main features with an succession of checks / transformation. We use here a simple example: <a href="https://github.com/mwaskom/seaborn-data">the MPG dataset</a>, loaded using the seaborn utility function.</p>
+<section id="imports" class="level2">
+<h2 class="anchored" data-anchor-id="imports">Imports</h2>
+<div id="cell-2" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pelage <span class="im">as</span> plg</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pl.DataFrame(sns.load_dataset(<span class="st">"mpg"</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (5, 9)</small>
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
+<th data-quarto-table-cell-role="th">mpg</th>
+<th data-quarto-table-cell-role="th">cylinders</th>
+<th data-quarto-table-cell-role="th">displacement</th>
+<th data-quarto-table-cell-role="th">horsepower</th>
+<th data-quarto-table-cell-role="th">weight</th>
+<th data-quarto-table-cell-role="th">acceleration</th>
+<th data-quarto-table-cell-role="th">model_year</th>
+<th data-quarto-table-cell-role="th">origin</th>
+<th data-quarto-table-cell-role="th">name</th>
+</tr>
+<tr class="odd">
+<th>f64</th>
+<th>i64</th>
+<th>f64</th>
+<th>f64</th>
+<th>i64</th>
+<th>f64</th>
+<th>i64</th>
+<th>str</th>
+<th>str</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>data</code></td>
-<td>polars.polars.DataFrame</td>
-<td>To check.</td>
-<td><em>required</em></td>
+<td>18.0</td>
+<td>8</td>
+<td>307.0</td>
+<td>130.0</td>
+<td>3504</td>
+<td>12.0</td>
+<td>70</td>
+<td>"usa"</td>
+<td>"chevrolet chev…</td>
 </tr>
 <tr class="even">
-<td><code>items</code></td>
-<td>typing.Tuple[pelage.checks.PolarsColumnType, int]</td>
-<td>A column name / column type with the number of STD authorized for the values within. Must be of the following form: <code>(col_name, n_std)</code></td>
-<td><em>required</em></td>
+<td>15.0</td>
+<td>8</td>
+<td>350.0</td>
+<td>165.0</td>
+<td>3693</td>
+<td>11.5</td>
+<td>70</td>
+<td>"usa"</td>
+<td>"buick skylark …</td>
+</tr>
+<tr class="odd">
+<td>18.0</td>
+<td>8</td>
+<td>318.0</td>
+<td>150.0</td>
+<td>3436</td>
+<td>11.0</td>
+<td>70</td>
+<td>"usa"</td>
+<td>"plymouth satel…</td>
+</tr>
+<tr class="even">
+<td>16.0</td>
+<td>8</td>
+<td>304.0</td>
+<td>150.0</td>
+<td>3433</td>
+<td>12.0</td>
+<td>70</td>
+<td>"usa"</td>
+<td>"amc rebel sst"</td>
+</tr>
+<tr class="odd">
+<td>17.0</td>
+<td>8</td>
+<td>302.0</td>
+<td>140.0</td>
+<td>3449</td>
+<td>10.5</td>
+<td>70</td>
+<td>"usa"</td>
+<td>"ford torino"</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+</div>
+</div>
 </section>
-<section id="returns" class="level2">
-<h2 class="anchored" data-anchor-id="returns">Returns</h2>
-<table class="table">
-<colgroup>
-<col style="width: 32%">
-<col style="width: 67%">
-</colgroup>
+<section id="basic-data-transformations" class="level2">
+<h2 class="anchored" data-anchor-id="basic-data-transformations">Basic data transformations</h2>
+<p>In the following example, we perform some basic checks followed by a simple data transformation and finally checking for the presence of outliers.</p>
+<div id="cell-4" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>average_mileage_per_zone <span class="op">=</span> (</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    data.pipe(plg.has_no_nulls, [<span class="st">"origin"</span>, <span class="st">"cylinders"</span>, <span class="st">"model_year"</span>])</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    .pipe(plg.accepted_range, {<span class="st">"cylinders"</span>: (<span class="dv">3</span>, <span class="dv">8</span>)})</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    .pipe(plg.accepted_values, {<span class="st">"origin"</span>: [<span class="st">"usa"</span>, <span class="st">"europe"</span>, <span class="st">"japan"</span>]})</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(pl.col(<span class="st">"model_year"</span>) <span class="op">&gt;=</span> <span class="dv">80</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    .group_by(<span class="st">"origin"</span>, <span class="st">"cylinders"</span>, <span class="st">"model_year"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    .agg(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        n_distinct_models<span class="op">=</span>pl.col(<span class="st">"name"</span>).n_unique(),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        avg_mpg<span class="op">=</span>pl.col(<span class="st">"mpg"</span>).mean(),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">filter</span>(pl.col(<span class="st">"n_distinct_models"</span>) <span class="op">&gt;=</span> <span class="dv">3</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    .pipe(plg.column_is_within_n_std, (<span class="st">"avg_mpg"</span>, <span class="dv">3</span>))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>average_mileage_per_zone</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (10, 5)</small>
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
-<th>Type</th>
-<th>Description</th>
+<th data-quarto-table-cell-role="th">origin</th>
+<th data-quarto-table-cell-role="th">cylinders</th>
+<th data-quarto-table-cell-role="th">model_year</th>
+<th data-quarto-table-cell-role="th">n_distinct_models</th>
+<th data-quarto-table-cell-role="th">avg_mpg</th>
+</tr>
+<tr class="odd">
+<th>str</th>
+<th>i64</th>
+<th>i64</th>
+<th>u32</th>
+<th>f64</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>polars.polars.DataFrame</td>
-<td>The original polars DataFrame when the check passes</td>
+<td>"usa"</td>
+<td>6</td>
+<td>81</td>
+<td>4</td>
+<td>20.925</td>
+</tr>
+<tr class="even">
+<td>"usa"</td>
+<td>4</td>
+<td>80</td>
+<td>6</td>
+<td>27.05</td>
+</tr>
+<tr class="odd">
+<td>"usa"</td>
+<td>4</td>
+<td>82</td>
+<td>17</td>
+<td>29.647059</td>
+</tr>
+<tr class="even">
+<td>"japan"</td>
+<td>4</td>
+<td>81</td>
+<td>10</td>
+<td>34.59</td>
+</tr>
+<tr class="odd">
+<td>"japan"</td>
+<td>4</td>
+<td>80</td>
+<td>11</td>
+<td>36.709091</td>
+</tr>
+<tr class="even">
+<td>"europe"</td>
+<td>4</td>
+<td>81</td>
+<td>3</td>
+<td>31.866667</td>
+</tr>
+<tr class="odd">
+<td>"usa"</td>
+<td>6</td>
+<td>82</td>
+<td>3</td>
+<td>28.333333</td>
+</tr>
+<tr class="even">
+<td>"usa"</td>
+<td>4</td>
+<td>81</td>
+<td>7</td>
+<td>30.95</td>
+</tr>
+<tr class="odd">
+<td>"europe"</td>
+<td>4</td>
+<td>80</td>
+<td>8</td>
+<td>37.4</td>
+</tr>
+<tr class="even">
+<td>"japan"</td>
+<td>4</td>
+<td>82</td>
+<td>9</td>
+<td>34.888889</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+</div>
+</div>
 </section>
-<section id="examples" class="level2">
-<h2 class="anchored" data-anchor-id="examples">Examples</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> polars <span class="im">as</span> pl</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> pelage <span class="im">as</span> plg</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df <span class="op">=</span> pl.DataFrame(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>...     {</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>...         <span class="st">"a"</span>: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">11</span>)),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>...         <span class="st">"b"</span>: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">11</span>)),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>...         <span class="st">"c"</span>: <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">10</span>)) <span class="op">+</span> [<span class="dv">5000</span>],</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>...     }</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>... )</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df.pipe(plg.column_is_within_n_std, (<span class="st">"a"</span>, <span class="dv">2</span>), (<span class="st">"b"</span>, <span class="dv">3</span>))</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>shape: (<span class="dv">11</span>, <span class="dv">3</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>┌─────┬─────┬──────┐</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>│ a   ┆ b   ┆ c    │</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>│ <span class="op">---</span> ┆ <span class="op">---</span> ┆ <span class="op">---</span>  │</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>│ i64 ┆ i64 ┆ i64  │</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>╞═════╪═════╪══════╡</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">0</span>   ┆ <span class="dv">0</span>   ┆ <span class="dv">0</span>    │</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">1</span>   ┆ <span class="dv">1</span>   ┆ <span class="dv">1</span>    │</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">2</span>   ┆ <span class="dv">2</span>   ┆ <span class="dv">2</span>    │</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">3</span>   ┆ <span class="dv">3</span>   ┆ <span class="dv">3</span>    │</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">4</span>   ┆ <span class="dv">4</span>   ┆ <span class="dv">4</span>    │</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>│ …   ┆ …   ┆ …    │</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">6</span>   ┆ <span class="dv">6</span>   ┆ <span class="dv">6</span>    │</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">7</span>   ┆ <span class="dv">7</span>   ┆ <span class="dv">7</span>    │</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">8</span>   ┆ <span class="dv">8</span>   ┆ <span class="dv">8</span>    │</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">9</span>   ┆ <span class="dv">9</span>   ┆ <span class="dv">9</span>    │</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">10</span>  ┆ <span class="dv">10</span>  ┆ <span class="dv">5000</span> │</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>└─────┴─────┴──────┘</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df.pipe(plg.column_is_within_n_std, (<span class="st">"b"</span>, <span class="dv">2</span>), (<span class="st">"c"</span>, <span class="dv">2</span>))</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>Traceback (most recent call last):</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>pelage.checks.PolarsAssertError: Details</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>shape: (<span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>┌──────┐</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>│ c    │</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>│ <span class="op">---</span>  │</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>│ i64  │</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>╞══════╡</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">5000</span> │</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>└──────┘</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">with</span> the DataFrame passed to the check function:</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="op">--&gt;</span>There are some outliers outside the specified mean±std <span class="bu">range</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>Impacted columns: [<span class="st">'c'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="focus-on-the-errors" class="level1">
+<h1>Focus on the errors</h1>
+<section id="error-message" class="level2">
+<h2 class="anchored" data-anchor-id="error-message">Error message</h2>
+<p>When the check fails, a PolarsAssertError is raise. The error message tends to provide a summarized view of the problem that occurred during the check.</p>
+<div id="cell-6" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    data.pipe(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        plg.accepted_range,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"displacement"</span>: (<span class="dv">50</span>, <span class="dv">300</span>), <span class="st">"horsepower"</span>: (<span class="dv">50</span>, <span class="dv">200</span>)},</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a PolarsAssertError</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>PolarsAssertError: Details
+shape: (104, 9)
+┌──────┬───────────┬─────────────┬────────────┬───┬─────────────┬────────────┬────────┬────────────┐
+│ mpg  ┆ cylinders ┆ displacemen ┆ horsepower ┆ … ┆ acceleratio ┆ model_year ┆ origin ┆ name       │
+│ ---  ┆ ---       ┆ t           ┆ ---        ┆   ┆ n           ┆ ---        ┆ ---    ┆ ---        │
+│ f64  ┆ i64       ┆ ---         ┆ f64        ┆   ┆ ---         ┆ i64        ┆ str    ┆ str        │
+│      ┆           ┆ f64         ┆            ┆   ┆ f64         ┆            ┆        ┆            │
+╞══════╪═══════════╪═════════════╪════════════╪═══╪═════════════╪════════════╪════════╪════════════╡
+│ 18.0 ┆ 8         ┆ 307.0       ┆ 130.0      ┆ … ┆ 12.0        ┆ 70         ┆ usa    ┆ chevrolet  │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ chevelle   │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ malibu     │
+│ 15.0 ┆ 8         ┆ 350.0       ┆ 165.0      ┆ … ┆ 11.5        ┆ 70         ┆ usa    ┆ buick      │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ skylark    │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ 320        │
+│ 18.0 ┆ 8         ┆ 318.0       ┆ 150.0      ┆ … ┆ 11.0        ┆ 70         ┆ usa    ┆ plymouth   │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ satellite  │
+│ 16.0 ┆ 8         ┆ 304.0       ┆ 150.0      ┆ … ┆ 12.0        ┆ 70         ┆ usa    ┆ amc rebel  │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ sst        │
+│ 17.0 ┆ 8         ┆ 302.0       ┆ 140.0      ┆ … ┆ 10.5        ┆ 70         ┆ usa    ┆ ford       │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ torino     │
+│ …    ┆ …         ┆ …           ┆ …          ┆ … ┆ …           ┆ …          ┆ …      ┆ …          │
+│ 18.5 ┆ 8         ┆ 360.0       ┆ 150.0      ┆ … ┆ 13.0        ┆ 79         ┆ usa    ┆ chrysler   │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ lebaron    │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ town @     │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ country …  │
+│ 23.0 ┆ 8         ┆ 350.0       ┆ 125.0      ┆ … ┆ 17.4        ┆ 79         ┆ usa    ┆ cadillac   │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ eldorado   │
+│ 44.3 ┆ 4         ┆ 90.0        ┆ 48.0       ┆ … ┆ 21.7        ┆ 80         ┆ europe ┆ vw rabbit  │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ c (diesel) │
+│ 43.4 ┆ 4         ┆ 90.0        ┆ 48.0       ┆ … ┆ 23.7        ┆ 80         ┆ europe ┆ vw dasher  │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ (diesel)   │
+│ 26.6 ┆ 8         ┆ 350.0       ┆ 105.0      ┆ … ┆ 19.0        ┆ 81         ┆ usa    ┆ oldsmobile │
+│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ cutlass ls │
+└──────┴───────────┴─────────────┴────────────┴───┴─────────────┴────────────┴────────┴────────────┘
+Error with the DataFrame passed to the check function:
+--&gt;Some values are beyond the acceptable ranges defined</code></pre>
+</div>
+</div>
+</section>
+<section id="investigating-the-cause-of-the-failure" class="level2">
+<h2 class="anchored" data-anchor-id="investigating-the-cause-of-the-failure">Investigating the cause of the failure</h2>
+<p>In addition to help theuser better understand the root cause of the check failure, the error object also possesses as <code>df</code> attribute that can contains the identified values causing the check to fail.</p>
+<p>Here is how to simply retrieve it without adding a <code>try/except</code> block. This allows us to print the error in a string format.</p>
+<div id="cell-8" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>error <span class="op">=</span> sys.last_value</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(error)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can then manipulate a subset dataframe containing the elements that triggered the exception. Here we do a few manipulations to determine what are the values that are outside the specified boundaries as well as their relative importance within the dataset.</p>
+<div id="cell-10" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    pl.DataFrame(error.df)  <span class="co"># This is only here to obtain syntax highlighting</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    .select(pl.col(<span class="st">"displacement"</span>, <span class="st">"horsepower"</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    .describe()</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<div>
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (9, 3)</small>
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">statistic</th>
+<th data-quarto-table-cell-role="th">displacement</th>
+<th data-quarto-table-cell-role="th">horsepower</th>
+</tr>
+<tr class="odd">
+<th>str</th>
+<th>f64</th>
+<th>f64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>"count"</td>
+<td>104.0</td>
+<td>104.0</td>
+</tr>
+<tr class="even">
+<td>"null_count"</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td>"mean"</td>
+<td>334.221154</td>
+<td>154.278846</td>
+</tr>
+<tr class="even">
+<td>"std"</td>
+<td>74.472899</td>
+<td>37.102968</td>
+</tr>
+<tr class="odd">
+<td>"min"</td>
+<td>68.0</td>
+<td>46.0</td>
+</tr>
+<tr class="even">
+<td>"25%"</td>
+<td>305.0</td>
+<td>140.0</td>
+</tr>
+<tr class="odd">
+<td>"50%"</td>
+<td>350.0</td>
+<td>150.0</td>
+</tr>
+<tr class="even">
+<td>"75%"</td>
+<td>360.0</td>
+<td>175.0</td>
+</tr>
+<tr class="odd">
+<td>"max"</td>
+<td>455.0</td>
+<td>230.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
 
 
 </section>
@@ -855,18 +982,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation column-body">
-  <div class="nav-page nav-page-previous">
-      <a href="../reference/mutually_exclusive_ranges.html" class="pagination-link" aria-label="mutually_exclusive_ranges">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">mutually_exclusive_ranges</span>
-      </a>
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../reference/PolarsAssertError.html" class="pagination-link" aria-label="PolarsAssertError">
-        <span class="nav-page-text">PolarsAssertError</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 
 

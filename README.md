@@ -33,19 +33,30 @@ validated_data = (
     )
 )
 
-print(validated_data)
+validated_data
 ```
 
-    shape: (3, 3)
-    ┌─────┬─────┬───────┐
-    │ a   ┆ b   ┆ new_a │
-    │ --- ┆ --- ┆ ---   │
-    │ i64 ┆ str ┆ str   │
-    ╞═════╪═════╪═══════╡
-    │ 1   ┆ a   ┆ 1     │
-    │ 2   ┆ b   ┆ 2     │
-    │ 3   ┆ c   ┆ 3     │
-    └─────┴─────┴───────┘
+<div>
+
+<div><style>
+.dataframe > thead > tr,
+.dataframe > tbody > tr {
+  text-align: right;
+  white-space: pre-wrap;
+}
+</style>
+<small>shape: (3, 3)</small>
+
+| a   | b   | new_a |
+|-----|-----|-------|
+| i64 | str | str   |
+| 1   | "a" | "1"   |
+| 2   | "b" | "2"   |
+| 3   | "c" | "3"   |
+
+</div>
+
+</div>
 
 Here is a example of the error messages that if the checks fail:
 

@@ -27,6 +27,8 @@ website:
         file: notebooks/initial_readme.html
       - text: API Reference
         file: reference/index.html
+      - text: Examples
+        file: notebooks/examples.html
     right:
       - icon: git
         href: https://github.com/alixtc/pelage/
