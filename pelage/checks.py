@@ -1053,7 +1053,11 @@ def maintains_relationships(
 
 
 def is_monotonic(
-    data: pl.DataFrame, column: str, decreasing: bool = False, strict: bool = True
+    data: pl.DataFrame,
+    column: str,
+    decreasing: bool = False,
+    strict: bool = True,
+    interval: Optional[Union[int, float, str, pl.Duration]] = None,
 ) -> pl.DataFrame:
     """Verify that values in a column are consecutively increasing or decreasing
 
@@ -1119,6 +1123,23 @@ def is_monotonic(
             + f' try .sort("{column}")'
         )
         raise PolarsAssertError(supp_message=error_msg)
+
+    if interval is not None:
+        if data.get_column(column).diff().dtype == pl.Duration:
+            assert isinstance(interval, str)
+            dummy_time = pl.Series(["1970-01-01 00:00:00"]).str.to_datetime()
+            expected_timedelta = dummy_time.dt.offset_by(interval) - dummy_time
+            actual_timedelta = data.get_column(column).diff().drop_nulls().unique()
+            bad_intervals = set(actual_timedelta) - set(expected_timedelta)
+
+        else:
+            bad_intervals = (data.get_column(column).diff() != interval).any()
+
+        if bad_intervals:
+            raise PolarsAssertError(
+                supp_message=f"Intervals differ from the specified {interval} interval."
+                + f" Unexpected: {bad_intervals}"
+            )
     return data
 
 
