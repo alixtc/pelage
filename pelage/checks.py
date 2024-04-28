@@ -1073,6 +1073,31 @@ def is_monotonic(
     strict : bool, optional
         The series must be stricly increasing or decreasing, no consecutive equal values
         are allowed, by default True
+    interval : Optional[Union[int, float, str, pl.Duration]], optional, by default None
+        For time-based column, the interval can be specified as a string as in the
+        function `dt.offset_by` or `pl.DataFrame().rolling`. It can also be specified
+        with the `pl.duration()` function directly in a more explicit manner.
+
+        When using a string, the interval is dictated by the following string language:
+            - 1ns (1 nanosecond)
+            - 1us (1 microsecond)
+            - 1ms (1 millisecond)
+            - 1s (1 second)
+            - 1m (1 minute)
+            - 1h (1 hour)
+            - 1d (1 calendar day)
+            - 1w (1 calendar week)
+            - 1mo (1 calendar month)
+            - 1q (1 calendar quarter)
+            - 1y (1 calendar year)
+            - 1i (1 index count)
+        By "calendar day", we mean the corresponding time on the next day (which may
+        not be 24 hours, due to daylight savings). Similarly for "calendar week",
+        "calendar month", "calendar quarter", and "calendar year".,
+
+    group_by : Optional[PolarsOverClauseInput], optional, by default None
+        When specified, the monotonic characteristics and intervals are estimated for
+        each group independently.
 
     Returns
     -------
