@@ -36,6 +36,7 @@ all: clean test tox publish_checks check_code
 
 
 render docs:
+	quartodoc build --config docs/_quarto.yml
 	quarto render docs
 	quarto render docs/notebooks/initial_readme.ipynb --to gfm --output README.md
 	pre-commit run --files docs/*
