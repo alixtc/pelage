@@ -502,19 +502,16 @@ def test_is_monotonic_should_allow_to_specify_interval_compatible_with_timedelta
 
 def test_is_monotonic_should_allow_to_specify_interval_compatible_with_group_by():
     given = pl.DataFrame(
-        dict(
-            dates=pl.Series(
-                [
-                    "2020-01-01 01:42:00",
-                    "2020-01-01 01:43:00",
-                    "2020-01-01 01:44:00",
-                    "2021-12-12 01:43:00",
-                    "2021-12-12 01:44:00",
-                ]
-            ).str.to_datetime(),
-            group=["A", "A", "A", "B", "B"],
-        )
-    )
+        [
+            ("2020-01-01 01:42:00", "A"),
+            ("2020-01-01 01:43:00", "A"),
+            ("2020-01-01 01:44:00", "A"),
+            ("2021-12-12 01:43:00", "B"),
+            ("2021-12-12 01:44:00", "B"),
+        ],
+        schema=["dates", "group"],
+    ).with_columns(pl.col("dates").str.to_datetime())
+
     when = given.pipe(plg.is_monotonic, "dates", interval="1m", group_by="group")
     testing.assert_frame_equal(given, when)
 
