@@ -11,7 +11,7 @@ install:
 
 check_code:
 	@pre-commit run --all-files
-	@tox run
+
 
 black:
 	@black scripts/* pelage/*.py testsma/*.py
@@ -28,8 +28,11 @@ clean:
 	@rm -fr pelage-*.dist-info
 	@rm -fr pelage.egg-info
 
+tox:
+	@tox run
 
-all: clean install test check_code
+
+all: clean test tox publish_checks check_code
 
 
 render docs:
@@ -42,4 +45,3 @@ publish_checks:
 	make render docs
 	@python -m doctest pelage/checks.py
 	@echo "doctest check passed"
-	@tox run
