@@ -1058,6 +1058,7 @@ def is_monotonic(
     decreasing: bool = False,
     strict: bool = True,
     interval: Optional[Union[int, float, str, pl.Duration]] = None,
+    group_by: Optional[PolarsOverClauseInput] = None,
 ) -> pl.DataFrame:
     """Verify that values in a column are consecutively increasing or decreasing
 
@@ -1105,17 +1106,24 @@ def is_monotonic(
     Error with the DataFrame passed to the check function:
     -->Column "int" expected to be monotonic but is not, try .sort("int")
     """
+    select_diff_expression = (
+        pl.col(column).diff()
+        if group_by is None
+        else pl.col(column).diff().over(group_by)
+    )
+
     # Cast necessary for dates and datetimes
-    diff_column = data.get_column(column).diff().cast(int)
+    diff_column = data.select(select_diff_expression).get_column(column)
+    diff_column_sign = diff_column.cast(int)
 
     if not decreasing and not strict:
-        comparisons = (diff_column >= 0).all()
+        comparisons = (diff_column_sign >= 0).all()
     if not decreasing and strict:
-        comparisons = (diff_column > 0).all()
+        comparisons = (diff_column_sign > 0).all()
     if decreasing and not strict:
-        comparisons = (diff_column <= 0).all()
+        comparisons = (diff_column_sign <= 0).all()
     if decreasing and strict:
-        comparisons = (diff_column < 0).all()
+        comparisons = (diff_column_sign < 0).all()
 
     if not comparisons:
         error_msg = (
@@ -1124,22 +1132,24 @@ def is_monotonic(
         )
         raise PolarsAssertError(supp_message=error_msg)
 
-    if interval is not None:
-        if data.get_column(column).diff().dtype == pl.Duration:
-            assert isinstance(interval, str)
-            dummy_time = pl.Series(["1970-01-01 00:00:00"]).str.to_datetime()
-            expected_timedelta = dummy_time.dt.offset_by(interval) - dummy_time
-            actual_timedelta = data.get_column(column).diff().drop_nulls().unique()
-            bad_intervals = set(actual_timedelta) - set(expected_timedelta)
+    if interval is None:
+        return data
 
-        else:
-            bad_intervals = (data.get_column(column).diff() != interval).any()
+    if diff_column.dtype == pl.Duration:
+        assert isinstance(interval, str)
+        dummy_time = pl.Series(["1970-01-01 00:00:00"]).str.to_datetime()
+        expected_timedelta = dummy_time.dt.offset_by(interval) - dummy_time
+        actual_timedelta = diff_column.drop_nulls().unique()
+        bad_intervals = set(actual_timedelta) - set(expected_timedelta)
 
-        if bad_intervals:
-            raise PolarsAssertError(
-                supp_message=f"Intervals differ from the specified {interval} interval."
-                + f" Unexpected: {bad_intervals}"
-            )
+    else:
+        bad_intervals = (diff_column != interval).any()
+
+    if bad_intervals:
+        raise PolarsAssertError(
+            supp_message=f"Intervals differ from the specified {interval} interval."
+            + f" Unexpected: {bad_intervals}"
+        )
     return data
 
 

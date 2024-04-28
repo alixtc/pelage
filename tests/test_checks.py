@@ -499,9 +499,27 @@ def test_is_monotonic_should_allow_to_specify_interval_compatible_with_timedelta
     when = given.pipe(plg.is_monotonic, "dates", interval="1m")
     testing.assert_frame_equal(given, when)
 
-    # given = pl.DataFrame({"int": [1, 2, 3]})
-    # with pytest.raises(plg.PolarsAssertError):
-    #     given.pipe(plg.is_monotonic, "int", interval=2)
+
+def test_is_monotonic_should_allow_to_specify_interval_compatible_with_group_by():
+    given = pl.DataFrame(
+        dict(
+            dates=pl.Series(
+                [
+                    "2020-01-01 01:42:00",
+                    "2020-01-01 01:43:00",
+                    "2020-01-01 01:44:00",
+                    "2021-12-12 01:43:00",
+                    "2021-12-12 01:44:00",
+                ]
+            ).str.to_datetime(),
+            group=["A", "A", "A", "B", "B"],
+        )
+    )
+    when = given.pipe(plg.is_monotonic, "dates", interval="1m", group_by="group")
+    testing.assert_frame_equal(given, when)
+
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(plg.is_monotonic, "dates", interval="3m", group_by="group")
 
 
 def test_is_monotonic_error_give_out_specifyic_error_message():
