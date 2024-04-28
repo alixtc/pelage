@@ -1057,7 +1057,7 @@ def is_monotonic(
     column: str,
     decreasing: bool = False,
     strict: bool = True,
-    interval: Optional[Union[int, float, str, pl.Duration]] = None,
+    interval: Optional[Union[int, float, str]] = None,
     group_by: Optional[PolarsOverClauseInput] = None,
 ) -> pl.DataFrame:
     """Verify that values in a column are consecutively increasing or decreasing
@@ -1130,7 +1130,36 @@ def is_monotonic(
     pelage.checks.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
     -->Column "int" expected to be monotonic but is not, try .sort("int")
-    """
+    >>> given = pl.DataFrame(
+    ...     [
+    ...         ("2020-01-01 01:42:00", "A"),
+    ...         ("2020-01-01 01:43:00", "A"),
+    ...         ("2020-01-01 01:44:00", "A"),
+    ...         ("2021-12-12 01:43:00", "B"),
+    ...         ("2021-12-12 01:44:00", "B"),
+    ...     ],
+    ...     schema=["dates", "group"],
+    ... ).with_columns(pl.col("dates").str.to_datetime())
+    >>> given.pipe(plg.is_monotonic, "dates", interval="1m", group_by="group")
+    shape: (5, 2)
+    ┌─────────────────────┬───────┐
+    │ dates               ┆ group │
+    │ ---                 ┆ ---   │
+    │ datetime[μs]        ┆ str   │
+    ╞═════════════════════╪═══════╡
+    │ 2020-01-01 01:42:00 ┆ A     │
+    │ 2020-01-01 01:43:00 ┆ A     │
+    │ 2020-01-01 01:44:00 ┆ A     │
+    │ 2021-12-12 01:43:00 ┆ B     │
+    │ 2021-12-12 01:44:00 ┆ B     │
+    └─────────────────────┴───────┘
+    >>> given.pipe(plg.is_monotonic, "dates", interval="3m", group_by="group")
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    Error with the DataFrame passed to the check function:
+    -->Intervals differ from the specified 3m interval. Unexpected: {datetime.timedelta(seconds=60)}
+    """  # noqa: E501
     select_diff_expression = (
         pl.col(column).diff()
         if group_by is None
