@@ -17,8 +17,8 @@ black:
 	@black scripts/* pelage/*.py testsma/*.py
 
 test:
-	@coverage run -m pytest tests/*.py
-	@coverage report -m --omit="${VIRTUAL_ENV}/lib/python*"
+	@coverage run --data-file=".coverage/.coverage" -m pytest tests/*.py
+	@coverage report --data-file=".coverage/.coverage" -m --omit="${VIRTUAL_ENV}/lib/python*"
 
 clean:
 	@rm -f */version.txt
