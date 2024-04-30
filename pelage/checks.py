@@ -486,6 +486,7 @@ def unique_combination_of_columns(
 def not_constant(
     data: pl.DataFrame,
     columns: Optional[PolarsColumnType] = None,
+    group_by: Optional[Union[str, List[str]]] = None,
 ) -> pl.DataFrame:
     """Check if a DataFrame has constant columns.
 
@@ -535,11 +536,20 @@ def not_constant(
     -->Some columns are constant
     """
     selected_cols = _sanitize_column_inputs(columns)
-    constant_columns = (
-        data.select(selected_cols.n_unique())
-        .melt(variable_name="column", value_name="n_distinct")
-        .filter(pl.col("n_distinct") == 1)
-    )
+
+    if group_by is None:
+        constant_columns = (
+            data.select(selected_cols.n_unique())
+            .melt(variable_name="column", value_name="n_distinct")
+            .filter(pl.col("n_distinct") == 1)
+        )
+    else:
+        constant_columns = (
+            data.group_by(group_by)
+            .agg(selected_cols.n_unique())
+            .melt(id_vars=group_by, variable_name="column", value_name="n_distinct")
+            .filter(pl.col("n_distinct") == 1)
+        )
 
     if not constant_columns.is_empty():
         raise PolarsAssertError(

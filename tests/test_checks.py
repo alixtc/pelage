@@ -219,6 +219,30 @@ def test_not_constant_accept_different_types_of_input():
     testing.assert_frame_equal(given, when)
 
 
+def test_not_constant_accepts_group_by_option():
+    given = pl.DataFrame(
+        {
+            "a": [1, 2, 1, 2],
+            "b": ["A", "A", "B", "B"],
+        }
+    )
+    when = given.pipe(plg.not_constant, "a", group_by="b")
+    testing.assert_frame_equal(given, when)
+
+
+def test_not_constant_should_error_when_values_for_one_group_are_constant():
+    given = pl.DataFrame(
+        {
+            "a": [1, 2, 1, 1],
+            "b": ["A", "A", "B", "B"],
+        }
+    )
+    with pytest.raises(plg.PolarsAssertError) as err:
+        given.pipe(plg.not_constant, "a", group_by="b")
+
+    assert "b" in err.value.df.columns
+
+
 def test_accepted_values():
     items = {"a": [1, 2, 3], "b": ["a", "b", "c"]}
     given = pl.DataFrame(items)
