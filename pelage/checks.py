@@ -23,6 +23,29 @@ PolarsOverClauseInput = Union[IntoExpr, Iterable[IntoExpr]]
 
 
 class PolarsAssertError(Exception):
+    """Custom Error providing detailed information about the failed check.
+
+    To investigate the last error in a jupyter notebook you can use:
+
+    Examples
+    --------
+    >>> from pelage import PolarsAssertError # doctest: +SKIP
+    >>> raise PolarsAssertError # doctest: +SKIP
+    >>> import sys # doctest: +SKIP
+    >>> error = sys.last_value # doctest: +SKIP
+    >>> print(error) # prints the string representation # doctest: +SKIP
+    >>> error.df # access the dataframe object # doctest: +SKIP
+
+    Attributes
+    ----------
+    df : pl.DataFrame, optional,  by default pl.DataFrame()
+        A subset of the original dataframe passed to the check function with a highlight
+        on the values that caused the check to fail,
+    supp_message : str, optional, by default ""
+        A human readable description of the check failure, and when available a possible
+        way to solve the issue,
+    """
+
     def __init__(
         self, df: pl.DataFrame = pl.DataFrame(), supp_message: str = ""
     ) -> None:
@@ -764,12 +787,13 @@ def not_null_proportion(
     data : pl.DataFrame
         _description_
     items : Dict[str, float  |  Tuple[float, float]]
-        Limit ranges for the proportion of not null value for selected columns.
+        Ranges for the proportion of not null values for selected columns.
+        <br>
         Any of the following formats is valid:
-        {
-            "column_name_a" : 0.333,
-            "column_name_b" : (0.25, 0.44),
-        }
+        <br>
+        `{"column_name_b" : 0.33, ...}`<br>
+        `{"column_name_b" : (0.25, 0.44), ...}`<br>
+
         When specifying a single float, the higher bound of the range will automatically
         be set to 1.0, i.e. (given_float, 1.0)
 
@@ -919,15 +943,14 @@ def accepted_range(
     data : pl.DataFrame
     items : Dict[str, PolarsColumnBounds]
         Any type of inputs that match the following signature:
-        `column_name: (boundaries)` where `boundaries is compatible with the Polars
+        `column_name: (boundaries)` where boundaries is compatible with the Polars
         method `is_between()` syntax.
 
-        For example: {
-            "col_a": (low, high),
-            "col_b", (low_b, high_b, "right"),
-            "col_c", (low_c, high_c, "none"),
-            ...
-            }
+        For example:
+        <br>
+        `"col_a": (low, high)`<br>
+        `"col_b", (low_b, high_b, "right")`<br>
+        `"col_c", (low_c, high_c, "none")`<br>
 
     Returns
     -------
@@ -1089,6 +1112,7 @@ def is_monotonic(
         with the `pl.duration()` function directly in a more explicit manner.
 
         When using a string, the interval is dictated by the following string language:
+
             - 1ns (1 nanosecond)
             - 1us (1 microsecond)
             - 1ms (1 millisecond)
@@ -1101,9 +1125,10 @@ def is_monotonic(
             - 1q (1 calendar quarter)
             - 1y (1 calendar year)
             - 1i (1 index count)
+
         By "calendar day", we mean the corresponding time on the next day (which may
         not be 24 hours, due to daylight savings). Similarly for "calendar week",
-        "calendar month", "calendar quarter", and "calendar year".,
+        "calendar month", "calendar quarter", and "calendar year".
 
     group_by : Optional[PolarsOverClauseInput], optional, by default None
         When specified, the monotonic characteristics and intervals are estimated for
