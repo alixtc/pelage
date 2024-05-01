@@ -10,7 +10,6 @@ website:
       - reference/has_no_infs.qmd
       - reference/unique.qmd
       - reference/unique_combination_of_columns.qmd
-      - reference/not_constant.qmd
       - reference/accepted_values.qmd
       - reference/not_accepted_values.qmd
       - reference/has_mandatory_values.qmd
@@ -18,11 +17,14 @@ website:
       - reference/at_least_one.qmd
       - reference/accepted_range.qmd
       - reference/maintains_relationships.qmd
-      - reference/is_monotonic.qmd
       - reference/custom_check.qmd
       - reference/mutually_exclusive_ranges.qmd
       - reference/column_is_within_n_std.qmd
       section: Check functions
+    - contents:
+      - reference/not_constant.qmd
+      - reference/is_monotonic.qmd
+      section: Checks with group_by
     - contents:
       - reference/PolarsAssertError.qmd
       section: Exceptions

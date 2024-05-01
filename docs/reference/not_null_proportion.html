@@ -223,12 +223,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/not_constant.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">not_constant</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/accepted_values.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">accepted_values</span></a>
   </div>
@@ -271,12 +265,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/is_monotonic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">is_monotonic</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/custom_check.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">custom_check</span></a>
   </div>
@@ -298,12 +286,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container">
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Exceptions</span></a>
+ <span class="menu-text">Checks with group_by</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a>
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/not_constant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">not_constant</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/is_monotonic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">is_monotonic</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Exceptions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../reference/PolarsAssertError.html" class="sidebar-item-text sidebar-link">
@@ -346,7 +357,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <table class="table">
 <colgroup>
 <col style="width: 2%">
-<col style="width: 15%">
+<col style="width: 14%">
 <col style="width: 79%">
 <col style="width: 3%">
 </colgroup>
@@ -368,7 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td><code>items</code></td>
 <td>typing.Dict[str, float | typing.Tuple[float, float]]</td>
-<td>Limit ranges for the proportion of not null value for selected columns. Any of the following formats is valid: { “column_name_a” : 0.333, “column_name_b” : (0.25, 0.44), } When specifying a single float, the higher bound of the range will automatically be set to 1.0, i.e.&nbsp;(given_float, 1.0)</td>
+<td>Ranges for the proportion of not null values for selected columns. <br> Any of the following formats is valid: <br> <code>{"column_name_b" : 0.33, ...}</code><br> <code>{"column_name_b" : (0.25, 0.44), ...}</code><br> When specifying a single float, the higher bound of the range will automatically be set to 1.0, i.e.&nbsp;(given_float, 1.0)</td>
 <td><em>required</em></td>
 </tr>
 </tbody>

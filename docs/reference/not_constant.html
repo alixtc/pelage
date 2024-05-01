@@ -63,8 +63,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../reference/accepted_values.html" rel="next">
-<link href="../reference/unique_combination_of_columns.html" rel="prev">
+<link href="../reference/is_monotonic.html" rel="next">
+<link href="../reference/column_is_within_n_std.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -152,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/has_shape.html">Check functions</a></li><li class="breadcrumb-item"><a href="../reference/not_constant.html">not_constant</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/not_constant.html">Checks with group_by</a></li><li class="breadcrumb-item"><a href="../reference/not_constant.html">not_constant</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
     </div>
@@ -223,12 +223,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/not_constant.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">not_constant</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/accepted_values.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">accepted_values</span></a>
   </div>
@@ -271,12 +265,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/is_monotonic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">is_monotonic</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/custom_check.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">custom_check</span></a>
   </div>
@@ -298,12 +286,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container">
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Exceptions</span></a>
+ <span class="menu-text">Checks with group_by</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a>
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/not_constant.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">not_constant</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/is_monotonic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">is_monotonic</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Exceptions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../reference/PolarsAssertError.html" class="sidebar-item-text sidebar-link">
@@ -339,7 +350,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="pelage.checks.not_constant" class="level1">
 <h1>not_constant</h1>
-<p><code>checks.not_constant(data, columns=None)</code></p>
+<p><code>checks.not_constant(data, columns=None, group_by=None)</code></p>
 <p>Check if a DataFrame has constant columns.</p>
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
@@ -842,13 +853,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
-      <a href="../reference/unique_combination_of_columns.html" class="pagination-link" aria-label="unique_combination_of_columns">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">unique_combination_of_columns</span>
+      <a href="../reference/column_is_within_n_std.html" class="pagination-link" aria-label="column_is_within_n_std">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">column_is_within_n_std</span>
       </a>
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../reference/accepted_values.html" class="pagination-link" aria-label="accepted_values">
-        <span class="nav-page-text">accepted_values</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../reference/is_monotonic.html" class="pagination-link" aria-label="is_monotonic">
+        <span class="nav-page-text">is_monotonic</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -54,7 +54,6 @@ quartodoc:
       - has_no_infs
       - unique
       - unique_combination_of_columns
-      - not_constant
       - accepted_values
       - not_accepted_values
       - has_mandatory_values
@@ -62,10 +61,15 @@ quartodoc:
       - at_least_one
       - accepted_range
       - maintains_relationships
-      - is_monotonic
       - custom_check
       - mutually_exclusive_ranges
       - column_is_within_n_std
+    - title: Checks with group_by
+      package: pelage.checks
+      desc: List of check functions with optional `group_by` option.
+      contents:
+      - not_constant
+      - is_monotonic
     - title: Exceptions
       desc: Types aliases and custom exceptions
       package: pelage.checks

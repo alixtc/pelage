@@ -27,6 +27,7 @@ ipykernel = ">=6.29.3"
 [tool.poetry.group.extras.dependencies]
 seaborn = "^0.13.2"
 pyarrow = "^15.0.2"
+genbadge = {extras = ["all"], version = "^1.1.1"}
 
 [build-system]
 requires = ["poetry-core"]

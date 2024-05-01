@@ -223,12 +223,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/not_constant.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">not_constant</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/accepted_values.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">accepted_values</span></a>
   </div>
@@ -271,12 +265,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/is_monotonic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">is_monotonic</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/custom_check.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">custom_check</span></a>
   </div>
@@ -298,12 +286,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container">
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Exceptions</span></a>
+ <span class="menu-text">Checks with group_by</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a>
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/not_constant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">not_constant</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/is_monotonic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">is_monotonic</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Exceptions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../reference/PolarsAssertError.html" class="sidebar-item-text sidebar-link">
@@ -368,7 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td><code>items</code></td>
 <td>typing.Dict[str, pelage.checks.PolarsColumnBounds]</td>
-<td>Any type of inputs that match the following signature: <code>column_name: (boundaries)</code> where <code>boundaries is compatible with the Polars method</code>is_between()` syntax. For example: { “col_a”: (low, high), “col_b”, (low_b, high_b, “right”), “col_c”, (low_c, high_c, “none”), … }</td>
+<td>Any type of inputs that match the following signature: <code>column_name: (boundaries)</code> where boundaries is compatible with the Polars method <code>is_between()</code> syntax. For example: <br> <code>"col_a": (low, high)</code><br> <code>"col_b", (low_b, high_b, "right")</code><br> <code>"col_c", (low_c, high_c, "none")</code><br></td>
 <td><em>required</em></td>
 </tr>
 </tbody>
