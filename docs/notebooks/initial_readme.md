@@ -1,8 +1,8 @@
 
 
 ![release](https://img.shields.io/github/v/release/alixtc/pelage?color=orange.png)
-![python-version](https://img.shields.io/pypi/pyversions/pelage.png)
-![coverage](.coverage/coverage-badge.svg)
+![python-version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Falixtc%2Fpelage%2Fmaster%2Fpyproject.toml&query=%24.tool.poetry.dependencies.python&label=Python%20version)
+![coverage](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Falixtc%2Fpelage%2Fmaster%2F.coverage%2Fcoverage.json&query=%24.totals.percent_covered&suffix=%25&label=Coverage)
 ![polars-version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Falixtc%2Fpelage%2Fmaster%2Fpyproject.toml&query=%24.tool.poetry.dependencies.polars&label=Polars)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/pelage?color=red.png)
 ![Licence](https://img.shields.io/github/license/alixtc/pelage.png)
