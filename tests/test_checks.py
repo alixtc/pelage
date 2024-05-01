@@ -647,20 +647,20 @@ def test_custom_checks_should_select_only_affected_columns():
 
 def test_has_mandatory_values():
     given = pl.DataFrame({"a": [1, 2]})
-    when = given.pipe(checks.has_mandatory_values, {"a": [1, 2]})
+    when = given.pipe(plg.has_mandatory_values, {"a": [1, 2]})
     testing.assert_frame_equal(given, when)
 
 
 def test_has_mandatory_values_should_error_on_missing_elements():
     given = pl.DataFrame({"a": [1, 2]})
     with pytest.raises(plg.PolarsAssertError):
-        given.pipe(checks.has_mandatory_values, {"a": [3]})
+        given.pipe(plg.has_mandatory_values, {"a": [3]})
 
 
 def test_has_mandatory_values_should_give_feedback_on_missing_values():
     given = pl.DataFrame({"a": [1, 1], "b": ["x", "y"]})
     with pytest.raises(plg.PolarsAssertError) as err:
-        given.pipe(checks.has_mandatory_values, {"a": [1, 2], "b": ["s", "t"]})
+        given.pipe(plg.has_mandatory_values, {"a": [1, 2], "b": ["s", "t"]})
 
     expected = {"a": [2], "b": ["s", "t"]}
     assert str(expected) in str(err.value)
@@ -668,14 +668,14 @@ def test_has_mandatory_values_should_give_feedback_on_missing_values():
 
 def test_has_mandatory_values_should_accept_group_by_option():
     given = pl.DataFrame({"a": [1, 1, 1, 2], "group": ["G1", "G1", "G2", "G2"]})
-    when = given.pipe(checks.has_mandatory_values, {"a": [1]}, group_by="group")
+    when = given.pipe(plg.has_mandatory_values, {"a": [1]}, group_by="group")
     testing.assert_frame_equal(given, when)
 
 
 def test_has_mandatory_values_by_group_should_error_when_not_all_values_are_present():
     given = pl.DataFrame({"a": [1, 1, 1, 2], "group": ["G1", "G1", "G2", "G2"]})
     with pytest.raises(plg.PolarsAssertError):
-        given.pipe(checks.has_mandatory_values, {"a": [1, 2]}, group_by="group")
+        given.pipe(plg.has_mandatory_values, {"a": [1, 2]}, group_by="group")
 
 
 def test_mutually_exclusive_ranges_allows_to_specify_low_and_high_bounds():

@@ -108,12 +108,43 @@ def has_shape(
     │ 1   ┆ a   │
     │ 2   ┆ b   │
     └─────┴─────┘
+    >>> df.pipe(plg.has_shape, (2, None))
+    shape: (2, 2)
+    ┌─────┬─────┐
+    │ a   ┆ b   │
+    │ --- ┆ --- │
+    │ i64 ┆ str │
+    ╞═════╪═════╡
+    │ 1   ┆ a   │
+    │ 2   ┆ b   │
+    └─────┴─────┘
     >>> df.pipe(plg.has_shape, (1, 2))
     Traceback (most recent call last):
     ...
     pelage.checks.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
-    -->The data has not the expected shape
+    -->The data has not the expected shape: (1, 2)
+
+    >>> group_example_df = pl.DataFrame(
+    ...     {
+    ...         "a": [1, 2, 3],
+    ...         "b": ["a", "b", "b"],
+    ...     }
+    ... )
+    >>> group_example_df.pipe(plg.has_shape, (1, None), group_by="b")
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (1, 2)
+    ┌─────┬─────┐
+    │ b   ┆ len │
+    │ --- ┆ --- │
+    │ str ┆ u32 │
+    ╞═════╪═════╡
+    │ b   ┆ 2   │
+    └─────┴─────┘
+    Error with the DataFrame passed to the check function:
+    -->The number of rows per group does not match the specified value: 1
     """
     if group_by is not None:
         non_matching_row_count = _safe_group_by_length(data, group_by).filter(
@@ -804,6 +835,39 @@ def has_mandatory_values(
     pelage.checks.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
     -->Missing mandatory values in the following columns: {'a': [3, 4]}
+
+    >>> group_df_example = pl.DataFrame(
+    ...     {
+    ...         "a": [1, 1, 1, 2],
+    ...         "group": ["G1", "G1", "G2", "G2"],
+    ...     }
+    ... )
+    >>> group_df_example.pipe(plg.has_mandatory_values, {"a": [1, 2]})
+    shape: (4, 2)
+    ┌─────┬───────┐
+    │ a   ┆ group │
+    │ --- ┆ ---   │
+    │ i64 ┆ str   │
+    ╞═════╪═══════╡
+    │ 1   ┆ G1    │
+    │ 1   ┆ G1    │
+    │ 1   ┆ G2    │
+    │ 2   ┆ G2    │
+    └─────┴───────┘
+    >>> group_df_example.pipe(plg.has_mandatory_values, {"a": [1, 2]}, group_by="group")
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (1, 3)
+    ┌───────┬───────────┬────────────────┐
+    │ group ┆ a         ┆ a_expected_set │
+    │ ---   ┆ ---       ┆ ---            │
+    │ str   ┆ list[i64] ┆ list[i64]      │
+    ╞═══════╪═══════════╪════════════════╡
+    │ G1    ┆ [1]       ┆ [1, 2]         │
+    └───────┴───────────┴────────────────┘
+    Error with the DataFrame passed to the check function:
+    -->Some groups are missing mandatory values
     """
     if group_by is not None:
         groups_missing_mandatory = (
@@ -857,7 +921,7 @@ def not_null_proportion(
     items: Dict[str, Union[float, Tuple[float, float]]],
     group_by: Optional[PolarsOverClauseInput] = None,
 ) -> pl.DataFrame:
-    """sserts that the proportion of non-null values present in a column is between
+    """Asserts that the proportion of non-null values present in a column is between
     a specified range [at_least, at_most] where at_most is an optional argument
     (default: 1.0).
 
@@ -908,13 +972,46 @@ def not_null_proportion(
     ...
     pelage.checks.PolarsAssertError: Details
     shape: (1, 4)
-    ┌────────┬─────────────────────┬──────────┬──────────┐
-    │ column ┆ not_null_proportion ┆ min_prop ┆ max_prop │
-    │ ---    ┆ ---                 ┆ ---      ┆ ---      │
-    │ str    ┆ f64                 ┆ f64      ┆ i64      │
-    ╞════════╪═════════════════════╪══════════╪══════════╡
-    │ a      ┆ 0.333333            ┆ 0.7      ┆ 1        │
-    └────────┴─────────────────────┴──────────┴──────────┘
+    ┌────────┬───────────────────┬──────────┬──────────┐
+    │ column ┆ not_null_fraction ┆ min_prop ┆ max_prop │
+    │ ---    ┆ ---               ┆ ---      ┆ ---      │
+    │ str    ┆ f64               ┆ f64      ┆ i64      │
+    ╞════════╪═══════════════════╪══════════╪══════════╡
+    │ a      ┆ 0.333333          ┆ 0.7      ┆ 1        │
+    └────────┴───────────────────┴──────────┴──────────┘
+    Error with the DataFrame passed to the check function:
+    -->Some columns contains a proportion of nulls beyond specified limits
+
+    >>> group_df = pl.DataFrame(
+    ...     {
+    ...         "a": [1, 1, None, None],
+    ...         "group": ["A", "A", "B", "B"],
+    ...     }
+    ... )
+    >>> group_df.pipe(plg.not_null_proportion, {"a": 0.5})
+    shape: (4, 2)
+    ┌──────┬───────┐
+    │ a    ┆ group │
+    │ ---  ┆ ---   │
+    │ i64  ┆ str   │
+    ╞══════╪═══════╡
+    │ 1    ┆ A     │
+    │ 1    ┆ A     │
+    │ null ┆ B     │
+    │ null ┆ B     │
+    └──────┴───────┘
+    >>> group_df.pipe(plg.not_null_proportion, {"a": 0.5}, group_by="group")
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (1, 5)
+    ┌───────┬────────┬───────────────────┬──────────┬──────────┐
+    │ group ┆ column ┆ not_null_fraction ┆ min_prop ┆ max_prop │
+    │ ---   ┆ ---    ┆ ---               ┆ ---      ┆ ---      │
+    │ str   ┆ str    ┆ f64               ┆ f64      ┆ i64      │
+    ╞═══════╪════════╪═══════════════════╪══════════╪══════════╡
+    │ B     ┆ a      ┆ 0.0               ┆ 0.5      ┆ 1        │
+    └───────┴────────┴───────────────────┴──────────┴──────────┘
     Error with the DataFrame passed to the check function:
     -->Some columns contains a proportion of nulls beyond specified limits
     """
