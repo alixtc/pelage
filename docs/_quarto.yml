@@ -56,9 +56,7 @@ quartodoc:
       - unique_combination_of_columns
       - accepted_values
       - not_accepted_values
-      - has_mandatory_values
       - not_null_proportion
-      - at_least_one
       - accepted_range
       - maintains_relationships
       - custom_check
@@ -68,6 +66,9 @@ quartodoc:
       package: pelage.checks
       desc: List of check functions with optional `group_by` option.
       contents:
+      - has_shape
+      - at_least_one
+      - has_mandatory_values
       - not_constant
       - is_monotonic
     - title: Exceptions
