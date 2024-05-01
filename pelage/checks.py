@@ -19,6 +19,8 @@ PolarsColumnType = Union[
     str, Iterable[str], PolarsDataType, Iterable[PolarsDataType], pl.Expr
 ]
 
+IntOrNone = Union[int, None]
+
 PolarsOverClauseInput = Union[IntoExpr, Iterable[IntoExpr]]
 
 
@@ -61,15 +63,26 @@ class PolarsAssertError(Exception):
         return f"Details\n{base_message}\n-->{self.supp_message}"
 
 
-def has_shape(data: pl.DataFrame, shape: Tuple[int, int]) -> pl.DataFrame:
-    """Check if a DataFrame has the specified shape
+def has_shape(
+    data: pl.DataFrame,
+    shape: Tuple[IntOrNone, IntOrNone],
+    group_by: Optional[PolarsOverClauseInput] = None,
+) -> pl.DataFrame:
+    """Check if a DataFrame has the specified shape.
+
+    When used with the group_by option, this can be used to get the row count per group.
 
     Parameters
     ----------
     data : pl.DataFrame
         Input data
-    shape : Tuple[int, int]
-        Tuple with the expected dataframe shape, as from the `.shape()` method
+    shape : Tuple[IntOrNone, IntOrNone]
+        Tuple with the expected dataframe shape, as from the `.shape()` method.
+        You can use `None` for one of the two elements of the shape tuple if you do not
+        want to check this dimension.
+
+        Ex: `(5, None)` will ensure that the dataframe has 5 rows regardless of the
+        number of columns.
 
     Returns
     -------
@@ -98,8 +111,32 @@ def has_shape(data: pl.DataFrame, shape: Tuple[int, int]) -> pl.DataFrame:
     Error with the DataFrame passed to the check function:
     -->The data has not the expected shape
     """
-    if data.shape != shape:
-        raise PolarsAssertError(supp_message="The data has not the expected shape")
+    if group_by is not None:
+        non_matching_row_count = _safe_group_by_length(data, group_by).filter(
+            pl.col("len") != shape[0]
+        )
+        if len(non_matching_row_count) > 0:
+            raise PolarsAssertError(
+                df=non_matching_row_count,
+                supp_message=f"The number of rows per group does not match the specified value: {shape[0]}",  # noqa: E501
+            )
+        return data
+
+    if shape[0] is None and shape[1] is None:
+        raise ValueError(
+            "Both dimensions for expected shape cannot be set None simultaneously"
+        )
+    elif shape[1] is None:
+        actual_shape = data.shape[0], None
+    elif shape[0] is None:
+        actual_shape = None, data.shape[1]
+    else:
+        actual_shape = data.shape
+
+    if actual_shape != shape:
+        raise PolarsAssertError(
+            supp_message=f"The data has not the expected shape: {shape}"
+        )
     return data
 
 
@@ -433,15 +470,14 @@ def unique(
     return data
 
 
-def _non_unique_comibation(data: pl.DataFrame, columns: pl.Expr) -> pl.DataFrame:
+def _safe_group_by_length(
+    data: pl.DataFrame,
+    group_by: PolarsOverClauseInput,
+) -> pl.DataFrame:
     if version.parse(pl.__version__) < version.parse("0.20.0"):
-        return (
-            data.group_by(columns)
-            .agg(pl.count().alias("len"))
-            .filter(pl.col("len") > 1)
-        )
+        return data.group_by(group_by).agg(pl.count().alias("len"))
     else:
-        return data.group_by(columns).len().filter(pl.col("len") > 1)
+        return data.group_by(group_by).len()
 
 
 def unique_combination_of_columns(
@@ -497,7 +533,9 @@ def unique_combination_of_columns(
     -->Some combinations of columns are not unique. See above, selected: col("a")
     """
     cols = _sanitize_column_inputs(columns)
-    non_unique_combinations = _non_unique_comibation(data, cols)
+    non_unique_combinations = _safe_group_by_length(data, cols).filter(
+        pl.col("len") > 1
+    )
     if not non_unique_combinations.is_empty():
         raise PolarsAssertError(
             non_unique_combinations,
@@ -722,7 +760,11 @@ def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFr
     return data
 
 
-def has_mandatory_values(data: pl.DataFrame, items: Dict[str, list]) -> pl.DataFrame:
+def has_mandatory_values(
+    data: pl.DataFrame,
+    items: Dict[str, list],
+    group_by: Optional[PolarsOverClauseInput] = None,
+) -> pl.DataFrame:
     """Ensure that all specified values are present in their respective column.
 
     Parameters
@@ -759,6 +801,20 @@ def has_mandatory_values(data: pl.DataFrame, items: Dict[str, list]) -> pl.DataF
     Error with the DataFrame passed to the check function:
     -->Missing mandatory values in the following columns: {'a': [3, 4]}
     """
+    if group_by is not None:
+        groups_missing_mandatory = (
+            data.group_by(group_by)
+            .agg(pl.col(k).unique() for k in items.keys())
+            .pipe(compare_sets_per_column, items)
+        )
+
+        if len(groups_missing_mandatory) > 0:
+            raise PolarsAssertError(
+                df=groups_missing_mandatory,
+                supp_message="Some groups are missing mandatory values",
+            )
+        return data
+
     selected_data = data.select(pl.col(items.keys())).unique()
     missing = {}
     for key in items:
@@ -773,6 +829,25 @@ def has_mandatory_values(data: pl.DataFrame, items: Dict[str, list]) -> pl.DataF
             supp_message=f"Missing mandatory values in the following columns: {missing}"
         )
     return data
+
+
+def compare_sets_per_column(data: pl.DataFrame, items: dict) -> pl.DataFrame:
+    is_old_version = version.parse(pl.__version__) < version.parse("0.20.0")
+
+    if is_old_version:
+        expected_sets = {f"{k}_expected_set": v for k, v in items.items()}
+    else:
+        expected_sets = {f"{k}_expected_set": pl.lit(v) for k, v in items.items()}
+
+    return data.with_columns(**expected_sets).filter(
+        pl.Expr.or_(
+            *[
+                pl.col(f"{k}_expected_set").list.set_difference(pl.col(k)).list.len()
+                != 0
+                for k in items.keys()
+            ]
+        )
+    )
 
 
 def not_null_proportion(

@@ -79,6 +79,53 @@ def test_is_shape():
     testing.assert_frame_equal(given, when)
 
 
+@pytest.mark.parametrize("expected_shape", [(3, 2), (3, None), (None, 2)])
+def test_is_shape_should_accept_none_values_to_facilitate_comparison(expected_shape):
+    given = pl.DataFrame(
+        {
+            "a": [1, 2, 3],
+            "b": ["a", "b", "c"],
+        }
+    )
+    when = given.pipe(plg.has_shape, expected_shape)
+    testing.assert_frame_equal(given, when)
+
+
+@pytest.mark.parametrize("expected_shape", [(4, 2), (4, None), (None, 3)])
+def test_is_shape_should_accept_error_with_wrong_expected_dimensions(expected_shape):
+    given = pl.DataFrame(
+        {
+            "a": [1, 2, 3],
+            "b": ["a", "b", "c"],
+        }
+    )
+    with pytest.raises(checks.PolarsAssertError):
+        given.pipe(plg.has_shape, expected_shape)
+
+
+def test_is_shape_should_accept_group_by_option():
+    given = pl.DataFrame(
+        {
+            "a": [1, 2, 3],
+            "b": ["a", "b", "c"],
+        }
+    )
+
+    expected = given.pipe(plg.has_shape, (1, None), group_by="b")
+    testing.assert_frame_equal(given, expected)
+
+
+def test_is_shape_should_should_error_when_row_count_per_group_does_not_match():
+    given = pl.DataFrame(
+        {
+            "a": [1, 2, 3],
+            "b": ["a", "b", "b"],
+        }
+    )
+    with pytest.raises(checks.PolarsAssertError):
+        given.pipe(plg.has_shape, (1, None), group_by="b")
+
+
 def test_has_columns():
     given = pl.DataFrame({"a": [1, 2, 3]})
     when = given.pipe(plg.has_columns, "a")
@@ -602,6 +649,18 @@ def test_has_mandatory_values_should_give_feedback_on_missing_values():
 
     expected = {"a": [2], "b": ["s", "t"]}
     assert str(expected) in str(err.value)
+
+
+def test_has_mandatory_values_should_accept_group_by_option():
+    given = pl.DataFrame({"a": [1, 1, 1, 2], "group": ["G1", "G1", "G2", "G2"]})
+    when = given.pipe(checks.has_mandatory_values, {"a": [1]}, group_by="group")
+    testing.assert_frame_equal(given, when)
+
+
+def test_has_mandatory_values_by_group_should_error_when_not_all_values_are_present():
+    given = pl.DataFrame({"a": [1, 1, 1, 2], "group": ["G1", "G1", "G2", "G2"]})
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(checks.has_mandatory_values, {"a": [1, 2]}, group_by="group")
 
 
 def test_mutually_exclusive_ranges_allows_to_specify_low_and_high_bounds():
