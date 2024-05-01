@@ -954,6 +954,7 @@ def _format_ranges_by_columns(
 def at_least_one(
     data: pl.DataFrame,
     columns: Optional[PolarsColumnType] = None,
+    group_by: Optional[PolarsOverClauseInput] = None,
 ) -> pl.DataFrame:
     """Ensure that there is at least one not null value in the designated columns.
 
@@ -993,8 +994,66 @@ def at_least_one(
     pelage.checks.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
     -->Some columns contains only null values: ['a']
+    >>> df = pl.DataFrame(
+    ...         {
+    ...             "a": [None, None, None, 2],
+    ...             "group": ["G1", "G1", "G2", "G2"],
+    ...         }
+    ...     )
+    >>> df.pipe(plg.at_least_one, "a")
+    shape: (4, 2)
+    ┌──────┬───────┐
+    │ a    ┆ group │
+    │ ---  ┆ ---   │
+    │ i64  ┆ str   │
+    ╞══════╪═══════╡
+    │ null ┆ G1    │
+    │ null ┆ G1    │
+    │ null ┆ G2    │
+    │ 2    ┆ G2    │
+    └──────┴───────┘
+    >>> df.pipe(plg.at_least_one, "a", group_by="group")
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (1, 3)
+    ┌───────┬─────────┬──────────────┐
+    │ group ┆ columns ┆ at_least_one │
+    │ ---   ┆ ---     ┆ ---          │
+    │ str   ┆ str     ┆ bool         │
+    ╞═══════╪═════════╪══════════════╡
+    │ G1    ┆ a       ┆ false        │
+    └───────┴─────────┴──────────────┘
+    Error with the DataFrame passed to the check function:
+    -->Some columns contains only null values per group
     """
+
     selected_columns = _sanitize_column_inputs(columns)
+
+    if group_by is not None:
+        pl_len = (
+            pl.len()
+            if version.parse(pl.__version__) >= version.parse("0.20.0")
+            else pl.count()
+        )
+
+        only_nulls_per_group = (
+            data.group_by(group_by)
+            .agg(selected_columns.null_count() < pl_len)
+            .melt(
+                id_vars=group_by,  # type: ignore
+                variable_name="columns",
+                value_name="at_least_one",
+            )
+            .filter(pl.col("at_least_one").not_())
+        )
+
+        if len(only_nulls_per_group) > 0:
+            raise PolarsAssertError(
+                df=only_nulls_per_group,
+                supp_message="Some columns contains only null values per group",
+            )
+        return data
 
     are_column_nulls = data.select(selected_columns).null_count() == len(data)
 

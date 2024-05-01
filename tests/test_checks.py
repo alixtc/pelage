@@ -777,3 +777,20 @@ def test_at_least_one_should_accept_column_selection():
 
     with pytest.raises(plg.PolarsAssertError):
         given.pipe(plg.at_least_one)
+
+
+def test_at_least_one_should_accept_group_by_option():
+    given = pl.DataFrame({"a": [None, 1, None, 2], "group": ["G1", "G1", "G2", "G2"]})
+    when = given.pipe(plg.at_least_one, group_by="group")
+    testing.assert_frame_equal(given, when)
+
+
+def test_at_least_one_should_error_when_only_null_for_given_group():
+    given = pl.DataFrame(
+        {
+            "a": [None, None, None, 2],
+            "group": ["G1", "G1", "G2", "G2"],
+        }
+    )
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(plg.at_least_one, "a", group_by="group")
