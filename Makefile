@@ -19,7 +19,7 @@ black:
 test:
 	@coverage run --data-file=".coverage/.coverage" -m pytest tests/*.py
 	@coverage report --data-file=".coverage/.coverage" -m --omit="${VIRTUAL_ENV}/lib/python*"
-	@coverage json --data-file=".coverage/.coverage" -o ".coverage/coverage.json"
+	@coverage json --data-file=".coverage/.coverage" -o ".coverage/coverage.json" --pretty-print
 
 clean:
 	@rm -f */version.txt
