@@ -22,7 +22,6 @@ test:
 
 clean:
 	@rm -f */version.txt
-	@rm -f .coverage
 	@rm -fr */__pycache__ */*.pyc __pycache__
 	@rm -fr build dist
 	@rm -fr pelage-*.dist-info
