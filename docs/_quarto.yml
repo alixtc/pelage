@@ -68,8 +68,9 @@ quartodoc:
       contents:
       - has_shape
       - at_least_one
-      - has_mandatory_values
       - not_constant
+      - not_null_proportion
+      - has_mandatory_values
       - is_monotonic
     - title: Exceptions
       desc: Types aliases and custom exceptions

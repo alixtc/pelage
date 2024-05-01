@@ -235,20 +235,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/has_mandatory_values.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_mandatory_values</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/not_null_proportion.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">not_null_proportion</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/at_least_one.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">at_least_one</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -294,8 +282,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../reference/has_shape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">has_shape</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/at_least_one.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">at_least_one</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../reference/not_constant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">not_constant</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/not_null_proportion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">not_null_proportion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/has_mandatory_values.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">has_mandatory_values</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -350,16 +362,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="pelage.checks.has_shape" class="level1">
 <h1>has_shape</h1>
-<p><code>checks.has_shape(data, shape)</code></p>
-<p>Check if a DataFrame has the specified shape</p>
+<p><code>checks.has_shape(data, shape, group_by=None)</code></p>
+<p>Check if a DataFrame has the specified shape.</p>
+<p>When used with the group_by option, this can be used to get the row count per group.</p>
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="table">
 <colgroup>
-<col style="width: 7%">
-<col style="width: 21%">
-<col style="width: 60%">
-<col style="width: 10%">
+<col style="width: 2%">
+<col style="width: 18%">
+<col style="width: 76%">
+<col style="width: 3%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -378,8 +391,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td><code>shape</code></td>
-<td>typing.Tuple[int, int]</td>
-<td>Tuple with the expected dataframe shape, as from the <code>.shape()</code> method</td>
+<td>typing.Tuple[pelage.checks.IntOrNone, pelage.checks.IntOrNone]</td>
+<td>Tuple with the expected dataframe shape, as from the <code>.shape()</code> method. You can use <code>None</code> for one of the two elements of the shape tuple if you do not want to check this dimension. Ex: <code>(5, None)</code> will ensure that the dataframe has 5 rows regardless of the number of columns.</td>
 <td><em>required</em></td>
 </tr>
 </tbody>
@@ -421,12 +434,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">1</span>   ┆ a   │</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">2</span>   ┆ b   │</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>└─────┴─────┘</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df.pipe(plg.has_shape, (<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Traceback (most recent call last):</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>pelage.checks.PolarsAssertError: Details</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">with</span> the DataFrame passed to the check function:</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="op">--&gt;</span>The data has <span class="kw">not</span> the expected shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df.pipe(plg.has_shape, (<span class="dv">2</span>, <span class="va">None</span>))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>shape: (<span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>┌─────┬─────┐</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>│ a   ┆ b   │</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>│ <span class="op">---</span> ┆ <span class="op">---</span> │</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>│ i64 ┆ <span class="bu">str</span> │</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>╞═════╪═════╡</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">1</span>   ┆ a   │</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">2</span>   ┆ b   │</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>└─────┴─────┘</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df.pipe(plg.has_shape, (<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>Traceback (most recent call last):</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>pelage.checks.PolarsAssertError: Details</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">with</span> the DataFrame passed to the check function:</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="op">--&gt;</span>The data has <span class="kw">not</span> the expected shape: (<span class="dv">1</span>, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> group_example_df <span class="op">=</span> pl.DataFrame(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>...     {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>...         <span class="st">"a"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>...         <span class="st">"b"</span>: [<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>],</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>...     }</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>... )</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> group_example_df.pipe(plg.has_shape, (<span class="dv">1</span>, <span class="va">None</span>), group_by<span class="op">=</span><span class="st">"b"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>Traceback (most recent call last):</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>pelage.checks.PolarsAssertError: Details</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>shape: (<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>┌─────┬─────┐</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>│ b   ┆ <span class="bu">len</span> │</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>│ <span class="op">---</span> ┆ <span class="op">---</span> │</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>│ <span class="bu">str</span> ┆ u32 │</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>╞═════╪═════╡</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>│ b   ┆ <span class="dv">2</span>   │</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>└─────┴─────┘</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">with</span> the DataFrame passed to the check function:</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="op">--&gt;</span>The number of rows per group does <span class="kw">not</span> match the specified value: <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
