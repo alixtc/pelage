@@ -5,6 +5,9 @@ description = "This package contains a collection of tests to improve your Polar
 authors = ["Alix Tiran-Cappello <alix.tiran-cappello@laposte.net>"]
 license = "MIT"
 readme = "README.md"
+homepage = "https://alixtc.github.io/pelage"
+repository = "https://github.com/alixtc/pelage/"
+documentation = "https://alixtc.github.io/pelage/notebooks/examples.html"
 
 [tool.poetry.dependencies]
 python = ">= 3.8, < 3.13"
