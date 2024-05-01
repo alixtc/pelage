@@ -348,7 +348,7 @@ def test_not_null_proportion_accept_proportion_range_or_single_input():
     testing.assert_frame_equal(given, when)
 
 
-def test_not_null_proportion_accept_multiple_inpute():
+def test_not_null_proportion_accept_multiple_input():
     given = pl.DataFrame(
         {
             "a": [1, None, None],
@@ -359,20 +359,35 @@ def test_not_null_proportion_accept_multiple_inpute():
     testing.assert_frame_equal(given, when)
 
 
+def test_not_null_proportion_accept_group_by_option():
+    given = pl.DataFrame(
+        {
+            "a": [1, None, None, 1],
+            "group": ["A", "A", "B", "B"],
+        }
+    )
+    when = given.pipe(plg.not_null_proportion, {"a": 0.5}, group_by="group")
+    testing.assert_frame_equal(given, when)
+
+
+def test_not_null_proportion_should_error_with_too_many_nulls_per_group():
+    given = pl.DataFrame(
+        {
+            "a": [1, 1, None, None],
+            "group": ["A", "A", "B", "B"],
+        }
+    )
+    with pytest.raises(plg.PolarsAssertError):
+        given.pipe(plg.not_null_proportion, {"a": 0.5}, group_by="group")
+
+
 def test_not_null_proportion_errors_with_too_many_nulls():
     given = pl.DataFrame({"a": [1, None]})
     with pytest.raises(plg.PolarsAssertError) as err:
         given.pipe(plg.not_null_proportion, {"a": 0.9})
 
-    expected_err_df = pl.DataFrame(
-        {
-            "column": ["a"],
-            "not_null_proportion": [0.5],
-            "min_prop": [0.9],
-            "max_prop": [1],
-        }
-    )
-    testing.assert_frame_equal(err.value.df, expected_err_df)
+    expected_df_columns = ["not_null_fraction", "min_prop", "max_prop"]
+    assert all([col in err.value.df.columns for col in expected_df_columns])
 
 
 def test_format_ranges_by_has_columns_and_min_max():

@@ -24,6 +24,10 @@ IntOrNone = Union[int, None]
 PolarsOverClauseInput = Union[IntoExpr, Iterable[IntoExpr]]
 
 
+def _has_sufficient_pl_version() -> bool:
+    return version.parse(pl.__version__) >= version.parse("0.20.0")
+
+
 class PolarsAssertError(Exception):
     """Custom Error providing detailed information about the failed check.
 
@@ -474,10 +478,10 @@ def _safe_group_by_length(
     data: pl.DataFrame,
     group_by: PolarsOverClauseInput,
 ) -> pl.DataFrame:
-    if version.parse(pl.__version__) < version.parse("0.20.0"):
-        return data.group_by(group_by).agg(pl.count().alias("len"))
-    else:
+    if _has_sufficient_pl_version():
         return data.group_by(group_by).len()
+    else:
+        return data.group_by(group_by).agg(pl.count().alias("len"))
 
 
 def unique_combination_of_columns(
@@ -832,12 +836,10 @@ def has_mandatory_values(
 
 
 def compare_sets_per_column(data: pl.DataFrame, items: dict) -> pl.DataFrame:
-    is_old_version = version.parse(pl.__version__) < version.parse("0.20.0")
-
-    if is_old_version:
-        expected_sets = {f"{k}_expected_set": v for k, v in items.items()}
-    else:
+    if _has_sufficient_pl_version():
         expected_sets = {f"{k}_expected_set": pl.lit(v) for k, v in items.items()}
+    else:
+        expected_sets = {f"{k}_expected_set": v for k, v in items.items()}
 
     return data.with_columns(**expected_sets).filter(
         pl.Expr.or_(
@@ -851,7 +853,9 @@ def compare_sets_per_column(data: pl.DataFrame, items: dict) -> pl.DataFrame:
 
 
 def not_null_proportion(
-    data: pl.DataFrame, items: Dict[str, Union[float, Tuple[float, float]]]
+    data: pl.DataFrame,
+    items: Dict[str, Union[float, Tuple[float, float]]],
+    group_by: Optional[PolarsOverClauseInput] = None,
 ) -> pl.DataFrame:
     """sserts that the proportion of non-null values present in a column is between
     a specified range [at_least, at_most] where at_most is an optional argument
@@ -917,18 +921,32 @@ def not_null_proportion(
 
     pl_ranges = _format_ranges_by_columns(items)
 
-    out_of_range_null_proportions = (
-        (data.null_count() / len(data))
-        .melt(variable_name="column", value_name="null_proportion")
-        .with_columns(not_null_proportion=1 - pl.col("null_proportion"))
-        .join(pl_ranges, on="column", how="inner")
-        .filter(
-            pl.col("not_null_proportion")
-            .is_between(
-                pl.col("min_prop"),
-                pl.col("max_prop"),
+    if group_by is None:
+        null_proportions = (
+            (data.null_count() / len(data))
+            .melt(variable_name="column", value_name="null_proportion")
+            .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+        )
+    else:
+        pl_len = pl.len() if _has_sufficient_pl_version() else pl.count()
+
+        null_proportions = (
+            data.group_by(group_by)
+            .agg(pl.all().null_count() / pl_len)
+            .melt(
+                id_vars=group_by,  # type: ignore
+                variable_name="column",
+                value_name="null_proportion",
             )
-            .not_()
+            .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+        )
+
+    out_of_range_null_proportions = (
+        null_proportions.join(pl_ranges, on="column", how="inner")
+        .filter(
+            ~pl.col("not_null_fraction").is_between(
+                pl.col("min_prop"), pl.col("max_prop")
+            )
         )
         .drop("null_proportion")
     )
@@ -1031,11 +1049,7 @@ def at_least_one(
     selected_columns = _sanitize_column_inputs(columns)
 
     if group_by is not None:
-        pl_len = (
-            pl.len()
-            if version.parse(pl.__version__) >= version.parse("0.20.0")
-            else pl.count()
-        )
+        pl_len = pl.len() if _has_sufficient_pl_version() else pl.count()
 
         only_nulls_per_group = (
             data.group_by(group_by)
@@ -1552,10 +1566,10 @@ def mutually_exclusive_ranges(
 
 
 def _add_row_index(data: pl.DataFrame) -> pl.DataFrame:
-    if version.parse(pl.__version__) < version.parse("0.20.0"):
-        return data.with_row_count().rename({"row_nr": "index"})
-    else:
+    if _has_sufficient_pl_version():
         return data.with_row_index()
+    else:
+        return data.with_row_count().rename({"row_nr": "index"})
 
 
 def column_is_within_n_std(
