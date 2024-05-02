@@ -47,7 +47,6 @@ quartodoc:
       desc: List of check functions.
       package: pelage.checks
       contents:
-      - has_shape
       - has_columns
       - has_dtypes
       - has_no_nulls
@@ -56,12 +55,10 @@ quartodoc:
       - unique_combination_of_columns
       - accepted_values
       - not_accepted_values
-      - not_null_proportion
       - accepted_range
       - maintains_relationships
-      - custom_check
-      - mutually_exclusive_ranges
       - column_is_within_n_std
+      - custom_check
     - title: Checks with group_by
       package: pelage.checks
       desc: List of check functions with optional `group_by` option.
@@ -71,6 +68,7 @@ quartodoc:
       - not_constant
       - not_null_proportion
       - has_mandatory_values
+      - mutually_exclusive_ranges
       - is_monotonic
     - title: Exceptions
       desc: Types aliases and custom exceptions

@@ -63,7 +63,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../reference/has_mandatory_values.html" rel="next">
+<link href="../reference/not_null_proportion.html" rel="next">
 <link href="../reference/at_least_one.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -181,12 +181,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/has_shape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_shape</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/has_columns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">has_columns</span></a>
   </div>
@@ -235,12 +229,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/not_null_proportion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">not_null_proportion</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/accepted_range.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">accepted_range</span></a>
   </div>
@@ -253,20 +241,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/custom_check.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">custom_check</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/mutually_exclusive_ranges.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">mutually_exclusive_ranges</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/column_is_within_n_std.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">column_is_within_n_std</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/custom_check.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">custom_check</span></a>
   </div>
 </li>
       </ul>
@@ -308,6 +290,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container">
   <a href="../reference/has_mandatory_values.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">has_mandatory_values</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/mutually_exclusive_ranges.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">mutually_exclusive_ranges</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -448,6 +436,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>└────────┴────────────┘</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">with</span> the DataFrame passed to the check function:</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="op">--&gt;</span>Some columns are constant</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The folloing example details how to perform this checks for groups:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> pelage <span class="im">as</span> plg</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df <span class="op">=</span> pl.DataFrame(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>...     {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>...         <span class="st">"a"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>],</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>...         <span class="st">"b"</span>: [<span class="st">"A"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"B"</span>],</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>...     }</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>... )</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df.pipe(plg.not_constant, <span class="st">"a"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>shape: (<span class="dv">4</span>, <span class="dv">2</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>┌─────┬─────┐</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>│ a   ┆ b   │</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>│ <span class="op">---</span> ┆ <span class="op">---</span> │</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>│ i64 ┆ <span class="bu">str</span> │</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>╞═════╪═════╡</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">1</span>   ┆ A   │</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">2</span>   ┆ A   │</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">1</span>   ┆ B   │</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>│ <span class="dv">1</span>   ┆ B   │</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>└─────┴─────┘</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df.pipe(plg.not_constant, <span class="st">"a"</span>, group_by<span class="op">=</span><span class="st">"b"</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>Traceback (most recent call last):</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>pelage.checks.PolarsAssertError: Details</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>shape: (<span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>┌─────┬────────┬────────────┐</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>│ b   ┆ column ┆ n_distinct │</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>│ <span class="op">---</span> ┆ <span class="op">---</span>    ┆ <span class="op">---</span>        │</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>│ <span class="bu">str</span> ┆ <span class="bu">str</span>    ┆ u32        │</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>╞═════╪════════╪════════════╡</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>│ B   ┆ a      ┆ <span class="dv">1</span>          │</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>└─────┴────────┴────────────┘</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">with</span> the DataFrame passed to the check function:</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="op">--&gt;</span>Some columns are constant within a given group</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -870,8 +893,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../reference/has_mandatory_values.html" class="pagination-link" aria-label="has_mandatory_values">
-        <span class="nav-page-text">has_mandatory_values</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../reference/not_null_proportion.html" class="pagination-link" aria-label="not_null_proportion">
+        <span class="nav-page-text">not_null_proportion</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -63,8 +63,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../reference/column_is_within_n_std.html" rel="next">
-<link href="../reference/custom_check.html" rel="prev">
+<link href="../reference/is_monotonic.html" rel="next">
+<link href="../reference/has_mandatory_values.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -152,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/has_shape.html">Check functions</a></li><li class="breadcrumb-item"><a href="../reference/mutually_exclusive_ranges.html">mutually_exclusive_ranges</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/has_shape.html">Checks with group_by</a></li><li class="breadcrumb-item"><a href="../reference/mutually_exclusive_ranges.html">mutually_exclusive_ranges</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
     </div>
@@ -179,12 +179,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a>
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_shape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_shape</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../reference/has_columns.html" class="sidebar-item-text sidebar-link">
@@ -235,12 +229,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/not_null_proportion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">not_null_proportion</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/accepted_range.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">accepted_range</span></a>
   </div>
@@ -253,20 +241,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/custom_check.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">custom_check</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/mutually_exclusive_ranges.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">mutually_exclusive_ranges</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/column_is_within_n_std.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">column_is_within_n_std</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/custom_check.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">custom_check</span></a>
   </div>
 </li>
       </ul>
@@ -308,6 +290,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container">
   <a href="../reference/has_mandatory_values.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">has_mandatory_values</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/mutually_exclusive_ranges.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">mutually_exclusive_ranges</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -362,16 +350,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="pelage.checks.mutually_exclusive_ranges" class="level1">
 <h1>mutually_exclusive_ranges</h1>
-<p><code>checks.mutually_exclusive_ranges(data, low_bound, high_bound, partition_by=None)</code></p>
+<p><code>checks.mutually_exclusive_ranges(data, low_bound, high_bound, group_by=None)</code></p>
 <p>Ensure that the specified columns contains no overlapping intervals.</p>
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="table">
 <colgroup>
+<col style="width: 8%">
+<col style="width: 37%">
+<col style="width: 46%">
 <col style="width: 7%">
-<col style="width: 40%">
-<col style="width: 45%">
-<col style="width: 5%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -401,9 +389,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td><code>partition_by</code></td>
-<td>polars.type_aliases.IntoExpr | typing.Iterable[polars.type_aliases.IntoExpr]</td>
-<td>Parameter compatible with <code>.over()</code> function to split the check by groups, by default None</td>
+<td><code>group_by</code></td>
+<td>IntoExpr | Iterable[IntoExpr], optional, by default None</td>
+<td>Parameter compatible with <code>.over()</code> function to split the check by groups,</td>
 <td><code>None</code></td>
 </tr>
 </tbody>
@@ -898,13 +886,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
-      <a href="../reference/custom_check.html" class="pagination-link" aria-label="custom_check">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">custom_check</span>
+      <a href="../reference/has_mandatory_values.html" class="pagination-link" aria-label="has_mandatory_values">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">has_mandatory_values</span>
       </a>
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../reference/column_is_within_n_std.html" class="pagination-link" aria-label="column_is_within_n_std">
-        <span class="nav-page-text">column_is_within_n_std</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../reference/is_monotonic.html" class="pagination-link" aria-label="is_monotonic">
+        <span class="nav-page-text">is_monotonic</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

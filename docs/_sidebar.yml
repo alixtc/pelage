@@ -3,7 +3,6 @@ website:
   - contents:
     - reference/index.qmd
     - contents:
-      - reference/has_shape.qmd
       - reference/has_columns.qmd
       - reference/has_dtypes.qmd
       - reference/has_no_nulls.qmd
@@ -12,12 +11,10 @@ website:
       - reference/unique_combination_of_columns.qmd
       - reference/accepted_values.qmd
       - reference/not_accepted_values.qmd
-      - reference/not_null_proportion.qmd
       - reference/accepted_range.qmd
       - reference/maintains_relationships.qmd
-      - reference/custom_check.qmd
-      - reference/mutually_exclusive_ranges.qmd
       - reference/column_is_within_n_std.qmd
+      - reference/custom_check.qmd
       section: Check functions
     - contents:
       - reference/has_shape.qmd
@@ -25,6 +22,7 @@ website:
       - reference/not_constant.qmd
       - reference/not_null_proportion.qmd
       - reference/has_mandatory_values.qmd
+      - reference/mutually_exclusive_ranges.qmd
       - reference/is_monotonic.qmd
       section: Checks with group_by
     - contents:

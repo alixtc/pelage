@@ -63,8 +63,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../reference/accepted_range.html" rel="next">
-<link href="../reference/not_accepted_values.html" rel="prev">
+<link href="../reference/has_mandatory_values.html" rel="next">
+<link href="../reference/not_constant.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -152,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/has_shape.html">Check functions</a></li><li class="breadcrumb-item"><a href="../reference/not_null_proportion.html">not_null_proportion</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/has_shape.html">Checks with group_by</a></li><li class="breadcrumb-item"><a href="../reference/not_null_proportion.html">not_null_proportion</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
     </div>
@@ -179,12 +179,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a>
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/has_shape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_shape</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../reference/has_columns.html" class="sidebar-item-text sidebar-link">
@@ -235,12 +229,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/not_null_proportion.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">not_null_proportion</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/accepted_range.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">accepted_range</span></a>
   </div>
@@ -253,20 +241,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/custom_check.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">custom_check</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../reference/mutually_exclusive_ranges.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">mutually_exclusive_ranges</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../reference/column_is_within_n_std.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">column_is_within_n_std</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/custom_check.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">custom_check</span></a>
   </div>
 </li>
       </ul>
@@ -300,7 +282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../reference/not_null_proportion.html" class="sidebar-item-text sidebar-link">
+  <a href="../reference/not_null_proportion.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">not_null_proportion</span></a>
   </div>
 </li>
@@ -308,6 +290,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container">
   <a href="../reference/has_mandatory_values.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">has_mandatory_values</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../reference/mutually_exclusive_ranges.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">mutually_exclusive_ranges</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -453,6 +441,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>└────────┴───────────────────┴──────────┴──────────┘</span>
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>Error <span class="cf">with</span> the DataFrame passed to the check function:</span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="op">--&gt;</span>Some columns contains a proportion of nulls beyond specified limits</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The folloing example details how to perform this checks for groups:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> group_df <span class="op">=</span> pl.DataFrame(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>...     {</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>...         <span class="st">"a"</span>: [<span class="dv">1</span>, <span class="dv">1</span>, <span class="va">None</span>, <span class="va">None</span>],</span>
@@ -902,13 +891,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
-      <a href="../reference/not_accepted_values.html" class="pagination-link" aria-label="not_accepted_values">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">not_accepted_values</span>
+      <a href="../reference/not_constant.html" class="pagination-link" aria-label="not_constant">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">not_constant</span>
       </a>
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../reference/accepted_range.html" class="pagination-link" aria-label="accepted_range">
-        <span class="nav-page-text">accepted_range</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../reference/has_mandatory_values.html" class="pagination-link" aria-label="has_mandatory_values">
+        <span class="nav-page-text">has_mandatory_values</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
