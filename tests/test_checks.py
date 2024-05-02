@@ -736,7 +736,7 @@ def test_mutually_exclusive_ranges_allows_to_group_by_anoterh_column():
         plg.mutually_exclusive_ranges,
         low_bound="a",
         high_bound="b",
-        partition_by="group",
+        group_by="group",
     )
     testing.assert_frame_equal(given, when)
 

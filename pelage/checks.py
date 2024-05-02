@@ -630,6 +630,42 @@ def not_constant(
     └────────┴────────────┘
     Error with the DataFrame passed to the check function:
     -->Some columns are constant
+
+    The folloing example details how to perform this checks for groups:
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame(
+    ...     {
+    ...         "a": [1, 2, 1, 1],
+    ...         "b": ["A", "A", "B", "B"],
+    ...     }
+    ... )
+    >>> df.pipe(plg.not_constant, "a")
+    shape: (4, 2)
+    ┌─────┬─────┐
+    │ a   ┆ b   │
+    │ --- ┆ --- │
+    │ i64 ┆ str │
+    ╞═════╪═════╡
+    │ 1   ┆ A   │
+    │ 2   ┆ A   │
+    │ 1   ┆ B   │
+    │ 1   ┆ B   │
+    └─────┴─────┘
+    >>> df.pipe(plg.not_constant, "a", group_by="b")
+    Traceback (most recent call last):
+    ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (1, 3)
+    ┌─────┬────────┬────────────┐
+    │ b   ┆ column ┆ n_distinct │
+    │ --- ┆ ---    ┆ ---        │
+    │ str ┆ str    ┆ u32        │
+    ╞═════╪════════╪════════════╡
+    │ B   ┆ a      ┆ 1          │
+    └─────┴────────┴────────────┘
+    Error with the DataFrame passed to the check function:
+    -->Some columns are constant within a given group
     """
     selected_cols = _sanitize_column_inputs(columns)
 
@@ -648,9 +684,10 @@ def not_constant(
         )
 
     if not constant_columns.is_empty():
+        group_message = " within a given group" if group_by is not None else ""
         raise PolarsAssertError(
             constant_columns,
-            supp_message="Some columns are constant",
+            supp_message=f"Some columns are constant{group_message}",
         )
 
     return data
@@ -836,6 +873,7 @@ def has_mandatory_values(
     Error with the DataFrame passed to the check function:
     -->Missing mandatory values in the following columns: {'a': [3, 4]}
 
+    The folloing example details how to perform this checks for groups:
     >>> group_df_example = pl.DataFrame(
     ...     {
     ...         "a": [1, 1, 1, 2],
@@ -982,6 +1020,7 @@ def not_null_proportion(
     Error with the DataFrame passed to the check function:
     -->Some columns contains a proportion of nulls beyond specified limits
 
+     The folloing example details how to perform this checks for groups:
     >>> group_df = pl.DataFrame(
     ...     {
     ...         "a": [1, 1, None, None],
@@ -1109,6 +1148,8 @@ def at_least_one(
     pelage.checks.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
     -->Some columns contains only null values: ['a']
+
+    The folloing example details how to perform this checks for groups:
     >>> df = pl.DataFrame(
     ...         {
     ...             "a": [None, None, None, 2],
@@ -1410,6 +1451,8 @@ def is_monotonic(
     pelage.checks.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
     -->Column "int" expected to be monotonic but is not, try .sort("int")
+
+    The folloing example details how to perform this checks for groups:
     >>> given = pl.DataFrame(
     ...     [
     ...         ("2020-01-01 01:42:00", "A"),
@@ -1557,7 +1600,7 @@ def mutually_exclusive_ranges(
     data: pl.DataFrame,
     low_bound: str,
     high_bound: str,
-    partition_by: Optional[PolarsOverClauseInput] = None,
+    group_by: Optional[PolarsOverClauseInput] = None,
 ) -> pl.DataFrame:
     """Ensure that the specified columns contains no overlapping intervals.
 
@@ -1569,9 +1612,9 @@ def mutually_exclusive_ranges(
         Name of column containing the lower bound of the interval
     high_bound : str
         Name of column containing the higher bound of the interval
-    partition_by : IntoExpr | Iterable[IntoExpr], optional
+    group_by : IntoExpr | Iterable[IntoExpr], optional, by default None
         Parameter compatible with `.over()` function to split the check by groups,
-        by default None
+
 
     Returns
     -------
@@ -1634,9 +1677,9 @@ def mutually_exclusive_ranges(
     is_overlapping_interval = pl.col(low_bound) <= pl.col(high_bound).shift()
     sorting_columns = [low_bound, high_bound]
 
-    if partition_by is not None:
-        is_overlapping_interval = is_overlapping_interval.over(partition_by)
-        sorting_columns = [partition_by, low_bound, high_bound]
+    if group_by is not None:
+        is_overlapping_interval = is_overlapping_interval.over(group_by)
+        sorting_columns = [group_by, low_bound, high_bound]
 
     indexes_of_overlaps = is_overlapping_interval.arg_true()
 
