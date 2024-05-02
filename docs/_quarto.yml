@@ -29,6 +29,8 @@ website:
         file: reference/index.html
       - text: Examples
         file: notebooks/examples.html
+      - text: Coming from DBT
+        file: notebooks/coming_from_dbt.html
     right:
       - icon: git
         href: https://github.com/alixtc/pelage/
