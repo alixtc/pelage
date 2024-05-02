@@ -2,8 +2,6 @@
 #          INSTALL & TEST
 # ----------------------------------
 
-
-
 install:
 	pip install poetry tox
 	poetry shell
@@ -17,9 +15,9 @@ black:
 	@black scripts/* pelage/*.py testsma/*.py
 
 test:
-	@coverage run --data-file=".coverage/.coverage" -m pytest tests/*.py
-	@coverage report --data-file=".coverage/.coverage" -m --omit="${VIRTUAL_ENV}/lib/python*"
-	@coverage json --data-file=".coverage/.coverage" -o ".coverage/coverage.json" --pretty-print
+	@coverage run --data-file=".coverage/pytest" -m pytest tests/*.py
+	@coverage report --data-file=".coverage/pytest" -m --omit="${VIRTUAL_ENV}/lib/python*"
+	@coverage erase --data-file=".coverage/pytest"
 
 clean:
 	@rm -f */version.txt
