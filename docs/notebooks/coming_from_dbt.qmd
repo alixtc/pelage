@@ -8,49 +8,46 @@ One of the primary objectives of `pelage` is to facilitate the rewriting of data
 |    not_null     |      has_no_nulls ✅      |        \-         |
 | accepted_values |            ✅             |        \-         |
 |  relationship   | maintains_relationship ✅ |        \-         |
+
 : DBT core test functions {.striped .hover}
 
 |           DBT Utils           | Available in `pelage` | `group_by` option |
 |:-----------------------------:|:---------------------:|:-----------------:|
-|        equal_rowcount         |          ❌           |        ❌         |
+|        equal_rowcount         |     has_shape ✅      |        ✅         |
 |        fewer_rows_than        |          ❌           |        ❌         |
 |           equality            |          ✅           |        \-         |
 |      expression_is_true       |    custom_check ✅    |        \-         |
 |            recency            |          ❌           |        ❌         |
 |         at_least_one          |          ✅           |        \-         |
 |         not_constant          |          ✅           |        ✅         |
-|       not_empty_string        |          ❌           |        \-         |
+|       not_empty_string        |          ❌           |        ❌         |
 |     cardinality_equality      |          ✅           |        ✅         |
 |      not_null_proportion      |          ✅           |        \-         |
 |      not_accepted_values      |          ✅           |        \-         |
-|      relationships_where      |          ❌           |        \-         |
+|      relationships_where      |          ❌           |        ❌         |
 |   mutually_exclusive_ranges   |          ✅           |        ✅         |
 |       sequential_values       |    is_monotonic ✅    |        ✅         |
 | unique_combination_of_columns |          ✅           |        \-         |
 |        accepted_range         |          ✅           |        \-         |
-: Implementation of DBT Utils tests {.striped .hover}
 
+: Implementation of DBT Utils tests {.striped .hover}
 
 Some functions that are also coming from other defensive analysis tools in python have been implemented, even though they are not available in DBT:
 
+|         Name         | Available in `pelage` | `group_by` option |
+|:--------------------:|:---------------------:|:-----------------:|
+|     has_columns      |          ✅           |        \-         |
+|      has_dtypes      |          ✅           |        \-         |
+|     has_no_infs      |          ✅           |        \-         |
+| has_mandatory_values |          ✅           |        ✅         |
 
-|         Name          | Available in `pelage` | `group_by` option |
-|:---------------------:|:---------------------:|:-----------------:|
-|       has_shape       |          ✅           |        ✅         |
-|      has_columns      |          ✅           |        \-         |
-|      has_dtypes       |          ✅           |        \-         |
-|      has_no_infs      |          ✅           |        \-         |
-|  has_mandatory_values |          ✅           |        ✅         |
 : Other defensive functions {.striped .hover}
 
 # Context
 
-`pelage` was designed in order to reduce the gap between data exploration and
-production. Working on data related use-cases implies facing many different challenges,
-one the majors are data quality, data drift.
+`pelage` was designed in order to reduce the gap between data exploration and production. Working on data related use-cases implies facing many different challenges, one the majors are data quality, data drift.
 
- - One of the best frameworks to test data pipelines is provided by `DBT`.
- - It’s difficult to write tests after the business logic has been implemented.
- - During EDA, data visualization plays a crucial role to identify relevant data or
- identify quality problems.
- - SQL transformations are a major component of production-ready data pipelines.
+-   One of the best frameworks to test data pipelines is provided by `DBT`.
+-   It’s difficult to write tests after the business logic has been implemented.
+-   During EDA, data visualization plays a crucial role to identify relevant data or identify quality problems.
+-   SQL transformations are a major component of production-ready data pipelines.
