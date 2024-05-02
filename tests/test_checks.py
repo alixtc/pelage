@@ -79,6 +79,17 @@ def test_is_shape():
     testing.assert_frame_equal(given, when)
 
 
+def test_is_shape_should_error_when_expected_shape_has_only_nones():
+    given = pl.DataFrame(
+        {
+            "a": [1, 2, 3],
+            "b": ["a", "b", "c"],
+        }
+    )
+    with pytest.raises(ValueError):
+        given.pipe(plg.has_shape, (None, None))
+
+
 @pytest.mark.parametrize("expected_shape", [(3, 2), (3, None), (None, 2)])
 def test_is_shape_should_accept_none_values_to_facilitate_comparison(expected_shape):
     given = pl.DataFrame(
@@ -92,7 +103,7 @@ def test_is_shape_should_accept_none_values_to_facilitate_comparison(expected_sh
 
 
 @pytest.mark.parametrize("expected_shape", [(4, 2), (4, None), (None, 3)])
-def test_is_shape_should_accept_error_with_wrong_expected_dimensions(expected_shape):
+def test_is_shape_should__error_with_wrong_expected_dimensions(expected_shape):
     given = pl.DataFrame(
         {
             "a": [1, 2, 3],
