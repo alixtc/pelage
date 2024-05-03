@@ -7,7 +7,7 @@ project:
 format:
   html:
     page-layout: full
-    theme: zephyr
+    theme: [zephyr, shiny-docs.css]
     toc: true
     code-block-border-left: true
     highlight-style: breezedark
@@ -44,6 +44,9 @@ quartodoc:
 
   # write sidebar data to this file
   sidebar: _sidebar.yml
+  renderer:
+    style: _renderer.py
+    show_signature_annotations: false
   sections:
     - title: Check functions
       desc: List of check functions.

@@ -1,0 +1,26 @@
+/*-- scss:defaults --*/
+
+#api-reference th:first-child,
+#api-reference td:first-child {
+
+    width: 19em;
+    min-width: 19em;
+}
+
+.parameter-annotation-sep,
+.parameter-default-sep {
+    color: black;
+    opacity: 0.5;
+}
+
+.parameter-name {
+    color: black
+}
+
+.parameter-annotation,
+.parameter-default {
+    color: #007bc2;
+    /* Change this to your desired color */
+    opacity: 1.0;
+    /* Change this to your desired opacity */
+}
