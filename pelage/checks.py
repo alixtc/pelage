@@ -47,9 +47,10 @@ class PolarsAssertError(Exception):
     df : pl.DataFrame, optional,  by default pl.DataFrame()
         A subset of the original dataframe passed to the check function with a highlight
         on the values that caused the check to fail,
-    supp_message : str, optional, by default ""
+    supp_message : str, optional
         A human readable description of the check failure, and when available a possible
         way to solve the issue,
+        by default ""
     """
 
     def __init__(
@@ -87,6 +88,10 @@ def has_shape(
 
         Ex: `(5, None)` will ensure that the dataframe has 5 rows regardless of the
         number of columns.
+
+    group_by : Optional[PolarsOverClauseInput], optional
+        When specified compares the number of lines per group with the expected value,
+        by default None
 
     Returns
     -------
@@ -242,14 +247,15 @@ def has_dtypes(data: pl.DataFrame, items: Dict[str, PolarsDataType]) -> pl.DataF
     data : pl.DataFrame
         To check
     items : Dict[str, PolarsDataType]
-        A dictionnary of column name with their expected polars data type :
-        `{
+        A dictionnary of column name with their expected polars data type:
+        ```
+        {
             "col_a": pl.String,
             "col_b": pl.Int64,
             "col_c": pl.Float64,
             ...
-        }`
-
+        }
+        ```
     Returns
     -------
     pl.DataFrame
@@ -447,8 +453,10 @@ def unique(
     data: pl.DataFrame,
     columns: Optional[PolarsColumnType] = None,
 ) -> pl.DataFrame:
-    """Check if there are no duplicated values in each one of the selected columns
-    independently, i.e. it is a column oriented check.
+    """Check if there are no duplicated values in each one of the selected columns.
+
+    This is a column oriented check, for a row oriented check see
+    `unique_combination_of_columns`
 
     Parameters
     ----------
@@ -520,6 +528,7 @@ def unique_combination_of_columns(
     columns: Optional[PolarsColumnType] = None,
 ) -> pl.DataFrame:
     """Ensure that the selected column have a unique combination per row.
+
     This function is particularly helpful to establish the granularity of a dataframe,
     i.e. this is a row oriented check.
 
@@ -592,6 +601,9 @@ def not_constant(
         The input DataFrame to check for null values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
+    group_by : Optional[PolarsOverClauseInput], optional
+        When specified perform the check per group instead of the whole column,
+        by default None
 
     Returns
     -------
@@ -844,7 +856,11 @@ def has_mandatory_values(
     data : pl.DataFrame
         To check
     items : Dict[str, list]
-        _description_
+        A dictionnary where the keys are the columns names and the values are lists that
+        contains all the required values for a given column.
+    group_by : Optional[PolarsOverClauseInput], optional
+        When specified perform the check per group instead of the whole column,
+        by default None
 
     Returns
     -------
@@ -959,7 +975,7 @@ def not_null_proportion(
     items: Dict[str, Union[float, Tuple[float, float]]],
     group_by: Optional[PolarsOverClauseInput] = None,
 ) -> pl.DataFrame:
-    """Asserts that the proportion of non-null values present in a column is between
+    """Checks that the proportion of non-null values in a column is within a
     a specified range [at_least, at_most] where at_most is an optional argument
     (default: 1.0).
 
@@ -969,14 +985,22 @@ def not_null_proportion(
         _description_
     items : Dict[str, float  |  Tuple[float, float]]
         Ranges for the proportion of not null values for selected columns.
-        <br>
-        Any of the following formats is valid:
-        <br>
-        `{"column_name_b" : 0.33, ...}`<br>
-        `{"column_name_b" : (0.25, 0.44), ...}`<br>
 
+        Any of the following formats is valid:
+        ```
+        {
+            "column_name_a" : 0.33,
+            "column_name_b" : (0.25, 0.44),
+            "column_name_c" : (0.25, 1.0),
+            ...
+        }
+        ```
         When specifying a single float, the higher bound of the range will automatically
         be set to 1.0, i.e. (given_float, 1.0)
+
+    group_by : Optional[PolarsOverClauseInput], optional
+        When specified perform the check per group instead of the whole column,
+        by default None
 
     Returns
     -------
@@ -1119,6 +1143,9 @@ def at_least_one(
     columns : Optional[PolarsColumnType], optional
         Columns to consider to check the presence of at least one value.
         By default, all columns are checked.
+    group_by : Optional[PolarsOverClauseInput], optional
+        When specified perform the check per group instead of the whole column,
+        by default None
 
     Returns
     -------
@@ -1233,10 +1260,13 @@ def accepted_range(
         method `is_between()` syntax.
 
         For example:
-        <br>
-        `"col_a": (low, high)`<br>
-        `"col_b", (low_b, high_b, "right")`<br>
-        `"col_c", (low_c, high_c, "none")`<br>
+        ```
+        {
+        "col_a": (low, high),
+        "col_b", (low_b, high_b, "right"),
+        "col_c", (low_c, high_c, "none"),
+        }
+        ```
 
     Returns
     -------
@@ -1379,7 +1409,7 @@ def is_monotonic(
     interval: Optional[Union[int, float, str]] = None,
     group_by: Optional[PolarsOverClauseInput] = None,
 ) -> pl.DataFrame:
-    """Verify that values in a column are consecutively increasing or decreasing
+    """Verify that values in a column are consecutively increasing or decreasing.
 
     Parameters
     ----------
@@ -1392,7 +1422,7 @@ def is_monotonic(
     strict : bool, optional
         The series must be stricly increasing or decreasing, no consecutive equal values
         are allowed, by default True
-    interval : Optional[Union[int, float, str, pl.Duration]], optional, by default None
+    interval : Optional[Union[int, float, str, pl.Duration]], optional
         For time-based column, the interval can be specified as a string as in the
         function `dt.offset_by` or `pl.DataFrame().rolling`. It can also be specified
         with the `pl.duration()` function directly in a more explicit manner.
@@ -1416,9 +1446,12 @@ def is_monotonic(
         not be 24 hours, due to daylight savings). Similarly for "calendar week",
         "calendar month", "calendar quarter", and "calendar year".
 
-    group_by : Optional[PolarsOverClauseInput], optional, by default None
+        By default None
+    group_by : Optional[PolarsOverClauseInput], optional
         When specified, the monotonic characteristics and intervals are estimated for
         each group independently.
+
+        by default None
 
     Returns
     -------
@@ -1532,6 +1565,7 @@ def is_monotonic(
 
 def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     """Use custom Polars expression to check the DataFrame, based on `.filter()`.
+
     The expression when used through the dataframe method `.filter()` should return an
     empty dataframe.
     This expression should express the requierement for values that are not wanted
@@ -1612,8 +1646,9 @@ def mutually_exclusive_ranges(
         Name of column containing the lower bound of the interval
     high_bound : str
         Name of column containing the higher bound of the interval
-    group_by : IntoExpr | Iterable[IntoExpr], optional, by default None
+    group_by : IntoExpr | Iterable[IntoExpr], optional
         Parameter compatible with `.over()` function to split the check by groups,
+        by default None
 
 
     Returns
