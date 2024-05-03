@@ -358,44 +358,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Function asserting values are within a given STD range, thus ensuring the absence of outliers.</p>
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
-<table class="table">
-<colgroup>
-<col style="width: 4%">
-<col style="width: 25%">
-<col style="width: 64%">
-<col style="width: 5%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>data</code></td>
-<td>polars.polars.DataFrame</td>
-<td>To check.</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>items</code></td>
-<td>typing.Tuple[pelage.checks.PolarsColumnType, int]</td>
-<td>A column name / column type with the number of STD authorized for the values within. Must be of the following form: <code>(col_name, n_std)</code></td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
+<dl>
+<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></span></code></dt>
+<dd>
+<p>To check.</p>
+</dd>
+<dt><code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Tuple`">Tuple</a>[<a href="`pelage.checks.PolarsColumnType`">PolarsColumnType</a>, <a href="`int`">int</a>]</span></code></dt>
+<dd>
+<p>A column name / column type with the number of STD authorized for the values within. Must be of the following form: <code>(col_name, n_std)</code></p>
+</dd>
+</dl>
 </section>
 <section id="returns" class="level2">
 <h2 class="anchored" data-anchor-id="returns">Returns</h2>
 <table class="table">
-<colgroup>
-<col style="width: 32%">
-<col style="width: 67%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Type</th>
@@ -404,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>polars.polars.DataFrame</td>
+<td><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></td>
 <td>The original polars DataFrame when the check passes</td>
 </tr>
 </tbody>

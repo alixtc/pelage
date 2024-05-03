@@ -355,47 +355,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="pelage.checks.unique" class="level1">
 <h1>unique</h1>
 <p><code>checks.unique(data, columns=None)</code></p>
-<p>Check if there are no duplicated values in each one of the selected columns independently, i.e.&nbsp;it is a column oriented check.</p>
+<p>Check if there are no duplicated values in each one of the selected columns.</p>
+<p>This is a column oriented check, for a row oriented check see <code>unique_combination_of_columns</code></p>
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
-<table class="table">
-<colgroup>
-<col style="width: 7%">
-<col style="width: 33%">
-<col style="width: 51%">
-<col style="width: 7%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>data</code></td>
-<td>polars.polars.DataFrame</td>
-<td>The input DataFrame to check for unique values.</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>columns</code></td>
-<td>typing.Optional[pelage.checks.PolarsColumnType]</td>
-<td>Columns to consider for uniqueness check. By default, all columns are checked.</td>
-<td><code>None</code></td>
-</tr>
-</tbody>
-</table>
+<dl>
+<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></span></code></dt>
+<dd>
+<p>The input DataFrame to check for unique values.</p>
+</dd>
+<dt><code><span class="parameter-name">columns</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Optional`">Optional</a>[<a href="`pelage.checks.PolarsColumnType`">PolarsColumnType</a>]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
+<dd>
+<p>Columns to consider for uniqueness check. By default, all columns are checked.</p>
+</dd>
+</dl>
 </section>
 <section id="returns" class="level2">
 <h2 class="anchored" data-anchor-id="returns">Returns</h2>
 <table class="table">
-<colgroup>
-<col style="width: 32%">
-<col style="width: 67%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Type</th>
@@ -404,7 +381,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>polars.polars.DataFrame</td>
+<td><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></td>
 <td>The original polars DataFrame when the check passes</td>
 </tr>
 </tbody>

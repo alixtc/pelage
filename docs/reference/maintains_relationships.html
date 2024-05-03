@@ -358,50 +358,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Function to help ensuring that set of values in selected column remains the same in both DataFrames. This helps to maintain referential integrity.</p>
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
-<table class="table">
-<colgroup>
-<col style="width: 11%">
-<col style="width: 23%">
-<col style="width: 53%">
-<col style="width: 11%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>data</code></td>
-<td>polars.polars.DataFrame</td>
-<td>Dataframe after transformation</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>other_df</code></td>
-<td>polars.polars.DataFrame</td>
-<td>Distant dataframe usually the one before transformation</td>
-<td><em>required</em></td>
-</tr>
-<tr class="odd">
-<td><code>column</code></td>
-<td>str</td>
-<td>Column to check for keys/ids</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
+<dl>
+<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></span></code></dt>
+<dd>
+<p>Dataframe after transformation</p>
+</dd>
+<dt><code><span class="parameter-name">other_df</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></span></code></dt>
+<dd>
+<p>Distant dataframe usually the one before transformation</p>
+</dd>
+<dt><code><span class="parameter-name">column</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`str`">str</a></span></code></dt>
+<dd>
+<p>Column to check for keys/ids</p>
+</dd>
+</dl>
 </section>
 <section id="returns" class="level2">
 <h2 class="anchored" data-anchor-id="returns">Returns</h2>
 <table class="table">
-<colgroup>
-<col style="width: 32%">
-<col style="width: 67%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Type</th>
@@ -410,7 +384,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>polars.polars.DataFrame</td>
+<td><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></td>
 <td>The original polars DataFrame when the check passes</td>
 </tr>
 </tbody>

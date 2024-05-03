@@ -355,48 +355,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="pelage.checks.custom_check" class="level1">
 <h1>custom_check</h1>
 <p><code>checks.custom_check(data, expresion)</code></p>
-<p>Use custom Polars expression to check the DataFrame, based on <code>.filter()</code>. The expression when used through the dataframe method <code>.filter()</code> should return an empty dataframe. This expression should express the requierement for values that are not wanted in the dataframe. For instance, if a column should not contain the value <code>4</code>, use the expression <code>pl.col("column") != 4</code>.</p>
+<p>Use custom Polars expression to check the DataFrame, based on <code>.filter()</code>.</p>
+<p>The expression when used through the dataframe method <code>.filter()</code> should return an empty dataframe. This expression should express the requierement for values that are not wanted in the dataframe. For instance, if a column should not contain the value <code>4</code>, use the expression <code>pl.col("column") != 4</code>.</p>
 <p>Analog to DBT utils fonction: <code>expression_is_true</code></p>
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
-<table class="table">
-<colgroup>
-<col style="width: 6%">
-<col style="width: 11%">
-<col style="width: 76%">
-<col style="width: 5%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>data</code></td>
-<td>polars.polars.DataFrame</td>
-<td>To check</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>expresion</code></td>
-<td>polars.polars.Expr</td>
-<td>Polar Expression that can be passed to the <code>.filter()</code> method. As describe above, use an expression that should keep forbidden values when passed to the filter</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
+<dl>
+<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></span></code></dt>
+<dd>
+<p>To check</p>
+</dd>
+<dt><code><span class="parameter-name">expresion</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.Expr`">Expr</a></span></code></dt>
+<dd>
+<p>Polar Expression that can be passed to the <code>.filter()</code> method. As describe above, use an expression that should keep forbidden values when passed to the filter</p>
+</dd>
+</dl>
 </section>
 <section id="returns" class="level2">
 <h2 class="anchored" data-anchor-id="returns">Returns</h2>
 <table class="table">
-<colgroup>
-<col style="width: 31%">
-<col style="width: 68%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Type</th>
@@ -405,7 +382,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>polars.polars.DataFrame</td>
+<td><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></td>
 <td>The original polars DataFrame when the check passes.</td>
 </tr>
 </tbody>

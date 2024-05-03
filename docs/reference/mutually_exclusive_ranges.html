@@ -358,56 +358,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Ensure that the specified columns contains no overlapping intervals.</p>
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
-<table class="table">
-<colgroup>
-<col style="width: 8%">
-<col style="width: 37%">
-<col style="width: 46%">
-<col style="width: 7%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>data</code></td>
-<td>polars.polars.DataFrame</td>
-<td>Data to check</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>low_bound</code></td>
-<td>str</td>
-<td>Name of column containing the lower bound of the interval</td>
-<td><em>required</em></td>
-</tr>
-<tr class="odd">
-<td><code>high_bound</code></td>
-<td>str</td>
-<td>Name of column containing the higher bound of the interval</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>group_by</code></td>
-<td>IntoExpr | Iterable[IntoExpr], optional, by default None</td>
-<td>Parameter compatible with <code>.over()</code> function to split the check by groups,</td>
-<td><code>None</code></td>
-</tr>
-</tbody>
-</table>
+<dl>
+<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></span></code></dt>
+<dd>
+<p>Data to check</p>
+</dd>
+<dt><code><span class="parameter-name">low_bound</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`str`">str</a></span></code></dt>
+<dd>
+<p>Name of column containing the lower bound of the interval</p>
+</dd>
+<dt><code><span class="parameter-name">high_bound</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`str`">str</a></span></code></dt>
+<dd>
+<p>Name of column containing the higher bound of the interval</p>
+</dd>
+<dt><code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars.type_aliases.IntoExpr`">IntoExpr</a> | <a href="`typing.Iterable`">Iterable</a>[<a href="`polars.type_aliases.IntoExpr`">IntoExpr</a>]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
+<dd>
+<p>Parameter compatible with <code>.over()</code> function to split the check by groups, by default None</p>
+</dd>
+</dl>
 </section>
 <section id="returns" class="level2">
 <h2 class="anchored" data-anchor-id="returns">Returns</h2>
 <table class="table">
-<colgroup>
-<col style="width: 32%">
-<col style="width: 67%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Type</th>
@@ -416,7 +388,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>polars.polars.DataFrame</td>
+<td><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></td>
 <td>The original polars DataFrame when the check passes</td>
 </tr>
 </tbody>

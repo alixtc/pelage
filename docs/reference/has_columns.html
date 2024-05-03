@@ -358,44 +358,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Check if a DataFrame has the specified</p>
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
-<table class="table">
-<colgroup>
-<col style="width: 8%">
-<col style="width: 38%">
-<col style="width: 42%">
-<col style="width: 11%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>data</code></td>
-<td>polars.polars.DataFrame</td>
-<td>The DataFrame to check for column presence.</td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>names</code></td>
-<td>typing.Union[str, typing.List[str]]</td>
-<td>The names of the columns to check.</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
+<dl>
+<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></span></code></dt>
+<dd>
+<p>The DataFrame to check for column presence.</p>
+</dd>
+<dt><code><span class="parameter-name">names</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Union`">Union</a>[<a href="`str`">str</a>, <a href="`typing.List`">List</a>[<a href="`str`">str</a>]]</span></code></dt>
+<dd>
+<p>The names of the columns to check.</p>
+</dd>
+</dl>
 </section>
 <section id="returns" class="level2">
 <h2 class="anchored" data-anchor-id="returns">Returns</h2>
 <table class="table">
-<colgroup>
-<col style="width: 32%">
-<col style="width: 67%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Type</th>
@@ -404,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>polars.polars.DataFrame</td>
+<td><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></td>
 <td>The original polars DataFrame when the check passes</td>
 </tr>
 </tbody>

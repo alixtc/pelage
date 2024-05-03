@@ -358,44 +358,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Raises error if columns contains values not specified in <code>items</code></p>
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
-<table class="table">
-<colgroup>
-<col style="width: 4%">
-<col style="width: 14%">
-<col style="width: 75%">
-<col style="width: 5%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>data</code></td>
-<td>polars.polars.DataFrame</td>
-<td></td>
-<td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>items</code></td>
-<td>typing.Dict[str, typing.List]</td>
-<td>A dictionnary where keys are a string compatible with a pl.Expr, to be used with pl.col(). The value for each key is a List of all authorized values in the dataframe.</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
+<dl>
+<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></span></code></dt>
+<dd>
+
+</dd>
+<dt><code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Dict`">Dict</a>[<a href="`str`">str</a>, <a href="`typing.List`">List</a>]</span></code></dt>
+<dd>
+<p>A dictionnary where keys are a string compatible with a pl.Expr, to be used with pl.col(). The value for each key is a List of all authorized values in the dataframe.</p>
+</dd>
+</dl>
 </section>
 <section id="returns" class="level2">
 <h2 class="anchored" data-anchor-id="returns">Returns</h2>
 <table class="table">
-<colgroup>
-<col style="width: 32%">
-<col style="width: 67%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Type</th>
@@ -404,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>polars.polars.DataFrame</td>
+<td><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></td>
 <td>The original polars DataFrame when the check passes</td>
 </tr>
 </tbody>
