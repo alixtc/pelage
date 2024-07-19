@@ -1,8 +1,8 @@
 {
     "meta": {
-        "format": 2,
-        "version": "7.5.0",
-        "timestamp": "2024-05-03T14:56:40.862544",
+        "format": 3,
+        "version": "7.6.0",
+        "timestamp": "2024-07-19T06:53:11.341792",
         "branch_coverage": false,
         "show_contexts": false
     },
@@ -20,7 +20,41 @@
                 "excluded_lines": 0
             },
             "missing_lines": [],
-            "excluded_lines": []
+            "excluded_lines": [],
+            "functions": {
+                "": {
+                    "executed_lines": [
+                        3
+                    ],
+                    "summary": {
+                        "covered_lines": 1,
+                        "num_statements": 1,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                }
+            },
+            "classes": {
+                "": {
+                    "executed_lines": [
+                        3
+                    ],
+                    "summary": {
+                        "covered_lines": 1,
+                        "num_statements": 1,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                }
+            }
         },
         "pelage/checks.py": {
             "executed_lines": [
@@ -83,186 +117,186 @@
                 314,
                 366,
                 367,
-                372,
-                373,
-                376,
-                379,
-                383,
+                380,
+                381,
                 384,
-                385,
-                386,
-                388,
+                387,
                 391,
-                445,
-                446,
-                447,
-                448,
-                449,
-                452,
-                506,
-                507,
-                508,
-                509,
-                513,
+                392,
+                393,
+                394,
+                396,
+                399,
+                453,
+                454,
+                455,
+                456,
+                457,
+                460,
+                514,
+                515,
                 516,
-                520,
+                517,
                 521,
-                523,
-                526,
-                579,
-                580,
-                583,
-                584,
+                524,
+                528,
+                529,
+                531,
+                534,
+                587,
                 588,
                 591,
-                682,
-                684,
-                685,
-                691,
-                698,
+                592,
+                596,
+                599,
+                690,
+                692,
+                693,
                 699,
-                700,
-                705,
+                706,
+                707,
                 708,
-                759,
-                762,
-                764,
-                765,
+                713,
+                716,
+                767,
                 770,
-                775,
+                772,
+                773,
                 778,
-                830,
-                833,
-                834,
-                835,
-                840,
-                844,
-                847,
-                926,
-                927,
-                933,
+                783,
+                786,
+                838,
+                841,
+                842,
+                843,
+                848,
+                852,
+                855,
                 934,
-                938,
-                940,
+                935,
                 941,
                 942,
-                943,
-                944,
-                945,
                 946,
-                947,
+                948,
                 949,
                 950,
+                951,
+                952,
                 953,
-                956,
+                954,
+                955,
                 957,
                 958,
-                960,
-                962,
-                973,
-                1082,
-                1084,
-                1085,
-                1091,
+                961,
+                964,
+                965,
+                966,
+                968,
+                970,
+                981,
+                1090,
+                1092,
                 1093,
-                1104,
-                1113,
-                1114,
-                1118,
+                1099,
+                1101,
+                1112,
                 1121,
-                1124,
-                1125,
+                1122,
+                1126,
                 1129,
                 1132,
-                1214,
-                1216,
-                1217,
-                1219,
-                1230,
-                1231,
-                1235,
-                1237,
+                1133,
+                1137,
+                1140,
+                1222,
+                1224,
+                1225,
+                1227,
+                1238,
                 1239,
-                1241,
-                1242,
+                1243,
                 1245,
-                1248,
-                1328,
-                1331,
-                1334,
-                1335,
+                1247,
+                1249,
+                1250,
+                1253,
+                1256,
                 1336,
                 1339,
                 1342,
-                1388,
-                1389,
-                1391,
-                1392,
-                1393,
-                1394,
-                1395,
+                1343,
+                1344,
+                1347,
+                1350,
+                1396,
                 1397,
-                1398,
                 1399,
+                1400,
                 1401,
-                1404,
-                1519,
-                1526,
+                1402,
+                1403,
+                1405,
+                1406,
+                1407,
+                1409,
+                1412,
                 1527,
-                1529,
-                1530,
-                1531,
-                1532,
-                1533,
                 1534,
                 1535,
-                1536,
+                1537,
                 1538,
                 1539,
+                1540,
+                1541,
+                1542,
                 1543,
-                1545,
+                1544,
                 1546,
-                1548,
-                1549,
-                1550,
+                1547,
                 1551,
-                1552,
                 1553,
+                1554,
                 1556,
+                1557,
                 1558,
                 1559,
-                1563,
+                1560,
+                1561,
+                1564,
                 1566,
-                1623,
-                1624,
-                1625,
-                1626,
-                1630,
+                1567,
+                1571,
+                1574,
+                1631,
+                1632,
                 1633,
-                1712,
-                1713,
-                1715,
-                1716,
-                1717,
-                1719,
+                1634,
+                1638,
+                1641,
+                1720,
                 1721,
-                1730,
-                1731,
-                1736,
-                1740,
-                1743,
+                1723,
+                1724,
+                1725,
+                1727,
+                1729,
+                1738,
+                1739,
                 1744,
-                1745,
-                1747,
-                1750,
-                1818,
-                1820,
-                1824,
+                1748,
+                1751,
+                1752,
+                1753,
+                1755,
+                1758,
+                1826,
+                1828,
                 1832,
-                1833,
-                1834,
-                1838,
-                1847
+                1840,
+                1841,
+                1842,
+                1846,
+                1855
             ],
             "summary": {
                 "covered_lines": 237,
@@ -273,7 +307,909 @@
                 "excluded_lines": 0
             },
             "missing_lines": [],
-            "excluded_lines": []
+            "excluded_lines": [],
+            "functions": {
+                "_has_sufficient_polars_version": {
+                    "executed_lines": [
+                        28
+                    ],
+                    "summary": {
+                        "covered_lines": 1,
+                        "num_statements": 1,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "PolarsAssertError.__init__": {
+                    "executed_lines": [
+                        59,
+                        60
+                    ],
+                    "summary": {
+                        "covered_lines": 2,
+                        "num_statements": 2,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "PolarsAssertError.__str__": {
+                    "executed_lines": [
+                        63,
+                        65,
+                        66,
+                        68
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "has_shape": {
+                    "executed_lines": [
+                        154,
+                        155,
+                        158,
+                        159,
+                        163,
+                        165,
+                        166,
+                        169,
+                        170,
+                        171,
+                        172,
+                        174,
+                        176,
+                        177,
+                        180
+                    ],
+                    "summary": {
+                        "covered_lines": 15,
+                        "num_statements": 15,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "has_columns": {
+                    "executed_lines": [
+                        233,
+                        235,
+                        236,
+                        237,
+                        238,
+                        239
+                    ],
+                    "summary": {
+                        "covered_lines": 6,
+                        "num_statements": 6,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "has_dtypes": {
+                    "executed_lines": [
+                        301,
+                        302,
+                        303,
+                        304,
+                        306,
+                        307,
+                        308,
+                        309,
+                        310,
+                        311
+                    ],
+                    "summary": {
+                        "covered_lines": 10,
+                        "num_statements": 10,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "has_no_nulls": {
+                    "executed_lines": [
+                        366,
+                        367,
+                        380,
+                        381,
+                        384
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "_sanitize_column_inputs": {
+                    "executed_lines": [
+                        391,
+                        392,
+                        393,
+                        394,
+                        396
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "has_no_infs": {
+                    "executed_lines": [
+                        453,
+                        454,
+                        455,
+                        456,
+                        457
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "unique": {
+                    "executed_lines": [
+                        514,
+                        515,
+                        516,
+                        517,
+                        521
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "_safe_group_by_length": {
+                    "executed_lines": [
+                        528,
+                        529,
+                        531
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "unique_combination_of_columns": {
+                    "executed_lines": [
+                        587,
+                        588,
+                        591,
+                        592,
+                        596
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "not_constant": {
+                    "executed_lines": [
+                        690,
+                        692,
+                        693,
+                        699,
+                        706,
+                        707,
+                        708,
+                        713
+                    ],
+                    "summary": {
+                        "covered_lines": 8,
+                        "num_statements": 8,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "accepted_values": {
+                    "executed_lines": [
+                        767,
+                        770,
+                        772,
+                        773,
+                        778,
+                        783
+                    ],
+                    "summary": {
+                        "covered_lines": 6,
+                        "num_statements": 6,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "not_accepted_values": {
+                    "executed_lines": [
+                        838,
+                        841,
+                        842,
+                        843,
+                        848,
+                        852
+                    ],
+                    "summary": {
+                        "covered_lines": 6,
+                        "num_statements": 6,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "has_mandatory_values": {
+                    "executed_lines": [
+                        934,
+                        935,
+                        941,
+                        942,
+                        946,
+                        948,
+                        949,
+                        950,
+                        951,
+                        952,
+                        953,
+                        954,
+                        955,
+                        957,
+                        958,
+                        961
+                    ],
+                    "summary": {
+                        "covered_lines": 16,
+                        "num_statements": 16,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "compare_sets_per_column": {
+                    "executed_lines": [
+                        965,
+                        966,
+                        968,
+                        970
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "not_null_proportion": {
+                    "executed_lines": [
+                        1090,
+                        1092,
+                        1093,
+                        1099,
+                        1101,
+                        1112,
+                        1121,
+                        1122,
+                        1126
+                    ],
+                    "summary": {
+                        "covered_lines": 9,
+                        "num_statements": 9,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "_format_ranges_by_columns": {
+                    "executed_lines": [
+                        1132,
+                        1133,
+                        1137
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "at_least_one": {
+                    "executed_lines": [
+                        1222,
+                        1224,
+                        1225,
+                        1227,
+                        1238,
+                        1239,
+                        1243,
+                        1245,
+                        1247,
+                        1249,
+                        1250,
+                        1253
+                    ],
+                    "summary": {
+                        "covered_lines": 12,
+                        "num_statements": 12,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "accepted_range": {
+                    "executed_lines": [
+                        1336,
+                        1339,
+                        1342,
+                        1343,
+                        1344,
+                        1347
+                    ],
+                    "summary": {
+                        "covered_lines": 6,
+                        "num_statements": 6,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "maintains_relationships": {
+                    "executed_lines": [
+                        1396,
+                        1397,
+                        1399,
+                        1400,
+                        1401,
+                        1402,
+                        1403,
+                        1405,
+                        1406,
+                        1407,
+                        1409
+                    ],
+                    "summary": {
+                        "covered_lines": 11,
+                        "num_statements": 11,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "is_monotonic": {
+                    "executed_lines": [
+                        1527,
+                        1534,
+                        1535,
+                        1537,
+                        1538,
+                        1539,
+                        1540,
+                        1541,
+                        1542,
+                        1543,
+                        1544,
+                        1546,
+                        1547,
+                        1551,
+                        1553,
+                        1554,
+                        1556,
+                        1557,
+                        1558,
+                        1559,
+                        1560,
+                        1561,
+                        1564,
+                        1566,
+                        1567,
+                        1571
+                    ],
+                    "summary": {
+                        "covered_lines": 26,
+                        "num_statements": 26,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "custom_check": {
+                    "executed_lines": [
+                        1631,
+                        1632,
+                        1633,
+                        1634,
+                        1638
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "mutually_exclusive_ranges": {
+                    "executed_lines": [
+                        1720,
+                        1721,
+                        1723,
+                        1724,
+                        1725,
+                        1727,
+                        1729,
+                        1738,
+                        1739,
+                        1744,
+                        1748
+                    ],
+                    "summary": {
+                        "covered_lines": 11,
+                        "num_statements": 11,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "_add_row_index": {
+                    "executed_lines": [
+                        1752,
+                        1753,
+                        1755
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "column_is_within_n_std": {
+                    "executed_lines": [
+                        1826,
+                        1828,
+                        1832,
+                        1840,
+                        1841,
+                        1842,
+                        1846,
+                        1855
+                    ],
+                    "summary": {
+                        "covered_lines": 8,
+                        "num_statements": 8,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "": {
+                    "executed_lines": [
+                        1,
+                        6,
+                        8,
+                        9,
+                        10,
+                        12,
+                        14,
+                        18,
+                        22,
+                        24,
+                        27,
+                        31,
+                        32,
+                        56,
+                        62,
+                        71,
+                        183,
+                        242,
+                        314,
+                        387,
+                        399,
+                        460,
+                        524,
+                        534,
+                        599,
+                        716,
+                        786,
+                        855,
+                        964,
+                        981,
+                        1129,
+                        1140,
+                        1256,
+                        1350,
+                        1412,
+                        1574,
+                        1641,
+                        1751,
+                        1758
+                    ],
+                    "summary": {
+                        "covered_lines": 37,
+                        "num_statements": 37,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                }
+            },
+            "classes": {
+                "PolarsAssertError": {
+                    "executed_lines": [
+                        59,
+                        60,
+                        63,
+                        65,
+                        66,
+                        68
+                    ],
+                    "summary": {
+                        "covered_lines": 6,
+                        "num_statements": 6,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "": {
+                    "executed_lines": [
+                        1,
+                        6,
+                        8,
+                        9,
+                        10,
+                        12,
+                        14,
+                        18,
+                        22,
+                        24,
+                        27,
+                        28,
+                        31,
+                        32,
+                        56,
+                        62,
+                        71,
+                        154,
+                        155,
+                        158,
+                        159,
+                        163,
+                        165,
+                        166,
+                        169,
+                        170,
+                        171,
+                        172,
+                        174,
+                        176,
+                        177,
+                        180,
+                        183,
+                        233,
+                        235,
+                        236,
+                        237,
+                        238,
+                        239,
+                        242,
+                        301,
+                        302,
+                        303,
+                        304,
+                        306,
+                        307,
+                        308,
+                        309,
+                        310,
+                        311,
+                        314,
+                        366,
+                        367,
+                        380,
+                        381,
+                        384,
+                        387,
+                        391,
+                        392,
+                        393,
+                        394,
+                        396,
+                        399,
+                        453,
+                        454,
+                        455,
+                        456,
+                        457,
+                        460,
+                        514,
+                        515,
+                        516,
+                        517,
+                        521,
+                        524,
+                        528,
+                        529,
+                        531,
+                        534,
+                        587,
+                        588,
+                        591,
+                        592,
+                        596,
+                        599,
+                        690,
+                        692,
+                        693,
+                        699,
+                        706,
+                        707,
+                        708,
+                        713,
+                        716,
+                        767,
+                        770,
+                        772,
+                        773,
+                        778,
+                        783,
+                        786,
+                        838,
+                        841,
+                        842,
+                        843,
+                        848,
+                        852,
+                        855,
+                        934,
+                        935,
+                        941,
+                        942,
+                        946,
+                        948,
+                        949,
+                        950,
+                        951,
+                        952,
+                        953,
+                        954,
+                        955,
+                        957,
+                        958,
+                        961,
+                        964,
+                        965,
+                        966,
+                        968,
+                        970,
+                        981,
+                        1090,
+                        1092,
+                        1093,
+                        1099,
+                        1101,
+                        1112,
+                        1121,
+                        1122,
+                        1126,
+                        1129,
+                        1132,
+                        1133,
+                        1137,
+                        1140,
+                        1222,
+                        1224,
+                        1225,
+                        1227,
+                        1238,
+                        1239,
+                        1243,
+                        1245,
+                        1247,
+                        1249,
+                        1250,
+                        1253,
+                        1256,
+                        1336,
+                        1339,
+                        1342,
+                        1343,
+                        1344,
+                        1347,
+                        1350,
+                        1396,
+                        1397,
+                        1399,
+                        1400,
+                        1401,
+                        1402,
+                        1403,
+                        1405,
+                        1406,
+                        1407,
+                        1409,
+                        1412,
+                        1527,
+                        1534,
+                        1535,
+                        1537,
+                        1538,
+                        1539,
+                        1540,
+                        1541,
+                        1542,
+                        1543,
+                        1544,
+                        1546,
+                        1547,
+                        1551,
+                        1553,
+                        1554,
+                        1556,
+                        1557,
+                        1558,
+                        1559,
+                        1560,
+                        1561,
+                        1564,
+                        1566,
+                        1567,
+                        1571,
+                        1574,
+                        1631,
+                        1632,
+                        1633,
+                        1634,
+                        1638,
+                        1641,
+                        1720,
+                        1721,
+                        1723,
+                        1724,
+                        1725,
+                        1727,
+                        1729,
+                        1738,
+                        1739,
+                        1744,
+                        1748,
+                        1751,
+                        1752,
+                        1753,
+                        1755,
+                        1758,
+                        1826,
+                        1828,
+                        1832,
+                        1840,
+                        1841,
+                        1842,
+                        1846,
+                        1855
+                    ],
+                    "summary": {
+                        "covered_lines": 231,
+                        "num_statements": 231,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                }
+            }
         },
         "pelage/utils.py": {
             "executed_lines": [
@@ -296,7 +1232,85 @@
                 "excluded_lines": 0
             },
             "missing_lines": [],
-            "excluded_lines": []
+            "excluded_lines": [],
+            "functions": {
+                "_list_defective_columns": {
+                    "executed_lines": [
+                        7,
+                        8
+                    ],
+                    "summary": {
+                        "covered_lines": 2,
+                        "num_statements": 2,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "compare_schema": {
+                    "executed_lines": [
+                        13,
+                        18,
+                        23
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "": {
+                    "executed_lines": [
+                        1,
+                        3,
+                        6,
+                        11
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                }
+            },
+            "classes": {
+                "": {
+                    "executed_lines": [
+                        1,
+                        3,
+                        6,
+                        7,
+                        8,
+                        11,
+                        13,
+                        18,
+                        23
+                    ],
+                    "summary": {
+                        "covered_lines": 9,
+                        "num_statements": 9,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                }
+            }
         },
         "tests/__init__.py": {
             "executed_lines": [
@@ -312,7 +1326,37 @@
                 "excluded_lines": 0
             },
             "missing_lines": [],
-            "excluded_lines": []
+            "excluded_lines": [],
+            "functions": {
+                "": {
+                    "executed_lines": [],
+                    "summary": {
+                        "covered_lines": 0,
+                        "num_statements": 0,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                }
+            },
+            "classes": {
+                "": {
+                    "executed_lines": [],
+                    "summary": {
+                        "covered_lines": 0,
+                        "num_statements": 0,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                }
+            }
         },
         "tests/test_checks.py": {
             "executed_lines": [
@@ -759,7 +1803,2109 @@
                 "excluded_lines": 0
             },
             "missing_lines": [],
-            "excluded_lines": []
+            "excluded_lines": [],
+            "functions": {
+                "test_dataframe_error_message_format": {
+                    "executed_lines": [
+                        12,
+                        13,
+                        15,
+                        29,
+                        30
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_dataframe_error_message_format_accept_only_message": {
+                    "executed_lines": [
+                        34,
+                        36,
+                        42,
+                        43
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_dataframe_error_message_format_accepts_no_arguments": {
+                    "executed_lines": [
+                        47,
+                        53,
+                        54
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_sanitize_column_inputs_works_with_": {
+                    "executed_lines": [
+                        67,
+                        68
+                    ],
+                    "summary": {
+                        "covered_lines": 2,
+                        "num_statements": 2,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_sanitize_column_inputs_for_type_checker_pl_dtypes": {
+                    "executed_lines": [
+                        72,
+                        73
+                    ],
+                    "summary": {
+                        "covered_lines": 2,
+                        "num_statements": 2,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_shape": {
+                    "executed_lines": [
+                        77,
+                        78,
+                        79
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_shape_should_error_when_expected_shape_has_only_nones": {
+                    "executed_lines": [
+                        83,
+                        89,
+                        90
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_shape_should_accept_none_values_to_facilitate_comparison": {
+                    "executed_lines": [
+                        95,
+                        101,
+                        102
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_shape_should__error_with_wrong_expected_dimensions": {
+                    "executed_lines": [
+                        107,
+                        113,
+                        114
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_shape_should_accept_group_by_option": {
+                    "executed_lines": [
+                        118,
+                        125,
+                        126
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_shape_should_should_error_when_row_count_per_group_does_not_match": {
+                    "executed_lines": [
+                        130,
+                        136,
+                        137
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_columns": {
+                    "executed_lines": [
+                        141,
+                        142,
+                        143
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_columns_accepts_lists": {
+                    "executed_lines": [
+                        147,
+                        148,
+                        149
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_columns_should_error_on_missing_column": {
+                    "executed_lines": [
+                        153,
+                        154,
+                        155,
+                        157,
+                        158,
+                        159
+                    ],
+                    "summary": {
+                        "covered_lines": 6,
+                        "num_statements": 6,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_dtypes_accepts_dict": {
+                    "executed_lines": [
+                        163,
+                        164,
+                        165
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_dtypes_accepts_dict_should_error_if_types_are_not_matched": {
+                    "executed_lines": [
+                        169,
+                        170,
+                        171,
+                        173
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_dtypes_accepts_dict_should_error_if_columns_are_missing": {
+                    "executed_lines": [
+                        177,
+                        178,
+                        179
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_dtypes_accepts_dict_should_indicate_mismatched_dtypes": {
+                    "executed_lines": [
+                        183,
+                        184,
+                        185,
+                        187,
+                        188,
+                        189
+                    ],
+                    "summary": {
+                        "covered_lines": 6,
+                        "num_statements": 6,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_shape_should_error_on_wrong_shape": {
+                    "executed_lines": [
+                        193,
+                        194,
+                        195
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_no_nulls_returns_df_when_all_values_defined": {
+                    "executed_lines": [
+                        199,
+                        200,
+                        201
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_no_nulls_throws_error_on_null_values": {
+                    "executed_lines": [
+                        205,
+                        206,
+                        207
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_no_nulls_indicates_columns_with_nulls_in_error_message": {
+                    "executed_lines": [
+                        211,
+                        212,
+                        216,
+                        217,
+                        218
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_no_infs_returns_df_when_all_values_defined": {
+                    "executed_lines": [
+                        222,
+                        223,
+                        224
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_no_infs_throws_error_on_inf_values": {
+                    "executed_lines": [
+                        228,
+                        229,
+                        230,
+                        231,
+                        232
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_unique_should_return_df_if_column_has_unique_values": {
+                    "executed_lines": [
+                        236,
+                        237,
+                        238
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_unique_should_should_accept_list_and_polars_select": {
+                    "executed_lines": [
+                        242,
+                        243,
+                        244,
+                        246,
+                        247,
+                        248
+                    ],
+                    "summary": {
+                        "covered_lines": 6,
+                        "num_statements": 6,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_unique_should_throw_error_on_duplicates": {
+                    "executed_lines": [
+                        252,
+                        253,
+                        254,
+                        255
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_not_constant": {
+                    "executed_lines": [
+                        259,
+                        260,
+                        261
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_not_constant_throws_error_on_constant_columns": {
+                    "executed_lines": [
+                        265,
+                        266,
+                        267
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_not_constant_accept_different_types_of_input": {
+                    "executed_lines": [
+                        271,
+                        272,
+                        273,
+                        275,
+                        276,
+                        277
+                    ],
+                    "summary": {
+                        "covered_lines": 6,
+                        "num_statements": 6,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_not_constant_accepts_group_by_option": {
+                    "executed_lines": [
+                        281,
+                        287,
+                        288
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_not_constant_should_error_when_values_for_one_group_are_constant": {
+                    "executed_lines": [
+                        292,
+                        298,
+                        299,
+                        301
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_accepted_values": {
+                    "executed_lines": [
+                        305,
+                        306,
+                        307,
+                        308
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_accepted_values_should_accept_pl_expr": {
+                    "executed_lines": [
+                        312,
+                        313,
+                        314,
+                        315
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_accepted_values_should_error_on_out_of_range_values": {
+                    "executed_lines": [
+                        319,
+                        320,
+                        321,
+                        323,
+                        324,
+                        326,
+                        327
+                    ],
+                    "summary": {
+                        "covered_lines": 7,
+                        "num_statements": 7,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_not_accepted_values": {
+                    "executed_lines": [
+                        331,
+                        332,
+                        333
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_not_accepted_values_should_accept_pl_expr": {
+                    "executed_lines": [
+                        337,
+                        338,
+                        339
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_not_accepted_values_should_error_on_forbidden_values": {
+                    "executed_lines": [
+                        343,
+                        344,
+                        346,
+                        347,
+                        348
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_not_null_proportion_accept_proportion_range_or_single_input": {
+                    "executed_lines": [
+                        354,
+                        355,
+                        356,
+                        358,
+                        359
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_not_null_proportion_accept_multiple_input": {
+                    "executed_lines": [
+                        363,
+                        369,
+                        370
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_not_null_proportion_accept_group_by_option": {
+                    "executed_lines": [
+                        374,
+                        380,
+                        381
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_not_null_proportion_should_error_with_too_many_nulls_per_group": {
+                    "executed_lines": [
+                        385,
+                        391,
+                        392
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_not_null_proportion_errors_with_too_many_nulls": {
+                    "executed_lines": [
+                        396,
+                        397,
+                        398,
+                        400,
+                        401
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_format_ranges_by_has_columns_and_min_max": {
+                    "executed_lines": [
+                        405,
+                        406,
+                        408,
+                        415
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_accepted_range": {
+                    "executed_lines": [
+                        419,
+                        420,
+                        421
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_accepted_range_is_compatible_with_is_between_syntax": {
+                    "executed_lines": [
+                        425,
+                        426,
+                        427,
+                        428,
+                        429,
+                        430,
+                        431,
+                        432,
+                        433
+                    ],
+                    "summary": {
+                        "covered_lines": 9,
+                        "num_statements": 9,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_accepted_range_erros_when_values_are_out_of_range": {
+                    "executed_lines": [
+                        437,
+                        438,
+                        439,
+                        440
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_accepted_range_errors_on_two_different_ranges": {
+                    "executed_lines": [
+                        444,
+                        445,
+                        446,
+                        448,
+                        449
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_maintains_relationships": {
+                    "executed_lines": [
+                        453,
+                        454,
+                        455,
+                        456
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_maintains_relationships_should_errors_if_some_values_are_dropped": {
+                    "executed_lines": [
+                        460,
+                        461,
+                        462,
+                        463
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_maintains_relationships_should_specify_some_changing_values": {
+                    "executed_lines": [
+                        467,
+                        468,
+                        469,
+                        470,
+                        471,
+                        473,
+                        474,
+                        475,
+                        476,
+                        477
+                    ],
+                    "summary": {
+                        "covered_lines": 10,
+                        "num_statements": 10,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_unique_combination_of_columns": {
+                    "executed_lines": [
+                        481,
+                        482,
+                        483
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_unique_combination_of_columns_use_all_columns_by_default": {
+                    "executed_lines": [
+                        487,
+                        488,
+                        489
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_unique_combination_of_columns_accepts_list_as_input": {
+                    "executed_lines": [
+                        493,
+                        494,
+                        495
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_unique_combination_of_columns_should_err_for_non_unicity": {
+                    "executed_lines": [
+                        499,
+                        500,
+                        501
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_unique_combination_of_columns_base_error_message_format": {
+                    "executed_lines": [
+                        505,
+                        506,
+                        507,
+                        509,
+                        510
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_unique_combination_of_columns_error_message_format": {
+                    "executed_lines": [
+                        523,
+                        524,
+                        525,
+                        527,
+                        529,
+                        530
+                    ],
+                    "summary": {
+                        "covered_lines": 6,
+                        "num_statements": 6,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_monotonic_works_with_int_float_dates_datetimes": {
+                    "executed_lines": [
+                        535,
+                        544,
+                        545
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_monotonic_error_when_not_monotonic": {
+                    "executed_lines": [
+                        549,
+                        550,
+                        551,
+                        553,
+                        554,
+                        555
+                    ],
+                    "summary": {
+                        "covered_lines": 6,
+                        "num_statements": 6,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_monotonic_can_specify_decreasing_monotonic": {
+                    "executed_lines": [
+                        559,
+                        560,
+                        561
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_monotonic_can_accept_non_strictly_monotonic": {
+                    "executed_lines": [
+                        565,
+                        566,
+                        567,
+                        569,
+                        570,
+                        571
+                    ],
+                    "summary": {
+                        "covered_lines": 6,
+                        "num_statements": 6,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_monotonic_should_allow_to_specify_interval_between_each_row": {
+                    "executed_lines": [
+                        575,
+                        576,
+                        577,
+                        579,
+                        580,
+                        581
+                    ],
+                    "summary": {
+                        "covered_lines": 6,
+                        "num_statements": 6,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_monotonic_should_allow_to_specify_interval_compatible_with_timedelta": {
+                    "executed_lines": [
+                        585,
+                        596,
+                        597
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_monotonic_should_allow_to_specify_interval_compatible_with_group_by": {
+                    "executed_lines": [
+                        601,
+                        612,
+                        613,
+                        615,
+                        616
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_is_monotonic_error_give_out_specifyic_error_message": {
+                    "executed_lines": [
+                        620,
+                        621,
+                        622,
+                        623,
+                        624
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_custom_checks_works_for_simple_filter": {
+                    "executed_lines": [
+                        628,
+                        629,
+                        630
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_custom_checks_errors_the_condition_returns_a_non_empty": {
+                    "executed_lines": [
+                        634,
+                        635,
+                        636
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_custom_checks_accept_over_clauses": {
+                    "executed_lines": [
+                        640,
+                        641,
+                        642
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_custom_checks_should_select_only_affected_columns": {
+                    "executed_lines": [
+                        646,
+                        653,
+                        654,
+                        656
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_mandatory_values": {
+                    "executed_lines": [
+                        660,
+                        661,
+                        662
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_mandatory_values_should_error_on_missing_elements": {
+                    "executed_lines": [
+                        666,
+                        667,
+                        668
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_mandatory_values_should_give_feedback_on_missing_values": {
+                    "executed_lines": [
+                        672,
+                        673,
+                        674,
+                        676,
+                        677
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_mandatory_values_should_accept_group_by_option": {
+                    "executed_lines": [
+                        681,
+                        682,
+                        683
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_has_mandatory_values_by_group_should_error_when_not_all_values_are_present": {
+                    "executed_lines": [
+                        687,
+                        688,
+                        689
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_mutually_exclusive_ranges_allows_to_specify_low_and_high_bounds": {
+                    "executed_lines": [
+                        693,
+                        701,
+                        702
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_mutually_exclusive_ranges_should_error_on_overlapping_intervals": {
+                    "executed_lines": [
+                        706,
+                        714,
+                        715
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_mutually_exclusive_ranges_should_return_both_overlapping_intervals_and_index": {
+                    "executed_lines": [
+                        719,
+                        731,
+                        732,
+                        734,
+                        735
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_mutually_exclusive_ranges_allows_to_group_by_anoterh_column": {
+                    "executed_lines": [
+                        739,
+                        746,
+                        752
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_column_is_within_n_std_accepts_tuple_args": {
+                    "executed_lines": [
+                        756,
+                        758,
+                        760
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_column_is_within_n_std_shoud_error_on_outliers": {
+                    "executed_lines": [
+                        764,
+                        766,
+                        767
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_column_is_within_n_std_accepts_list_of_tuple_args": {
+                    "executed_lines": [
+                        771,
+                        779,
+                        780,
+                        782,
+                        783
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_at_least_one_should_return_df_is_one_value_is_not_null": {
+                    "executed_lines": [
+                        787,
+                        788,
+                        789
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_at_least_one_should_error_if_all_values_are_nulls": {
+                    "executed_lines": [
+                        793,
+                        794,
+                        795
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_at_least_one_should_accept_column_selection": {
+                    "executed_lines": [
+                        799,
+                        801,
+                        802,
+                        804,
+                        805
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_at_least_one_should_accept_group_by_option": {
+                    "executed_lines": [
+                        809,
+                        810,
+                        811
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_at_least_one_should_error_when_only_null_for_given_group": {
+                    "executed_lines": [
+                        815,
+                        821,
+                        822
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "": {
+                    "executed_lines": [
+                        1,
+                        3,
+                        4,
+                        5,
+                        7,
+                        8,
+                        11,
+                        33,
+                        46,
+                        57,
+                        66,
+                        71,
+                        76,
+                        82,
+                        93,
+                        94,
+                        105,
+                        106,
+                        117,
+                        129,
+                        140,
+                        146,
+                        152,
+                        162,
+                        168,
+                        176,
+                        182,
+                        192,
+                        198,
+                        204,
+                        210,
+                        221,
+                        227,
+                        235,
+                        241,
+                        251,
+                        258,
+                        264,
+                        270,
+                        280,
+                        291,
+                        304,
+                        311,
+                        318,
+                        330,
+                        336,
+                        342,
+                        353,
+                        362,
+                        373,
+                        384,
+                        395,
+                        404,
+                        418,
+                        424,
+                        436,
+                        443,
+                        452,
+                        459,
+                        466,
+                        480,
+                        486,
+                        492,
+                        498,
+                        504,
+                        513,
+                        522,
+                        533,
+                        534,
+                        548,
+                        558,
+                        564,
+                        574,
+                        584,
+                        600,
+                        619,
+                        627,
+                        633,
+                        639,
+                        645,
+                        659,
+                        665,
+                        671,
+                        680,
+                        686,
+                        692,
+                        705,
+                        718,
+                        738,
+                        755,
+                        763,
+                        770,
+                        786,
+                        792,
+                        798,
+                        808,
+                        814
+                    ],
+                    "summary": {
+                        "covered_lines": 97,
+                        "num_statements": 97,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                }
+            },
+            "classes": {
+                "": {
+                    "executed_lines": [
+                        1,
+                        3,
+                        4,
+                        5,
+                        7,
+                        8,
+                        11,
+                        12,
+                        13,
+                        15,
+                        29,
+                        30,
+                        33,
+                        34,
+                        36,
+                        42,
+                        43,
+                        46,
+                        47,
+                        53,
+                        54,
+                        57,
+                        66,
+                        67,
+                        68,
+                        71,
+                        72,
+                        73,
+                        76,
+                        77,
+                        78,
+                        79,
+                        82,
+                        83,
+                        89,
+                        90,
+                        93,
+                        94,
+                        95,
+                        101,
+                        102,
+                        105,
+                        106,
+                        107,
+                        113,
+                        114,
+                        117,
+                        118,
+                        125,
+                        126,
+                        129,
+                        130,
+                        136,
+                        137,
+                        140,
+                        141,
+                        142,
+                        143,
+                        146,
+                        147,
+                        148,
+                        149,
+                        152,
+                        153,
+                        154,
+                        155,
+                        157,
+                        158,
+                        159,
+                        162,
+                        163,
+                        164,
+                        165,
+                        168,
+                        169,
+                        170,
+                        171,
+                        173,
+                        176,
+                        177,
+                        178,
+                        179,
+                        182,
+                        183,
+                        184,
+                        185,
+                        187,
+                        188,
+                        189,
+                        192,
+                        193,
+                        194,
+                        195,
+                        198,
+                        199,
+                        200,
+                        201,
+                        204,
+                        205,
+                        206,
+                        207,
+                        210,
+                        211,
+                        212,
+                        216,
+                        217,
+                        218,
+                        221,
+                        222,
+                        223,
+                        224,
+                        227,
+                        228,
+                        229,
+                        230,
+                        231,
+                        232,
+                        235,
+                        236,
+                        237,
+                        238,
+                        241,
+                        242,
+                        243,
+                        244,
+                        246,
+                        247,
+                        248,
+                        251,
+                        252,
+                        253,
+                        254,
+                        255,
+                        258,
+                        259,
+                        260,
+                        261,
+                        264,
+                        265,
+                        266,
+                        267,
+                        270,
+                        271,
+                        272,
+                        273,
+                        275,
+                        276,
+                        277,
+                        280,
+                        281,
+                        287,
+                        288,
+                        291,
+                        292,
+                        298,
+                        299,
+                        301,
+                        304,
+                        305,
+                        306,
+                        307,
+                        308,
+                        311,
+                        312,
+                        313,
+                        314,
+                        315,
+                        318,
+                        319,
+                        320,
+                        321,
+                        323,
+                        324,
+                        326,
+                        327,
+                        330,
+                        331,
+                        332,
+                        333,
+                        336,
+                        337,
+                        338,
+                        339,
+                        342,
+                        343,
+                        344,
+                        346,
+                        347,
+                        348,
+                        353,
+                        354,
+                        355,
+                        356,
+                        358,
+                        359,
+                        362,
+                        363,
+                        369,
+                        370,
+                        373,
+                        374,
+                        380,
+                        381,
+                        384,
+                        385,
+                        391,
+                        392,
+                        395,
+                        396,
+                        397,
+                        398,
+                        400,
+                        401,
+                        404,
+                        405,
+                        406,
+                        408,
+                        415,
+                        418,
+                        419,
+                        420,
+                        421,
+                        424,
+                        425,
+                        426,
+                        427,
+                        428,
+                        429,
+                        430,
+                        431,
+                        432,
+                        433,
+                        436,
+                        437,
+                        438,
+                        439,
+                        440,
+                        443,
+                        444,
+                        445,
+                        446,
+                        448,
+                        449,
+                        452,
+                        453,
+                        454,
+                        455,
+                        456,
+                        459,
+                        460,
+                        461,
+                        462,
+                        463,
+                        466,
+                        467,
+                        468,
+                        469,
+                        470,
+                        471,
+                        473,
+                        474,
+                        475,
+                        476,
+                        477,
+                        480,
+                        481,
+                        482,
+                        483,
+                        486,
+                        487,
+                        488,
+                        489,
+                        492,
+                        493,
+                        494,
+                        495,
+                        498,
+                        499,
+                        500,
+                        501,
+                        504,
+                        505,
+                        506,
+                        507,
+                        509,
+                        510,
+                        513,
+                        522,
+                        523,
+                        524,
+                        525,
+                        527,
+                        529,
+                        530,
+                        533,
+                        534,
+                        535,
+                        544,
+                        545,
+                        548,
+                        549,
+                        550,
+                        551,
+                        553,
+                        554,
+                        555,
+                        558,
+                        559,
+                        560,
+                        561,
+                        564,
+                        565,
+                        566,
+                        567,
+                        569,
+                        570,
+                        571,
+                        574,
+                        575,
+                        576,
+                        577,
+                        579,
+                        580,
+                        581,
+                        584,
+                        585,
+                        596,
+                        597,
+                        600,
+                        601,
+                        612,
+                        613,
+                        615,
+                        616,
+                        619,
+                        620,
+                        621,
+                        622,
+                        623,
+                        624,
+                        627,
+                        628,
+                        629,
+                        630,
+                        633,
+                        634,
+                        635,
+                        636,
+                        639,
+                        640,
+                        641,
+                        642,
+                        645,
+                        646,
+                        653,
+                        654,
+                        656,
+                        659,
+                        660,
+                        661,
+                        662,
+                        665,
+                        666,
+                        667,
+                        668,
+                        671,
+                        672,
+                        673,
+                        674,
+                        676,
+                        677,
+                        680,
+                        681,
+                        682,
+                        683,
+                        686,
+                        687,
+                        688,
+                        689,
+                        692,
+                        693,
+                        701,
+                        702,
+                        705,
+                        706,
+                        714,
+                        715,
+                        718,
+                        719,
+                        731,
+                        732,
+                        734,
+                        735,
+                        738,
+                        739,
+                        746,
+                        752,
+                        755,
+                        756,
+                        758,
+                        760,
+                        763,
+                        764,
+                        766,
+                        767,
+                        770,
+                        771,
+                        779,
+                        780,
+                        782,
+                        783,
+                        786,
+                        787,
+                        788,
+                        789,
+                        792,
+                        793,
+                        794,
+                        795,
+                        798,
+                        799,
+                        801,
+                        802,
+                        804,
+                        805,
+                        808,
+                        809,
+                        810,
+                        811,
+                        814,
+                        815,
+                        821,
+                        822
+                    ],
+                    "summary": {
+                        "covered_lines": 433,
+                        "num_statements": 433,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                }
+            }
         },
         "tests/test_utils.py": {
             "executed_lines": [
@@ -807,7 +3953,191 @@
                 "excluded_lines": 0
             },
             "missing_lines": [],
-            "excluded_lines": []
+            "excluded_lines": [],
+            "functions": {
+                "test_list_defective_columns_should_be_empty_when_bad_df_is_empty": {
+                    "executed_lines": [
+                        9,
+                        10,
+                        11,
+                        12
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_list_defective_columns_should_return_name_of_single_defective_column": {
+                    "executed_lines": [
+                        16,
+                        17,
+                        18,
+                        19,
+                        20
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_list_defective_columns_should_return_all_name_of_defective_columns": {
+                    "executed_lines": [
+                        24,
+                        25,
+                        26,
+                        27,
+                        28
+                    ],
+                    "summary": {
+                        "covered_lines": 5,
+                        "num_statements": 5,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_compare_schema_should_be_empty_when_types_matche": {
+                    "executed_lines": [
+                        32,
+                        33,
+                        34
+                    ],
+                    "summary": {
+                        "covered_lines": 3,
+                        "num_statements": 3,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_compare_schema_returns_column_expected_and_real_dtypes": {
+                    "executed_lines": [
+                        38,
+                        39,
+                        40,
+                        41
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "test_compare_schema_returns_one_line_per_mismatch_column": {
+                    "executed_lines": [
+                        45,
+                        46,
+                        47,
+                        52
+                    ],
+                    "summary": {
+                        "covered_lines": 4,
+                        "num_statements": 4,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                },
+                "": {
+                    "executed_lines": [
+                        1,
+                        3,
+                        5,
+                        8,
+                        15,
+                        23,
+                        31,
+                        37,
+                        44
+                    ],
+                    "summary": {
+                        "covered_lines": 9,
+                        "num_statements": 9,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                }
+            },
+            "classes": {
+                "": {
+                    "executed_lines": [
+                        1,
+                        3,
+                        5,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        15,
+                        16,
+                        17,
+                        18,
+                        19,
+                        20,
+                        23,
+                        24,
+                        25,
+                        26,
+                        27,
+                        28,
+                        31,
+                        32,
+                        33,
+                        34,
+                        37,
+                        38,
+                        39,
+                        40,
+                        41,
+                        44,
+                        45,
+                        46,
+                        47,
+                        52
+                    ],
+                    "summary": {
+                        "covered_lines": 34,
+                        "num_statements": 34,
+                        "percent_covered": 100.0,
+                        "percent_covered_display": "100",
+                        "missing_lines": 0,
+                        "excluded_lines": 0
+                    },
+                    "missing_lines": [],
+                    "excluded_lines": []
+                }
+            }
         }
     },
     "totals": {

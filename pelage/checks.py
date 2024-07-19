@@ -24,8 +24,8 @@ IntOrNone = Union[int, None]
 PolarsOverClauseInput = Union[IntoExpr, Iterable[IntoExpr]]
 
 
-def _has_sufficient_pl_version() -> bool:
-    return version.parse(pl.__version__) >= version.parse("0.20.0")
+def _has_sufficient_polars_version(version_number: str = "0.20.0") -> bool:
+    return version.parse(pl.__version__) >= version.parse(version_number)
 
 
 class PolarsAssertError(Exception):
@@ -365,9 +365,17 @@ def has_no_nulls(
     """
     selected_columns = _sanitize_column_inputs(columns)
     null_count = (
-        data.select(selected_columns.null_count())
-        .melt(variable_name="column", value_name="null_count")
-        .filter(pl.col("null_count") > 0)
+        (
+            data.select(selected_columns.null_count())
+            .unpivot(variable_name="column", value_name="null_count")
+            .filter(pl.col("null_count") > 0)
+        )
+        if _has_sufficient_polars_version("1.1.0")
+        else (
+            data.select(selected_columns.null_count())
+            .melt(variable_name="column", value_name="null_count")
+            .filter(pl.col("null_count") > 0)
+        )
     )
     if not null_count.is_empty():
         raise PolarsAssertError(
@@ -517,7 +525,7 @@ def _safe_group_by_length(
     data: pl.DataFrame,
     group_by: PolarsOverClauseInput,
 ) -> pl.DataFrame:
-    if _has_sufficient_pl_version():
+    if _has_sufficient_polars_version():
         return data.group_by(group_by).len()
     else:
         return data.group_by(group_by).agg(pl.count().alias("len"))
@@ -954,7 +962,7 @@ def has_mandatory_values(
 
 
 def compare_sets_per_column(data: pl.DataFrame, items: dict) -> pl.DataFrame:
-    if _has_sufficient_pl_version():
+    if _has_sufficient_polars_version():
         expected_sets = {f"{k}_expected_set": pl.lit(v) for k, v in items.items()}
     else:
         expected_sets = {f"{k}_expected_set": v for k, v in items.items()}
@@ -1088,7 +1096,7 @@ def not_null_proportion(
             .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
         )
     else:
-        pl_len = pl.len() if _has_sufficient_pl_version() else pl.count()
+        pl_len = pl.len() if _has_sufficient_polars_version() else pl.count()
 
         null_proportions = (
             data.group_by(group_by)
@@ -1214,7 +1222,7 @@ def at_least_one(
     selected_columns = _sanitize_column_inputs(columns)
 
     if group_by is not None:
-        pl_len = pl.len() if _has_sufficient_pl_version() else pl.count()
+        pl_len = pl.len() if _has_sufficient_polars_version() else pl.count()
 
         only_nulls_per_group = (
             data.group_by(group_by)
@@ -1741,7 +1749,7 @@ def mutually_exclusive_ranges(
 
 
 def _add_row_index(data: pl.DataFrame) -> pl.DataFrame:
-    if _has_sufficient_pl_version():
+    if _has_sufficient_polars_version():
         return data.with_row_index()
     else:
         return data.with_row_count().rename({"row_nr": "index"})

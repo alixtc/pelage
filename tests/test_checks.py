@@ -225,7 +225,7 @@ def test_has_no_infs_returns_df_when_all_values_defined():
 
 
 def test_has_no_infs_throws_error_on_inf_values():
-    given = pl.DataFrame({"a": [1, None, float("inf")]})
+    given = pl.DataFrame({"a": [1.0, None, float("inf")]})
     with pytest.raises(plg.PolarsAssertError) as err:
         given.pipe(plg.has_no_infs)
     expected = pl.DataFrame({"a": [float("inf")]})
