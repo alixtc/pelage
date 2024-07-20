@@ -690,18 +690,35 @@ def not_constant(
     selected_cols = _sanitize_column_inputs(columns)
 
     if group_by is None:
-        constant_columns = (
-            data.select(selected_cols.n_unique())
-            .melt(variable_name="column", value_name="n_distinct")
-            .filter(pl.col("n_distinct") == 1)
-        )
+        if _has_sufficient_polars_version("1.0.0"):
+            constant_columns = (
+                data.select(selected_cols.n_unique())
+                .unpivot(variable_name="column", value_name="n_distinct")
+                .filter(pl.col("n_distinct") == 1)
+            )
+        else:
+            constant_columns = (
+                data.select(selected_cols.n_unique())
+                .melt(variable_name="column", value_name="n_distinct")
+                .filter(pl.col("n_distinct") == 1)
+            )
     else:
-        constant_columns = (
-            data.group_by(group_by)
-            .agg(selected_cols.n_unique())
-            .melt(id_vars=group_by, variable_name="column", value_name="n_distinct")
-            .filter(pl.col("n_distinct") == 1)
-        )
+        if _has_sufficient_polars_version("1.0.0"):
+            constant_columns = (
+                data.group_by(group_by)
+                .agg(selected_cols.n_unique())
+                .unpivot(
+                    index=group_by, variable_name="column", value_name="n_distinct"
+                )
+                .filter(pl.col("n_distinct") == 1)
+            )
+        else:
+            constant_columns = (
+                data.group_by(group_by)
+                .agg(selected_cols.n_unique())
+                .melt(id_vars=group_by, variable_name="column", value_name="n_distinct")
+                .filter(pl.col("n_distinct") == 1)
+            )
 
     if not constant_columns.is_empty():
         group_message = " within a given group" if group_by is not None else ""
@@ -1090,24 +1107,42 @@ def not_null_proportion(
     pl_ranges = _format_ranges_by_columns(items)
 
     if group_by is None:
-        null_proportions = (
-            (data.null_count() / len(data))
-            .melt(variable_name="column", value_name="null_proportion")
-            .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
-        )
-    else:
-        pl_len = pl.len() if _has_sufficient_polars_version() else pl.count()
-
-        null_proportions = (
-            data.group_by(group_by)
-            .agg(pl.all().null_count() / pl_len)
-            .melt(
-                id_vars=group_by,  # type: ignore
-                variable_name="column",
-                value_name="null_proportion",
+        if _has_sufficient_polars_version("1.0.0"):
+            null_proportions = (
+                (data.null_count() / len(data))
+                .unpivot(variable_name="column", value_name="null_proportion")
+                .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
             )
-            .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
-        )
+        else:
+            null_proportions = (
+                (data.null_count() / len(data))
+                .melt(variable_name="column", value_name="null_proportion")
+                .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+            )
+    else:
+        pl_len = pl.len() if _has_sufficient_polars_version("0.20.0") else pl.count()
+        if _has_sufficient_polars_version("1.0.0"):
+            null_proportions = (
+                data.group_by(group_by)
+                .agg(pl.all().null_count() / pl_len)
+                .unpivot(
+                    index=group_by,  # type: ignore
+                    variable_name="column",
+                    value_name="null_proportion",
+                )
+                .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+            )
+        else:
+            null_proportions = (
+                data.group_by(group_by)
+                .agg(pl.all().null_count() / pl_len)
+                .melt(
+                    id_vars=group_by,  # type: ignore
+                    variable_name="column",
+                    value_name="null_proportion",
+                )
+                .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+            )
 
     out_of_range_null_proportions = (
         null_proportions.join(pl_ranges, on="column", how="inner")
@@ -1224,16 +1259,28 @@ def at_least_one(
     if group_by is not None:
         pl_len = pl.len() if _has_sufficient_polars_version() else pl.count()
 
-        only_nulls_per_group = (
-            data.group_by(group_by)
-            .agg(selected_columns.null_count() < pl_len)
-            .melt(
-                id_vars=group_by,  # type: ignore
-                variable_name="columns",
-                value_name="at_least_one",
+        if _has_sufficient_polars_version("1.0.0"):
+            only_nulls_per_group = (
+                data.group_by(group_by)
+                .agg(selected_columns.null_count() < pl_len)
+                .unpivot(
+                    index=group_by,  # type: ignore
+                    variable_name="columns",
+                    value_name="at_least_one",
+                )
+                .filter(pl.col("at_least_one").not_())
             )
-            .filter(pl.col("at_least_one").not_())
-        )
+        else:
+            only_nulls_per_group = (
+                data.group_by(group_by)
+                .agg(selected_columns.null_count() < pl_len)
+                .melt(
+                    id_vars=group_by,  # type: ignore
+                    variable_name="columns",
+                    value_name="at_least_one",
+                )
+                .filter(pl.col("at_least_one").not_())
+            )
 
         if len(only_nulls_per_group) > 0:
             raise PolarsAssertError(
