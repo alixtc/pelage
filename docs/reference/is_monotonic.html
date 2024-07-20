@@ -136,7 +136,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
   <li class="nav-item">
     <a class="nav-link" href="../notebooks/coming_from_dbt.html">
-<span class="menu-text">Coming from DBT</span></a>
+<span class="menu-text">Coming from dbt</span></a>
   </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -359,23 +359,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
 <dl>
-<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></span></code></dt>
+<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">pl.DataFrame</span></code></dt>
 <dd>
 <p>To check</p>
 </dd>
-<dt><code><span class="parameter-name">column</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`str`">str</a></span></code></dt>
+<dt><code><span class="parameter-name">column</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">str</span></code></dt>
 <dd>
 <p>Name of the column that should be monotonic.</p>
 </dd>
-<dt><code><span class="parameter-name">decreasing</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`bool`">bool</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">False</span></code></dt>
+<dt><code><span class="parameter-name">decreasing</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">bool</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">False</span></code></dt>
 <dd>
 <p>Should the column be decreasing, by default False</p>
 </dd>
-<dt><code><span class="parameter-name">strict</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`bool`">bool</a></span> <span class="parameter-default-sep">=</span> <span class="parameter-default">True</span></code></dt>
+<dt><code><span class="parameter-name">strict</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">bool</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">True</span></code></dt>
 <dd>
 <p>The series must be stricly increasing or decreasing, no consecutive equal values are allowed, by default True</p>
 </dd>
-<dt><code><span class="parameter-name">interval</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Optional`">Optional</a>[<a href="`typing.Union`">Union</a>[<a href="`int`">int</a>, <a href="`float`">float</a>, <a href="`str`">str</a>, <a href="`polars`">pl</a>.<a href="`polars.Duration`">Duration</a>]]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
+<dt><code><span class="parameter-name">interval</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional[Union[int, float, str, pl.Duration]]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
 <dd>
 <p>For time-based column, the interval can be specified as a string as in the function <code>dt.offset_by</code> or <code>pl.DataFrame().rolling</code>. It can also be specified with the <code>pl.duration()</code> function directly in a more explicit manner.</p>
 <p>When using a string, the interval is dictated by the following string language:</p>
@@ -394,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>By “calendar day”, we mean the corresponding time on the next day (which may not be 24 hours, due to daylight savings). Similarly for “calendar week”, “calendar month”, “calendar quarter”, and “calendar year”.</p>
 <p>By default None</p>
 </dd>
-<dt><code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Optional`">Optional</a>[<a href="`pelage.checks.PolarsOverClauseInput`">PolarsOverClauseInput</a>]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
+<dt><code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional[PolarsOverClauseInput]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
 <dd>
 <p>When specified, the monotonic characteristics and intervals are estimated for each group independently.</p>
 <p>by default None</p>
@@ -412,7 +412,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></td>
+<td>pl.DataFrame</td>
 <td>The original polars DataFrame when the check passes</td>
 </tr>
 </tbody>

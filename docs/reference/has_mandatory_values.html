@@ -136,7 +136,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
   <li class="nav-item">
     <a class="nav-link" href="../notebooks/coming_from_dbt.html">
-<span class="menu-text">Coming from DBT</span></a>
+<span class="menu-text">Coming from dbt</span></a>
   </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -359,15 +359,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
 <dl>
-<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></span></code></dt>
+<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">pl.DataFrame</span></code></dt>
 <dd>
 <p>To check</p>
 </dd>
-<dt><code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Dict`">Dict</a>[<a href="`str`">str</a>, <a href="`list`">list</a>]</span></code></dt>
+<dt><code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict[str, list]</span></code></dt>
 <dd>
 <p>A dictionnary where the keys are the columns names and the values are lists that contains all the required values for a given column.</p>
 </dd>
-<dt><code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Optional`">Optional</a>[<a href="`pelage.checks.PolarsOverClauseInput`">PolarsOverClauseInput</a>]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
+<dt><code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional[PolarsOverClauseInput]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
 <dd>
 <p>When specified perform the check per group instead of the whole column, by default None</p>
 </dd>
@@ -384,7 +384,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></td>
+<td>pl.DataFrame</td>
 <td>The original polars DataFrame when the check passes</td>
 </tr>
 </tbody>

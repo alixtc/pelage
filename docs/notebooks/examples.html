@@ -137,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
   <li class="nav-item">
     <a class="nav-link" href="../notebooks/coming_from_dbt.html">
-<span class="menu-text">Coming from DBT</span></a>
+<span class="menu-text">Coming from dbt</span></a>
   </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -430,7 +430,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Focus on the errors</h1>
 <section id="error-message" class="level2">
 <h2 class="anchored" data-anchor-id="error-message">Error message</h2>
-<p>When the check fails, a PolarsAssertError is raise. The error message tends to provide a summarized view of the problem that occurred during the check.</p>
+<p>When the check fails, a PolarsAssertError exception is raised. The error message tends to provide a summarized view of the problem that occurred during the check.</p>
 <div id="cell-6" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    data.pipe(</span>
@@ -481,7 +481,7 @@ Error with the DataFrame passed to the check function:
 </section>
 <section id="investigating-the-cause-of-the-failure" class="level2">
 <h2 class="anchored" data-anchor-id="investigating-the-cause-of-the-failure">Investigating the cause of the failure</h2>
-<p>In addition to help theuser better understand the root cause of the check failure, the error object also possesses as <code>df</code> attribute that can contains the identified values causing the check to fail.</p>
+<p>In addition to help the user better understand the root cause of the check failure, the error object also possesses as <code>df</code> attribute that can contains the identified values causing the check to fail.</p>
 <p>Here is how to simply retrieve it without adding a <code>try/except</code> block. This allows us to print the error in a string format.</p>
 <div id="cell-8" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>

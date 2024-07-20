@@ -100,7 +100,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
   <li class="nav-item">
     <a class="nav-link active" href="../notebooks/coming_from_dbt.html" aria-current="page">
-<span class="menu-text">Coming from DBT</span></a>
+<span class="menu-text">Coming from dbt</span></a>
   </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -125,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
 
   <ul>
-  <li><a href="#dbt-interoperability" id="toc-dbt-interoperability" class="nav-link active" data-scroll-target="#dbt-interoperability">DBT interoperability</a></li>
+  <li><a href="#dbt-interoperability" id="toc-dbt-interoperability" class="nav-link active" data-scroll-target="#dbt-interoperability">dbt interoperability</a></li>
   <li><a href="#context" id="toc-context" class="nav-link" data-scroll-target="#context">Context</a></li>
   </ul>
 </nav>
@@ -137,13 +137,13 @@ ul.task-list li input[type="checkbox"] {
 
 
 <section id="dbt-interoperability" class="level1">
-<h1>DBT interoperability</h1>
-<p>One of the primary objectives of <code>pelage</code> is to facilitate the rewriting of data pipelines from python to SQL, and the inverse. This is why most of the checks are based on the concept of SQL tests proposed by <code>DBT</code>.</p>
+<h1>dbt interoperability</h1>
+<p>One of the primary objectives of <code>pelage</code> is to facilitate the rewriting of data pipelines from python to SQL, and the inverse. This is why most of the checks are based on the concept of SQL tests proposed by <code>dbt</code>.</p>
 <table class="table-striped table-hover table">
-<caption>DBT core test functions</caption>
+<caption>dbt core test functions</caption>
 <thead>
 <tr class="header">
-<th style="text-align: center;">DBT</th>
+<th style="text-align: center;">dbt</th>
 <th style="text-align: center;">Available in <code>pelage</code></th>
 <th style="text-align: center;"><code>group_by</code> option</th>
 </tr>
@@ -172,7 +172,7 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <table class="table-striped table-hover table">
-<caption>Implementation of DBT Utils tests</caption>
+<caption>Implementation of dbt-utils tests</caption>
 <colgroup>
 <col style="width: 42%">
 <col style="width: 31%">
@@ -180,7 +180,7 @@ ul.task-list li input[type="checkbox"] {
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: center;">DBT Utils</th>
+<th style="text-align: center;">dbt-utils</th>
 <th style="text-align: center;">Available in <code>pelage</code></th>
 <th style="text-align: center;"><code>group_by</code> option</th>
 </tr>
@@ -268,7 +268,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>Some functions that are also coming from other defensive analysis tools in python have been implemented, even though they are not available in DBT:</p>
+<p>Some functions that are also coming from other defensive analysis tools in python have been implemented, even though they are not available in dbt:</p>
 <table class="table-striped table-hover table">
 <caption>Other defensive functions</caption>
 <thead>
@@ -306,7 +306,7 @@ ul.task-list li input[type="checkbox"] {
 <h1>Context</h1>
 <p><code>pelage</code> was designed in order to reduce the gap between data exploration and production. Working on data related use-cases implies facing many different challenges, one the majors are data quality, data drift.</p>
 <ul>
-<li>One of the best frameworks to test data pipelines is provided by <code>DBT</code>.</li>
+<li>One of the best frameworks to test data pipelines is provided by <code>dbt</code>.</li>
 <li>It’s difficult to write tests after the business logic has been implemented.</li>
 <li>During EDA, data visualization plays a crucial role to identify relevant data or identify quality problems.</li>
 <li>SQL transformations are a major component of production-ready data pipelines.</li>

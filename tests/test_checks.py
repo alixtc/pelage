@@ -225,7 +225,7 @@ def test_has_no_infs_returns_df_when_all_values_defined():
 
 
 def test_has_no_infs_throws_error_on_inf_values():
-    given = pl.DataFrame({"a": [1, None, float("inf")]})
+    given = pl.DataFrame({"a": [1.0, None, float("inf")]})
     with pytest.raises(plg.PolarsAssertError) as err:
         given.pipe(plg.has_no_infs)
     expected = pl.DataFrame({"a": [float("inf")]})
@@ -411,6 +411,7 @@ def test_format_ranges_by_has_columns_and_min_max():
             ("b", 0.9, 0.95),
         ],
         schema=["column", "min_prop", "max_prop"],
+        orient="row",
     )
     testing.assert_frame_equal(given, expected)
 
@@ -607,6 +608,7 @@ def test_is_monotonic_should_allow_to_specify_interval_compatible_with_group_by(
             ("2021-12-12 01:44:00", "B"),
         ],
         schema=["dates", "group"],
+        orient="row",
     ).with_columns(pl.col("dates").str.to_datetime())
 
     when = given.pipe(plg.is_monotonic, "dates", interval="1m", group_by="group")
@@ -742,6 +744,7 @@ def test_mutually_exclusive_ranges_allows_to_group_by_anoterh_column():
             ["B", 2, 4],
         ],
         schema=["group", "a", "b"],
+        orient="row",
     )
     when = given.pipe(
         plg.mutually_exclusive_ranges,

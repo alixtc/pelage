@@ -7,9 +7,14 @@ from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 import polars as pl
 from packaging import version
-from polars.type_aliases import ClosedInterval, IntoExpr, PolarsDataType
 
 from pelage import utils
+
+try:
+    from polars._typing import ClosedInterval, IntoExpr, PolarsDataType
+except ImportError:
+    from polars.type_aliases import ClosedInterval, IntoExpr, PolarsDataType
+
 
 PolarsColumnBounds = Union[
     Tuple[IntoExpr, IntoExpr], Tuple[IntoExpr, IntoExpr, ClosedInterval]
@@ -24,8 +29,8 @@ IntOrNone = Union[int, None]
 PolarsOverClauseInput = Union[IntoExpr, Iterable[IntoExpr]]
 
 
-def _has_sufficient_pl_version() -> bool:
-    return version.parse(pl.__version__) >= version.parse("0.20.0")
+def _has_sufficient_polars_version(version_number: str = "0.20.0") -> bool:
+    return version.parse(pl.__version__) >= version.parse(version_number)
 
 
 class PolarsAssertError(Exception):
@@ -365,9 +370,17 @@ def has_no_nulls(
     """
     selected_columns = _sanitize_column_inputs(columns)
     null_count = (
-        data.select(selected_columns.null_count())
-        .melt(variable_name="column", value_name="null_count")
-        .filter(pl.col("null_count") > 0)
+        (
+            data.select(selected_columns.null_count())
+            .unpivot(variable_name="column", value_name="null_count")
+            .filter(pl.col("null_count") > 0)
+        )
+        if _has_sufficient_polars_version("1.1.0")
+        else (
+            data.select(selected_columns.null_count())
+            .melt(variable_name="column", value_name="null_count")
+            .filter(pl.col("null_count") > 0)
+        )
     )
     if not null_count.is_empty():
         raise PolarsAssertError(
@@ -517,7 +530,7 @@ def _safe_group_by_length(
     data: pl.DataFrame,
     group_by: PolarsOverClauseInput,
 ) -> pl.DataFrame:
-    if _has_sufficient_pl_version():
+    if _has_sufficient_polars_version():
         return data.group_by(group_by).len()
     else:
         return data.group_by(group_by).agg(pl.count().alias("len"))
@@ -682,18 +695,35 @@ def not_constant(
     selected_cols = _sanitize_column_inputs(columns)
 
     if group_by is None:
-        constant_columns = (
-            data.select(selected_cols.n_unique())
-            .melt(variable_name="column", value_name="n_distinct")
-            .filter(pl.col("n_distinct") == 1)
-        )
+        if _has_sufficient_polars_version("1.0.0"):
+            constant_columns = (
+                data.select(selected_cols.n_unique())
+                .unpivot(variable_name="column", value_name="n_distinct")
+                .filter(pl.col("n_distinct") == 1)
+            )
+        else:
+            constant_columns = (
+                data.select(selected_cols.n_unique())
+                .melt(variable_name="column", value_name="n_distinct")
+                .filter(pl.col("n_distinct") == 1)
+            )
     else:
-        constant_columns = (
-            data.group_by(group_by)
-            .agg(selected_cols.n_unique())
-            .melt(id_vars=group_by, variable_name="column", value_name="n_distinct")
-            .filter(pl.col("n_distinct") == 1)
-        )
+        if _has_sufficient_polars_version("1.0.0"):
+            constant_columns = (
+                data.group_by(group_by)
+                .agg(selected_cols.n_unique())
+                .unpivot(
+                    index=group_by, variable_name="column", value_name="n_distinct"
+                )
+                .filter(pl.col("n_distinct") == 1)
+            )
+        else:
+            constant_columns = (
+                data.group_by(group_by)
+                .agg(selected_cols.n_unique())
+                .melt(id_vars=group_by, variable_name="column", value_name="n_distinct")
+                .filter(pl.col("n_distinct") == 1)
+            )
 
     if not constant_columns.is_empty():
         group_message = " within a given group" if group_by is not None else ""
@@ -954,7 +984,7 @@ def has_mandatory_values(
 
 
 def compare_sets_per_column(data: pl.DataFrame, items: dict) -> pl.DataFrame:
-    if _has_sufficient_pl_version():
+    if _has_sufficient_polars_version():
         expected_sets = {f"{k}_expected_set": pl.lit(v) for k, v in items.items()}
     else:
         expected_sets = {f"{k}_expected_set": v for k, v in items.items()}
@@ -1082,24 +1112,42 @@ def not_null_proportion(
     pl_ranges = _format_ranges_by_columns(items)
 
     if group_by is None:
-        null_proportions = (
-            (data.null_count() / len(data))
-            .melt(variable_name="column", value_name="null_proportion")
-            .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
-        )
-    else:
-        pl_len = pl.len() if _has_sufficient_pl_version() else pl.count()
-
-        null_proportions = (
-            data.group_by(group_by)
-            .agg(pl.all().null_count() / pl_len)
-            .melt(
-                id_vars=group_by,  # type: ignore
-                variable_name="column",
-                value_name="null_proportion",
+        if _has_sufficient_polars_version("1.0.0"):
+            null_proportions = (
+                (data.null_count() / len(data))
+                .unpivot(variable_name="column", value_name="null_proportion")
+                .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
             )
-            .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
-        )
+        else:
+            null_proportions = (
+                (data.null_count() / len(data))
+                .melt(variable_name="column", value_name="null_proportion")
+                .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+            )
+    else:
+        pl_len = pl.len() if _has_sufficient_polars_version("0.20.0") else pl.count()
+        if _has_sufficient_polars_version("1.0.0"):
+            null_proportions = (
+                data.group_by(group_by)
+                .agg(pl.all().null_count() / pl_len)
+                .unpivot(
+                    index=group_by,  # type: ignore
+                    variable_name="column",
+                    value_name="null_proportion",
+                )
+                .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+            )
+        else:
+            null_proportions = (
+                data.group_by(group_by)
+                .agg(pl.all().null_count() / pl_len)
+                .melt(
+                    id_vars=group_by,  # type: ignore
+                    variable_name="column",
+                    value_name="null_proportion",
+                )
+                .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+            )
 
     out_of_range_null_proportions = (
         null_proportions.join(pl_ranges, on="column", how="inner")
@@ -1125,6 +1173,7 @@ def _format_ranges_by_columns(
     pl_ranges = pl.DataFrame(
         [(k, v[0], v[1]) for k, v in ranges.items()],
         schema=["column", "min_prop", "max_prop"],
+        orient="row",
     )
     return pl_ranges
 
@@ -1214,18 +1263,30 @@ def at_least_one(
     selected_columns = _sanitize_column_inputs(columns)
 
     if group_by is not None:
-        pl_len = pl.len() if _has_sufficient_pl_version() else pl.count()
+        pl_len = pl.len() if _has_sufficient_polars_version() else pl.count()
 
-        only_nulls_per_group = (
-            data.group_by(group_by)
-            .agg(selected_columns.null_count() < pl_len)
-            .melt(
-                id_vars=group_by,  # type: ignore
-                variable_name="columns",
-                value_name="at_least_one",
+        if _has_sufficient_polars_version("1.0.0"):
+            only_nulls_per_group = (
+                data.group_by(group_by)
+                .agg(selected_columns.null_count() < pl_len)
+                .unpivot(
+                    index=group_by,  # type: ignore
+                    variable_name="columns",
+                    value_name="at_least_one",
+                )
+                .filter(pl.col("at_least_one").not_())
             )
-            .filter(pl.col("at_least_one").not_())
-        )
+        else:
+            only_nulls_per_group = (
+                data.group_by(group_by)
+                .agg(selected_columns.null_count() < pl_len)
+                .melt(
+                    id_vars=group_by,  # type: ignore
+                    variable_name="columns",
+                    value_name="at_least_one",
+                )
+                .filter(pl.col("at_least_one").not_())
+            )
 
         if len(only_nulls_per_group) > 0:
             raise PolarsAssertError(
@@ -1572,7 +1633,7 @@ def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     in the dataframe. For instance, if a column should not contain the value `4`,
     use the expression `pl.col("column") != 4`.
 
-    Analog to DBT utils fonction: `expression_is_true`
+    Analog to dbt-utils fonction: `expression_is_true`
 
     Parameters
     ----------
@@ -1741,7 +1802,7 @@ def mutually_exclusive_ranges(
 
 
 def _add_row_index(data: pl.DataFrame) -> pl.DataFrame:
-    if _has_sufficient_pl_version():
+    if _has_sufficient_polars_version():
         return data.with_row_index()
     else:
         return data.with_row_count().rename({"row_nr": "index"})
