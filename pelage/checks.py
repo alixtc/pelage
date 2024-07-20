@@ -7,9 +7,14 @@ from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 import polars as pl
 from packaging import version
-from polars.type_aliases import ClosedInterval, IntoExpr, PolarsDataType
 
 from pelage import utils
+
+try:
+    from polars._typing import ClosedInterval, IntoExpr, PolarsDataType
+except ImportError:
+    from polars.type_aliases import ClosedInterval, IntoExpr, PolarsDataType
+
 
 PolarsColumnBounds = Union[
     Tuple[IntoExpr, IntoExpr], Tuple[IntoExpr, IntoExpr, ClosedInterval]
@@ -1168,6 +1173,7 @@ def _format_ranges_by_columns(
     pl_ranges = pl.DataFrame(
         [(k, v[0], v[1]) for k, v in ranges.items()],
         schema=["column", "min_prop", "max_prop"],
+        orient="row",
     )
     return pl_ranges
 
