@@ -117,7 +117,7 @@ class Renderer(MdRenderer):
     @dispatch
     def render_annotation(self, el: exp.ExprName):
         # e.g. Name(source="Optional", full="typing.Optional")
-        return f"[{el.name}](`{el.canonical_path}`)"
+        return f"{el.name}"
 
     @dispatch
     # Overload of `quartodoc.renderers.md_renderer` to fix bug where the descriptions
