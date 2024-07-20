@@ -29,7 +29,7 @@ website:
         file: reference/index.html
       - text: Examples
         file: notebooks/examples.html
-      - text: Coming from DBT
+      - text: Coming from dbt
         file: notebooks/coming_from_dbt.html
     right:
       - icon: git

@@ -1633,7 +1633,7 @@ def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     in the dataframe. For instance, if a column should not contain the value `4`,
     use the expression `pl.col("column") != 4`.
 
-    Analog to DBT utils fonction: `expression_is_true`
+    Analog to dbt-utils fonction: `expression_is_true`
 
     Parameters
     ----------

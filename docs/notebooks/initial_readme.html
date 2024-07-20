@@ -134,7 +134,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
   <li class="nav-item">
     <a class="nav-link" href="../notebooks/coming_from_dbt.html">
-<span class="menu-text">Coming from DBT</span></a>
+<span class="menu-text">Coming from dbt</span></a>
   </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -279,11 +279,11 @@ Error with the DataFrame passed to the check function:
 </section>
 <section id="interoperability" class="level2">
 <h2 class="anchored" data-anchor-id="interoperability">Interoperability:</h2>
-<p>The polars DSL and syntax have been develop with the idea to make the transition to SQL much easier. In this perspective, <code>pelage</code> wants to facilitate the use of tests to ensure data quality while enabling a possible transition towards SQL, and using the same tests in SQL. This is why we implemented most of the checks that have been developed for <code>DBT</code> tool box, notably:</p>
+<p>The polars DSL and syntax have been develop with the idea to make the transition to SQL much easier. In this perspective, <code>pelage</code> wants to facilitate the use of tests to ensure data quality while enabling a possible transition towards SQL, and using the same tests in SQL. This is why we implemented most of the checks that have been developed for <code>dbt</code> tool box, notably:</p>
 <ul>
-<li><a href="https://docs.getdbt.com/docs/build/data-tests#generic-data-tests">DBT generic checks</a></li>
-<li><a href="https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file">DBT utils test</a></li>
-<li>(Soon to come: DBT expectations)</li>
+<li><a href="https://docs.getdbt.com/docs/build/data-tests#generic-data-tests">dbt generic checks</a></li>
+<li><a href="https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file">dbt-utils test</a></li>
+<li>(Soon to come: dbt expectations)</li>
 </ul>
 <p>We believe that data quality checks should be written as close as possible to the data exploration phase, and we hope that providing theses checks in a context where it is easier to visualize your data will be helpful. Similarly, we know that it is sometimes much easier to industrialize SQL data pipelines, in this perspective the similarity between <code>pelage</code> and <code>dbt</code> testing capabilities should make the transition much smoother.</p>
 </section>
