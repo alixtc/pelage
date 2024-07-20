@@ -11,7 +11,8 @@ One of the primary objectives of `pelage` is to facilitate the rewriting of data
 
 : dbt core test functions {.striped .hover}
 
-|           dbt Utils           | Available in `pelage` | `group_by` option |
+
+|           dbt-utils           | Available in `pelage` | `group_by` option |
 |:-----------------------------:|:---------------------:|:-----------------:|
 |        equal_rowcount         |     has_shape ✅      |        ✅         |
 |        fewer_rows_than        |          ❌           |        ❌         |
@@ -30,7 +31,7 @@ One of the primary objectives of `pelage` is to facilitate the rewriting of data
 | unique_combination_of_columns |          ✅           |        \-         |
 |        accepted_range         |          ✅           |        \-         |
 
-: Implementation of dbt Utils tests {.striped .hover}
+: Implementation of dbt-utils tests {.striped .hover}
 
 Some functions that are also coming from other defensive analysis tools in python have been implemented, even though they are not available in dbt:
 

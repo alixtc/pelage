@@ -118,13 +118,13 @@ transition to SQL much easier. In this perspective, `pelage` wants to
 facilitate the use of tests to ensure data quality while enabling a
 possible transition towards SQL, and using the same tests in SQL. This
 is why we implemented most of the checks that have been developed for
-`DBT` tool box, notably:
+`dbt` tool box, notably:
 
-- [DBT generic
+- [dbt generic
   checks](https://docs.getdbt.com/docs/build/data-tests#generic-data-tests)
-- [DBT utils
+- [dbt-utils
   test](https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file)
-- (Soon to come: DBT expectations)
+- (Soon to come: dbt expectations)
 
 We believe that data quality checks should be written as close as
 possible to the data exploration phase, and we hope that providing
