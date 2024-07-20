@@ -359,11 +359,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
 <dl>
-<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></span></code></dt>
+<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">pl.DataFrame</span></code></dt>
 <dd>
 
 </dd>
-<dt><code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Dict`">Dict</a>[<a href="`str`">str</a>, <a href="`pelage.checks.PolarsColumnBounds`">PolarsColumnBounds</a>]</span></code></dt>
+<dt><code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict[str, PolarsColumnBounds]</span></code></dt>
 <dd>
 <p>Any type of inputs that match the following signature: <code>column_name: (boundaries)</code> where boundaries is compatible with the Polars method <code>is_between()</code> syntax.</p>
 <p>For example:</p>
@@ -386,7 +386,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></td>
+<td>pl.DataFrame</td>
 <td>The original polars DataFrame when the check passes</td>
 </tr>
 </tbody>

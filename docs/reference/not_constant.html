@@ -359,15 +359,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
 <dl>
-<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></span></code></dt>
+<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">pl.DataFrame</span></code></dt>
 <dd>
 <p>The input DataFrame to check for null values.</p>
 </dd>
-<dt><code><span class="parameter-name">columns</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Optional`">Optional</a>[<a href="`pelage.checks.PolarsColumnType`">PolarsColumnType</a>]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
+<dt><code><span class="parameter-name">columns</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional[PolarsColumnType]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
 <dd>
 <p>Columns to consider for null value check. By default, all columns are checked.</p>
 </dd>
-<dt><code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Optional`">Optional</a>[<a href="`pelage.checks.PolarsOverClauseInput`">PolarsOverClauseInput</a>]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
+<dt><code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional[PolarsOverClauseInput]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
 <dd>
 <p>When specified perform the check per group instead of the whole column, by default None</p>
 </dd>
@@ -384,7 +384,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></td>
+<td>pl.DataFrame</td>
 <td>The original polars DataFrame when the check passes</td>
 </tr>
 </tbody>

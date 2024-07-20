@@ -359,11 +359,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
 <dl>
-<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></span></code></dt>
+<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">pl.DataFrame</span></code></dt>
 <dd>
 
 </dd>
-<dt><code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Dict`">Dict</a>[<a href="`str`">str</a>, <a href="`typing.List`">List</a>]</span></code></dt>
+<dt><code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict[str, List]</span></code></dt>
 <dd>
 <p>A dictionnary where keys are a string compatible with a pl.Expr, to be used with pl.col(). The value for each key is a List of all forbidden values in the dataframe.</p>
 </dd>
@@ -380,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="`polars`">pl</a>.<a href="`polars.DataFrame`">DataFrame</a></td>
+<td>pl.DataFrame</td>
 <td>The original polars DataFrame when the check passes</td>
 </tr>
 </tbody>
