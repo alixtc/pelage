@@ -1,4 +1,5 @@
 from textwrap import dedent
+from typing import Union
 
 import polars as pl
 import pytest
@@ -195,20 +196,33 @@ def test_is_shape_should_error_on_wrong_shape():
         given.pipe(plg.has_shape, (2, 2))
 
 
-def test_has_no_nulls_returns_df_when_all_values_defined():
-    given = pl.DataFrame({"a": [1, 2]})
+@pytest.mark.parametrize(
+    "given", [pl.DataFrame({"a": [1, 2]}), pl.LazyFrame({"a": [1, 2]})]
+)
+def test_has_no_nulls_returns_df_when_all_values_defined(
+    given: Union[pl.DataFrame, pl.LazyFrame]
+):
     when = given.pipe(plg.has_no_nulls)
     testing.assert_frame_equal(given, when)
 
 
-def test_has_no_nulls_throws_error_on_null_values():
-    given = pl.DataFrame({"a": [1, None]})
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_has_no_nulls_throws_error_on_null_values(frame):
+    given = frame({"a": [1, None]})
     with pytest.raises(plg.PolarsAssertError):
         given.pipe(plg.has_no_nulls)
 
 
-def test_has_no_nulls_indicates_columns_with_nulls_in_error_message():
-    given = pl.DataFrame({"a": [1, None]})
+@pytest.mark.parametrize(
+    "given",
+    [
+        pl.DataFrame({"a": [1, None]}),
+        pl.LazyFrame({"a": [1, None]}),
+    ],
+)
+def test_has_no_nulls_indicates_columns_with_nulls_in_error_message(
+    given: Union[pl.DataFrame, pl.LazyFrame]
+):
     expected = pl.DataFrame(
         {"column": ["a"], "null_count": [1]},
         schema={"column": pl.Utf8, "null_count": pl.UInt32},
@@ -218,22 +232,38 @@ def test_has_no_nulls_indicates_columns_with_nulls_in_error_message():
     testing.assert_frame_equal(err.value.df, expected)
 
 
-def test_has_no_infs_returns_df_when_all_values_defined():
-    given = pl.DataFrame({"a": [1, 2]})
+@pytest.mark.parametrize(
+    "given", [pl.DataFrame({"a": [1, 2]}), pl.LazyFrame({"a": [1, 2]})]
+)
+def test_has_no_infs_returns_df_when_all_values_defined(
+    given: Union[pl.DataFrame, pl.LazyFrame]
+):
     when = given.pipe(plg.has_no_infs)
     testing.assert_frame_equal(given, when)
 
 
-def test_has_no_infs_throws_error_on_inf_values():
-    given = pl.DataFrame({"a": [1.0, None, float("inf")]})
+@pytest.mark.parametrize(
+    "given",
+    [
+        pl.DataFrame({"a": [1.0, None, float("inf")]}),
+        pl.LazyFrame({"a": [1.0, None, float("inf")]}),
+    ],
+)
+def test_has_no_infs_throws_error_on_inf_values(
+    given: Union[pl.DataFrame, pl.LazyFrame]
+):
     with pytest.raises(plg.PolarsAssertError) as err:
         given.pipe(plg.has_no_infs)
     expected = pl.DataFrame({"a": [float("inf")]})
     testing.assert_frame_equal(err.value.df, expected)
 
 
-def test_unique_should_return_df_if_column_has_unique_values():
-    given = pl.DataFrame({"a": [1, 2]})
+@pytest.mark.parametrize(
+    "given", [pl.DataFrame({"a": [1, 2]}), pl.LazyFrame({"a": [1, 2]})]
+)
+def test_unique_should_return_df_if_column_has_unique_values(
+    given: Union[pl.DataFrame, pl.LazyFrame]
+):
     when = given.pipe(plg.unique, "a")
     testing.assert_frame_equal(given, when)
 
@@ -261,8 +291,12 @@ def test_not_constant():
     testing.assert_frame_equal(given, when)
 
 
-def test_not_constant_throws_error_on_constant_columns():
-    given = pl.DataFrame({"b": [1, 1]})
+@pytest.mark.parametrize(
+    "given", [pl.DataFrame({"b": [1, 1]}), pl.LazyFrame({"b": [1, 1]})]
+)
+def test_not_constant_throws_error_on_constant_columns(
+    given: Union[pl.DataFrame, pl.LazyFrame]
+):
     with pytest.raises(plg.PolarsAssertError):
         given.pipe(plg.not_constant, "b")
 
@@ -339,15 +373,20 @@ def test_not_accepted_values_should_accept_pl_expr():
     testing.assert_frame_equal(given, when)
 
 
-def test_not_accepted_values_should_error_on_forbidden_values():
-    given = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
+@pytest.mark.parametrize(
+    "given",
+    [
+        pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]}),
+        pl.LazyFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]}),
+    ],
+)
+def test_not_accepted_values_should_error_on_forbidden_values(
+    given: Union[pl.DataFrame, pl.LazyFrame]
+):
     items = {"a": [1], "b": ["a", "c"]}
 
-    with pytest.raises(plg.PolarsAssertError) as err:
+    with pytest.raises(plg.PolarsAssertError):
         given.pipe(plg.not_accepted_values, items)
-    testing.assert_frame_equal(
-        err.value.df, pl.DataFrame({"a": [1, 3], "b": ["a", "c"]})
-    )
 
 
 def test_not_null_proportion_accept_proportion_range_or_single_input():

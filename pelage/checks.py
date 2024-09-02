@@ -317,21 +317,21 @@ def has_dtypes(data: pl.DataFrame, items: Dict[str, PolarsDataType]) -> pl.DataF
 
 
 def has_no_nulls(
-    data: pl.DataFrame,
+    data: Union[pl.DataFrame, pl.LazyFrame],
     columns: Optional[PolarsColumnType] = None,
-) -> pl.DataFrame:
+) -> Union[pl.DataFrame, pl.LazyFrame]:
     """Check if a DataFrame has any null (missing) values.
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : Union[pl.DataFrame, pl.LazyFrame]
         The input DataFrame to check for null values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
 
     Returns
     -------
-    pl.DataFrame
+    Union[pl.DataFrame, pl.LazyFrame]
         The original polars DataFrame when the check passes
 
 
@@ -382,6 +382,9 @@ def has_no_nulls(
             .filter(pl.col("null_count") > 0)
         )
     )
+    if isinstance(null_count, pl.LazyFrame):
+        null_count = null_count.collect()
+
     if not null_count.is_empty():
         raise PolarsAssertError(
             null_count, "There were unexpected nulls in the columns above"
@@ -402,21 +405,21 @@ def _sanitize_column_inputs(
 
 
 def has_no_infs(
-    data: pl.DataFrame,
+    data: Union[pl.DataFrame, pl.LazyFrame],
     columns: Optional[PolarsColumnType] = None,
-) -> pl.DataFrame:
+) -> Union[pl.DataFrame, pl.LazyFrame]:
     """Check if a DataFrame has any infinite (inf) values.
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : Union[pl.DataFrame, pl.LazyFrame]
         The input DataFrame to check for null values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
 
     Returns
     -------
-    pl.DataFrame
+    Union[pl.DataFrame, pl.LazyFrame]
         The original polars DataFrame when the check passes
 
 
@@ -457,15 +460,19 @@ def has_no_infs(
     """
     selected_columns = _sanitize_column_inputs(columns)
     inf_values = data.filter(pl.any_horizontal(selected_columns.is_infinite()))
+
+    if isinstance(inf_values, pl.LazyFrame):
+        inf_values = inf_values.collect()
+
     if not inf_values.is_empty():
         raise PolarsAssertError(inf_values)
     return data
 
 
 def unique(
-    data: pl.DataFrame,
+    data: Union[pl.DataFrame, pl.LazyFrame],
     columns: Optional[PolarsColumnType] = None,
-) -> pl.DataFrame:
+) -> Union[pl.DataFrame, pl.LazyFrame]:
     """Check if there are no duplicated values in each one of the selected columns.
 
     This is a column oriented check, for a row oriented check see
@@ -473,14 +480,14 @@ def unique(
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : Union[pl.DataFrame, pl.LazyFrame]
         The input DataFrame to check for unique values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for uniqueness check. By default, all columns are checked.
 
     Returns
     -------
-    pl.DataFrame
+    Union[pl.DataFrame, pl.LazyFrame]
         The original polars DataFrame when the check passes
 
 
@@ -518,6 +525,10 @@ def unique(
     """
     selected_cols = _sanitize_column_inputs(columns)
     improper_data = data.filter(pl.any_horizontal(selected_cols.is_duplicated()))
+
+    if isinstance(improper_data, pl.LazyFrame):
+        improper_data = improper_data.collect()
+
     if not improper_data.is_empty():
         raise PolarsAssertError(
             df=improper_data,
@@ -602,15 +613,15 @@ def unique_combination_of_columns(
 
 
 def not_constant(
-    data: pl.DataFrame,
+    data: Union[pl.DataFrame, pl.LazyFrame],
     columns: Optional[PolarsColumnType] = None,
     group_by: Optional[Union[str, List[str]]] = None,
-) -> pl.DataFrame:
+) -> Union[pl.DataFrame, pl.LazyFrame]:
     """Check if a DataFrame has constant columns.
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : Union[pl.DataFrame, pl.LazyFrame]
         The input DataFrame to check for null values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
@@ -620,7 +631,7 @@ def not_constant(
 
     Returns
     -------
-    pl.DataFrame
+    Union[pl.DataFrame, pl.LazyFrame]
         The original polars DataFrame when the check passes
 
 
@@ -725,6 +736,9 @@ def not_constant(
                 .filter(pl.col("n_distinct") == 1)
             )
 
+    if isinstance(constant_columns, pl.LazyFrame):
+        constant_columns = constant_columns.collect()
+
     if not constant_columns.is_empty():
         group_message = " within a given group" if group_by is not None else ""
         raise PolarsAssertError(
@@ -805,12 +819,14 @@ def accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFrame:
     return data
 
 
-def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFrame:
+def not_accepted_values(
+    data: Union[pl.DataFrame, pl.LazyFrame], items: Dict[str, List]
+) -> Union[pl.DataFrame, pl.LazyFrame]:
     """Raises error if columns contains values specified in List of forbbiden `items`
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : Union[pl.DataFrame, pl.LazyFrame]
     items : Dict[str, List]
         A dictionnary where keys are a string compatible with a pl.Expr, to be used with
         pl.col(). The value for each key is a List of all forbidden values in the
@@ -818,7 +834,7 @@ def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFr
 
     Returns
     -------
-    pl.DataFrame
+    Union[pl.DataFrame, pl.LazyFrame]
         The original polars DataFrame when the check passes
 
 
@@ -857,18 +873,22 @@ def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFr
     Error with the DataFrame passed to the check function:
     -->This DataFrame contains values marked as forbidden
     """
-    mask_for_improper_values = [
+    mask_for_forbidden_values = [
         pl.col(col).is_in(values) for col, values in items.items()
     ]
-    improper_data = data.filter(pl.Expr.or_(*mask_for_improper_values))
-    if not improper_data.is_empty():
+    forbidden_values = data.filter(pl.Expr.or_(*mask_for_forbidden_values))
+
+    if isinstance(forbidden_values, pl.LazyFrame):
+        forbidden_values = forbidden_values.collect()
+
+    if not forbidden_values.is_empty():
         bad_column_names = [
             col.name
-            for col in improper_data.select(mask_for_improper_values)
+            for col in forbidden_values.select(mask_for_forbidden_values)
             if col.any()
         ]
         raise PolarsAssertError(
-            improper_data.select(bad_column_names),
+            forbidden_values.select(bad_column_names),
             "This DataFrame contains values marked as forbidden",
         )
     return data
