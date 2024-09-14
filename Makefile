@@ -27,7 +27,8 @@ clean:
 	@rm -fr pelage.egg-info
 
 tox:
-	@tox run
+	@tox run-parallel
+	@coverage report --data-file=".coverage/.coverage" --show-missing  --precision=3
 
 
 all: clean test tox publish_checks check_code
