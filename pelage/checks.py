@@ -283,12 +283,14 @@ def _get_lazyframe_columns(data: pl.LazyFrame) -> Set[str]:
         return set(data.columns)
 
 
-def has_dtypes(data: pl.DataFrame, items: Dict[str, PolarsDataType]) -> pl.DataFrame:
+def has_dtypes(
+    data: Union[pl.DataFrame, pl.LazyFrame], items: Dict[str, PolarsDataType]
+) -> Union[pl.DataFrame, pl.LazyFrame]:
     """Check that the columns have the expected types
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : Union[pl.DataFrame, pl.LazyFrame]
         To check
     items : Dict[str, PolarsDataType]
         A dictionnary of column name with their expected polars data type:
@@ -302,7 +304,7 @@ def has_dtypes(data: pl.DataFrame, items: Dict[str, PolarsDataType]) -> pl.DataF
         ```
     Returns
     -------
-    pl.DataFrame
+    Union[pl.DataFrame, pl.LazyFrame]
         The original polars DataFrame when the check passes
 
 
@@ -342,17 +344,29 @@ def has_dtypes(data: pl.DataFrame, items: Dict[str, PolarsDataType]) -> pl.DataF
     column='age', expected_type=String, real_dtype=Int64
     column='city', expected_type=Int64, real_dtype=String
     """
-    missing_columns = set(items.keys()) - set(data.columns)
+
+    schema = _get_frame_schema(data)
+
+    missing_columns = set(items.keys()) - set(schema.keys())
     if missing_columns:
         message = f"Dtype check, some expected columns are missing:{missing_columns}"
         raise PolarsAssertError(supp_message=message)
 
-    bad_column_type_requirement = set(items.items()) - set(data.schema.items())
+    bad_column_type_requirement = set(items.items()) - set(schema.items())
     if bad_column_type_requirement:
-        message = utils.compare_schema(data.schema, items)
+        message = utils.compare_schema(schema, items)
         message = f"Some columns don't have the expected type:\n{message}"
         raise PolarsAssertError(supp_message=message)
     return data
+
+
+def _get_frame_schema(data: Union[pl.DataFrame, pl.LazyFrame]):
+    if isinstance(data, pl.DataFrame):
+        return data.schema
+    if _has_sufficient_polars_version("1.0.0"):
+        return data.collect_schema()
+
+    return data.schema
 
 
 def has_no_nulls(

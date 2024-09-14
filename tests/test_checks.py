@@ -181,28 +181,38 @@ def test_has_columns_should_error_on_missing_column(
         given.pipe(plg.has_columns, ["a", "b", "c"])
 
 
-def test_has_dtypes_accepts_dict():
-    given = pl.DataFrame({"a": [1, 2, 3]})
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_has_dtypes_accepts_dict(frame: Type[Union[pl.DataFrame, pl.LazyFrame]]):
+    given = frame({"a": [1, 2, 3]})
     when = given.pipe(plg.has_dtypes, {"a": pl.Int64})
     testing.assert_frame_equal(given, when)
 
 
-def test_has_dtypes_accepts_dict_should_error_if_types_are_not_matched():
-    given = pl.DataFrame({"a": [1, 2, 3]})
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_has_dtypes_accepts_dict_should_error_if_types_are_not_matched(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+):
+    given = frame({"a": [1, 2, 3]})
     with pytest.raises(plg.PolarsAssertError) as err:
         given.pipe(plg.has_dtypes, {"b": pl.Int64})
 
     assert "Dtype check, some expected columns are missing:" in str(err.value)
 
 
-def test_has_dtypes_accepts_dict_should_error_if_columns_are_missing():
-    given = pl.DataFrame({"a": [1, 2, 3]})
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_has_dtypes_accepts_dict_should_error_if_columns_are_missing(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+):
+    given = frame({"a": [1, 2, 3]})
     with pytest.raises(plg.PolarsAssertError):
         given.pipe(plg.has_dtypes, {"a": pl.Utf8})
 
 
-def test_has_dtypes_accepts_dict_should_indicate_mismatched_dtypes():
-    given = pl.DataFrame({"a": [1, 2, 3]})
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_has_dtypes_accepts_dict_should_indicate_mismatched_dtypes(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+):
+    given = frame({"a": [1, 2, 3]})
     with pytest.raises(plg.PolarsAssertError) as err:
         given.pipe(plg.has_dtypes, {"a": pl.Utf8})
 
