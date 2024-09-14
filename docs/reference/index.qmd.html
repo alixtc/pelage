@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Pelage: Defensive analysis for Polars</title>
+<title>index.qmd – Pelage: Defensive analysis for Polars</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -145,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -298,7 +298,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Check if a DataFrame has the specified shape</p>
 <section id="parameters" class="level3">
 <h3 class="anchored" data-anchor-id="parameters">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 7%">
 <col style="width: 21%">
@@ -331,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns" class="level3">
 <h3 class="anchored" data-anchor-id="returns">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -379,7 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Check if a DataFrame has the specified</p>
 <section id="parameters-1" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-1">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 8%">
 <col style="width: 38%">
@@ -412,7 +412,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-1" class="level3">
 <h3 class="anchored" data-anchor-id="returns-1">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -473,7 +473,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Check that the columns have the expected types</p>
 <section id="parameters-2" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-2">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 3%">
 <col style="width: 24%">
@@ -506,7 +506,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-2" class="level3">
 <h3 class="anchored" data-anchor-id="returns-2">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -568,7 +568,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Check if a DataFrame has any null (missing) values.</p>
 <section id="parameters-3" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-3">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 7%">
 <col style="width: 33%">
@@ -601,7 +601,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-3" class="level3">
 <h3 class="anchored" data-anchor-id="returns-3">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -660,7 +660,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Check if a DataFrame has any infinite (inf) values.</p>
 <section id="parameters-4" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-4">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 7%">
 <col style="width: 33%">
@@ -693,7 +693,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-4" class="level3">
 <h3 class="anchored" data-anchor-id="returns-4">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -754,7 +754,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Check if there are no duplicated values in each one of the selected columns independently, i.e.&nbsp;it is a column oriented check.</p>
 <section id="parameters-5" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-5">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 7%">
 <col style="width: 33%">
@@ -787,7 +787,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-5" class="level3">
 <h3 class="anchored" data-anchor-id="returns-5">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -845,7 +845,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Ensure that the selected column have a unique combination per row. This function is particularly helpful to establish the granularity of a dataframe, i.e.&nbsp;this is a row oriented check.</p>
 <section id="parameters-6" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-6">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 7%">
 <col style="width: 34%">
@@ -878,7 +878,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-6" class="level3">
 <h3 class="anchored" data-anchor-id="returns-6">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -935,7 +935,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Check if a DataFrame has constant columns.</p>
 <section id="parameters-7" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-7">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 7%">
 <col style="width: 33%">
@@ -968,7 +968,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-7" class="level3">
 <h3 class="anchored" data-anchor-id="returns-7">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -1025,7 +1025,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Raises error if columns contains values not specified in <code>items</code></p>
 <section id="parameters-8" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-8">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 4%">
 <col style="width: 14%">
@@ -1058,7 +1058,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-8" class="level3">
 <h3 class="anchored" data-anchor-id="returns-8">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -1117,7 +1117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Raises error if columns contains values specified in List of forbbiden <code>items</code></p>
 <section id="parameters-9" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-9">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 4%">
 <col style="width: 14%">
@@ -1150,7 +1150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-9" class="level3">
 <h3 class="anchored" data-anchor-id="returns-9">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -1210,7 +1210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Ensure that all specified values are present in their respective column.</p>
 <section id="parameters-10" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-10">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Name</th>
@@ -1237,7 +1237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-10" class="level3">
 <h3 class="anchored" data-anchor-id="returns-10">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -1285,7 +1285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>sserts that the proportion of non-null values present in a column is between a specified range [at_least, at_most] where at_most is an optional argument (default: 1.0).</p>
 <section id="parameters-11" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-11">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 2%">
 <col style="width: 15%">
@@ -1318,7 +1318,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-11" class="level3">
 <h3 class="anchored" data-anchor-id="returns-11">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -1380,7 +1380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Ensure that there is at least one not null value in the designated columns.</p>
 <section id="parameters-12" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-12">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 6%">
 <col style="width: 28%">
@@ -1413,7 +1413,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-12" class="level3">
 <h3 class="anchored" data-anchor-id="returns-12">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -1461,7 +1461,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Check that all the values from specifed columns in the dict <code>items</code> are within the indicated range.</p>
 <section id="parameters-13" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-13">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 2%">
 <col style="width: 15%">
@@ -1494,7 +1494,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-13" class="level3">
 <h3 class="anchored" data-anchor-id="returns-13">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -1572,7 +1572,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Function to help ensuring that set of values in selected column remains the same in both DataFrames. This helps to maintain referential integrity.</p>
 <section id="parameters-14" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-14">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 11%">
 <col style="width: 23%">
@@ -1611,7 +1611,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-14" class="level3">
 <h3 class="anchored" data-anchor-id="returns-14">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -1661,7 +1661,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Verify that values in a column are consecutively increasing or decreasing</p>
 <section id="parameters-15" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-15">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 1%">
 <col style="width: 8%">
@@ -1718,7 +1718,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-15" class="level3">
 <h3 class="anchored" data-anchor-id="returns-15">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -1799,7 +1799,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Analog to DBT utils fonction: <code>expression_is_true</code></p>
 <section id="parameters-16" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-16">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 6%">
 <col style="width: 11%">
@@ -1832,7 +1832,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-16" class="level3">
 <h3 class="anchored" data-anchor-id="returns-16">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 31%">
 <col style="width: 68%">
@@ -1889,7 +1889,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Ensure that the specified columns contains no overlapping intervals.</p>
 <section id="parameters-17" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-17">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 7%">
 <col style="width: 40%">
@@ -1934,7 +1934,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-17" class="level3">
 <h3 class="anchored" data-anchor-id="returns-17">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -2012,7 +2012,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Function asserting values are within a given STD range, thus ensuring the absence of outliers.</p>
 <section id="parameters-18" class="level3">
 <h3 class="anchored" data-anchor-id="parameters-18">Parameters</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 4%">
 <col style="width: 25%">
@@ -2045,7 +2045,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="returns-18" class="level3">
 <h3 class="anchored" data-anchor-id="returns-18">Returns</h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
 <col style="width: 67%">
@@ -2159,18 +2159,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -2202,7 +2191,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -2210,7 +2221,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

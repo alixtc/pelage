@@ -101,7 +101,7 @@ def has_shape(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -225,7 +225,7 @@ def has_columns(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -291,7 +291,7 @@ def has_dtypes(
     Parameters
     ----------
     data : Union[pl.DataFrame, pl.LazyFrame]
-        To check
+        Polars DataFrame or LazyFrame containing data to check.
     items : Dict[str, PolarsDataType]
         A dictionnary of column name with their expected polars data type:
         ```
@@ -305,7 +305,7 @@ def has_dtypes(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -385,7 +385,7 @@ def has_no_nulls(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -473,7 +473,7 @@ def has_no_infs(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -541,7 +541,7 @@ def unique(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -619,7 +619,7 @@ def unique_combination_of_columns(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -688,7 +688,7 @@ def not_constant(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -821,7 +821,7 @@ def accepted_values(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -896,7 +896,7 @@ def not_accepted_values(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -965,7 +965,7 @@ def has_mandatory_values(
     Parameters
     ----------
     data :  Union[pl.DataFrame, pl.LazyFrame]
-        To check
+        Polars DataFrame or LazyFrame containing data to check.
     items : Dict[str, list]
         A dictionnary where the keys are the columns names and the values are lists that
         contains all the required values for a given column.
@@ -976,7 +976,7 @@ def has_mandatory_values(
     Returns
     -------
      Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -1129,7 +1129,7 @@ def not_null_proportion(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -1279,7 +1279,7 @@ def at_least_one(
     Parameters
     ----------
     data : Union[pl.DataFrame, pl.LazyFrame]
-        To check
+        Polars DataFrame or LazyFrame containing data to check.
     columns : Optional[PolarsColumnType], optional
         Columns to consider to check the presence of at least one value.
         By default, all columns are checked.
@@ -1290,7 +1290,7 @@ def at_least_one(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -1436,7 +1436,7 @@ def accepted_range(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -1528,7 +1528,7 @@ def maintains_relationships(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -1592,7 +1592,7 @@ def is_monotonic(
     Parameters
     ----------
     data : Union[pl.DataFrame, pl.LazyFrame]
-        To check
+        Polars DataFrame or LazyFrame containing data to check.
     column : str
         Name of the column that should be monotonic.
     decreasing : bool, optional
@@ -1634,7 +1634,7 @@ def is_monotonic(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -1761,7 +1761,7 @@ def custom_check(
     Parameters
     ----------
     data : Union[pl.DataFrame, pl.LazyFrame]
-        To check
+        Polars DataFrame or LazyFrame containing data to check.
     expresion : pl.Expr
         Polar Expression that can be passed to the `.filter()` method. As describe
         above, use an expression that should keep forbidden values when passed to the
@@ -1770,7 +1770,7 @@ def custom_check(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes.
+        The original polars DataFrame or LazyFrame when the check passes.
 
     Examples
     --------
@@ -1842,7 +1842,7 @@ def mutually_exclusive_ranges(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -1951,7 +1951,7 @@ def column_is_within_n_std(
     Parameters
     ----------
     data : Union[pl.DataFrame, pl.LazyFrame]
-        To check.
+        Polars DataFrame or LazyFrame containing data to check.
     items : Tuple[PolarsColumnType, int]
         A column name / column type with the number of STD authorized for the values
         within. Must be of the following form: `(col_name, n_std)`
@@ -1959,7 +1959,7 @@ def column_is_within_n_std(
     Returns
     -------
     Union[pl.DataFrame, pl.LazyFrame]
-        The original polars DataFrame when the check passes
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
