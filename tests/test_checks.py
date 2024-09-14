@@ -74,14 +74,18 @@ def test_sanitize_column_inputs_for_type_checker_pl_dtypes():
     assert str(given) == str(pl.col(pl.Int64))
 
 
-def test_is_shape():
-    given = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_is_shape(frame: Type[Union[pl.DataFrame, pl.LazyFrame]]):
+    given = frame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
     when = given.pipe(plg.has_shape, (3, 2))
     testing.assert_frame_equal(given, when)
 
 
-def test_is_shape_should_error_when_expected_shape_has_only_nones():
-    given = pl.DataFrame(
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_is_shape_should_error_when_expected_shape_has_only_nones(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+):
+    given = frame(
         {
             "a": [1, 2, 3],
             "b": ["a", "b", "c"],
@@ -91,9 +95,12 @@ def test_is_shape_should_error_when_expected_shape_has_only_nones():
         given.pipe(plg.has_shape, (None, None))
 
 
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 @pytest.mark.parametrize("expected_shape", [(3, 2), (3, None), (None, 2)])
-def test_is_shape_should_accept_none_values_to_facilitate_comparison(expected_shape):
-    given = pl.DataFrame(
+def test_is_shape_should_accept_none_values_to_facilitate_comparison(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]], expected_shape
+):
+    given = frame(
         {
             "a": [1, 2, 3],
             "b": ["a", "b", "c"],
@@ -103,9 +110,12 @@ def test_is_shape_should_accept_none_values_to_facilitate_comparison(expected_sh
     testing.assert_frame_equal(given, when)
 
 
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 @pytest.mark.parametrize("expected_shape", [(4, 2), (4, None), (None, 3)])
-def test_is_shape_should__error_with_wrong_expected_dimensions(expected_shape):
-    given = pl.DataFrame(
+def test_is_shape_should__error_with_wrong_expected_dimensions(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]], expected_shape
+):
+    given = frame(
         {
             "a": [1, 2, 3],
             "b": ["a", "b", "c"],
@@ -115,8 +125,11 @@ def test_is_shape_should__error_with_wrong_expected_dimensions(expected_shape):
         given.pipe(plg.has_shape, expected_shape)
 
 
-def test_is_shape_should_accept_group_by_option():
-    given = pl.DataFrame(
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_is_shape_should_accept_group_by_option(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+):
+    given = frame(
         {
             "a": [1, 2, 3],
             "b": ["a", "b", "c"],
@@ -127,7 +140,10 @@ def test_is_shape_should_accept_group_by_option():
     testing.assert_frame_equal(given, expected)
 
 
-def test_is_shape_should_should_error_when_row_count_per_group_does_not_match():
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_is_shape_should_should_error_when_row_count_per_group_does_not_match(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+):
     given = pl.DataFrame(
         {
             "a": [1, 2, 3],

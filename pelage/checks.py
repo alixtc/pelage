@@ -74,17 +74,17 @@ class PolarsAssertError(Exception):
 
 
 def has_shape(
-    data: pl.DataFrame,
+    data: Union[pl.DataFrame, pl.LazyFrame],
     shape: Tuple[IntOrNone, IntOrNone],
     group_by: Optional[PolarsOverClauseInput] = None,
-) -> pl.DataFrame:
+) -> Union[pl.DataFrame, pl.LazyFrame]:
     """Check if a DataFrame has the specified shape.
 
     When used with the group_by option, this can be used to get the row count per group.
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : Union[pl.DataFrame, pl.LazyFrame]
         Input data
     shape : Tuple[IntOrNone, IntOrNone]
         Tuple with the expected dataframe shape, as from the `.shape()` method.
@@ -100,7 +100,7 @@ def has_shape(
 
     Returns
     -------
-    pl.DataFrame
+    Union[pl.DataFrame, pl.LazyFrame]
         The original polars DataFrame when the check passes
 
     Examples
@@ -156,10 +156,19 @@ def has_shape(
     Error with the DataFrame passed to the check function:
     -->The number of rows per group does not match the specified value: 1
     """
+
+    if shape[0] is None and shape[1] is None:
+        raise ValueError(
+            "Both dimensions for expected shape cannot be set None simultaneously"
+        )
+
     if group_by is not None:
         non_matching_row_count = _safe_group_by_length(data, group_by).filter(
             pl.col("len") != shape[0]
         )
+        if isinstance(non_matching_row_count, pl.LazyFrame):
+            non_matching_row_count = non_matching_row_count.collect()
+
         if len(non_matching_row_count) > 0:
             raise PolarsAssertError(
                 df=non_matching_row_count,
@@ -167,22 +176,38 @@ def has_shape(
             )
         return data
 
-    if shape[0] is None and shape[1] is None:
-        raise ValueError(
-            "Both dimensions for expected shape cannot be set None simultaneously"
-        )
-    elif shape[1] is None:
-        actual_shape = data.shape[0], None
-    elif shape[0] is None:
-        actual_shape = None, data.shape[1]
-    else:
-        actual_shape = data.shape
+    actual_shape = _get_frame_shape(data)
+
+    if shape[1] is None:
+        actual_shape = actual_shape[0], None
+
+    if shape[0] is None:
+        actual_shape = None, actual_shape[1]
 
     if actual_shape != shape:
         raise PolarsAssertError(
             supp_message=f"The data has not the expected shape: {shape}"
         )
     return data
+
+
+def _get_frame_shape(data: Union[pl.DataFrame, pl.LazyFrame]) -> Tuple[int, int]:
+    """Convenience function to get shape of Lazyframe given available methods"""
+    if isinstance(data, pl.DataFrame):
+        return data.shape
+
+    pl_len = pl.len() if _has_sufficient_polars_version("0.20.0") else pl.count()
+
+    if _has_sufficient_polars_version("1.0.0"):
+        return (
+            data.select(pl_len).collect().item(),
+            len(data.collect_schema()),
+        )
+    else:
+        return (
+            data.select(pl_len).collect().item(),
+            len(data.columns),
+        )
 
 
 def has_columns(
