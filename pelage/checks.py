@@ -12,6 +12,7 @@ from pelage import utils
 
 try:
     from polars._typing import ClosedInterval, IntoExpr, PolarsDataType
+
 except ImportError:
     from polars.type_aliases import ClosedInterval, IntoExpr, PolarsDataType
 
@@ -284,7 +285,8 @@ def _get_lazyframe_columns(data: pl.LazyFrame) -> Set[str]:
 
 
 def has_dtypes(
-    data: Union[pl.DataFrame, pl.LazyFrame], items: Dict[str, PolarsDataType]
+    data: Union[pl.DataFrame, pl.LazyFrame],
+    items: Dict[str, PolarsDataType],  # type: ignore
 ) -> Union[pl.DataFrame, pl.LazyFrame]:
     """Check that the columns have the expected types
 
@@ -1494,7 +1496,8 @@ def accepted_range(
         k: (v if len(v) == 3 else (*v, "both")) for k, v in items.items()
     }
     forbidden_ranges = [
-        pl.col(k).is_between(*v).not_() for k, v in closed_boundaries.items()
+        pl.col(k).is_between(*v).not_()  # type: ignore
+        for k, v in closed_boundaries.items()
     ]
     out_of_range = data.filter(pl.Expr.or_(*forbidden_ranges))
 
@@ -1710,12 +1713,14 @@ def is_monotonic(
 
     if not decreasing and not strict:
         comparisons = (diff_column_sign >= 0).all()
-    if not decreasing and strict:
+    elif not decreasing and strict:
         comparisons = (diff_column_sign > 0).all()
-    if decreasing and not strict:
+    elif decreasing and not strict:
         comparisons = (diff_column_sign <= 0).all()
-    if decreasing and strict:
+    elif decreasing and strict:
         comparisons = (diff_column_sign < 0).all()
+    else:
+        raise ValueError
 
     if not comparisons:
         error_msg = (
