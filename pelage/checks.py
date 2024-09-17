@@ -1717,7 +1717,7 @@ def is_monotonic(
         comparisons = (diff_column_sign > 0).all()
     elif decreasing and not strict:
         comparisons = (diff_column_sign <= 0).all()
-    elif decreasing and strict:
+    else:
         comparisons = (diff_column_sign < 0).all()
     else:
         raise ValueError
