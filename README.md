@@ -137,9 +137,6 @@ a way that enable the polars API to work its magic. We try to use a
 syntax that is compatible with fast execution and parallelism provided
 by polars.
 
-Note: For now, only the classical DataFrame API is available, but we
-plan to implement the LazyFrame API soon enough.
-
 # Why pelage?
 
 `pelage` is the french word designating an animal fur, and particularly
