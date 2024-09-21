@@ -35,6 +35,27 @@
     "text": "Investigating the cause of the failure\nIn addition to help the user better understand the root cause of the check failure, the error object also possesses as df attribute that can contains the identified values causing the check to fail.\nHere is how to simply retrieve it without adding a try/except block. This allows us to print the error in a string format.\n\nimport sys\n\nerror = sys.last_value\n\nprint(error)\n\nYou can then manipulate a subset dataframe containing the elements that triggered the exception. Here we do a few manipulations to determine what are the values that are outside the specified boundaries as well as their relative importance within the dataset.\n\n(\n    pl.DataFrame(error.df)  # This is only here to obtain syntax highlighting\n    .select(pl.col(\"displacement\", \"horsepower\"))\n    .describe()\n)\n\n\nshape: (9, 3)\n\n\n\nstatistic\ndisplacement\nhorsepower\n\n\nstr\nf64\nf64\n\n\n\n\n\"count\"\n104.0\n104.0\n\n\n\"null_count\"\n0.0\n0.0\n\n\n\"mean\"\n334.221154\n154.278846\n\n\n\"std\"\n74.472899\n37.102968\n\n\n\"min\"\n68.0\n46.0\n\n\n\"25%\"\n305.0\n140.0\n\n\n\"50%\"\n350.0\n150.0\n\n\n\"75%\"\n360.0\n175.0\n\n\n\"max\"\n455.0\n230.0"
   },
   {
+    "objectID": "notebooks/initial_readme.html#defensive-analysis",
+    "href": "notebooks/initial_readme.html#defensive-analysis",
+    "title": "Welcome to pelage!",
+    "section": "Defensive analysis:",
+    "text": "Defensive analysis:\nThe main idea of pelage is to leverage your possibility for defensive analysis, similarly to other python packages such as “bulwark” or “engarde”. However pelage rely mainly on possibility to directly pipe and chain transformations provided by the fantastic polars API rather than using decorators.\nAdditionally, some efforts have been put to have type hints for the provided functions in order to ensure full compatibility with your IDE across your chaining."
+  },
+  {
+    "objectID": "notebooks/initial_readme.html#leveraging-polars-blazing-speed",
+    "href": "notebooks/initial_readme.html#leveraging-polars-blazing-speed",
+    "title": "Welcome to pelage!",
+    "section": "Leveraging polars blazing speed:",
+    "text": "Leveraging polars blazing speed:\nAlthough it is written in python most of pelage checks are written in a way that enable the polars API to work its magic. We try to use a syntax that is compatible with fast execution and parallelism provided by polars."
+  },
+  {
+    "objectID": "notebooks/initial_readme.html#interoperability",
+    "href": "notebooks/initial_readme.html#interoperability",
+    "title": "Welcome to pelage!",
+    "section": "Interoperability:",
+    "text": "Interoperability:\nThe polars DSL and syntax have been develop with the idea to make the transition to SQL much easier. In this perspective, pelage wants to facilitate the use of tests to ensure data quality while enabling a possible transition towards SQL, and using the same tests in SQL. This is why we implemented most of the checks that have been developed for dbt tool box, notably:\n\ndbt generic checks\ndbt-utils tests\n(Soon to come: dbt expectations)\n\nWe believe that data quality checks should be written as close as possible to the data exploration phase, and we hope that providing theses checks in a context where it is easier to visualize your data will be helpful. Similarly, we know that it is sometimes much easier to industrialize SQL data pipelines, in this perspective the similarity between pelage and dbt testing capabilities should make the transition much smoother."
+  },
+  {
     "objectID": "notebooks/coming_from_dbt.html",
     "href": "notebooks/coming_from_dbt.html",
     "title": "dbt interoperability",
