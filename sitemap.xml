@@ -1,95 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://alixtc.github.io/pelage/reference/has_no_infs.html</loc>
-    <lastmod>2024-09-21T07:30:07.359Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/not_constant.html</loc>
-    <lastmod>2024-09-21T07:30:07.380Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/accepted_range.html</loc>
-    <lastmod>2024-09-21T07:30:07.368Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/custom_check.html</loc>
-    <lastmod>2024-09-21T07:30:07.373Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/unique_combination_of_columns.html</loc>
-    <lastmod>2024-09-21T07:30:07.362Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/maintains_relationships.html</loc>
-    <lastmod>2024-09-21T07:30:07.369Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/column_is_within_n_std.html</loc>
-    <lastmod>2024-09-21T07:30:07.371Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/not_null_proportion.html</loc>
-    <lastmod>2024-09-21T07:30:07.382Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/accepted_values.html</loc>
-    <lastmod>2024-09-21T07:30:07.364Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/has_columns.html</loc>
-    <lastmod>2024-09-21T07:30:07.354Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/has_dtypes.html</loc>
-    <lastmod>2024-09-21T07:30:07.355Z</lastmod>
-  </url>
-  <url>
     <loc>https://alixtc.github.io/pelage/notebooks/examples.html</loc>
-    <lastmod>2024-09-21T07:55:44.218Z</lastmod>
+    <lastmod>2024-09-21T08:02:58.444Z</lastmod>
   </url>
   <url>
     <loc>https://alixtc.github.io/pelage/notebooks/coming_from_dbt.html</loc>
-    <lastmod>2024-09-21T07:55:44.218Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/unique.html</loc>
-    <lastmod>2024-09-21T07:30:07.361Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/has_mandatory_values.html</loc>
-    <lastmod>2024-09-21T07:30:07.384Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/mutually_exclusive_ranges.html</loc>
-    <lastmod>2024-09-21T07:30:07.386Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/is_monotonic.html</loc>
-    <lastmod>2024-09-21T07:30:07.389Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/index.html</loc>
-    <lastmod>2024-09-21T07:30:07.346Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/has_shape.html</loc>
-    <lastmod>2024-09-21T07:30:07.375Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/at_least_one.html</loc>
-    <lastmod>2024-09-21T07:30:07.377Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/PolarsAssertError.html</loc>
-    <lastmod>2024-09-21T07:30:07.391Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/not_accepted_values.html</loc>
-    <lastmod>2024-09-21T07:30:07.366Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/reference/has_no_nulls.html</loc>
-    <lastmod>2024-09-21T07:30:07.357Z</lastmod>
+    <lastmod>2024-09-21T08:02:58.444Z</lastmod>
   </url>
 </urlset>
