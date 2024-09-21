@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://alixtc.github.io/pelage/notebooks/examples.html</loc>
-    <lastmod>2024-09-21T08:42:21.358Z</lastmod>
-  </url>
-  <url>
-    <loc>https://alixtc.github.io/pelage/notebooks/initial_readme.html</loc>
-    <lastmod>2024-09-21T08:43:23.017Z</lastmod>
+    <lastmod>2024-09-21T10:17:31.072Z</lastmod>
   </url>
   <url>
     <loc>https://alixtc.github.io/pelage/notebooks/coming_from_dbt.html</loc>
-    <lastmod>2024-09-21T08:42:21.358Z</lastmod>
+    <lastmod>2024-09-21T10:17:31.072Z</lastmod>
+  </url>
+  <url>
+    <loc>https://alixtc.github.io/pelage/notebooks/initial_readme.html</loc>
+    <lastmod>2024-09-21T10:17:31.073Z</lastmod>
   </url>
 </urlset>
