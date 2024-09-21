@@ -1244,6 +1244,9 @@ def not_null_proportion(
     if isinstance(null_proportions, pl.LazyFrame):
         null_proportions = null_proportions.collect()
 
+    if "constant__" in null_proportions.columns:
+        null_proportions = null_proportions.drop("constant__")
+
     out_of_range_null_proportions = (
         null_proportions.join(pl_ranges, on="column", how="inner")
         .filter(
@@ -1807,7 +1810,7 @@ def custom_check(
     │ 3   │
     └─────┘
     Error with the DataFrame passed to the check function:
-    -->Unexpected data in `Custom Check`: [(col("a")) != (3)]
+    -->Unexpected data in `Custom Check`: [(col("a")) != (dyn int: 3)]
     """
     columns_in_expression = set(expresion.meta.root_names())
     bad_data = data.select(columns_in_expression).filter(expresion.not_())
