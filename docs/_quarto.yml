@@ -1,7 +1,7 @@
 project:
   title: Pelage
   type: website
-  output-dir: _site
+  output-dir: .
 
 execute:
   freeze: auto

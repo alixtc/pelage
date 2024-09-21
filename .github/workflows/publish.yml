@@ -23,11 +23,10 @@ jobs:
           python-version: '3.10'
           cache: 'pip'
       - run: pip install poetry
-      - name: Force quartodoc install
-        run: pip install quartodoc griffe==0.42.1
+      # - name: Force quartodoc install
+      #   run: pip install quartodoc griffe==0.42.1
       - run: poetry install
 
-      - run: quarto add --no-prompt .. && quartodoc build --config docs/_quarto.yml
       - name: Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
