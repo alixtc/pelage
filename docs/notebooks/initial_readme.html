@@ -164,8 +164,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#main-concepts" id="toc-main-concepts" class="nav-link" data-scroll-target="#main-concepts">Main Concepts</a>
   <ul class="collapse">
   <li><a href="#defensive-analysis" id="toc-defensive-analysis" class="nav-link" data-scroll-target="#defensive-analysis">Defensive analysis:</a></li>
-  <li><a href="#interoperability" id="toc-interoperability" class="nav-link" data-scroll-target="#interoperability">Interoperability:</a></li>
   <li><a href="#leveraging-polars-blazing-speed" id="toc-leveraging-polars-blazing-speed" class="nav-link" data-scroll-target="#leveraging-polars-blazing-speed">Leveraging <code>polars</code> blazing speed:</a></li>
+  <li><a href="#interoperability" id="toc-interoperability" class="nav-link" data-scroll-target="#interoperability">Interoperability:</a></li>
   </ul></li>
   <li><a href="#why-pelage" id="toc-why-pelage" class="nav-link" data-scroll-target="#why-pelage">Why pelage?</a></li>
   </ul>
@@ -200,7 +200,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>display(validated_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div>
 <div>
 <style>
 .dataframe > thead > tr,
@@ -242,7 +241,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-</div>
 <p>Here is a example of the error messages that if the checks fail:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    validated_data.pipe(plg.not_accepted_values, {<span class="st">"new_a"</span>: [<span class="st">"3"</span>]})</span>
@@ -277,20 +275,20 @@ Error with the DataFrame passed to the check function:
 <p>The main idea of <code>pelage</code> is to leverage your possibility for defensive analysis, similarly to other python packages such as “bulwark” or “engarde”. However <code>pelage</code> rely mainly on possibility to directly pipe and chain transformations provided by the fantastic <code>polars</code> API rather than using decorators.</p>
 <p>Additionally, some efforts have been put to have type hints for the provided functions in order to ensure full compatibility with your IDE across your chaining.</p>
 </section>
+<section id="leveraging-polars-blazing-speed" class="level2">
+<h2 class="anchored" data-anchor-id="leveraging-polars-blazing-speed">Leveraging <code>polars</code> blazing speed:</h2>
+<p>Although it is written in python most of <code>pelage</code> checks are written in a way that enable the polars API to work its magic. We try to use a syntax that is compatible with fast execution and parallelism provided by polars.</p>
+<p><img src="../assets/presentation.gif" class="img-fluid"></p>
+</section>
 <section id="interoperability" class="level2">
 <h2 class="anchored" data-anchor-id="interoperability">Interoperability:</h2>
 <p>The polars DSL and syntax have been develop with the idea to make the transition to SQL much easier. In this perspective, <code>pelage</code> wants to facilitate the use of tests to ensure data quality while enabling a possible transition towards SQL, and using the same tests in SQL. This is why we implemented most of the checks that have been developed for <code>dbt</code> tool box, notably:</p>
 <ul>
 <li><a href="https://docs.getdbt.com/docs/build/data-tests#generic-data-tests">dbt generic checks</a></li>
-<li><a href="https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file">dbt-utils test</a></li>
+<li><a href="https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file">dbt-utils tests</a></li>
 <li>(Soon to come: dbt expectations)</li>
 </ul>
 <p>We believe that data quality checks should be written as close as possible to the data exploration phase, and we hope that providing theses checks in a context where it is easier to visualize your data will be helpful. Similarly, we know that it is sometimes much easier to industrialize SQL data pipelines, in this perspective the similarity between <code>pelage</code> and <code>dbt</code> testing capabilities should make the transition much smoother.</p>
-</section>
-<section id="leveraging-polars-blazing-speed" class="level2">
-<h2 class="anchored" data-anchor-id="leveraging-polars-blazing-speed">Leveraging <code>polars</code> blazing speed:</h2>
-<p>Although it is written in python most of <code>pelage</code> checks are written in a way that enable the polars API to work its magic. We try to use a syntax that is compatible with fast execution and parallelism provided by polars.</p>
-<p>Note: For now, only the classical DataFrame API is available, but we plan to implement the LazyFrame API soon enough.</p>
 </section>
 </section>
 <section id="why-pelage" class="level1">
