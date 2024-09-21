@@ -1,0 +1,90 @@
+# has_shape { #pelage.checks.has_shape }
+
+`checks.has_shape(data, shape, group_by=None)`
+
+Check if a DataFrame has the specified shape.
+
+When used with the group_by option, this can be used to get the row count per group.
+
+## Parameters
+
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+
+:   Input data
+
+<code><span class="parameter-name">shape</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Tuple\[IntOrNone, IntOrNone\]</span></code>
+
+:   Tuple with the expected dataframe shape, as from the `.shape()` method.
+    You can use `None` for one of the two elements of the shape tuple if you do not
+    want to check this dimension.
+
+    Ex: `(5, None)` will ensure that the dataframe has 5 rows regardless of the
+    number of columns.
+
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[PolarsOverClauseInput\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+
+:   When specified compares the number of lines per group with the expected value,
+    by default None
+
+## Returns
+
+| Type                  | Description                                                      |
+|-----------------------|------------------------------------------------------------------|
+| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+
+## Examples
+
+```python
+>>> import polars as pl
+>>> import pelage as plg
+>>> df = pl.DataFrame({"a": [1, 2], "b": ["a", "b"]})
+>>> df.pipe(plg.has_shape, (2, 2))
+shape: (2, 2)
+┌─────┬─────┐
+│ a   ┆ b   │
+│ --- ┆ --- │
+│ i64 ┆ str │
+╞═════╪═════╡
+│ 1   ┆ a   │
+│ 2   ┆ b   │
+└─────┴─────┘
+>>> df.pipe(plg.has_shape, (2, None))
+shape: (2, 2)
+┌─────┬─────┐
+│ a   ┆ b   │
+│ --- ┆ --- │
+│ i64 ┆ str │
+╞═════╪═════╡
+│ 1   ┆ a   │
+│ 2   ┆ b   │
+└─────┴─────┘
+>>> df.pipe(plg.has_shape, (1, 2))
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+Error with the DataFrame passed to the check function:
+-->The data has not the expected shape: (1, 2)
+```
+
+```python
+>>> group_example_df = pl.DataFrame(
+...     {
+...         "a": [1, 2, 3],
+...         "b": ["a", "b", "b"],
+...     }
+... )
+>>> group_example_df.pipe(plg.has_shape, (1, None), group_by="b")
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+shape: (1, 2)
+┌─────┬─────┐
+│ b   ┆ len │
+│ --- ┆ --- │
+│ str ┆ u32 │
+╞═════╪═════╡
+│ b   ┆ 2   │
+└─────┴─────┘
+Error with the DataFrame passed to the check function:
+-->The number of rows per group does not match the specified value: 1
+```

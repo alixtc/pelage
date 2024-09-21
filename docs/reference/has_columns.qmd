@@ -1,0 +1,58 @@
+# has_columns { #pelage.checks.has_columns }
+
+`checks.has_columns(data, names)`
+
+Check if a DataFrame has the specified
+
+## Parameters
+
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+
+:   The DataFrame to check for column presence.
+
+<code><span class="parameter-name">names</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Union\[str, List\[str\]\]</span></code>
+
+:   The names of the columns to check.
+
+## Returns
+
+| Type                  | Description                                                      |
+|-----------------------|------------------------------------------------------------------|
+| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+
+## Examples
+
+```python
+>>> import polars as pl
+>>> import pelage as plg
+>>> df = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
+>>> df.pipe(plg.has_columns, "b")
+shape: (3, 2)
+┌─────┬─────┐
+│ a   ┆ b   │
+│ --- ┆ --- │
+│ i64 ┆ str │
+╞═════╪═════╡
+│ 1   ┆ a   │
+│ 2   ┆ b   │
+│ 3   ┆ c   │
+└─────┴─────┘
+>>> df.pipe(plg.has_columns, "c")
+Traceback (most recent call last):
+    ...
+pelage.checks.PolarsAssertError: Details
+Error with the DataFrame passed to the check function:
+-->
+>>> df.pipe(plg.has_columns, ["a", "b"])
+shape: (3, 2)
+┌─────┬─────┐
+│ a   ┆ b   │
+│ --- ┆ --- │
+│ i64 ┆ str │
+╞═════╪═════╡
+│ 1   ┆ a   │
+│ 2   ┆ b   │
+│ 3   ┆ c   │
+└─────┴─────┘
+>>>
+```

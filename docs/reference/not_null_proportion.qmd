@@ -1,0 +1,115 @@
+# not_null_proportion { #pelage.checks.not_null_proportion }
+
+`checks.not_null_proportion(data, items, group_by=None)`
+
+Checks that the proportion of non-null values in a column is within a
+a specified range [at_least, at_most] where at_most is an optional argument
+(default: 1.0).
+
+## Parameters
+
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+
+:   _description_
+
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict\[str, float \| Tuple\[float, float\]\]</span></code>
+
+:   Ranges for the proportion of not null values for selected columns.
+
+    Any of the following formats is valid:
+    ```
+    {
+        "column_name_a" : 0.33,
+        "column_name_b" : (0.25, 0.44),
+        "column_name_c" : (0.25, 1.0),
+        ...
+    }
+    ```
+    When specifying a single float, the higher bound of the range will automatically
+    be set to 1.0, i.e. (given_float, 1.0)
+
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[PolarsOverClauseInput\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+
+:   When specified perform the check per group instead of the whole column,
+    by default None
+
+## Returns
+
+| Type                  | Description                                                      |
+|-----------------------|------------------------------------------------------------------|
+| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+
+## Examples
+
+```python
+>>> import polars as pl
+>>> import pelage as plg
+>>> df = pl.DataFrame(
+...         {
+...             "a": [1, None, None],
+...             "b": [1, 2, None],
+...         }
+...     )
+>>> df.pipe(plg.not_null_proportion, {"a": 0.33, "b": 0.66})
+shape: (3, 2)
+┌──────┬──────┐
+│ a    ┆ b    │
+│ ---  ┆ ---  │
+│ i64  ┆ i64  │
+╞══════╪══════╡
+│ 1    ┆ 1    │
+│ null ┆ 2    │
+│ null ┆ null │
+└──────┴──────┘
+>>> df.pipe(plg.not_null_proportion, {"a": 0.7})
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+shape: (1, 4)
+┌────────┬───────────────────┬──────────┬──────────┐
+│ column ┆ not_null_fraction ┆ min_prop ┆ max_prop │
+│ ---    ┆ ---               ┆ ---      ┆ ---      │
+│ str    ┆ f64               ┆ f64      ┆ i64      │
+╞════════╪═══════════════════╪══════════╪══════════╡
+│ a      ┆ 0.333333          ┆ 0.7      ┆ 1        │
+└────────┴───────────────────┴──────────┴──────────┘
+Error with the DataFrame passed to the check function:
+-->Some columns contains a proportion of nulls beyond specified limits
+```
+
+ The folloing example details how to perform this checks for groups:
+
+```python
+>>> group_df = pl.DataFrame(
+...     {
+...         "a": [1, 1, None, None],
+...         "group": ["A", "A", "B", "B"],
+...     }
+... )
+>>> group_df.pipe(plg.not_null_proportion, {"a": 0.5})
+shape: (4, 2)
+┌──────┬───────┐
+│ a    ┆ group │
+│ ---  ┆ ---   │
+│ i64  ┆ str   │
+╞══════╪═══════╡
+│ 1    ┆ A     │
+│ 1    ┆ A     │
+│ null ┆ B     │
+│ null ┆ B     │
+└──────┴───────┘
+>>> group_df.pipe(plg.not_null_proportion, {"a": 0.5}, group_by="group")
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+shape: (1, 5)
+┌───────┬────────┬───────────────────┬──────────┬──────────┐
+│ group ┆ column ┆ not_null_fraction ┆ min_prop ┆ max_prop │
+│ ---   ┆ ---    ┆ ---               ┆ ---      ┆ ---      │
+│ str   ┆ str    ┆ f64               ┆ f64      ┆ i64      │
+╞═══════╪════════╪═══════════════════╪══════════╪══════════╡
+│ B     ┆ a      ┆ 0.0               ┆ 0.5      ┆ 1        │
+└───────┴────────┴───────────────────┴──────────┴──────────┘
+Error with the DataFrame passed to the check function:
+-->Some columns contains a proportion of nulls beyond specified limits
+```

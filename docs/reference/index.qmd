@@ -1,0 +1,42 @@
+# API Reference {.doc .doc-index}
+
+## Check functions
+
+List of check functions.
+
+| | |
+| --- | --- |
+| [has_columns](has_columns.qmd#pelage.checks.has_columns) | Check if a DataFrame has the specified |
+| [has_dtypes](has_dtypes.qmd#pelage.checks.has_dtypes) | Check that the columns have the expected types |
+| [has_no_nulls](has_no_nulls.qmd#pelage.checks.has_no_nulls) | Check if a DataFrame has any null (missing) values. |
+| [has_no_infs](has_no_infs.qmd#pelage.checks.has_no_infs) | Check if a DataFrame has any infinite (inf) values. |
+| [unique](unique.qmd#pelage.checks.unique) | Check if there are no duplicated values in each one of the selected columns. |
+| [unique_combination_of_columns](unique_combination_of_columns.qmd#pelage.checks.unique_combination_of_columns) | Ensure that the selected column have a unique combination per row. |
+| [accepted_values](accepted_values.qmd#pelage.checks.accepted_values) | Raises error if columns contains values not specified in `items` |
+| [not_accepted_values](not_accepted_values.qmd#pelage.checks.not_accepted_values) | Raises error if columns contains values specified in List of forbbiden `items` |
+| [accepted_range](accepted_range.qmd#pelage.checks.accepted_range) | Check that all the values from specifed columns in the dict `items` are within     the indicated range. |
+| [maintains_relationships](maintains_relationships.qmd#pelage.checks.maintains_relationships) | Function to help ensuring that set of values in selected column remains  the     same in both DataFrames. This helps to maintain referential integrity. |
+| [column_is_within_n_std](column_is_within_n_std.qmd#pelage.checks.column_is_within_n_std) | Function asserting values are within a given STD range, thus ensuring the absence of outliers. |
+| [custom_check](custom_check.qmd#pelage.checks.custom_check) | Use custom Polars expression to check the DataFrame, based on `.filter()`. |
+
+## Checks with group_by
+
+List of check functions with optional `group_by` option.
+
+| | |
+| --- | --- |
+| [has_shape](has_shape.qmd#pelage.checks.has_shape) | Check if a DataFrame has the specified shape. |
+| [at_least_one](at_least_one.qmd#pelage.checks.at_least_one) | Ensure that there is at least one not null value in the designated columns. |
+| [not_constant](not_constant.qmd#pelage.checks.not_constant) | Check if a DataFrame has constant columns. |
+| [not_null_proportion](not_null_proportion.qmd#pelage.checks.not_null_proportion) | Checks that the proportion of non-null values in a column is within a a specified range [at_least, at_most] where at_most is an optional argument (default: 1.0). |
+| [has_mandatory_values](has_mandatory_values.qmd#pelage.checks.has_mandatory_values) | Ensure that all specified values are present in their respective column. |
+| [mutually_exclusive_ranges](mutually_exclusive_ranges.qmd#pelage.checks.mutually_exclusive_ranges) | Ensure that the specified columns contains no overlapping intervals. |
+| [is_monotonic](is_monotonic.qmd#pelage.checks.is_monotonic) | Verify that values in a column are consecutively increasing or decreasing. |
+
+## Exceptions
+
+Types aliases and custom exceptions
+
+| | |
+| --- | --- |
+| [PolarsAssertError](PolarsAssertError.qmd#pelage.checks.PolarsAssertError) | Custom Error providing detailed information about the failed check. |

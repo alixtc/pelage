@@ -1,0 +1,88 @@
+# has_mandatory_values { #pelage.checks.has_mandatory_values }
+
+`checks.has_mandatory_values(data, items, group_by=None)`
+
+Ensure that all specified values are present in their respective column.
+
+## Parameters
+
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"> PolarsLazyOrDataFrame</span></code>
+
+:   Polars DataFrame or LazyFrame containing data to check.
+
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict\[str, list\]</span></code>
+
+:   A dictionnary where the keys are the columns names and the values are lists that
+    contains all the required values for a given column.
+
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[PolarsOverClauseInput\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+
+:   When specified perform the check per group instead of the whole column,
+    by default None
+
+## Returns
+
+| Type                  | Description                                                      |
+|-----------------------|------------------------------------------------------------------|
+| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+
+## Examples
+
+```python
+>>> import polars as pl
+>>> import pelage as plg
+>>> df = pl.DataFrame({"a": [1, 2]})
+>>> df.pipe(plg.has_mandatory_values, {"a": [1, 2]})
+shape: (2, 1)
+┌─────┐
+│ a   │
+│ --- │
+│ i64 │
+╞═════╡
+│ 1   │
+│ 2   │
+└─────┘
+>>> df.pipe(plg.has_mandatory_values, {"a": [3, 4]})
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+Error with the DataFrame passed to the check function:
+-->Missing mandatory values in the following columns: {'a': [3, 4]}
+```
+
+The folloing example details how to perform this checks for groups:
+
+```python
+>>> group_df_example = pl.DataFrame(
+...     {
+...         "a": [1, 1, 1, 2],
+...         "group": ["G1", "G1", "G2", "G2"],
+...     }
+... )
+>>> group_df_example.pipe(plg.has_mandatory_values, {"a": [1, 2]})
+shape: (4, 2)
+┌─────┬───────┐
+│ a   ┆ group │
+│ --- ┆ ---   │
+│ i64 ┆ str   │
+╞═════╪═══════╡
+│ 1   ┆ G1    │
+│ 1   ┆ G1    │
+│ 1   ┆ G2    │
+│ 2   ┆ G2    │
+└─────┴───────┘
+>>> group_df_example.pipe(plg.has_mandatory_values, {"a": [1, 2]}, group_by="group")
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+shape: (1, 3)
+┌───────┬───────────┬────────────────┐
+│ group ┆ a         ┆ a_expected_set │
+│ ---   ┆ ---       ┆ ---            │
+│ str   ┆ list[i64] ┆ list[i64]      │
+╞═══════╪═══════════╪════════════════╡
+│ G1    ┆ [1]       ┆ [1, 2]         │
+└───────┴───────────┴────────────────┘
+Error with the DataFrame passed to the check function:
+-->Some groups are missing mandatory values
+```

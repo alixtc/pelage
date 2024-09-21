@@ -1,0 +1,91 @@
+# at_least_one { #pelage.checks.at_least_one }
+
+`checks.at_least_one(data, columns=None, group_by=None)`
+
+Ensure that there is at least one not null value in the designated columns.
+
+## Parameters
+
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+
+:   Polars DataFrame or LazyFrame containing data to check.
+
+<code><span class="parameter-name">columns</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[PolarsColumnType\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+
+:   Columns to consider to check the presence of at least one value.
+    By default, all columns are checked.
+
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[PolarsOverClauseInput\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+
+:   When specified perform the check per group instead of the whole column,
+    by default None
+
+## Returns
+
+| Type                  | Description                                                      |
+|-----------------------|------------------------------------------------------------------|
+| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+
+## Examples
+
+```python
+>>> import polars as pl
+>>> import pelage as plg
+>>> df = pl.DataFrame({"a": [None, None], "b": [1, None]})
+>>> df.pipe(plg.at_least_one, "b")
+shape: (2, 2)
+┌──────┬──────┐
+│ a    ┆ b    │
+│ ---  ┆ ---  │
+│ null ┆ i64  │
+╞══════╪══════╡
+│ null ┆ 1    │
+│ null ┆ null │
+└──────┴──────┘
+```
+
+```python
+>>> df.pipe(plg.at_least_one)
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+Error with the DataFrame passed to the check function:
+-->Some columns contains only null values: ['a']
+```
+
+The folloing example details how to perform this checks for groups:
+
+```python
+>>> df = pl.DataFrame(
+...         {
+...             "a": [None, None, None, 2],
+...             "group": ["G1", "G1", "G2", "G2"],
+...         }
+...     )
+>>> df.pipe(plg.at_least_one, "a")
+shape: (4, 2)
+┌──────┬───────┐
+│ a    ┆ group │
+│ ---  ┆ ---   │
+│ i64  ┆ str   │
+╞══════╪═══════╡
+│ null ┆ G1    │
+│ null ┆ G1    │
+│ null ┆ G2    │
+│ 2    ┆ G2    │
+└──────┴───────┘
+>>> df.pipe(plg.at_least_one, "a", group_by="group")
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+shape: (1, 3)
+┌───────┬─────────┬──────────────┐
+│ group ┆ columns ┆ at_least_one │
+│ ---   ┆ ---     ┆ ---          │
+│ str   ┆ str     ┆ bool         │
+╞═══════╪═════════╪══════════════╡
+│ G1    ┆ a       ┆ false        │
+└───────┴─────────┴──────────────┘
+Error with the DataFrame passed to the check function:
+-->Some columns contains only null values per group
+```

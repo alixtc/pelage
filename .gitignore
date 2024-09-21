@@ -18,5 +18,6 @@ TODO.md
 .tox/
 dist/
 
-/.quarto/
+docs/.quarto/
+docs/_site/
 .coverage/.coverage

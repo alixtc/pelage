@@ -1,0 +1,57 @@
+# unique_combination_of_columns { #pelage.checks.unique_combination_of_columns }
+
+`checks.unique_combination_of_columns(data, columns=None)`
+
+Ensure that the selected column have a unique combination per row.
+
+This function is particularly helpful to establish the granularity of a dataframe,
+i.e. this is a row oriented check.
+
+## Parameters
+
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+
+:   _description_
+
+<code><span class="parameter-name">columns</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[PolarsColumnType\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+
+:   Columns to consider for row unicity. By default, all columns are checked.
+
+## Returns
+
+| Type                  | Description                                                      |
+|-----------------------|------------------------------------------------------------------|
+| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+
+## Examples
+
+```python
+>>> import polars as pl
+>>> import pelage as plg
+>>> df = pl.DataFrame({"a": ["a", "a"], "b": [1, 2]})
+>>> df.pipe(plg.unique_combination_of_columns, ["a", "b"])
+shape: (2, 2)
+┌─────┬─────┐
+│ a   ┆ b   │
+│ --- ┆ --- │
+│ str ┆ i64 │
+╞═════╪═════╡
+│ a   ┆ 1   │
+│ a   ┆ 2   │
+└─────┴─────┘
+>>> bad = pl.DataFrame({"a": ["X", "X"]})
+>>> bad.pipe(plg.unique_combination_of_columns, "a")
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+shape: (1, 2)
+┌─────┬─────┐
+│ a   ┆ len │
+│ --- ┆ --- │
+│ str ┆ u32 │
+╞═════╪═════╡
+│ X   ┆ 2   │
+└─────┴─────┘
+Error with the DataFrame passed to the check function:
+-->Some combinations of columns are not unique. See above, selected: col("a")
+```

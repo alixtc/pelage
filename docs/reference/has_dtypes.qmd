@@ -1,0 +1,67 @@
+# has_dtypes { #pelage.checks.has_dtypes }
+
+`checks.has_dtypes(data, items)`
+
+Check that the columns have the expected types
+
+## Parameters
+
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+
+:   Polars DataFrame or LazyFrame containing data to check.
+
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict\[str, PolarsDataType\]</span></code>
+
+:   A dictionnary of column name with their expected polars data type:
+    ```
+    {
+        "col_a": pl.String,
+        "col_b": pl.Int64,
+        "col_c": pl.Float64,
+        ...
+    }
+    ```
+
+## Returns
+
+| Type                  | Description                                                      |
+|-----------------------|------------------------------------------------------------------|
+| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+
+## Examples
+
+```python
+>>> import polars as pl
+>>> from pelage import checks
+>>> df = pl.DataFrame({
+...     "name": ["Alice", "Bob", "Charlie"],
+...     "age": [20, 30, 40],
+...     "city": ["New York", "London", "Paris"],
+... })
+>>> checks.has_dtypes(df, {
+...     "name": pl.String,
+...     "age": pl.Int64,
+...     "city": pl.String,
+... })
+shape: (3, 3)
+┌─────────┬─────┬──────────┐
+│ name    ┆ age ┆ city     │
+│ ---     ┆ --- ┆ ---      │
+│ str     ┆ i64 ┆ str      │
+╞═════════╪═════╪══════════╡
+│ Alice   ┆ 20  ┆ New York │
+│ Bob     ┆ 30  ┆ London   │
+│ Charlie ┆ 40  ┆ Paris    │
+└─────────┴─────┴──────────┘
+>>> checks.has_dtypes(df, {
+...     "age": pl.String,
+...     "city": pl.Int64,
+... })
+Traceback (most recent call last):
+    ...
+pelage.checks.PolarsAssertError: Details
+Error with the DataFrame passed to the check function:
+-->Some columns don't have the expected type:
+column='age', expected_type=String, real_dtype=Int64
+column='city', expected_type=Int64, real_dtype=String
+```

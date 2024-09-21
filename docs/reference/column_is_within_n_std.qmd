@@ -1,0 +1,71 @@
+# column_is_within_n_std { #pelage.checks.column_is_within_n_std }
+
+`checks.column_is_within_n_std(data, items, *args)`
+
+Function asserting values are within a given STD range, thus ensuring the absence
+of outliers.
+
+## Parameters
+
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+
+:   Polars DataFrame or LazyFrame containing data to check.
+
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Tuple\[PolarsColumnType, int\]</span></code>
+
+:   A column name / column type with the number of STD authorized for the values
+    within. Must be of the following form: `(col_name, n_std)`
+
+## Returns
+
+| Type                  | Description                                                      |
+|-----------------------|------------------------------------------------------------------|
+| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+
+## Examples
+
+```python
+>>> import polars as pl
+>>> import pelage as plg
+>>> df = pl.DataFrame(
+...     {
+...         "a": list(range(0, 11)),
+...         "b": list(range(0, 11)),
+...         "c": list(range(0, 10)) + [5000],
+...     }
+... )
+>>> df.pipe(plg.column_is_within_n_std, ("a", 2), ("b", 3))
+shape: (11, 3)
+┌─────┬─────┬──────┐
+│ a   ┆ b   ┆ c    │
+│ --- ┆ --- ┆ ---  │
+│ i64 ┆ i64 ┆ i64  │
+╞═════╪═════╪══════╡
+│ 0   ┆ 0   ┆ 0    │
+│ 1   ┆ 1   ┆ 1    │
+│ 2   ┆ 2   ┆ 2    │
+│ 3   ┆ 3   ┆ 3    │
+│ 4   ┆ 4   ┆ 4    │
+│ …   ┆ …   ┆ …    │
+│ 6   ┆ 6   ┆ 6    │
+│ 7   ┆ 7   ┆ 7    │
+│ 8   ┆ 8   ┆ 8    │
+│ 9   ┆ 9   ┆ 9    │
+│ 10  ┆ 10  ┆ 5000 │
+└─────┴─────┴──────┘
+>>> df.pipe(plg.column_is_within_n_std, ("b", 2), ("c", 2))
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+shape: (1, 1)
+┌──────┐
+│ c    │
+│ ---  │
+│ i64  │
+╞══════╡
+│ 5000 │
+└──────┘
+Error with the DataFrame passed to the check function:
+-->There are some outliers outside the specified mean±std range
+Impacted columns: ['c']
+```
