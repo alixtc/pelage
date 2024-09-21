@@ -9,8 +9,8 @@ raw_data/
 .python-version
 .vscode
 poetry.lock
-notebooks/test*
-notebooks/_*.ipynb
+
+notebooks/
 
 TODO.md
 

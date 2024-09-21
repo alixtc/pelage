@@ -37,8 +37,6 @@ validated_data = (
 display(validated_data)
 ```
 
-<div>
-
 <div><style>
 .dataframe > thead > tr,
 .dataframe > tbody > tr {
@@ -54,8 +52,6 @@ display(validated_data)
 | 1   | "a" | "1"   |
 | 2   | "b" | "2"   |
 | 3   | "c" | "3"   |
-
-</div>
 
 </div>
 
@@ -111,6 +107,15 @@ Additionally, some efforts have been put to have type hints for the
 provided functions in order to ensure full compatibility with your IDE
 across your chaining.
 
+## Leveraging `polars` blazing speed:
+
+Although it is written in python most of `pelage` checks are written in
+a way that enable the polars API to work its magic. We try to use a
+syntax that is compatible with fast execution and parallelism provided
+by polars.
+
+![](../assets/presentation.gif)
+
 ## Interoperability:
 
 The polars DSL and syntax have been develop with the idea to make the
@@ -123,7 +128,7 @@ is why we implemented most of the checks that have been developed for
 - [dbt generic
   checks](https://docs.getdbt.com/docs/build/data-tests#generic-data-tests)
 - [dbt-utils
-  test](https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file)
+  tests](https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file)
 - (Soon to come: dbt expectations)
 
 We believe that data quality checks should be written as close as
@@ -133,16 +138,6 @@ will be helpful. Similarly, we know that it is sometimes much easier to
 industrialize SQL data pipelines, in this perspective the similarity
 between `pelage` and `dbt` testing capabilities should make the
 transition much smoother.
-
-## Leveraging `polars` blazing speed:
-
-Although it is written in python most of `pelage` checks are written in
-a way that enable the polars API to work its magic. We try to use a
-syntax that is compatible with fast execution and parallelism provided
-by polars.
-
-Note: For now, only the classical DataFrame API is available, but we
-plan to implement the LazyFrame API soon enough.
 
 # Why pelage?
 

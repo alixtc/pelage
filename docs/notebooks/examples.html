@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Pelage: Defensive analysis for Polars - Examples</title>
+<title>Examples – Pelage: Defensive analysis for Polars</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -148,7 +148,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -206,7 +206,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pl.DataFrame(sns.load_dataset(<span class="st">"mpg"</span>))</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
-<div>
 <div><style>
 .dataframe > thead > tr,
 .dataframe > tbody > tr {
@@ -215,7 +214,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 <small>shape: (5, 9)</small>
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">mpg</th>
@@ -301,7 +300,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-</div>
 </section>
 <section id="basic-data-transformations" class="level2">
 <h2 class="anchored" data-anchor-id="basic-data-transformations">Basic data transformations</h2>
@@ -322,7 +320,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>average_mileage_per_zone</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
-<div>
 <div><style>
 .dataframe > thead > tr,
 .dataframe > tbody > tr {
@@ -331,7 +328,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 <small>shape: (10, 5)</small>
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">origin</th>
@@ -424,7 +421,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-</div>
 </section>
 <section id="focus-on-the-errors" class="level1">
 <h1>Focus on the errors</h1>
@@ -440,7 +436,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a PolarsAssertError</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>PolarsAssertError: Details
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">PolarsAssertError</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[13], line 2</span>
+<span class="ansi-green-fg ansi-bold">      1</span> (
+<span class="ansi-green-fg">----&gt; 2</span>     <span class="ansi-yellow-bg">data</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">pipe</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg ansi-bold">      3</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">plg</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">accepted_range</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg ansi-bold">      4</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">{</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">displacement</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">:</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">50</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">300</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">horsepower</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">:</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">(</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">50</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">200</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">}</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg ansi-bold">      5</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">      6</span> )
+<span class="ansi-green-fg ansi-bold">      7</span> <span style="font-style:italic;color:rgb(95,135,135)"># Generate a PolarsAssertError</span>
+
+File <span class="ansi-green-fg">~/.pyenv/versions/3.10.13/envs/FC3.10/lib/python3.10/site-packages/polars/dataframe/frame.py:5128</span>, in <span class="ansi-cyan-fg">DataFrame.pipe</span><span class="ansi-blue-fg">(self, function, *args, **kwargs)</span>
+<span class="ansi-green-fg ansi-bold">   5063</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span> <span style="color:rgb(0,0,255)">pipe</span>(
+<span class="ansi-green-fg ansi-bold">   5064</span>     <span style="color:rgb(0,135,0)">self</span>,
+<span class="ansi-green-fg ansi-bold">   5065</span>     function: Callable[Concatenate[DataFrame, P], T],
+<span class="ansi-green-fg ansi-bold">   5066</span>     <span style="color:rgb(98,98,98)">*</span>args: P<span style="color:rgb(98,98,98)">.</span>args,
+<span class="ansi-green-fg ansi-bold">   5067</span>     <span style="color:rgb(98,98,98)">*</span><span style="color:rgb(98,98,98)">*</span>kwargs: P<span style="color:rgb(98,98,98)">.</span>kwargs,
+<span class="ansi-green-fg ansi-bold">   5068</span> ) <span style="color:rgb(98,98,98)">-</span><span style="color:rgb(98,98,98)">&gt;</span> T:
+<span class="ansi-green-fg ansi-bold">   5069</span> <span style="color:rgb(188,188,188)">    </span><span style="font-style:italic;color:rgb(175,0,0)">"""</span>
+<span class="ansi-green-fg ansi-bold">   5070</span> <span style="font-style:italic;color:rgb(175,0,0)">    Offers a structured way to apply a sequence of user-defined functions (UDFs).</span>
+<span class="ansi-green-fg ansi-bold">   5071</span>
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-fg ansi-bold">   5126</span> <span style="font-style:italic;color:rgb(175,0,0)">    └─────┴─────┘</span>
+<span class="ansi-green-fg ansi-bold">   5127</span> <span style="font-style:italic;color:rgb(175,0,0)">    """</span>
+<span class="ansi-green-fg">-&gt; 5128</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">function</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">args</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">~/code/alixtc/pelage/pelage/checks.py:987</span>, in <span class="ansi-cyan-fg">accepted_range</span><span class="ansi-blue-fg">(data, items)</span>
+<span class="ansi-green-fg ansi-bold">    985</span> out_of_range <span style="color:rgb(98,98,98)">=</span> data<span style="color:rgb(98,98,98)">.</span>filter(pl<span style="color:rgb(98,98,98)">.</span>Expr<span style="color:rgb(98,98,98)">.</span>or_(<span style="color:rgb(98,98,98)">*</span>forbidden_ranges))
+<span class="ansi-green-fg ansi-bold">    986</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> out_of_range<span style="color:rgb(98,98,98)">.</span>is_empty():
+<span class="ansi-green-fg">--&gt; 987</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> PolarsAssertError(
+<span class="ansi-green-fg ansi-bold">    988</span>         out_of_range, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Some values are beyond the acceptable ranges defined</span><span style="color:rgb(175,0,0)">"</span>
+<span class="ansi-green-fg ansi-bold">    989</span>     )
+<span class="ansi-green-fg ansi-bold">    990</span> <span style="font-weight:bold;color:rgb(0,135,0)">return</span> data
+
+<span class="ansi-red-fg">PolarsAssertError</span>: Details
 shape: (104, 9)
 ┌──────┬───────────┬─────────────┬────────────┬───┬─────────────┬────────────┬────────┬────────────┐
 │ mpg  ┆ cylinders ┆ displacemen ┆ horsepower ┆ … ┆ acceleratio ┆ model_year ┆ origin ┆ name       │
@@ -475,7 +506,8 @@ shape: (104, 9)
 │      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ cutlass ls │
 └──────┴───────────┴─────────────┴────────────┴───┴─────────────┴────────────┴────────┴────────────┘
 Error with the DataFrame passed to the check function:
---&gt;Some values are beyond the acceptable ranges defined</code></pre>
+--&gt;Some values are beyond the acceptable ranges defined</pre>
+</div>
 </div>
 </div>
 </section>
@@ -484,21 +516,20 @@ Error with the DataFrame passed to the check function:
 <p>In addition to help the user better understand the root cause of the check failure, the error object also possesses as <code>df</code> attribute that can contains the identified values causing the check to fail.</p>
 <p>Here is how to simply retrieve it without adding a <code>try/except</code> block. This allows us to print the error in a string format.</p>
 <div id="cell-8" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>error <span class="op">=</span> sys.last_value</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(error)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>error <span class="op">=</span> sys.last_value</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(error)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can then manipulate a subset dataframe containing the elements that triggered the exception. Here we do a few manipulations to determine what are the values that are outside the specified boundaries as well as their relative importance within the dataset.</p>
 <div id="cell-10" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    pl.DataFrame(error.df)  <span class="co"># This is only here to obtain syntax highlighting</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    .select(pl.col(<span class="st">"displacement"</span>, <span class="st">"horsepower"</span>))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    .describe()</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    pl.DataFrame(error.df)  <span class="co"># This is only here to obtain syntax highlighting</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    .select(pl.col(<span class="st">"displacement"</span>, <span class="st">"horsepower"</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    .describe()</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
-<div>
 <div><style>
 .dataframe > thead > tr,
 .dataframe > tbody > tr {
@@ -507,7 +538,7 @@ Error with the DataFrame passed to the check function:
 }
 </style>
 <small>shape: (9, 3)</small>
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th">statistic</th>
@@ -571,7 +602,6 @@ Error with the DataFrame passed to the check function:
 </div>
 </div>
 </div>
-</div>
 
 
 </section>
@@ -613,18 +643,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -656,7 +675,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -664,7 +705,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

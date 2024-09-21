@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Pelage: Defensive analysis for Polars</title>
+<title>initial_readme – Pelage: Defensive analysis for Polars</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -145,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -164,8 +164,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#main-concepts" id="toc-main-concepts" class="nav-link" data-scroll-target="#main-concepts">Main Concepts</a>
   <ul class="collapse">
   <li><a href="#defensive-analysis" id="toc-defensive-analysis" class="nav-link" data-scroll-target="#defensive-analysis">Defensive analysis:</a></li>
-  <li><a href="#interoperability" id="toc-interoperability" class="nav-link" data-scroll-target="#interoperability">Interoperability:</a></li>
   <li><a href="#leveraging-polars-blazing-speed" id="toc-leveraging-polars-blazing-speed" class="nav-link" data-scroll-target="#leveraging-polars-blazing-speed">Leveraging <code>polars</code> blazing speed:</a></li>
+  <li><a href="#interoperability" id="toc-interoperability" class="nav-link" data-scroll-target="#interoperability">Interoperability:</a></li>
   </ul></li>
   <li><a href="#why-pelage" id="toc-why-pelage" class="nav-link" data-scroll-target="#why-pelage">Why pelage?</a></li>
   </ul>
@@ -201,7 +201,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>display(validated_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div>
-<div>
 <style>
 .dataframe > thead > tr,
 .dataframe > tbody > tr {
@@ -210,7 +209,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 <p><small>shape: (3, 3)</small></p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>a</th>
@@ -241,7 +240,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</div>
 </div>
 <p>Here is a example of the error messages that if the checks fail:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -277,20 +275,20 @@ Error with the DataFrame passed to the check function:
 <p>The main idea of <code>pelage</code> is to leverage your possibility for defensive analysis, similarly to other python packages such as “bulwark” or “engarde”. However <code>pelage</code> rely mainly on possibility to directly pipe and chain transformations provided by the fantastic <code>polars</code> API rather than using decorators.</p>
 <p>Additionally, some efforts have been put to have type hints for the provided functions in order to ensure full compatibility with your IDE across your chaining.</p>
 </section>
+<section id="leveraging-polars-blazing-speed" class="level2">
+<h2 class="anchored" data-anchor-id="leveraging-polars-blazing-speed">Leveraging <code>polars</code> blazing speed:</h2>
+<p>Although it is written in python most of <code>pelage</code> checks are written in a way that enable the polars API to work its magic. We try to use a syntax that is compatible with fast execution and parallelism provided by polars.</p>
+<p><img src="../assets/presentation.gif" class="img-fluid"></p>
+</section>
 <section id="interoperability" class="level2">
 <h2 class="anchored" data-anchor-id="interoperability">Interoperability:</h2>
 <p>The polars DSL and syntax have been develop with the idea to make the transition to SQL much easier. In this perspective, <code>pelage</code> wants to facilitate the use of tests to ensure data quality while enabling a possible transition towards SQL, and using the same tests in SQL. This is why we implemented most of the checks that have been developed for <code>dbt</code> tool box, notably:</p>
 <ul>
 <li><a href="https://docs.getdbt.com/docs/build/data-tests#generic-data-tests">dbt generic checks</a></li>
-<li><a href="https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file">dbt-utils test</a></li>
+<li><a href="https://github.com/dbt-labs/dbt-utils?tab=readme-ov-file">dbt-utils tests</a></li>
 <li>(Soon to come: dbt expectations)</li>
 </ul>
 <p>We believe that data quality checks should be written as close as possible to the data exploration phase, and we hope that providing theses checks in a context where it is easier to visualize your data will be helpful. Similarly, we know that it is sometimes much easier to industrialize SQL data pipelines, in this perspective the similarity between <code>pelage</code> and <code>dbt</code> testing capabilities should make the transition much smoother.</p>
-</section>
-<section id="leveraging-polars-blazing-speed" class="level2">
-<h2 class="anchored" data-anchor-id="leveraging-polars-blazing-speed">Leveraging <code>polars</code> blazing speed:</h2>
-<p>Although it is written in python most of <code>pelage</code> checks are written in a way that enable the polars API to work its magic. We try to use a syntax that is compatible with fast execution and parallelism provided by polars.</p>
-<p>Note: For now, only the classical DataFrame API is available, but we plan to implement the LazyFrame API soon enough.</p>
 </section>
 </section>
 <section id="why-pelage" class="level1">
@@ -336,18 +334,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -379,7 +366,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -387,7 +396,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

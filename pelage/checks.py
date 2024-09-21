@@ -3,7 +3,7 @@
 Use the syntax `import pelage as plg` rather than `from pelage import checks`
 """
 
-from typing import Dict, Iterable, List, Optional, Tuple, Union
+from typing import Dict, Iterable, List, Optional, Set, Tuple, TypeVar, Union
 
 import polars as pl
 from packaging import version
@@ -12,9 +12,12 @@ from pelage import utils
 
 try:
     from polars._typing import ClosedInterval, IntoExpr, PolarsDataType
+
 except ImportError:
     from polars.type_aliases import ClosedInterval, IntoExpr, PolarsDataType
 
+# Use typevar to make sure that the input and return types are the same
+PolarsLazyOrDataFrame = TypeVar("PolarsLazyOrDataFrame", pl.DataFrame, pl.LazyFrame)
 
 PolarsColumnBounds = Union[
     Tuple[IntoExpr, IntoExpr], Tuple[IntoExpr, IntoExpr, ClosedInterval]
@@ -74,17 +77,17 @@ class PolarsAssertError(Exception):
 
 
 def has_shape(
-    data: pl.DataFrame,
+    data: PolarsLazyOrDataFrame,
     shape: Tuple[IntOrNone, IntOrNone],
     group_by: Optional[PolarsOverClauseInput] = None,
-) -> pl.DataFrame:
+) -> PolarsLazyOrDataFrame:
     """Check if a DataFrame has the specified shape.
 
     When used with the group_by option, this can be used to get the row count per group.
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : PolarsLazyOrDataFrame
         Input data
     shape : Tuple[IntOrNone, IntOrNone]
         Tuple with the expected dataframe shape, as from the `.shape()` method.
@@ -100,8 +103,8 @@ def has_shape(
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -156,10 +159,19 @@ def has_shape(
     Error with the DataFrame passed to the check function:
     -->The number of rows per group does not match the specified value: 1
     """
+
+    if shape[0] is None and shape[1] is None:
+        raise ValueError(
+            "Both dimensions for expected shape cannot be set None simultaneously"
+        )
+
     if group_by is not None:
         non_matching_row_count = _safe_group_by_length(data, group_by).filter(
             pl.col("len") != shape[0]
         )
+        if isinstance(non_matching_row_count, pl.LazyFrame):
+            non_matching_row_count = non_matching_row_count.collect()
+
         if len(non_matching_row_count) > 0:
             raise PolarsAssertError(
                 df=non_matching_row_count,
@@ -167,16 +179,13 @@ def has_shape(
             )
         return data
 
-    if shape[0] is None and shape[1] is None:
-        raise ValueError(
-            "Both dimensions for expected shape cannot be set None simultaneously"
-        )
-    elif shape[1] is None:
-        actual_shape = data.shape[0], None
-    elif shape[0] is None:
-        actual_shape = None, data.shape[1]
-    else:
-        actual_shape = data.shape
+    actual_shape = _get_frame_shape(data)
+
+    if shape[1] is None:
+        actual_shape = actual_shape[0], None
+
+    if shape[0] is None:
+        actual_shape = None, actual_shape[1]
 
     if actual_shape != shape:
         raise PolarsAssertError(
@@ -185,20 +194,41 @@ def has_shape(
     return data
 
 
-def has_columns(data: pl.DataFrame, names: Union[str, List[str]]) -> pl.DataFrame:
+def _get_frame_shape(data: PolarsLazyOrDataFrame) -> Tuple[int, int]:
+    """Convenience function to get shape of Lazyframe given available methods"""
+    if isinstance(data, pl.DataFrame):
+        return data.shape
+
+    pl_len = pl.len() if _has_sufficient_polars_version("0.20.0") else pl.count()
+
+    if _has_sufficient_polars_version("1.0.0"):
+        return (
+            data.select(pl_len).collect().item(),
+            len(data.collect_schema()),
+        )
+    else:
+        return (
+            data.select(pl_len).collect().item(),
+            len(data.columns),
+        )
+
+
+def has_columns(
+    data: PolarsLazyOrDataFrame, names: Union[str, List[str]]
+) -> PolarsLazyOrDataFrame:
     """Check if a DataFrame has the specified
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : PolarsLazyOrDataFrame
         The DataFrame to check for column presence.
     names : Union[str, List[str]]
         The names of the columns to check.
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -238,19 +268,34 @@ def has_columns(data: pl.DataFrame, names: Union[str, List[str]]) -> pl.DataFram
     if isinstance(names, str):
         # Because set(str) explodes the string
         names = [names]
-    mising_columns = set(names) - set(data.columns)
+    column_names_set = (
+        _get_lazyframe_columns(data)
+        if isinstance(data, pl.LazyFrame)
+        else set(data.columns)
+    )
+    mising_columns = set(names) - column_names_set
     if mising_columns:
         raise PolarsAssertError
     return data
 
 
-def has_dtypes(data: pl.DataFrame, items: Dict[str, PolarsDataType]) -> pl.DataFrame:
+def _get_lazyframe_columns(data: pl.LazyFrame) -> Set[str]:
+    if _has_sufficient_polars_version("1.0.0"):
+        return set(data.collect_schema().names())
+    else:
+        return set(data.columns)
+
+
+def has_dtypes(
+    data: PolarsLazyOrDataFrame,
+    items: Dict[str, PolarsDataType],  # type: ignore
+) -> PolarsLazyOrDataFrame:
     """Check that the columns have the expected types
 
     Parameters
     ----------
-    data : pl.DataFrame
-        To check
+    data : PolarsLazyOrDataFrame
+        Polars DataFrame or LazyFrame containing data to check.
     items : Dict[str, PolarsDataType]
         A dictionnary of column name with their expected polars data type:
         ```
@@ -263,8 +308,8 @@ def has_dtypes(data: pl.DataFrame, items: Dict[str, PolarsDataType]) -> pl.DataF
         ```
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -303,36 +348,48 @@ def has_dtypes(data: pl.DataFrame, items: Dict[str, PolarsDataType]) -> pl.DataF
     column='age', expected_type=String, real_dtype=Int64
     column='city', expected_type=Int64, real_dtype=String
     """
-    missing_columns = set(items.keys()) - set(data.columns)
+
+    schema = _get_frame_schema(data)
+
+    missing_columns = set(items.keys()) - set(schema.keys())
     if missing_columns:
         message = f"Dtype check, some expected columns are missing:{missing_columns}"
         raise PolarsAssertError(supp_message=message)
 
-    bad_column_type_requirement = set(items.items()) - set(data.schema.items())
+    bad_column_type_requirement = set(items.items()) - set(schema.items())
     if bad_column_type_requirement:
-        message = utils.compare_schema(data.schema, items)
+        message = utils.compare_schema(schema, items)
         message = f"Some columns don't have the expected type:\n{message}"
         raise PolarsAssertError(supp_message=message)
     return data
 
 
+def _get_frame_schema(data: PolarsLazyOrDataFrame):
+    if isinstance(data, pl.DataFrame):
+        return data.schema
+    if _has_sufficient_polars_version("1.0.0"):
+        return data.collect_schema()
+
+    return data.schema
+
+
 def has_no_nulls(
-    data: pl.DataFrame,
+    data: PolarsLazyOrDataFrame,
     columns: Optional[PolarsColumnType] = None,
-) -> pl.DataFrame:
+) -> PolarsLazyOrDataFrame:
     """Check if a DataFrame has any null (missing) values.
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : PolarsLazyOrDataFrame
         The input DataFrame to check for null values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -382,6 +439,9 @@ def has_no_nulls(
             .filter(pl.col("null_count") > 0)
         )
     )
+    if isinstance(null_count, pl.LazyFrame):
+        null_count = null_count.collect()
+
     if not null_count.is_empty():
         raise PolarsAssertError(
             null_count, "There were unexpected nulls in the columns above"
@@ -402,22 +462,22 @@ def _sanitize_column_inputs(
 
 
 def has_no_infs(
-    data: pl.DataFrame,
+    data: PolarsLazyOrDataFrame,
     columns: Optional[PolarsColumnType] = None,
-) -> pl.DataFrame:
+) -> PolarsLazyOrDataFrame:
     """Check if a DataFrame has any infinite (inf) values.
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : PolarsLazyOrDataFrame
         The input DataFrame to check for null values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -457,15 +517,19 @@ def has_no_infs(
     """
     selected_columns = _sanitize_column_inputs(columns)
     inf_values = data.filter(pl.any_horizontal(selected_columns.is_infinite()))
+
+    if isinstance(inf_values, pl.LazyFrame):
+        inf_values = inf_values.collect()
+
     if not inf_values.is_empty():
         raise PolarsAssertError(inf_values)
     return data
 
 
 def unique(
-    data: pl.DataFrame,
+    data: PolarsLazyOrDataFrame,
     columns: Optional[PolarsColumnType] = None,
-) -> pl.DataFrame:
+) -> PolarsLazyOrDataFrame:
     """Check if there are no duplicated values in each one of the selected columns.
 
     This is a column oriented check, for a row oriented check see
@@ -473,15 +537,15 @@ def unique(
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : PolarsLazyOrDataFrame
         The input DataFrame to check for unique values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for uniqueness check. By default, all columns are checked.
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -518,6 +582,10 @@ def unique(
     """
     selected_cols = _sanitize_column_inputs(columns)
     improper_data = data.filter(pl.any_horizontal(selected_cols.is_duplicated()))
+
+    if isinstance(improper_data, pl.LazyFrame):
+        improper_data = improper_data.collect()
+
     if not improper_data.is_empty():
         raise PolarsAssertError(
             df=improper_data,
@@ -527,9 +595,9 @@ def unique(
 
 
 def _safe_group_by_length(
-    data: pl.DataFrame,
+    data: PolarsLazyOrDataFrame,
     group_by: PolarsOverClauseInput,
-) -> pl.DataFrame:
+) -> PolarsLazyOrDataFrame:
     if _has_sufficient_polars_version():
         return data.group_by(group_by).len()
     else:
@@ -537,9 +605,9 @@ def _safe_group_by_length(
 
 
 def unique_combination_of_columns(
-    data: pl.DataFrame,
+    data: PolarsLazyOrDataFrame,
     columns: Optional[PolarsColumnType] = None,
-) -> pl.DataFrame:
+) -> PolarsLazyOrDataFrame:
     """Ensure that the selected column have a unique combination per row.
 
     This function is particularly helpful to establish the granularity of a dataframe,
@@ -547,15 +615,15 @@ def unique_combination_of_columns(
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : PolarsLazyOrDataFrame
         _description_
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for row unicity. By default, all columns are checked.
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -593,6 +661,9 @@ def unique_combination_of_columns(
     non_unique_combinations = _safe_group_by_length(data, cols).filter(
         pl.col("len") > 1
     )
+    if isinstance(non_unique_combinations, pl.LazyFrame):
+        non_unique_combinations = non_unique_combinations.collect()
+
     if not non_unique_combinations.is_empty():
         raise PolarsAssertError(
             non_unique_combinations,
@@ -602,15 +673,15 @@ def unique_combination_of_columns(
 
 
 def not_constant(
-    data: pl.DataFrame,
+    data: PolarsLazyOrDataFrame,
     columns: Optional[PolarsColumnType] = None,
     group_by: Optional[Union[str, List[str]]] = None,
-) -> pl.DataFrame:
+) -> PolarsLazyOrDataFrame:
     """Check if a DataFrame has constant columns.
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : PolarsLazyOrDataFrame
         The input DataFrame to check for null values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for null value check. By default, all columns are checked.
@@ -620,8 +691,8 @@ def not_constant(
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -725,6 +796,9 @@ def not_constant(
                 .filter(pl.col("n_distinct") == 1)
             )
 
+    if isinstance(constant_columns, pl.LazyFrame):
+        constant_columns = constant_columns.collect()
+
     if not constant_columns.is_empty():
         group_message = " within a given group" if group_by is not None else ""
         raise PolarsAssertError(
@@ -735,12 +809,14 @@ def not_constant(
     return data
 
 
-def accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFrame:
+def accepted_values(
+    data: PolarsLazyOrDataFrame, items: Dict[str, List]
+) -> PolarsLazyOrDataFrame:
     """Raises error if columns contains values not specified in `items`
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : PolarsLazyOrDataFrame
     items : Dict[str, List]
         A dictionnary where keys are a string compatible with a pl.Expr, to be used with
         pl.col(). The value for each key is a List of all authorized values in the
@@ -748,8 +824,8 @@ def accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFrame:
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -791,6 +867,9 @@ def accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFrame:
     ]
     improper_data = data.filter(pl.Expr.or_(*mask_for_improper_values))
 
+    if isinstance(improper_data, pl.LazyFrame):
+        improper_data = improper_data.collect()
+
     if not improper_data.is_empty():
         bad_column_names = [
             col.name
@@ -805,12 +884,14 @@ def accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFrame:
     return data
 
 
-def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFrame:
+def not_accepted_values(
+    data: PolarsLazyOrDataFrame, items: Dict[str, List]
+) -> PolarsLazyOrDataFrame:
     """Raises error if columns contains values specified in List of forbbiden `items`
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : PolarsLazyOrDataFrame
     items : Dict[str, List]
         A dictionnary where keys are a string compatible with a pl.Expr, to be used with
         pl.col(). The value for each key is a List of all forbidden values in the
@@ -818,8 +899,8 @@ def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFr
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -857,34 +938,38 @@ def not_accepted_values(data: pl.DataFrame, items: Dict[str, List]) -> pl.DataFr
     Error with the DataFrame passed to the check function:
     -->This DataFrame contains values marked as forbidden
     """
-    mask_for_improper_values = [
+    mask_for_forbidden_values = [
         pl.col(col).is_in(values) for col, values in items.items()
     ]
-    improper_data = data.filter(pl.Expr.or_(*mask_for_improper_values))
-    if not improper_data.is_empty():
+    forbidden_values = data.filter(pl.Expr.or_(*mask_for_forbidden_values))
+
+    if isinstance(forbidden_values, pl.LazyFrame):
+        forbidden_values = forbidden_values.collect()
+
+    if not forbidden_values.is_empty():
         bad_column_names = [
             col.name
-            for col in improper_data.select(mask_for_improper_values)
+            for col in forbidden_values.select(mask_for_forbidden_values)
             if col.any()
         ]
         raise PolarsAssertError(
-            improper_data.select(bad_column_names),
+            forbidden_values.select(bad_column_names),
             "This DataFrame contains values marked as forbidden",
         )
     return data
 
 
 def has_mandatory_values(
-    data: pl.DataFrame,
+    data: PolarsLazyOrDataFrame,
     items: Dict[str, list],
     group_by: Optional[PolarsOverClauseInput] = None,
-) -> pl.DataFrame:
+) -> PolarsLazyOrDataFrame:
     """Ensure that all specified values are present in their respective column.
 
     Parameters
     ----------
-    data : pl.DataFrame
-        To check
+    data :  PolarsLazyOrDataFrame
+        Polars DataFrame or LazyFrame containing data to check.
     items : Dict[str, list]
         A dictionnary where the keys are the columns names and the values are lists that
         contains all the required values for a given column.
@@ -894,8 +979,8 @@ def has_mandatory_values(
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+     PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -960,6 +1045,9 @@ def has_mandatory_values(
             .pipe(compare_sets_per_column, items)
         )
 
+        if isinstance(groups_missing_mandatory, pl.LazyFrame):
+            groups_missing_mandatory = groups_missing_mandatory.collect()
+
         if len(groups_missing_mandatory) > 0:
             raise PolarsAssertError(
                 df=groups_missing_mandatory,
@@ -968,13 +1056,10 @@ def has_mandatory_values(
         return data
 
     selected_data = data.select(pl.col(items.keys())).unique()
-    missing = {}
-    for key in items:
-        required_values = set(items[key])
-        present_values = set(selected_data.get_column(key))
-        should_be_present = required_values - present_values
-        if should_be_present:
-            missing[key] = sorted(should_be_present)
+    if isinstance(selected_data, pl.LazyFrame):
+        selected_data = selected_data.collect()
+
+    missing = _format_missing_elements(selected_data, items)
 
     if missing:
         raise PolarsAssertError(
@@ -983,7 +1068,20 @@ def has_mandatory_values(
     return data
 
 
-def compare_sets_per_column(data: pl.DataFrame, items: dict) -> pl.DataFrame:
+def _format_missing_elements(selected_data: pl.DataFrame, items: Dict):
+    missing = {}
+    for key in items:
+        required_values = set(items[key])
+        present_values = set(selected_data.get_column(key))
+        should_be_present = required_values - present_values
+        if should_be_present:
+            missing[key] = sorted(should_be_present)
+    return missing
+
+
+def compare_sets_per_column(
+    data: PolarsLazyOrDataFrame, items: dict
+) -> PolarsLazyOrDataFrame:
     if _has_sufficient_polars_version():
         expected_sets = {f"{k}_expected_set": pl.lit(v) for k, v in items.items()}
     else:
@@ -1001,17 +1099,17 @@ def compare_sets_per_column(data: pl.DataFrame, items: dict) -> pl.DataFrame:
 
 
 def not_null_proportion(
-    data: pl.DataFrame,
+    data: PolarsLazyOrDataFrame,
     items: Dict[str, Union[float, Tuple[float, float]]],
     group_by: Optional[PolarsOverClauseInput] = None,
-) -> pl.DataFrame:
+) -> PolarsLazyOrDataFrame:
     """Checks that the proportion of non-null values in a column is within a
     a specified range [at_least, at_most] where at_most is an optional argument
     (default: 1.0).
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : PolarsLazyOrDataFrame
         _description_
     items : Dict[str, float  |  Tuple[float, float]]
         Ranges for the proportion of not null values for selected columns.
@@ -1034,8 +1132,8 @@ def not_null_proportion(
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -1111,43 +1209,40 @@ def not_null_proportion(
 
     pl_ranges = _format_ranges_by_columns(items)
 
+    # Trick with to have the same implementation between group_by and direct version
+    # Also simplifies LazyFrame logic which does not have the len() except in group_by
     if group_by is None:
-        if _has_sufficient_polars_version("1.0.0"):
-            null_proportions = (
-                (data.null_count() / len(data))
-                .unpivot(variable_name="column", value_name="null_proportion")
-                .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
-            )
-        else:
-            null_proportions = (
-                (data.null_count() / len(data))
-                .melt(variable_name="column", value_name="null_proportion")
-                .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
-            )
+        formatted_data = data.with_columns(constant__=0)
+        group_by = "constant__"
     else:
-        pl_len = pl.len() if _has_sufficient_polars_version("0.20.0") else pl.count()
-        if _has_sufficient_polars_version("1.0.0"):
-            null_proportions = (
-                data.group_by(group_by)
-                .agg(pl.all().null_count() / pl_len)
-                .unpivot(
-                    index=group_by,  # type: ignore
-                    variable_name="column",
-                    value_name="null_proportion",
-                )
-                .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+        formatted_data = data
+
+    pl_len = pl.len() if _has_sufficient_polars_version("0.20.0") else pl.count()
+    if _has_sufficient_polars_version("1.0.0"):
+        null_proportions = (
+            formatted_data.group_by(group_by)
+            .agg(pl.all().null_count() / pl_len)
+            .unpivot(
+                index=group_by,  # type: ignore
+                variable_name="column",
+                value_name="null_proportion",
             )
-        else:
-            null_proportions = (
-                data.group_by(group_by)
-                .agg(pl.all().null_count() / pl_len)
-                .melt(
-                    id_vars=group_by,  # type: ignore
-                    variable_name="column",
-                    value_name="null_proportion",
-                )
-                .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+            .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+        )
+    else:
+        null_proportions = (
+            formatted_data.group_by(group_by)
+            .agg(pl.all().null_count() / pl_len)
+            .melt(
+                id_vars=group_by,  # type: ignore
+                variable_name="column",
+                value_name="null_proportion",
             )
+            .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+        )
+
+    if isinstance(null_proportions, pl.LazyFrame):
+        null_proportions = null_proportions.collect()
 
     out_of_range_null_proportions = (
         null_proportions.join(pl_ranges, on="column", how="inner")
@@ -1179,16 +1274,16 @@ def _format_ranges_by_columns(
 
 
 def at_least_one(
-    data: pl.DataFrame,
+    data: PolarsLazyOrDataFrame,
     columns: Optional[PolarsColumnType] = None,
     group_by: Optional[PolarsOverClauseInput] = None,
-) -> pl.DataFrame:
+) -> PolarsLazyOrDataFrame:
     """Ensure that there is at least one not null value in the designated columns.
 
     Parameters
     ----------
-    data : pl.DataFrame
-        To check
+    data : PolarsLazyOrDataFrame
+        Polars DataFrame or LazyFrame containing data to check.
     columns : Optional[PolarsColumnType], optional
         Columns to consider to check the presence of at least one value.
         By default, all columns are checked.
@@ -1198,8 +1293,8 @@ def at_least_one(
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -1262,9 +1357,9 @@ def at_least_one(
 
     selected_columns = _sanitize_column_inputs(columns)
 
-    if group_by is not None:
-        pl_len = pl.len() if _has_sufficient_polars_version() else pl.count()
+    pl_len = pl.len() if _has_sufficient_polars_version() else pl.count()
 
+    if group_by is not None:
         if _has_sufficient_polars_version("1.0.0"):
             only_nulls_per_group = (
                 data.group_by(group_by)
@@ -1288,6 +1383,9 @@ def at_least_one(
                 .filter(pl.col("at_least_one").not_())
             )
 
+        if isinstance(only_nulls_per_group, pl.LazyFrame):
+            only_nulls_per_group = only_nulls_per_group.collect()
+
         if len(only_nulls_per_group) > 0:
             raise PolarsAssertError(
                 df=only_nulls_per_group,
@@ -1295,7 +1393,17 @@ def at_least_one(
             )
         return data
 
-    are_column_nulls = data.select(selected_columns).null_count() == len(data)
+    # Implementation that work for both Dataframe and Lazyframe
+    are_column_nulls = (
+        data.select(selected_columns)
+        .with_columns(constant__=1)
+        .group_by("constant__")
+        .agg(pl.all().null_count() == pl_len)
+        .drop("constant__")
+    )
+
+    if isinstance(are_column_nulls, pl.LazyFrame):
+        are_column_nulls = are_column_nulls.collect()
 
     null_columns = [col.name for col in are_column_nulls if col.all()]
 
@@ -1307,14 +1415,14 @@ def at_least_one(
 
 
 def accepted_range(
-    data: pl.DataFrame, items: Dict[str, PolarsColumnBounds]
-) -> pl.DataFrame:
+    data: PolarsLazyOrDataFrame, items: Dict[str, PolarsColumnBounds]
+) -> PolarsLazyOrDataFrame:
     """Check that all the values from specifed columns in the dict `items` are within
         the indicated range.
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : PolarsLazyOrDataFrame
     items : Dict[str, PolarsColumnBounds]
         Any type of inputs that match the following signature:
         `column_name: (boundaries)` where boundaries is compatible with the Polars
@@ -1331,8 +1439,8 @@ def accepted_range(
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -1390,9 +1498,14 @@ def accepted_range(
         k: (v if len(v) == 3 else (*v, "both")) for k, v in items.items()
     }
     forbidden_ranges = [
-        pl.col(k).is_between(*v).not_() for k, v in closed_boundaries.items()
+        pl.col(k).is_between(*v).not_()  # type: ignore
+        for k, v in closed_boundaries.items()
     ]
     out_of_range = data.filter(pl.Expr.or_(*forbidden_ranges))
+
+    if isinstance(out_of_range, pl.LazyFrame):
+        out_of_range = out_of_range.collect()
+
     if not out_of_range.is_empty():
         raise PolarsAssertError(
             out_of_range, "Some values are beyond the acceptable ranges defined"
@@ -1401,24 +1514,26 @@ def accepted_range(
 
 
 def maintains_relationships(
-    data: pl.DataFrame, other_df: pl.DataFrame, column: str
-) -> pl.DataFrame:
+    data: PolarsLazyOrDataFrame,
+    other_df: Union[pl.DataFrame, pl.LazyFrame],
+    column: str,
+) -> PolarsLazyOrDataFrame:
     """Function to help ensuring that set of values in selected column remains  the
         same in both DataFrames. This helps to maintain referential integrity.
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : PolarsLazyOrDataFrame
         Dataframe after transformation
-    other_df : pl.DataFrame
+    other_df : Union[pl.DataFrame, pl.LazyFrame]
         Distant dataframe usually the one before transformation
     column : str
         Column to check for keys/ids
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -1446,8 +1561,15 @@ def maintains_relationships(
     -->Some values were removed from col 'a', for ex: ('b',)
     """
 
-    local_keys = set(data.get_column(column))
-    other_keys = set(other_df.get_column(column))
+    if isinstance(data, pl.LazyFrame):
+        local_keys = set(data.select(column).collect().get_column(column))
+    else:
+        local_keys = set(data.get_column(column))
+
+    if isinstance(other_df, pl.LazyFrame):
+        other_keys = set(other_df.select(column).collect().get_column(column))
+    else:
+        other_keys = set(other_df.get_column(column))
 
     if local_keys != other_keys:
         if local_keys > other_keys:
@@ -1463,19 +1585,19 @@ def maintains_relationships(
 
 
 def is_monotonic(
-    data: pl.DataFrame,
+    data: PolarsLazyOrDataFrame,
     column: str,
     decreasing: bool = False,
     strict: bool = True,
     interval: Optional[Union[int, float, str]] = None,
     group_by: Optional[PolarsOverClauseInput] = None,
-) -> pl.DataFrame:
+) -> PolarsLazyOrDataFrame:
     """Verify that values in a column are consecutively increasing or decreasing.
 
     Parameters
     ----------
-    data : pl.DataFrame
-        To check
+    data : PolarsLazyOrDataFrame
+        Polars DataFrame or LazyFrame containing data to check.
     column : str
         Name of the column that should be monotonic.
     decreasing : bool, optional
@@ -1516,8 +1638,8 @@ def is_monotonic(
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
 
     Examples
@@ -1584,16 +1706,20 @@ def is_monotonic(
     )
 
     # Cast necessary for dates and datetimes
-    diff_column = data.select(select_diff_expression).get_column(column)
+    if isinstance(data, pl.DataFrame):
+        diff_column = data.select(select_diff_expression).get_column(column)
+    else:
+        diff_column = data.select(select_diff_expression).collect().get_column(column)
+
     diff_column_sign = diff_column.cast(int)
 
     if not decreasing and not strict:
         comparisons = (diff_column_sign >= 0).all()
-    if not decreasing and strict:
+    elif not decreasing and strict:
         comparisons = (diff_column_sign > 0).all()
-    if decreasing and not strict:
+    elif decreasing and not strict:
         comparisons = (diff_column_sign <= 0).all()
-    if decreasing and strict:
+    else:
         comparisons = (diff_column_sign < 0).all()
 
     if not comparisons:
@@ -1624,7 +1750,9 @@ def is_monotonic(
     return data
 
 
-def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
+def custom_check(
+    data: PolarsLazyOrDataFrame, expresion: pl.Expr
+) -> PolarsLazyOrDataFrame:
     """Use custom Polars expression to check the DataFrame, based on `.filter()`.
 
     The expression when used through the dataframe method `.filter()` should return an
@@ -1637,8 +1765,8 @@ def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
 
     Parameters
     ----------
-    data : pl.DataFrame
-        To check
+    data : PolarsLazyOrDataFrame
+        Polars DataFrame or LazyFrame containing data to check.
     expresion : pl.Expr
         Polar Expression that can be passed to the `.filter()` method. As describe
         above, use an expression that should keep forbidden values when passed to the
@@ -1646,8 +1774,8 @@ def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes.
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes.
 
     Examples
     --------
@@ -1681,27 +1809,31 @@ def custom_check(data: pl.DataFrame, expresion: pl.Expr) -> pl.DataFrame:
     Error with the DataFrame passed to the check function:
     -->Unexpected data in `Custom Check`: [(col("a")) != (3)]
     """
-    bad_data = data.filter(expresion.not_())
+    columns_in_expression = set(expresion.meta.root_names())
+    bad_data = data.select(columns_in_expression).filter(expresion.not_())
+
+    if isinstance(bad_data, pl.LazyFrame):
+        bad_data = bad_data.collect()
+
     if not bad_data.is_empty():
-        columns_in_expression = set(expresion.meta.root_names())
         raise PolarsAssertError(
-            df=bad_data.select(columns_in_expression),
+            df=bad_data,
             supp_message=f"Unexpected data in `Custom Check`: {str(expresion)}",
         )
     return data
 
 
 def mutually_exclusive_ranges(
-    data: pl.DataFrame,
+    data: PolarsLazyOrDataFrame,
     low_bound: str,
     high_bound: str,
     group_by: Optional[PolarsOverClauseInput] = None,
-) -> pl.DataFrame:
+) -> PolarsLazyOrDataFrame:
     """Ensure that the specified columns contains no overlapping intervals.
 
     Parameters
     ----------
-    data : pl.DataFrame
+    data : PolarsLazyOrDataFrame
         Data to check
     low_bound : str
         Name of column containing the lower bound of the interval
@@ -1714,8 +1846,8 @@ def mutually_exclusive_ranges(
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -1788,6 +1920,9 @@ def mutually_exclusive_ranges(
         )
     )
 
+    if isinstance(overlapping_ranges, pl.LazyFrame):
+        overlapping_ranges = overlapping_ranges.collect()
+
     if len(overlapping_ranges) > 0:
         message = (
             "There were overlapping intervals:\n"
@@ -1801,7 +1936,7 @@ def mutually_exclusive_ranges(
     return data
 
 
-def _add_row_index(data: pl.DataFrame) -> pl.DataFrame:
+def _add_row_index(data: PolarsLazyOrDataFrame) -> PolarsLazyOrDataFrame:
     if _has_sufficient_polars_version():
         return data.with_row_index()
     else:
@@ -1809,25 +1944,25 @@ def _add_row_index(data: pl.DataFrame) -> pl.DataFrame:
 
 
 def column_is_within_n_std(
-    data: pl.DataFrame,
+    data: PolarsLazyOrDataFrame,
     items: Tuple[PolarsColumnType, int],
     *args: Tuple[PolarsColumnType, int],
-) -> pl.DataFrame:
+) -> PolarsLazyOrDataFrame:
     """Function asserting values are within a given STD range, thus ensuring the absence
     of outliers.
 
     Parameters
     ----------
-    data : pl.DataFrame
-        To check.
+    data : PolarsLazyOrDataFrame
+        Polars DataFrame or LazyFrame containing data to check.
     items : Tuple[PolarsColumnType, int]
         A column name / column type with the number of STD authorized for the values
         within. Must be of the following form: `(col_name, n_std)`
 
     Returns
     -------
-    pl.DataFrame
-        The original polars DataFrame when the check passes
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
 
     Examples
     --------
@@ -1890,12 +2025,14 @@ def column_is_within_n_std(
         for col, n_std in pairs_to_check
     ]
 
-    outliers = data.filter(pl.Expr.or_(*columns_not_within_stds))
-    if len(outliers) > 0:
-        bad_column_names = [
-            col.name for col in data.select(columns_not_within_stds) if col.any()
-        ]
+    outliers = data.select(pl.Expr.or_(*columns_not_within_stds))
 
+    if isinstance(outliers, pl.LazyFrame):
+        outliers = outliers.collect()
+
+    bad_column_names = [col.name for col in outliers if col.any()]
+
+    if bad_column_names:
         raise PolarsAssertError(
             df=outliers.select(bad_column_names),
             supp_message=(
