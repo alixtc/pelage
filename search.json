@@ -1,0 +1,1032 @@
+[
+  {
+    "objectID": "reference/has_no_infs.html",
+    "href": "reference/has_no_infs.html",
+    "title": "has_no_infs",
+    "section": "",
+    "text": "checks.has_no_infs(data, columns=None)\nCheck if a DataFrame has any infinite (inf) values.\n\n\n\ndata: PolarsLazyOrDataFrame\n\nThe input DataFrame to check for null values.\n\ncolumns: Optional[PolarsColumnType] = None\n\nColumns to consider for null value check. By default, all columns are checked.\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame(\n...     {\n...         \"a\": [1, 2],\n...         \"b\": [1.0, float(\"inf\")],\n...     }\n... )\n&gt;&gt;&gt; plg.has_no_infs(df)\nTraceback (most recent call last):\n  ...\npelage.checks.PolarsAssertError: Details\nshape: (1, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ f64 │\n╞═════╪═════╡\n│ 2   ┆ inf │\n└─────┴─────┘\nError with the DataFrame passed to the check function:\n--&gt;\n&gt;&gt;&gt; plg.has_no_infs(df, [\"a\"])  # or  plg.has_no_infs(df, \"a\")\nshape: (2, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ f64 │\n╞═════╪═════╡\n│ 1   ┆ 1.0 │\n│ 2   ┆ inf │\n└─────┴─────┘",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_no_infs"
+    ]
+  },
+  {
+    "objectID": "reference/has_no_infs.html#parameters",
+    "href": "reference/has_no_infs.html#parameters",
+    "title": "has_no_infs",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\nThe input DataFrame to check for null values.\n\ncolumns: Optional[PolarsColumnType] = None\n\nColumns to consider for null value check. By default, all columns are checked.",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_no_infs"
+    ]
+  },
+  {
+    "objectID": "reference/has_no_infs.html#returns",
+    "href": "reference/has_no_infs.html#returns",
+    "title": "has_no_infs",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_no_infs"
+    ]
+  },
+  {
+    "objectID": "reference/has_no_infs.html#examples",
+    "href": "reference/has_no_infs.html#examples",
+    "title": "has_no_infs",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame(\n...     {\n...         \"a\": [1, 2],\n...         \"b\": [1.0, float(\"inf\")],\n...     }\n... )\n&gt;&gt;&gt; plg.has_no_infs(df)\nTraceback (most recent call last):\n  ...\npelage.checks.PolarsAssertError: Details\nshape: (1, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ f64 │\n╞═════╪═════╡\n│ 2   ┆ inf │\n└─────┴─────┘\nError with the DataFrame passed to the check function:\n--&gt;\n&gt;&gt;&gt; plg.has_no_infs(df, [\"a\"])  # or  plg.has_no_infs(df, \"a\")\nshape: (2, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ f64 │\n╞═════╪═════╡\n│ 1   ┆ 1.0 │\n│ 2   ┆ inf │\n└─────┴─────┘",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_no_infs"
+    ]
+  },
+  {
+    "objectID": "reference/not_constant.html",
+    "href": "reference/not_constant.html",
+    "title": "not_constant",
+    "section": "",
+    "text": "checks.not_constant(data, columns=None, group_by=None)\nCheck if a DataFrame has constant columns.\n\n\n\ndata: PolarsLazyOrDataFrame\n\nThe input DataFrame to check for null values.\n\ncolumns: Optional[PolarsColumnType] = None\n\nColumns to consider for null value check. By default, all columns are checked.\n\ngroup_by: Optional[PolarsOverClauseInput] = None\n\nWhen specified perform the check per group instead of the whole column, by default None\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2]})\n&gt;&gt;&gt; df.pipe(plg.not_constant, \"a\")\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n└─────┘\n&gt;&gt;&gt; df = pl.DataFrame({\"b\": [1, 1]})\n&gt;&gt;&gt; df.pipe(plg.not_constant)\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 2)\n┌────────┬────────────┐\n│ column ┆ n_distinct │\n│ ---    ┆ ---        │\n│ str    ┆ u32        │\n╞════════╪════════════╡\n│ b      ┆ 1          │\n└────────┴────────────┘\nError with the DataFrame passed to the check function:\n--&gt;Some columns are constant\nThe folloing example details how to perform this checks for groups:\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame(\n...     {\n...         \"a\": [1, 2, 1, 1],\n...         \"b\": [\"A\", \"A\", \"B\", \"B\"],\n...     }\n... )\n&gt;&gt;&gt; df.pipe(plg.not_constant, \"a\")\nshape: (4, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ A   │\n│ 2   ┆ A   │\n│ 1   ┆ B   │\n│ 1   ┆ B   │\n└─────┴─────┘\n&gt;&gt;&gt; df.pipe(plg.not_constant, \"a\", group_by=\"b\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 3)\n┌─────┬────────┬────────────┐\n│ b   ┆ column ┆ n_distinct │\n│ --- ┆ ---    ┆ ---        │\n│ str ┆ str    ┆ u32        │\n╞═════╪════════╪════════════╡\n│ B   ┆ a      ┆ 1          │\n└─────┴────────┴────────────┘\nError with the DataFrame passed to the check function:\n--&gt;Some columns are constant within a given group",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "not_constant"
+    ]
+  },
+  {
+    "objectID": "reference/not_constant.html#parameters",
+    "href": "reference/not_constant.html#parameters",
+    "title": "not_constant",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\nThe input DataFrame to check for null values.\n\ncolumns: Optional[PolarsColumnType] = None\n\nColumns to consider for null value check. By default, all columns are checked.\n\ngroup_by: Optional[PolarsOverClauseInput] = None\n\nWhen specified perform the check per group instead of the whole column, by default None",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "not_constant"
+    ]
+  },
+  {
+    "objectID": "reference/not_constant.html#returns",
+    "href": "reference/not_constant.html#returns",
+    "title": "not_constant",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "not_constant"
+    ]
+  },
+  {
+    "objectID": "reference/not_constant.html#examples",
+    "href": "reference/not_constant.html#examples",
+    "title": "not_constant",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2]})\n&gt;&gt;&gt; df.pipe(plg.not_constant, \"a\")\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n└─────┘\n&gt;&gt;&gt; df = pl.DataFrame({\"b\": [1, 1]})\n&gt;&gt;&gt; df.pipe(plg.not_constant)\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 2)\n┌────────┬────────────┐\n│ column ┆ n_distinct │\n│ ---    ┆ ---        │\n│ str    ┆ u32        │\n╞════════╪════════════╡\n│ b      ┆ 1          │\n└────────┴────────────┘\nError with the DataFrame passed to the check function:\n--&gt;Some columns are constant\nThe folloing example details how to perform this checks for groups:\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame(\n...     {\n...         \"a\": [1, 2, 1, 1],\n...         \"b\": [\"A\", \"A\", \"B\", \"B\"],\n...     }\n... )\n&gt;&gt;&gt; df.pipe(plg.not_constant, \"a\")\nshape: (4, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ A   │\n│ 2   ┆ A   │\n│ 1   ┆ B   │\n│ 1   ┆ B   │\n└─────┴─────┘\n&gt;&gt;&gt; df.pipe(plg.not_constant, \"a\", group_by=\"b\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 3)\n┌─────┬────────┬────────────┐\n│ b   ┆ column ┆ n_distinct │\n│ --- ┆ ---    ┆ ---        │\n│ str ┆ str    ┆ u32        │\n╞═════╪════════╪════════════╡\n│ B   ┆ a      ┆ 1          │\n└─────┴────────┴────────────┘\nError with the DataFrame passed to the check function:\n--&gt;Some columns are constant within a given group",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "not_constant"
+    ]
+  },
+  {
+    "objectID": "reference/accepted_range.html",
+    "href": "reference/accepted_range.html",
+    "title": "accepted_range",
+    "section": "",
+    "text": "checks.accepted_range(data, items)\nCheck that all the values from specifed columns in the dict items are within the indicated range.\n\n\n\ndata: PolarsLazyOrDataFrame\n\n\n\nitems: Dict[str, PolarsColumnBounds]\n\nAny type of inputs that match the following signature: column_name: (boundaries) where boundaries is compatible with the Polars method is_between() syntax.\nFor example:\n{\n\"col_a\": (low, high),\n\"col_b\", (low_b, high_b, \"right\"),\n\"col_c\", (low_c, high_c, \"none\"),\n}\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2, 3]})\n&gt;&gt;&gt; df.pipe(plg.accepted_range, {\"a\": (0, 2)})\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 3   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;Some values are beyond the acceptable ranges defined\n&gt;&gt;&gt; df.pipe(plg.accepted_range, {\"a\": (1, 3)})\nshape: (3, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n│ 3   │\n└─────┘\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [\"b\", \"c\"]})\n&gt;&gt;&gt; df.pipe(plg.accepted_range, {\"a\": (pl.lit(\"a\"), pl.lit(\"d\"), \"right\")})\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ str │\n╞═════╡\n│ b   │\n│ c   │\n└─────┘\n&gt;&gt;&gt; df.pipe(plg.accepted_range, {\"a\": (pl.lit(\"a\"), pl.lit(\"d\"), \"left\")})\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ str │\n╞═════╡\n│ b   │\n│ c   │\n└─────┘",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "accepted_range"
+    ]
+  },
+  {
+    "objectID": "reference/accepted_range.html#parameters",
+    "href": "reference/accepted_range.html#parameters",
+    "title": "accepted_range",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\n\n\nitems: Dict[str, PolarsColumnBounds]\n\nAny type of inputs that match the following signature: column_name: (boundaries) where boundaries is compatible with the Polars method is_between() syntax.\nFor example:\n{\n\"col_a\": (low, high),\n\"col_b\", (low_b, high_b, \"right\"),\n\"col_c\", (low_c, high_c, \"none\"),\n}",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "accepted_range"
+    ]
+  },
+  {
+    "objectID": "reference/accepted_range.html#returns",
+    "href": "reference/accepted_range.html#returns",
+    "title": "accepted_range",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "accepted_range"
+    ]
+  },
+  {
+    "objectID": "reference/accepted_range.html#examples",
+    "href": "reference/accepted_range.html#examples",
+    "title": "accepted_range",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2, 3]})\n&gt;&gt;&gt; df.pipe(plg.accepted_range, {\"a\": (0, 2)})\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 3   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;Some values are beyond the acceptable ranges defined\n&gt;&gt;&gt; df.pipe(plg.accepted_range, {\"a\": (1, 3)})\nshape: (3, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n│ 3   │\n└─────┘\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [\"b\", \"c\"]})\n&gt;&gt;&gt; df.pipe(plg.accepted_range, {\"a\": (pl.lit(\"a\"), pl.lit(\"d\"), \"right\")})\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ str │\n╞═════╡\n│ b   │\n│ c   │\n└─────┘\n&gt;&gt;&gt; df.pipe(plg.accepted_range, {\"a\": (pl.lit(\"a\"), pl.lit(\"d\"), \"left\")})\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ str │\n╞═════╡\n│ b   │\n│ c   │\n└─────┘",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "accepted_range"
+    ]
+  },
+  {
+    "objectID": "reference/custom_check.html",
+    "href": "reference/custom_check.html",
+    "title": "custom_check",
+    "section": "",
+    "text": "checks.custom_check(data, expresion)\nUse custom Polars expression to check the DataFrame, based on .filter().\nThe expression when used through the dataframe method .filter() should return an empty dataframe. This expression should express the requierement for values that are not wanted in the dataframe. For instance, if a column should not contain the value 4, use the expression pl.col(\"column\") != 4.\nAnalog to dbt-utils fonction: expression_is_true\n\n\n\ndata: PolarsLazyOrDataFrame\n\nPolars DataFrame or LazyFrame containing data to check.\n\nexpresion: pl.Expr\n\nPolar Expression that can be passed to the .filter() method. As describe above, use an expression that should keep forbidden values when passed to the filter\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes.\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2, 3]})\n&gt;&gt;&gt; df.pipe(plg.custom_check, pl.col(\"a\") &lt; 4)\nshape: (3, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n│ 3   │\n└─────┘\n&gt;&gt;&gt; df.pipe(plg.custom_check, pl.col(\"a\") != 3)\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 3   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;Unexpected data in `Custom Check`: [(col(\"a\")) != (3)]",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "custom_check"
+    ]
+  },
+  {
+    "objectID": "reference/custom_check.html#parameters",
+    "href": "reference/custom_check.html#parameters",
+    "title": "custom_check",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\nPolars DataFrame or LazyFrame containing data to check.\n\nexpresion: pl.Expr\n\nPolar Expression that can be passed to the .filter() method. As describe above, use an expression that should keep forbidden values when passed to the filter",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "custom_check"
+    ]
+  },
+  {
+    "objectID": "reference/custom_check.html#returns",
+    "href": "reference/custom_check.html#returns",
+    "title": "custom_check",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes.",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "custom_check"
+    ]
+  },
+  {
+    "objectID": "reference/custom_check.html#examples",
+    "href": "reference/custom_check.html#examples",
+    "title": "custom_check",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2, 3]})\n&gt;&gt;&gt; df.pipe(plg.custom_check, pl.col(\"a\") &lt; 4)\nshape: (3, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n│ 3   │\n└─────┘\n&gt;&gt;&gt; df.pipe(plg.custom_check, pl.col(\"a\") != 3)\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 3   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;Unexpected data in `Custom Check`: [(col(\"a\")) != (3)]",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "custom_check"
+    ]
+  },
+  {
+    "objectID": "reference/unique_combination_of_columns.html",
+    "href": "reference/unique_combination_of_columns.html",
+    "title": "unique_combination_of_columns",
+    "section": "",
+    "text": "checks.unique_combination_of_columns(data, columns=None)\nEnsure that the selected column have a unique combination per row.\nThis function is particularly helpful to establish the granularity of a dataframe, i.e. this is a row oriented check.\n\n\n\ndata: PolarsLazyOrDataFrame\n\ndescription\n\ncolumns: Optional[PolarsColumnType] = None\n\nColumns to consider for row unicity. By default, all columns are checked.\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [\"a\", \"a\"], \"b\": [1, 2]})\n&gt;&gt;&gt; df.pipe(plg.unique_combination_of_columns, [\"a\", \"b\"])\nshape: (2, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ str ┆ i64 │\n╞═════╪═════╡\n│ a   ┆ 1   │\n│ a   ┆ 2   │\n└─────┴─────┘\n&gt;&gt;&gt; bad = pl.DataFrame({\"a\": [\"X\", \"X\"]})\n&gt;&gt;&gt; bad.pipe(plg.unique_combination_of_columns, \"a\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 2)\n┌─────┬─────┐\n│ a   ┆ len │\n│ --- ┆ --- │\n│ str ┆ u32 │\n╞═════╪═════╡\n│ X   ┆ 2   │\n└─────┴─────┘\nError with the DataFrame passed to the check function:\n--&gt;Some combinations of columns are not unique. See above, selected: col(\"a\")",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "unique_combination_of_columns"
+    ]
+  },
+  {
+    "objectID": "reference/unique_combination_of_columns.html#parameters",
+    "href": "reference/unique_combination_of_columns.html#parameters",
+    "title": "unique_combination_of_columns",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\ndescription\n\ncolumns: Optional[PolarsColumnType] = None\n\nColumns to consider for row unicity. By default, all columns are checked.",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "unique_combination_of_columns"
+    ]
+  },
+  {
+    "objectID": "reference/unique_combination_of_columns.html#returns",
+    "href": "reference/unique_combination_of_columns.html#returns",
+    "title": "unique_combination_of_columns",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "unique_combination_of_columns"
+    ]
+  },
+  {
+    "objectID": "reference/unique_combination_of_columns.html#examples",
+    "href": "reference/unique_combination_of_columns.html#examples",
+    "title": "unique_combination_of_columns",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [\"a\", \"a\"], \"b\": [1, 2]})\n&gt;&gt;&gt; df.pipe(plg.unique_combination_of_columns, [\"a\", \"b\"])\nshape: (2, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ str ┆ i64 │\n╞═════╪═════╡\n│ a   ┆ 1   │\n│ a   ┆ 2   │\n└─────┴─────┘\n&gt;&gt;&gt; bad = pl.DataFrame({\"a\": [\"X\", \"X\"]})\n&gt;&gt;&gt; bad.pipe(plg.unique_combination_of_columns, \"a\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 2)\n┌─────┬─────┐\n│ a   ┆ len │\n│ --- ┆ --- │\n│ str ┆ u32 │\n╞═════╪═════╡\n│ X   ┆ 2   │\n└─────┴─────┘\nError with the DataFrame passed to the check function:\n--&gt;Some combinations of columns are not unique. See above, selected: col(\"a\")",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "unique_combination_of_columns"
+    ]
+  },
+  {
+    "objectID": "reference/maintains_relationships.html",
+    "href": "reference/maintains_relationships.html",
+    "title": "maintains_relationships",
+    "section": "",
+    "text": "checks.maintains_relationships(data, other_df, column)\nFunction to help ensuring that set of values in selected column remains the same in both DataFrames. This helps to maintain referential integrity.\n\n\n\ndata: PolarsLazyOrDataFrame\n\nDataframe after transformation\n\nother_df: Union[pl.DataFrame, pl.LazyFrame]\n\nDistant dataframe usually the one before transformation\n\ncolumn: str\n\nColumn to check for keys/ids\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; initial_df = pl.DataFrame({\"a\": [\"a\", \"b\"]})\n&gt;&gt;&gt; final_df = pl.DataFrame({\"a\": [\"a\", \"b\"]})\n&gt;&gt;&gt; final_df.pipe(plg.maintains_relationships, initial_df, \"a\")\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ str │\n╞═════╡\n│ a   │\n│ b   │\n└─────┘\n&gt;&gt;&gt; final_df = pl.DataFrame({\"a\": [\"a\"]})\n&gt;&gt;&gt; final_df.pipe(plg.maintains_relationships, initial_df, \"a\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;Some values were removed from col 'a', for ex: ('b',)",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "maintains_relationships"
+    ]
+  },
+  {
+    "objectID": "reference/maintains_relationships.html#parameters",
+    "href": "reference/maintains_relationships.html#parameters",
+    "title": "maintains_relationships",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\nDataframe after transformation\n\nother_df: Union[pl.DataFrame, pl.LazyFrame]\n\nDistant dataframe usually the one before transformation\n\ncolumn: str\n\nColumn to check for keys/ids",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "maintains_relationships"
+    ]
+  },
+  {
+    "objectID": "reference/maintains_relationships.html#returns",
+    "href": "reference/maintains_relationships.html#returns",
+    "title": "maintains_relationships",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "maintains_relationships"
+    ]
+  },
+  {
+    "objectID": "reference/maintains_relationships.html#examples",
+    "href": "reference/maintains_relationships.html#examples",
+    "title": "maintains_relationships",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; initial_df = pl.DataFrame({\"a\": [\"a\", \"b\"]})\n&gt;&gt;&gt; final_df = pl.DataFrame({\"a\": [\"a\", \"b\"]})\n&gt;&gt;&gt; final_df.pipe(plg.maintains_relationships, initial_df, \"a\")\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ str │\n╞═════╡\n│ a   │\n│ b   │\n└─────┘\n&gt;&gt;&gt; final_df = pl.DataFrame({\"a\": [\"a\"]})\n&gt;&gt;&gt; final_df.pipe(plg.maintains_relationships, initial_df, \"a\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;Some values were removed from col 'a', for ex: ('b',)",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "maintains_relationships"
+    ]
+  },
+  {
+    "objectID": "reference/column_is_within_n_std.html",
+    "href": "reference/column_is_within_n_std.html",
+    "title": "column_is_within_n_std",
+    "section": "",
+    "text": "checks.column_is_within_n_std(data, items, *args)\nFunction asserting values are within a given STD range, thus ensuring the absence of outliers.\n\n\n\ndata: PolarsLazyOrDataFrame\n\nPolars DataFrame or LazyFrame containing data to check.\n\nitems: Tuple[PolarsColumnType, int]\n\nA column name / column type with the number of STD authorized for the values within. Must be of the following form: (col_name, n_std)\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame(\n...     {\n...         \"a\": list(range(0, 11)),\n...         \"b\": list(range(0, 11)),\n...         \"c\": list(range(0, 10)) + [5000],\n...     }\n... )\n&gt;&gt;&gt; df.pipe(plg.column_is_within_n_std, (\"a\", 2), (\"b\", 3))\nshape: (11, 3)\n┌─────┬─────┬──────┐\n│ a   ┆ b   ┆ c    │\n│ --- ┆ --- ┆ ---  │\n│ i64 ┆ i64 ┆ i64  │\n╞═════╪═════╪══════╡\n│ 0   ┆ 0   ┆ 0    │\n│ 1   ┆ 1   ┆ 1    │\n│ 2   ┆ 2   ┆ 2    │\n│ 3   ┆ 3   ┆ 3    │\n│ 4   ┆ 4   ┆ 4    │\n│ …   ┆ …   ┆ …    │\n│ 6   ┆ 6   ┆ 6    │\n│ 7   ┆ 7   ┆ 7    │\n│ 8   ┆ 8   ┆ 8    │\n│ 9   ┆ 9   ┆ 9    │\n│ 10  ┆ 10  ┆ 5000 │\n└─────┴─────┴──────┘\n&gt;&gt;&gt; df.pipe(plg.column_is_within_n_std, (\"b\", 2), (\"c\", 2))\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 1)\n┌──────┐\n│ c    │\n│ ---  │\n│ i64  │\n╞══════╡\n│ 5000 │\n└──────┘\nError with the DataFrame passed to the check function:\n--&gt;There are some outliers outside the specified mean±std range\nImpacted columns: ['c']",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "column_is_within_n_std"
+    ]
+  },
+  {
+    "objectID": "reference/column_is_within_n_std.html#parameters",
+    "href": "reference/column_is_within_n_std.html#parameters",
+    "title": "column_is_within_n_std",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\nPolars DataFrame or LazyFrame containing data to check.\n\nitems: Tuple[PolarsColumnType, int]\n\nA column name / column type with the number of STD authorized for the values within. Must be of the following form: (col_name, n_std)",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "column_is_within_n_std"
+    ]
+  },
+  {
+    "objectID": "reference/column_is_within_n_std.html#returns",
+    "href": "reference/column_is_within_n_std.html#returns",
+    "title": "column_is_within_n_std",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "column_is_within_n_std"
+    ]
+  },
+  {
+    "objectID": "reference/column_is_within_n_std.html#examples",
+    "href": "reference/column_is_within_n_std.html#examples",
+    "title": "column_is_within_n_std",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame(\n...     {\n...         \"a\": list(range(0, 11)),\n...         \"b\": list(range(0, 11)),\n...         \"c\": list(range(0, 10)) + [5000],\n...     }\n... )\n&gt;&gt;&gt; df.pipe(plg.column_is_within_n_std, (\"a\", 2), (\"b\", 3))\nshape: (11, 3)\n┌─────┬─────┬──────┐\n│ a   ┆ b   ┆ c    │\n│ --- ┆ --- ┆ ---  │\n│ i64 ┆ i64 ┆ i64  │\n╞═════╪═════╪══════╡\n│ 0   ┆ 0   ┆ 0    │\n│ 1   ┆ 1   ┆ 1    │\n│ 2   ┆ 2   ┆ 2    │\n│ 3   ┆ 3   ┆ 3    │\n│ 4   ┆ 4   ┆ 4    │\n│ …   ┆ …   ┆ …    │\n│ 6   ┆ 6   ┆ 6    │\n│ 7   ┆ 7   ┆ 7    │\n│ 8   ┆ 8   ┆ 8    │\n│ 9   ┆ 9   ┆ 9    │\n│ 10  ┆ 10  ┆ 5000 │\n└─────┴─────┴──────┘\n&gt;&gt;&gt; df.pipe(plg.column_is_within_n_std, (\"b\", 2), (\"c\", 2))\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 1)\n┌──────┐\n│ c    │\n│ ---  │\n│ i64  │\n╞══════╡\n│ 5000 │\n└──────┘\nError with the DataFrame passed to the check function:\n--&gt;There are some outliers outside the specified mean±std range\nImpacted columns: ['c']",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "column_is_within_n_std"
+    ]
+  },
+  {
+    "objectID": "reference/not_null_proportion.html",
+    "href": "reference/not_null_proportion.html",
+    "title": "not_null_proportion",
+    "section": "",
+    "text": "checks.not_null_proportion(data, items, group_by=None)\nChecks that the proportion of non-null values in a column is within a a specified range [at_least, at_most] where at_most is an optional argument (default: 1.0).\n\n\n\ndata: PolarsLazyOrDataFrame\n\ndescription\n\nitems: Dict[str, float | Tuple[float, float]]\n\nRanges for the proportion of not null values for selected columns.\nAny of the following formats is valid:\n{\n    \"column_name_a\" : 0.33,\n    \"column_name_b\" : (0.25, 0.44),\n    \"column_name_c\" : (0.25, 1.0),\n    ...\n}\nWhen specifying a single float, the higher bound of the range will automatically be set to 1.0, i.e. (given_float, 1.0)\n\ngroup_by: Optional[PolarsOverClauseInput] = None\n\nWhen specified perform the check per group instead of the whole column, by default None\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame(\n...         {\n...             \"a\": [1, None, None],\n...             \"b\": [1, 2, None],\n...         }\n...     )\n&gt;&gt;&gt; df.pipe(plg.not_null_proportion, {\"a\": 0.33, \"b\": 0.66})\nshape: (3, 2)\n┌──────┬──────┐\n│ a    ┆ b    │\n│ ---  ┆ ---  │\n│ i64  ┆ i64  │\n╞══════╪══════╡\n│ 1    ┆ 1    │\n│ null ┆ 2    │\n│ null ┆ null │\n└──────┴──────┘\n&gt;&gt;&gt; df.pipe(plg.not_null_proportion, {\"a\": 0.7})\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 4)\n┌────────┬───────────────────┬──────────┬──────────┐\n│ column ┆ not_null_fraction ┆ min_prop ┆ max_prop │\n│ ---    ┆ ---               ┆ ---      ┆ ---      │\n│ str    ┆ f64               ┆ f64      ┆ i64      │\n╞════════╪═══════════════════╪══════════╪══════════╡\n│ a      ┆ 0.333333          ┆ 0.7      ┆ 1        │\n└────────┴───────────────────┴──────────┴──────────┘\nError with the DataFrame passed to the check function:\n--&gt;Some columns contains a proportion of nulls beyond specified limits\nThe folloing example details how to perform this checks for groups:\n&gt;&gt;&gt; group_df = pl.DataFrame(\n...     {\n...         \"a\": [1, 1, None, None],\n...         \"group\": [\"A\", \"A\", \"B\", \"B\"],\n...     }\n... )\n&gt;&gt;&gt; group_df.pipe(plg.not_null_proportion, {\"a\": 0.5})\nshape: (4, 2)\n┌──────┬───────┐\n│ a    ┆ group │\n│ ---  ┆ ---   │\n│ i64  ┆ str   │\n╞══════╪═══════╡\n│ 1    ┆ A     │\n│ 1    ┆ A     │\n│ null ┆ B     │\n│ null ┆ B     │\n└──────┴───────┘\n&gt;&gt;&gt; group_df.pipe(plg.not_null_proportion, {\"a\": 0.5}, group_by=\"group\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 5)\n┌───────┬────────┬───────────────────┬──────────┬──────────┐\n│ group ┆ column ┆ not_null_fraction ┆ min_prop ┆ max_prop │\n│ ---   ┆ ---    ┆ ---               ┆ ---      ┆ ---      │\n│ str   ┆ str    ┆ f64               ┆ f64      ┆ i64      │\n╞═══════╪════════╪═══════════════════╪══════════╪══════════╡\n│ B     ┆ a      ┆ 0.0               ┆ 0.5      ┆ 1        │\n└───────┴────────┴───────────────────┴──────────┴──────────┘\nError with the DataFrame passed to the check function:\n--&gt;Some columns contains a proportion of nulls beyond specified limits",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "not_null_proportion"
+    ]
+  },
+  {
+    "objectID": "reference/not_null_proportion.html#parameters",
+    "href": "reference/not_null_proportion.html#parameters",
+    "title": "not_null_proportion",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\ndescription\n\nitems: Dict[str, float | Tuple[float, float]]\n\nRanges for the proportion of not null values for selected columns.\nAny of the following formats is valid:\n{\n    \"column_name_a\" : 0.33,\n    \"column_name_b\" : (0.25, 0.44),\n    \"column_name_c\" : (0.25, 1.0),\n    ...\n}\nWhen specifying a single float, the higher bound of the range will automatically be set to 1.0, i.e. (given_float, 1.0)\n\ngroup_by: Optional[PolarsOverClauseInput] = None\n\nWhen specified perform the check per group instead of the whole column, by default None",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "not_null_proportion"
+    ]
+  },
+  {
+    "objectID": "reference/not_null_proportion.html#returns",
+    "href": "reference/not_null_proportion.html#returns",
+    "title": "not_null_proportion",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "not_null_proportion"
+    ]
+  },
+  {
+    "objectID": "reference/not_null_proportion.html#examples",
+    "href": "reference/not_null_proportion.html#examples",
+    "title": "not_null_proportion",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame(\n...         {\n...             \"a\": [1, None, None],\n...             \"b\": [1, 2, None],\n...         }\n...     )\n&gt;&gt;&gt; df.pipe(plg.not_null_proportion, {\"a\": 0.33, \"b\": 0.66})\nshape: (3, 2)\n┌──────┬──────┐\n│ a    ┆ b    │\n│ ---  ┆ ---  │\n│ i64  ┆ i64  │\n╞══════╪══════╡\n│ 1    ┆ 1    │\n│ null ┆ 2    │\n│ null ┆ null │\n└──────┴──────┘\n&gt;&gt;&gt; df.pipe(plg.not_null_proportion, {\"a\": 0.7})\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 4)\n┌────────┬───────────────────┬──────────┬──────────┐\n│ column ┆ not_null_fraction ┆ min_prop ┆ max_prop │\n│ ---    ┆ ---               ┆ ---      ┆ ---      │\n│ str    ┆ f64               ┆ f64      ┆ i64      │\n╞════════╪═══════════════════╪══════════╪══════════╡\n│ a      ┆ 0.333333          ┆ 0.7      ┆ 1        │\n└────────┴───────────────────┴──────────┴──────────┘\nError with the DataFrame passed to the check function:\n--&gt;Some columns contains a proportion of nulls beyond specified limits\nThe folloing example details how to perform this checks for groups:\n&gt;&gt;&gt; group_df = pl.DataFrame(\n...     {\n...         \"a\": [1, 1, None, None],\n...         \"group\": [\"A\", \"A\", \"B\", \"B\"],\n...     }\n... )\n&gt;&gt;&gt; group_df.pipe(plg.not_null_proportion, {\"a\": 0.5})\nshape: (4, 2)\n┌──────┬───────┐\n│ a    ┆ group │\n│ ---  ┆ ---   │\n│ i64  ┆ str   │\n╞══════╪═══════╡\n│ 1    ┆ A     │\n│ 1    ┆ A     │\n│ null ┆ B     │\n│ null ┆ B     │\n└──────┴───────┘\n&gt;&gt;&gt; group_df.pipe(plg.not_null_proportion, {\"a\": 0.5}, group_by=\"group\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 5)\n┌───────┬────────┬───────────────────┬──────────┬──────────┐\n│ group ┆ column ┆ not_null_fraction ┆ min_prop ┆ max_prop │\n│ ---   ┆ ---    ┆ ---               ┆ ---      ┆ ---      │\n│ str   ┆ str    ┆ f64               ┆ f64      ┆ i64      │\n╞═══════╪════════╪═══════════════════╪══════════╪══════════╡\n│ B     ┆ a      ┆ 0.0               ┆ 0.5      ┆ 1        │\n└───────┴────────┴───────────────────┴──────────┴──────────┘\nError with the DataFrame passed to the check function:\n--&gt;Some columns contains a proportion of nulls beyond specified limits",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "not_null_proportion"
+    ]
+  },
+  {
+    "objectID": "reference/accepted_values.html",
+    "href": "reference/accepted_values.html",
+    "title": "accepted_values",
+    "section": "",
+    "text": "checks.accepted_values(data, items)\nRaises error if columns contains values not specified in items\n\n\n\ndata: PolarsLazyOrDataFrame\n\n\n\nitems: Dict[str, List]\n\nA dictionnary where keys are a string compatible with a pl.Expr, to be used with pl.col(). The value for each key is a List of all authorized values in the dataframe.\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; items = {\"a\": [1, 2, 3], \"b\": [\"a\", \"b\", \"c\"]}\n&gt;&gt;&gt; df = pl.DataFrame(items)\n&gt;&gt;&gt; df.pipe(plg.accepted_values, {\"a\": [1, 2, 3]})\nshape: (3, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ a   │\n│ 2   ┆ b   │\n│ 3   ┆ c   │\n└─────┴─────┘\n&gt;&gt;&gt; df.pipe(plg.accepted_values, {\"a\": [1, 2]})\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 3   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;It contains values that have not been white-Listed in `items`.\nShowing problematic columns only.",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "accepted_values"
+    ]
+  },
+  {
+    "objectID": "reference/accepted_values.html#parameters",
+    "href": "reference/accepted_values.html#parameters",
+    "title": "accepted_values",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\n\n\nitems: Dict[str, List]\n\nA dictionnary where keys are a string compatible with a pl.Expr, to be used with pl.col(). The value for each key is a List of all authorized values in the dataframe.",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "accepted_values"
+    ]
+  },
+  {
+    "objectID": "reference/accepted_values.html#returns",
+    "href": "reference/accepted_values.html#returns",
+    "title": "accepted_values",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "accepted_values"
+    ]
+  },
+  {
+    "objectID": "reference/accepted_values.html#examples",
+    "href": "reference/accepted_values.html#examples",
+    "title": "accepted_values",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; items = {\"a\": [1, 2, 3], \"b\": [\"a\", \"b\", \"c\"]}\n&gt;&gt;&gt; df = pl.DataFrame(items)\n&gt;&gt;&gt; df.pipe(plg.accepted_values, {\"a\": [1, 2, 3]})\nshape: (3, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ a   │\n│ 2   ┆ b   │\n│ 3   ┆ c   │\n└─────┴─────┘\n&gt;&gt;&gt; df.pipe(plg.accepted_values, {\"a\": [1, 2]})\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 3   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;It contains values that have not been white-Listed in `items`.\nShowing problematic columns only.",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "accepted_values"
+    ]
+  },
+  {
+    "objectID": "reference/has_columns.html",
+    "href": "reference/has_columns.html",
+    "title": "has_columns",
+    "section": "",
+    "text": "checks.has_columns(data, names)\nCheck if a DataFrame has the specified\n\n\n\ndata: PolarsLazyOrDataFrame\n\nThe DataFrame to check for column presence.\n\nnames: Union[str, List[str]]\n\nThe names of the columns to check.\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2, 3], \"b\": [\"a\", \"b\", \"c\"]})\n&gt;&gt;&gt; df.pipe(plg.has_columns, \"b\")\nshape: (3, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ a   │\n│ 2   ┆ b   │\n│ 3   ┆ c   │\n└─────┴─────┘\n&gt;&gt;&gt; df.pipe(plg.has_columns, \"c\")\nTraceback (most recent call last):\n    ...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;\n&gt;&gt;&gt; df.pipe(plg.has_columns, [\"a\", \"b\"])\nshape: (3, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ a   │\n│ 2   ┆ b   │\n│ 3   ┆ c   │\n└─────┴─────┘\n&gt;&gt;&gt;",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_columns"
+    ]
+  },
+  {
+    "objectID": "reference/has_columns.html#parameters",
+    "href": "reference/has_columns.html#parameters",
+    "title": "has_columns",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\nThe DataFrame to check for column presence.\n\nnames: Union[str, List[str]]\n\nThe names of the columns to check.",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_columns"
+    ]
+  },
+  {
+    "objectID": "reference/has_columns.html#returns",
+    "href": "reference/has_columns.html#returns",
+    "title": "has_columns",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_columns"
+    ]
+  },
+  {
+    "objectID": "reference/has_columns.html#examples",
+    "href": "reference/has_columns.html#examples",
+    "title": "has_columns",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2, 3], \"b\": [\"a\", \"b\", \"c\"]})\n&gt;&gt;&gt; df.pipe(plg.has_columns, \"b\")\nshape: (3, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ a   │\n│ 2   ┆ b   │\n│ 3   ┆ c   │\n└─────┴─────┘\n&gt;&gt;&gt; df.pipe(plg.has_columns, \"c\")\nTraceback (most recent call last):\n    ...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;\n&gt;&gt;&gt; df.pipe(plg.has_columns, [\"a\", \"b\"])\nshape: (3, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ a   │\n│ 2   ┆ b   │\n│ 3   ┆ c   │\n└─────┴─────┘\n&gt;&gt;&gt;",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_columns"
+    ]
+  },
+  {
+    "objectID": "reference/has_dtypes.html",
+    "href": "reference/has_dtypes.html",
+    "title": "has_dtypes",
+    "section": "",
+    "text": "checks.has_dtypes(data, items)\nCheck that the columns have the expected types\n\n\n\ndata: PolarsLazyOrDataFrame\n\nPolars DataFrame or LazyFrame containing data to check.\n\nitems: Dict[str, PolarsDataType]\n\nA dictionnary of column name with their expected polars data type:\n{\n    \"col_a\": pl.String,\n    \"col_b\": pl.Int64,\n    \"col_c\": pl.Float64,\n    ...\n}\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; from pelage import checks\n&gt;&gt;&gt; df = pl.DataFrame({\n...     \"name\": [\"Alice\", \"Bob\", \"Charlie\"],\n...     \"age\": [20, 30, 40],\n...     \"city\": [\"New York\", \"London\", \"Paris\"],\n... })\n&gt;&gt;&gt; checks.has_dtypes(df, {\n...     \"name\": pl.String,\n...     \"age\": pl.Int64,\n...     \"city\": pl.String,\n... })\nshape: (3, 3)\n┌─────────┬─────┬──────────┐\n│ name    ┆ age ┆ city     │\n│ ---     ┆ --- ┆ ---      │\n│ str     ┆ i64 ┆ str      │\n╞═════════╪═════╪══════════╡\n│ Alice   ┆ 20  ┆ New York │\n│ Bob     ┆ 30  ┆ London   │\n│ Charlie ┆ 40  ┆ Paris    │\n└─────────┴─────┴──────────┘\n&gt;&gt;&gt; checks.has_dtypes(df, {\n...     \"age\": pl.String,\n...     \"city\": pl.Int64,\n... })\nTraceback (most recent call last):\n    ...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;Some columns don't have the expected type:\ncolumn='age', expected_type=String, real_dtype=Int64\ncolumn='city', expected_type=Int64, real_dtype=String",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_dtypes"
+    ]
+  },
+  {
+    "objectID": "reference/has_dtypes.html#parameters",
+    "href": "reference/has_dtypes.html#parameters",
+    "title": "has_dtypes",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\nPolars DataFrame or LazyFrame containing data to check.\n\nitems: Dict[str, PolarsDataType]\n\nA dictionnary of column name with their expected polars data type:\n{\n    \"col_a\": pl.String,\n    \"col_b\": pl.Int64,\n    \"col_c\": pl.Float64,\n    ...\n}",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_dtypes"
+    ]
+  },
+  {
+    "objectID": "reference/has_dtypes.html#returns",
+    "href": "reference/has_dtypes.html#returns",
+    "title": "has_dtypes",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_dtypes"
+    ]
+  },
+  {
+    "objectID": "reference/has_dtypes.html#examples",
+    "href": "reference/has_dtypes.html#examples",
+    "title": "has_dtypes",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; from pelage import checks\n&gt;&gt;&gt; df = pl.DataFrame({\n...     \"name\": [\"Alice\", \"Bob\", \"Charlie\"],\n...     \"age\": [20, 30, 40],\n...     \"city\": [\"New York\", \"London\", \"Paris\"],\n... })\n&gt;&gt;&gt; checks.has_dtypes(df, {\n...     \"name\": pl.String,\n...     \"age\": pl.Int64,\n...     \"city\": pl.String,\n... })\nshape: (3, 3)\n┌─────────┬─────┬──────────┐\n│ name    ┆ age ┆ city     │\n│ ---     ┆ --- ┆ ---      │\n│ str     ┆ i64 ┆ str      │\n╞═════════╪═════╪══════════╡\n│ Alice   ┆ 20  ┆ New York │\n│ Bob     ┆ 30  ┆ London   │\n│ Charlie ┆ 40  ┆ Paris    │\n└─────────┴─────┴──────────┘\n&gt;&gt;&gt; checks.has_dtypes(df, {\n...     \"age\": pl.String,\n...     \"city\": pl.Int64,\n... })\nTraceback (most recent call last):\n    ...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;Some columns don't have the expected type:\ncolumn='age', expected_type=String, real_dtype=Int64\ncolumn='city', expected_type=Int64, real_dtype=String",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_dtypes"
+    ]
+  },
+  {
+    "objectID": "notebooks/examples.html",
+    "href": "notebooks/examples.html",
+    "title": "Examples",
+    "section": "",
+    "text": "This notebook contains a few examples on how to use pelage. The idea is to illustrate what the main features with an succession of checks / transformation. We use here a simple example: the MPG dataset, loaded using the seaborn utility function."
+  },
+  {
+    "objectID": "notebooks/examples.html#imports",
+    "href": "notebooks/examples.html#imports",
+    "title": "Examples",
+    "section": "Imports",
+    "text": "Imports\n\nimport polars as pl\nimport seaborn as sns\n\nimport pelage as plg\n\ndata = pl.DataFrame(sns.load_dataset(\"mpg\"))\ndata.head()\n\n\nshape: (5, 9)\n\n\n\nmpg\ncylinders\ndisplacement\nhorsepower\nweight\nacceleration\nmodel_year\norigin\nname\n\n\nf64\ni64\nf64\nf64\ni64\nf64\ni64\nstr\nstr\n\n\n\n\n18.0\n8\n307.0\n130.0\n3504\n12.0\n70\n\"usa\"\n\"chevrolet chev…\n\n\n15.0\n8\n350.0\n165.0\n3693\n11.5\n70\n\"usa\"\n\"buick skylark …\n\n\n18.0\n8\n318.0\n150.0\n3436\n11.0\n70\n\"usa\"\n\"plymouth satel…\n\n\n16.0\n8\n304.0\n150.0\n3433\n12.0\n70\n\"usa\"\n\"amc rebel sst\"\n\n\n17.0\n8\n302.0\n140.0\n3449\n10.5\n70\n\"usa\"\n\"ford torino\""
+  },
+  {
+    "objectID": "notebooks/examples.html#basic-data-transformations",
+    "href": "notebooks/examples.html#basic-data-transformations",
+    "title": "Examples",
+    "section": "Basic data transformations",
+    "text": "Basic data transformations\nIn the following example, we perform some basic checks followed by a simple data transformation and finally checking for the presence of outliers.\n\naverage_mileage_per_zone = (\n    data.pipe(plg.has_no_nulls, [\"origin\", \"cylinders\", \"model_year\"])\n    .pipe(plg.accepted_range, {\"cylinders\": (3, 8)})\n    .pipe(plg.accepted_values, {\"origin\": [\"usa\", \"europe\", \"japan\"]})\n    .filter(pl.col(\"model_year\") &gt;= 80)\n    .group_by(\"origin\", \"cylinders\", \"model_year\")\n    .agg(\n        n_distinct_models=pl.col(\"name\").n_unique(),\n        avg_mpg=pl.col(\"mpg\").mean(),\n    )\n    .filter(pl.col(\"n_distinct_models\") &gt;= 3)\n    .pipe(plg.column_is_within_n_std, (\"avg_mpg\", 3))\n)\naverage_mileage_per_zone\n\n\nshape: (10, 5)\n\n\n\norigin\ncylinders\nmodel_year\nn_distinct_models\navg_mpg\n\n\nstr\ni64\ni64\nu32\nf64\n\n\n\n\n\"usa\"\n6\n81\n4\n20.925\n\n\n\"usa\"\n4\n80\n6\n27.05\n\n\n\"usa\"\n4\n82\n17\n29.647059\n\n\n\"japan\"\n4\n81\n10\n34.59\n\n\n\"japan\"\n4\n80\n11\n36.709091\n\n\n\"europe\"\n4\n81\n3\n31.866667\n\n\n\"usa\"\n6\n82\n3\n28.333333\n\n\n\"usa\"\n4\n81\n7\n30.95\n\n\n\"europe\"\n4\n80\n8\n37.4\n\n\n\"japan\"\n4\n82\n9\n34.888889"
+  },
+  {
+    "objectID": "notebooks/examples.html#error-message",
+    "href": "notebooks/examples.html#error-message",
+    "title": "Examples",
+    "section": "Error message",
+    "text": "Error message\nWhen the check fails, a PolarsAssertError exception is raised. The error message tends to provide a summarized view of the problem that occurred during the check.\n\n(\n    data.pipe(\n        plg.accepted_range,\n        {\"displacement\": (50, 300), \"horsepower\": (50, 200)},\n    )\n)\n# Generate a PolarsAssertError\n\n\n---------------------------------------------------------------------------\nPolarsAssertError                         Traceback (most recent call last)\nCell In[13], line 2\n      1 (\n----&gt; 2     data.pipe(\n      3         plg.accepted_range,\n      4         {\"displacement\": (50, 300), \"horsepower\": (50, 200)},\n      5     )\n      6 )\n      7 # Generate a PolarsAssertError\n\nFile ~/.pyenv/versions/3.10.13/envs/FC3.10/lib/python3.10/site-packages/polars/dataframe/frame.py:5128, in DataFrame.pipe(self, function, *args, **kwargs)\n   5063 def pipe(\n   5064     self,\n   5065     function: Callable[Concatenate[DataFrame, P], T],\n   5066     *args: P.args,\n   5067     **kwargs: P.kwargs,\n   5068 ) -&gt; T:\n   5069     \"\"\"\n   5070     Offers a structured way to apply a sequence of user-defined functions (UDFs).\n   5071 \n   (...)\n   5126     └─────┴─────┘\n   5127     \"\"\"\n-&gt; 5128     return function(self, *args, **kwargs)\n\nFile ~/code/alixtc/pelage/pelage/checks.py:987, in accepted_range(data, items)\n    985 out_of_range = data.filter(pl.Expr.or_(*forbidden_ranges))\n    986 if not out_of_range.is_empty():\n--&gt; 987     raise PolarsAssertError(\n    988         out_of_range, \"Some values are beyond the acceptable ranges defined\"\n    989     )\n    990 return data\n\nPolarsAssertError: Details\nshape: (104, 9)\n┌──────┬───────────┬─────────────┬────────────┬───┬─────────────┬────────────┬────────┬────────────┐\n│ mpg  ┆ cylinders ┆ displacemen ┆ horsepower ┆ … ┆ acceleratio ┆ model_year ┆ origin ┆ name       │\n│ ---  ┆ ---       ┆ t           ┆ ---        ┆   ┆ n           ┆ ---        ┆ ---    ┆ ---        │\n│ f64  ┆ i64       ┆ ---         ┆ f64        ┆   ┆ ---         ┆ i64        ┆ str    ┆ str        │\n│      ┆           ┆ f64         ┆            ┆   ┆ f64         ┆            ┆        ┆            │\n╞══════╪═══════════╪═════════════╪════════════╪═══╪═════════════╪════════════╪════════╪════════════╡\n│ 18.0 ┆ 8         ┆ 307.0       ┆ 130.0      ┆ … ┆ 12.0        ┆ 70         ┆ usa    ┆ chevrolet  │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ chevelle   │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ malibu     │\n│ 15.0 ┆ 8         ┆ 350.0       ┆ 165.0      ┆ … ┆ 11.5        ┆ 70         ┆ usa    ┆ buick      │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ skylark    │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ 320        │\n│ 18.0 ┆ 8         ┆ 318.0       ┆ 150.0      ┆ … ┆ 11.0        ┆ 70         ┆ usa    ┆ plymouth   │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ satellite  │\n│ 16.0 ┆ 8         ┆ 304.0       ┆ 150.0      ┆ … ┆ 12.0        ┆ 70         ┆ usa    ┆ amc rebel  │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ sst        │\n│ 17.0 ┆ 8         ┆ 302.0       ┆ 140.0      ┆ … ┆ 10.5        ┆ 70         ┆ usa    ┆ ford       │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ torino     │\n│ …    ┆ …         ┆ …           ┆ …          ┆ … ┆ …           ┆ …          ┆ …      ┆ …          │\n│ 18.5 ┆ 8         ┆ 360.0       ┆ 150.0      ┆ … ┆ 13.0        ┆ 79         ┆ usa    ┆ chrysler   │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ lebaron    │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ town @     │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ country …  │\n│ 23.0 ┆ 8         ┆ 350.0       ┆ 125.0      ┆ … ┆ 17.4        ┆ 79         ┆ usa    ┆ cadillac   │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ eldorado   │\n│ 44.3 ┆ 4         ┆ 90.0        ┆ 48.0       ┆ … ┆ 21.7        ┆ 80         ┆ europe ┆ vw rabbit  │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ c (diesel) │\n│ 43.4 ┆ 4         ┆ 90.0        ┆ 48.0       ┆ … ┆ 23.7        ┆ 80         ┆ europe ┆ vw dasher  │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ (diesel)   │\n│ 26.6 ┆ 8         ┆ 350.0       ┆ 105.0      ┆ … ┆ 19.0        ┆ 81         ┆ usa    ┆ oldsmobile │\n│      ┆           ┆             ┆            ┆   ┆             ┆            ┆        ┆ cutlass ls │\n└──────┴───────────┴─────────────┴────────────┴───┴─────────────┴────────────┴────────┴────────────┘\nError with the DataFrame passed to the check function:\n--&gt;Some values are beyond the acceptable ranges defined"
+  },
+  {
+    "objectID": "notebooks/examples.html#investigating-the-cause-of-the-failure",
+    "href": "notebooks/examples.html#investigating-the-cause-of-the-failure",
+    "title": "Examples",
+    "section": "Investigating the cause of the failure",
+    "text": "Investigating the cause of the failure\nIn addition to help the user better understand the root cause of the check failure, the error object also possesses as df attribute that can contains the identified values causing the check to fail.\nHere is how to simply retrieve it without adding a try/except block. This allows us to print the error in a string format.\n\nimport sys\n\nerror = sys.last_value\n\nprint(error)\n\nYou can then manipulate a subset dataframe containing the elements that triggered the exception. Here we do a few manipulations to determine what are the values that are outside the specified boundaries as well as their relative importance within the dataset.\n\n(\n    pl.DataFrame(error.df)  # This is only here to obtain syntax highlighting\n    .select(pl.col(\"displacement\", \"horsepower\"))\n    .describe()\n)\n\n\nshape: (9, 3)\n\n\n\nstatistic\ndisplacement\nhorsepower\n\n\nstr\nf64\nf64\n\n\n\n\n\"count\"\n104.0\n104.0\n\n\n\"null_count\"\n0.0\n0.0\n\n\n\"mean\"\n334.221154\n154.278846\n\n\n\"std\"\n74.472899\n37.102968\n\n\n\"min\"\n68.0\n46.0\n\n\n\"25%\"\n305.0\n140.0\n\n\n\"50%\"\n350.0\n150.0\n\n\n\"75%\"\n360.0\n175.0\n\n\n\"max\"\n455.0\n230.0"
+  },
+  {
+    "objectID": "notebooks/coming_from_dbt.html",
+    "href": "notebooks/coming_from_dbt.html",
+    "title": "dbt interoperability",
+    "section": "",
+    "text": "dbt interoperability\nOne of the primary objectives of pelage is to facilitate the rewriting of data pipelines from python to SQL, and the inverse. This is why most of the checks are based on the concept of SQL tests proposed by dbt.\n\ndbt core test functions\n\n\ndbt\nAvailable in pelage\ngroup_by option\n\n\n\n\nunique\n✅\n-\n\n\nnot_null\nhas_no_nulls ✅\n-\n\n\naccepted_values\n✅\n-\n\n\nrelationship\nmaintains_relationship ✅\n-\n\n\n\n\nImplementation of dbt-utils tests\n\n\n\n\n\n\n\ndbt-utils\nAvailable in pelage\ngroup_by option\n\n\n\n\nequal_rowcount\nhas_shape ✅\n✅\n\n\nfewer_rows_than\n❌\n❌\n\n\nequality\n✅\n-\n\n\nexpression_is_true\ncustom_check ✅\n-\n\n\nrecency\n❌\n❌\n\n\nat_least_one\n✅\n-\n\n\nnot_constant\n✅\n✅\n\n\nnot_empty_string\n❌\n❌\n\n\ncardinality_equality\n✅\n✅\n\n\nnot_null_proportion\n✅\n-\n\n\nnot_accepted_values\n✅\n-\n\n\nrelationships_where\n❌\n❌\n\n\nmutually_exclusive_ranges\n✅\n✅\n\n\nsequential_values\nis_monotonic ✅\n✅\n\n\nunique_combination_of_columns\n✅\n-\n\n\naccepted_range\n✅\n-\n\n\n\nSome functions that are also coming from other defensive analysis tools in python have been implemented, even though they are not available in dbt:\n\nOther defensive functions\n\n\nName\nAvailable in pelage\ngroup_by option\n\n\n\n\nhas_columns\n✅\n-\n\n\nhas_dtypes\n✅\n-\n\n\nhas_no_infs\n✅\n-\n\n\nhas_mandatory_values\n✅\n✅\n\n\n\n\n\nContext\npelage was designed in order to reduce the gap between data exploration and production. Working on data related use-cases implies facing many different challenges, one the majors are data quality, data drift.\n\nOne of the best frameworks to test data pipelines is provided by dbt.\nIt’s difficult to write tests after the business logic has been implemented.\nDuring EDA, data visualization plays a crucial role to identify relevant data or identify quality problems.\nSQL transformations are a major component of production-ready data pipelines."
+  },
+  {
+    "objectID": "reference/unique.html",
+    "href": "reference/unique.html",
+    "title": "unique",
+    "section": "",
+    "text": "checks.unique(data, columns=None)\nCheck if there are no duplicated values in each one of the selected columns.\nThis is a column oriented check, for a row oriented check see unique_combination_of_columns\n\n\n\ndata: PolarsLazyOrDataFrame\n\nThe input DataFrame to check for unique values.\n\ncolumns: Optional[PolarsColumnType] = None\n\nColumns to consider for uniqueness check. By default, all columns are checked.\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2]})\n&gt;&gt;&gt; df.pipe(plg.unique, \"a\")  # Can also use [\"a\", ...], pl.col(\"a)\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n└─────┘\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 1, 2]})\n&gt;&gt;&gt; df.pipe(plg.unique, \"a\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 1   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;Somes values are duplicated within the specified columns",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "unique"
+    ]
+  },
+  {
+    "objectID": "reference/unique.html#parameters",
+    "href": "reference/unique.html#parameters",
+    "title": "unique",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\nThe input DataFrame to check for unique values.\n\ncolumns: Optional[PolarsColumnType] = None\n\nColumns to consider for uniqueness check. By default, all columns are checked.",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "unique"
+    ]
+  },
+  {
+    "objectID": "reference/unique.html#returns",
+    "href": "reference/unique.html#returns",
+    "title": "unique",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "unique"
+    ]
+  },
+  {
+    "objectID": "reference/unique.html#examples",
+    "href": "reference/unique.html#examples",
+    "title": "unique",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2]})\n&gt;&gt;&gt; df.pipe(plg.unique, \"a\")  # Can also use [\"a\", ...], pl.col(\"a)\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n└─────┘\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 1, 2]})\n&gt;&gt;&gt; df.pipe(plg.unique, \"a\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 1   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;Somes values are duplicated within the specified columns",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "unique"
+    ]
+  },
+  {
+    "objectID": "reference/has_mandatory_values.html",
+    "href": "reference/has_mandatory_values.html",
+    "title": "has_mandatory_values",
+    "section": "",
+    "text": "checks.has_mandatory_values(data, items, group_by=None)\nEnsure that all specified values are present in their respective column.\n\n\n\ndata:  PolarsLazyOrDataFrame\n\nPolars DataFrame or LazyFrame containing data to check.\n\nitems: Dict[str, list]\n\nA dictionnary where the keys are the columns names and the values are lists that contains all the required values for a given column.\n\ngroup_by: Optional[PolarsOverClauseInput] = None\n\nWhen specified perform the check per group instead of the whole column, by default None\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2]})\n&gt;&gt;&gt; df.pipe(plg.has_mandatory_values, {\"a\": [1, 2]})\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n└─────┘\n&gt;&gt;&gt; df.pipe(plg.has_mandatory_values, {\"a\": [3, 4]})\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;Missing mandatory values in the following columns: {'a': [3, 4]}\nThe folloing example details how to perform this checks for groups:\n&gt;&gt;&gt; group_df_example = pl.DataFrame(\n...     {\n...         \"a\": [1, 1, 1, 2],\n...         \"group\": [\"G1\", \"G1\", \"G2\", \"G2\"],\n...     }\n... )\n&gt;&gt;&gt; group_df_example.pipe(plg.has_mandatory_values, {\"a\": [1, 2]})\nshape: (4, 2)\n┌─────┬───────┐\n│ a   ┆ group │\n│ --- ┆ ---   │\n│ i64 ┆ str   │\n╞═════╪═══════╡\n│ 1   ┆ G1    │\n│ 1   ┆ G1    │\n│ 1   ┆ G2    │\n│ 2   ┆ G2    │\n└─────┴───────┘\n&gt;&gt;&gt; group_df_example.pipe(plg.has_mandatory_values, {\"a\": [1, 2]}, group_by=\"group\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 3)\n┌───────┬───────────┬────────────────┐\n│ group ┆ a         ┆ a_expected_set │\n│ ---   ┆ ---       ┆ ---            │\n│ str   ┆ list[i64] ┆ list[i64]      │\n╞═══════╪═══════════╪════════════════╡\n│ G1    ┆ [1]       ┆ [1, 2]         │\n└───────┴───────────┴────────────────┘\nError with the DataFrame passed to the check function:\n--&gt;Some groups are missing mandatory values",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "has_mandatory_values"
+    ]
+  },
+  {
+    "objectID": "reference/has_mandatory_values.html#parameters",
+    "href": "reference/has_mandatory_values.html#parameters",
+    "title": "has_mandatory_values",
+    "section": "",
+    "text": "data:  PolarsLazyOrDataFrame\n\nPolars DataFrame or LazyFrame containing data to check.\n\nitems: Dict[str, list]\n\nA dictionnary where the keys are the columns names and the values are lists that contains all the required values for a given column.\n\ngroup_by: Optional[PolarsOverClauseInput] = None\n\nWhen specified perform the check per group instead of the whole column, by default None",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "has_mandatory_values"
+    ]
+  },
+  {
+    "objectID": "reference/has_mandatory_values.html#returns",
+    "href": "reference/has_mandatory_values.html#returns",
+    "title": "has_mandatory_values",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "has_mandatory_values"
+    ]
+  },
+  {
+    "objectID": "reference/has_mandatory_values.html#examples",
+    "href": "reference/has_mandatory_values.html#examples",
+    "title": "has_mandatory_values",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2]})\n&gt;&gt;&gt; df.pipe(plg.has_mandatory_values, {\"a\": [1, 2]})\nshape: (2, 1)\n┌─────┐\n│ a   │\n│ --- │\n│ i64 │\n╞═════╡\n│ 1   │\n│ 2   │\n└─────┘\n&gt;&gt;&gt; df.pipe(plg.has_mandatory_values, {\"a\": [3, 4]})\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;Missing mandatory values in the following columns: {'a': [3, 4]}\nThe folloing example details how to perform this checks for groups:\n&gt;&gt;&gt; group_df_example = pl.DataFrame(\n...     {\n...         \"a\": [1, 1, 1, 2],\n...         \"group\": [\"G1\", \"G1\", \"G2\", \"G2\"],\n...     }\n... )\n&gt;&gt;&gt; group_df_example.pipe(plg.has_mandatory_values, {\"a\": [1, 2]})\nshape: (4, 2)\n┌─────┬───────┐\n│ a   ┆ group │\n│ --- ┆ ---   │\n│ i64 ┆ str   │\n╞═════╪═══════╡\n│ 1   ┆ G1    │\n│ 1   ┆ G1    │\n│ 1   ┆ G2    │\n│ 2   ┆ G2    │\n└─────┴───────┘\n&gt;&gt;&gt; group_df_example.pipe(plg.has_mandatory_values, {\"a\": [1, 2]}, group_by=\"group\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 3)\n┌───────┬───────────┬────────────────┐\n│ group ┆ a         ┆ a_expected_set │\n│ ---   ┆ ---       ┆ ---            │\n│ str   ┆ list[i64] ┆ list[i64]      │\n╞═══════╪═══════════╪════════════════╡\n│ G1    ┆ [1]       ┆ [1, 2]         │\n└───────┴───────────┴────────────────┘\nError with the DataFrame passed to the check function:\n--&gt;Some groups are missing mandatory values",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "has_mandatory_values"
+    ]
+  },
+  {
+    "objectID": "reference/mutually_exclusive_ranges.html",
+    "href": "reference/mutually_exclusive_ranges.html",
+    "title": "mutually_exclusive_ranges",
+    "section": "",
+    "text": "checks.mutually_exclusive_ranges(data, low_bound, high_bound, group_by=None)\nEnsure that the specified columns contains no overlapping intervals.\n\n\n\ndata: PolarsLazyOrDataFrame\n\nData to check\n\nlow_bound: str\n\nName of column containing the lower bound of the interval\n\nhigh_bound: str\n\nName of column containing the higher bound of the interval\n\ngroup_by: IntoExpr | Iterable[IntoExpr] = None\n\nParameter compatible with .over() function to split the check by groups, by default None\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame(\n...     [\n...         [1, 2],\n...         [3, 4],\n...     ],\n...     schema=[\"a\", \"b\"], orient=\"row\"\n... )\n&gt;&gt;&gt; df.pipe(plg.mutually_exclusive_ranges, low_bound=\"a\", high_bound=\"b\")\nshape: (2, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ i64 │\n╞═════╪═════╡\n│ 1   ┆ 2   │\n│ 3   ┆ 4   │\n└─────┴─────┘\n&gt;&gt;&gt; df = pl.DataFrame(\n...     [\n...         [1, 3],\n...         [2, 4],\n...         [5, 7],\n...         [6, 8],\n...         [9, 9],\n...     ],\n...     schema=[\"a\", \"b\"],\n...     orient=\"row\",\n... )\n&gt;&gt;&gt; df.pipe(plg.mutually_exclusive_ranges, low_bound=\"a\", high_bound=\"b\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (4, 3)\n┌───────┬─────┬─────┐\n│ index ┆ a   ┆ b   │\n│ ---   ┆ --- ┆ --- │\n│ u32   ┆ i64 ┆ i64 │\n╞═══════╪═════╪═════╡\n│ 0     ┆ 1   ┆ 3   │\n│ 1     ┆ 2   ┆ 4   │\n│ 2     ┆ 5   ┆ 7   │\n│ 3     ┆ 6   ┆ 8   │\n└───────┴─────┴─────┘\nError with the DataFrame passed to the check function:\n--&gt;There were overlapping intervals:\nDataFrame was sorted by: ['a', 'b'],\nInterval columns: low_bound='a', high_bound='b'",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "mutually_exclusive_ranges"
+    ]
+  },
+  {
+    "objectID": "reference/mutually_exclusive_ranges.html#parameters",
+    "href": "reference/mutually_exclusive_ranges.html#parameters",
+    "title": "mutually_exclusive_ranges",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\nData to check\n\nlow_bound: str\n\nName of column containing the lower bound of the interval\n\nhigh_bound: str\n\nName of column containing the higher bound of the interval\n\ngroup_by: IntoExpr | Iterable[IntoExpr] = None\n\nParameter compatible with .over() function to split the check by groups, by default None",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "mutually_exclusive_ranges"
+    ]
+  },
+  {
+    "objectID": "reference/mutually_exclusive_ranges.html#returns",
+    "href": "reference/mutually_exclusive_ranges.html#returns",
+    "title": "mutually_exclusive_ranges",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "mutually_exclusive_ranges"
+    ]
+  },
+  {
+    "objectID": "reference/mutually_exclusive_ranges.html#examples",
+    "href": "reference/mutually_exclusive_ranges.html#examples",
+    "title": "mutually_exclusive_ranges",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame(\n...     [\n...         [1, 2],\n...         [3, 4],\n...     ],\n...     schema=[\"a\", \"b\"], orient=\"row\"\n... )\n&gt;&gt;&gt; df.pipe(plg.mutually_exclusive_ranges, low_bound=\"a\", high_bound=\"b\")\nshape: (2, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ i64 │\n╞═════╪═════╡\n│ 1   ┆ 2   │\n│ 3   ┆ 4   │\n└─────┴─────┘\n&gt;&gt;&gt; df = pl.DataFrame(\n...     [\n...         [1, 3],\n...         [2, 4],\n...         [5, 7],\n...         [6, 8],\n...         [9, 9],\n...     ],\n...     schema=[\"a\", \"b\"],\n...     orient=\"row\",\n... )\n&gt;&gt;&gt; df.pipe(plg.mutually_exclusive_ranges, low_bound=\"a\", high_bound=\"b\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (4, 3)\n┌───────┬─────┬─────┐\n│ index ┆ a   ┆ b   │\n│ ---   ┆ --- ┆ --- │\n│ u32   ┆ i64 ┆ i64 │\n╞═══════╪═════╪═════╡\n│ 0     ┆ 1   ┆ 3   │\n│ 1     ┆ 2   ┆ 4   │\n│ 2     ┆ 5   ┆ 7   │\n│ 3     ┆ 6   ┆ 8   │\n└───────┴─────┴─────┘\nError with the DataFrame passed to the check function:\n--&gt;There were overlapping intervals:\nDataFrame was sorted by: ['a', 'b'],\nInterval columns: low_bound='a', high_bound='b'",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "mutually_exclusive_ranges"
+    ]
+  },
+  {
+    "objectID": "reference/is_monotonic.html",
+    "href": "reference/is_monotonic.html",
+    "title": "is_monotonic",
+    "section": "",
+    "text": "checks.is_monotonic(data, column, decreasing=False, strict=True, interval=None, group_by=None)\nVerify that values in a column are consecutively increasing or decreasing.\n\n\n\ndata: PolarsLazyOrDataFrame\n\nPolars DataFrame or LazyFrame containing data to check.\n\ncolumn: str\n\nName of the column that should be monotonic.\n\ndecreasing: bool = False\n\nShould the column be decreasing, by default False\n\nstrict: bool = True\n\nThe series must be stricly increasing or decreasing, no consecutive equal values are allowed, by default True\n\ninterval: Optional[Union[int, float, str, pl.Duration]] = None\n\nFor time-based column, the interval can be specified as a string as in the function dt.offset_by or pl.DataFrame().rolling. It can also be specified with the pl.duration() function directly in a more explicit manner.\nWhen using a string, the interval is dictated by the following string language:\n- 1ns (1 nanosecond)\n- 1us (1 microsecond)\n- 1ms (1 millisecond)\n- 1s (1 second)\n- 1m (1 minute)\n- 1h (1 hour)\n- 1d (1 calendar day)\n- 1w (1 calendar week)\n- 1mo (1 calendar month)\n- 1q (1 calendar quarter)\n- 1y (1 calendar year)\n- 1i (1 index count)\nBy “calendar day”, we mean the corresponding time on the next day (which may not be 24 hours, due to daylight savings). Similarly for “calendar week”, “calendar month”, “calendar quarter”, and “calendar year”.\nBy default None\n\ngroup_by: Optional[PolarsOverClauseInput] = None\n\nWhen specified, the monotonic characteristics and intervals are estimated for each group independently.\nby default None\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df =     given = pl.DataFrame({\"int\": [1, 2, 1]})\n&gt;&gt;&gt; df = pl.DataFrame({\"int\": [1, 2, 3], \"str\": [\"x\", \"y\", \"z\"]})\n&gt;&gt;&gt; df.pipe(plg.is_monotonic, \"int\")\nshape: (3, 2)\n┌─────┬─────┐\n│ int ┆ str │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ x   │\n│ 2   ┆ y   │\n│ 3   ┆ z   │\n└─────┴─────┘\n&gt;&gt;&gt; bad = pl.DataFrame({\"int\": [1, 2, 1], \"str\": [\"x\", \"y\", \"z\"]})\n&gt;&gt;&gt; bad.pipe(plg.is_monotonic, \"int\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;Column \"int\" expected to be monotonic but is not, try .sort(\"int\")\nThe folloing example details how to perform this checks for groups:\n&gt;&gt;&gt; given = pl.DataFrame(\n...     [\n...         (\"2020-01-01 01:42:00\", \"A\"),\n...         (\"2020-01-01 01:43:00\", \"A\"),\n...         (\"2020-01-01 01:44:00\", \"A\"),\n...         (\"2021-12-12 01:43:00\", \"B\"),\n...         (\"2021-12-12 01:44:00\", \"B\"),\n...     ],\n...     schema=[\"dates\", \"group\"],\n... ).with_columns(pl.col(\"dates\").str.to_datetime())\n&gt;&gt;&gt; given.pipe(plg.is_monotonic, \"dates\", interval=\"1m\", group_by=\"group\")\nshape: (5, 2)\n┌─────────────────────┬───────┐\n│ dates               ┆ group │\n│ ---                 ┆ ---   │\n│ datetime[μs]        ┆ str   │\n╞═════════════════════╪═══════╡\n│ 2020-01-01 01:42:00 ┆ A     │\n│ 2020-01-01 01:43:00 ┆ A     │\n│ 2020-01-01 01:44:00 ┆ A     │\n│ 2021-12-12 01:43:00 ┆ B     │\n│ 2021-12-12 01:44:00 ┆ B     │\n└─────────────────────┴───────┘\n&gt;&gt;&gt; given.pipe(plg.is_monotonic, \"dates\", interval=\"3m\", group_by=\"group\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;Intervals differ from the specified 3m interval. Unexpected: {datetime.timedelta(seconds=60)}",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "is_monotonic"
+    ]
+  },
+  {
+    "objectID": "reference/is_monotonic.html#parameters",
+    "href": "reference/is_monotonic.html#parameters",
+    "title": "is_monotonic",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\nPolars DataFrame or LazyFrame containing data to check.\n\ncolumn: str\n\nName of the column that should be monotonic.\n\ndecreasing: bool = False\n\nShould the column be decreasing, by default False\n\nstrict: bool = True\n\nThe series must be stricly increasing or decreasing, no consecutive equal values are allowed, by default True\n\ninterval: Optional[Union[int, float, str, pl.Duration]] = None\n\nFor time-based column, the interval can be specified as a string as in the function dt.offset_by or pl.DataFrame().rolling. It can also be specified with the pl.duration() function directly in a more explicit manner.\nWhen using a string, the interval is dictated by the following string language:\n- 1ns (1 nanosecond)\n- 1us (1 microsecond)\n- 1ms (1 millisecond)\n- 1s (1 second)\n- 1m (1 minute)\n- 1h (1 hour)\n- 1d (1 calendar day)\n- 1w (1 calendar week)\n- 1mo (1 calendar month)\n- 1q (1 calendar quarter)\n- 1y (1 calendar year)\n- 1i (1 index count)\nBy “calendar day”, we mean the corresponding time on the next day (which may not be 24 hours, due to daylight savings). Similarly for “calendar week”, “calendar month”, “calendar quarter”, and “calendar year”.\nBy default None\n\ngroup_by: Optional[PolarsOverClauseInput] = None\n\nWhen specified, the monotonic characteristics and intervals are estimated for each group independently.\nby default None",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "is_monotonic"
+    ]
+  },
+  {
+    "objectID": "reference/is_monotonic.html#returns",
+    "href": "reference/is_monotonic.html#returns",
+    "title": "is_monotonic",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "is_monotonic"
+    ]
+  },
+  {
+    "objectID": "reference/is_monotonic.html#examples",
+    "href": "reference/is_monotonic.html#examples",
+    "title": "is_monotonic",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df =     given = pl.DataFrame({\"int\": [1, 2, 1]})\n&gt;&gt;&gt; df = pl.DataFrame({\"int\": [1, 2, 3], \"str\": [\"x\", \"y\", \"z\"]})\n&gt;&gt;&gt; df.pipe(plg.is_monotonic, \"int\")\nshape: (3, 2)\n┌─────┬─────┐\n│ int ┆ str │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ x   │\n│ 2   ┆ y   │\n│ 3   ┆ z   │\n└─────┴─────┘\n&gt;&gt;&gt; bad = pl.DataFrame({\"int\": [1, 2, 1], \"str\": [\"x\", \"y\", \"z\"]})\n&gt;&gt;&gt; bad.pipe(plg.is_monotonic, \"int\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;Column \"int\" expected to be monotonic but is not, try .sort(\"int\")\nThe folloing example details how to perform this checks for groups:\n&gt;&gt;&gt; given = pl.DataFrame(\n...     [\n...         (\"2020-01-01 01:42:00\", \"A\"),\n...         (\"2020-01-01 01:43:00\", \"A\"),\n...         (\"2020-01-01 01:44:00\", \"A\"),\n...         (\"2021-12-12 01:43:00\", \"B\"),\n...         (\"2021-12-12 01:44:00\", \"B\"),\n...     ],\n...     schema=[\"dates\", \"group\"],\n... ).with_columns(pl.col(\"dates\").str.to_datetime())\n&gt;&gt;&gt; given.pipe(plg.is_monotonic, \"dates\", interval=\"1m\", group_by=\"group\")\nshape: (5, 2)\n┌─────────────────────┬───────┐\n│ dates               ┆ group │\n│ ---                 ┆ ---   │\n│ datetime[μs]        ┆ str   │\n╞═════════════════════╪═══════╡\n│ 2020-01-01 01:42:00 ┆ A     │\n│ 2020-01-01 01:43:00 ┆ A     │\n│ 2020-01-01 01:44:00 ┆ A     │\n│ 2021-12-12 01:43:00 ┆ B     │\n│ 2021-12-12 01:44:00 ┆ B     │\n└─────────────────────┴───────┘\n&gt;&gt;&gt; given.pipe(plg.is_monotonic, \"dates\", interval=\"3m\", group_by=\"group\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;Intervals differ from the specified 3m interval. Unexpected: {datetime.timedelta(seconds=60)}",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "is_monotonic"
+    ]
+  },
+  {
+    "objectID": "reference/index.html",
+    "href": "reference/index.html",
+    "title": "API Reference",
+    "section": "",
+    "text": "List of check functions.\n\n\n\nhas_columns\nCheck if a DataFrame has the specified\n\n\nhas_dtypes\nCheck that the columns have the expected types\n\n\nhas_no_nulls\nCheck if a DataFrame has any null (missing) values.\n\n\nhas_no_infs\nCheck if a DataFrame has any infinite (inf) values.\n\n\nunique\nCheck if there are no duplicated values in each one of the selected columns.\n\n\nunique_combination_of_columns\nEnsure that the selected column have a unique combination per row.\n\n\naccepted_values\nRaises error if columns contains values not specified in items\n\n\nnot_accepted_values\nRaises error if columns contains values specified in List of forbbiden items\n\n\naccepted_range\nCheck that all the values from specifed columns in the dict items are within the indicated range.\n\n\nmaintains_relationships\nFunction to help ensuring that set of values in selected column remains the same in both DataFrames. This helps to maintain referential integrity.\n\n\ncolumn_is_within_n_std\nFunction asserting values are within a given STD range, thus ensuring the absence of outliers.\n\n\ncustom_check\nUse custom Polars expression to check the DataFrame, based on .filter().\n\n\n\n\n\n\nList of check functions with optional group_by option.\n\n\n\nhas_shape\nCheck if a DataFrame has the specified shape.\n\n\nat_least_one\nEnsure that there is at least one not null value in the designated columns.\n\n\nnot_constant\nCheck if a DataFrame has constant columns.\n\n\nnot_null_proportion\nChecks that the proportion of non-null values in a column is within a a specified range [at_least, at_most] where at_most is an optional argument (default: 1.0).\n\n\nhas_mandatory_values\nEnsure that all specified values are present in their respective column.\n\n\nmutually_exclusive_ranges\nEnsure that the specified columns contains no overlapping intervals.\n\n\nis_monotonic\nVerify that values in a column are consecutively increasing or decreasing.\n\n\n\n\n\n\nTypes aliases and custom exceptions\n\n\n\nPolarsAssertError\nCustom Error providing detailed information about the failed check.",
+    "crumbs": [
+      "API Reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#check-functions",
+    "href": "reference/index.html#check-functions",
+    "title": "API Reference",
+    "section": "",
+    "text": "List of check functions.\n\n\n\nhas_columns\nCheck if a DataFrame has the specified\n\n\nhas_dtypes\nCheck that the columns have the expected types\n\n\nhas_no_nulls\nCheck if a DataFrame has any null (missing) values.\n\n\nhas_no_infs\nCheck if a DataFrame has any infinite (inf) values.\n\n\nunique\nCheck if there are no duplicated values in each one of the selected columns.\n\n\nunique_combination_of_columns\nEnsure that the selected column have a unique combination per row.\n\n\naccepted_values\nRaises error if columns contains values not specified in items\n\n\nnot_accepted_values\nRaises error if columns contains values specified in List of forbbiden items\n\n\naccepted_range\nCheck that all the values from specifed columns in the dict items are within the indicated range.\n\n\nmaintains_relationships\nFunction to help ensuring that set of values in selected column remains the same in both DataFrames. This helps to maintain referential integrity.\n\n\ncolumn_is_within_n_std\nFunction asserting values are within a given STD range, thus ensuring the absence of outliers.\n\n\ncustom_check\nUse custom Polars expression to check the DataFrame, based on .filter().",
+    "crumbs": [
+      "API Reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#checks-with-group_by",
+    "href": "reference/index.html#checks-with-group_by",
+    "title": "API Reference",
+    "section": "",
+    "text": "List of check functions with optional group_by option.\n\n\n\nhas_shape\nCheck if a DataFrame has the specified shape.\n\n\nat_least_one\nEnsure that there is at least one not null value in the designated columns.\n\n\nnot_constant\nCheck if a DataFrame has constant columns.\n\n\nnot_null_proportion\nChecks that the proportion of non-null values in a column is within a a specified range [at_least, at_most] where at_most is an optional argument (default: 1.0).\n\n\nhas_mandatory_values\nEnsure that all specified values are present in their respective column.\n\n\nmutually_exclusive_ranges\nEnsure that the specified columns contains no overlapping intervals.\n\n\nis_monotonic\nVerify that values in a column are consecutively increasing or decreasing.",
+    "crumbs": [
+      "API Reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#exceptions",
+    "href": "reference/index.html#exceptions",
+    "title": "API Reference",
+    "section": "",
+    "text": "Types aliases and custom exceptions\n\n\n\nPolarsAssertError\nCustom Error providing detailed information about the failed check.",
+    "crumbs": [
+      "API Reference"
+    ]
+  },
+  {
+    "objectID": "reference/has_shape.html",
+    "href": "reference/has_shape.html",
+    "title": "has_shape",
+    "section": "",
+    "text": "checks.has_shape(data, shape, group_by=None)\nCheck if a DataFrame has the specified shape.\nWhen used with the group_by option, this can be used to get the row count per group.\n\n\n\ndata: PolarsLazyOrDataFrame\n\nInput data\n\nshape: Tuple[IntOrNone, IntOrNone]\n\nTuple with the expected dataframe shape, as from the .shape() method. You can use None for one of the two elements of the shape tuple if you do not want to check this dimension.\nEx: (5, None) will ensure that the dataframe has 5 rows regardless of the number of columns.\n\ngroup_by: Optional[PolarsOverClauseInput] = None\n\nWhen specified compares the number of lines per group with the expected value, by default None\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2], \"b\": [\"a\", \"b\"]})\n&gt;&gt;&gt; df.pipe(plg.has_shape, (2, 2))\nshape: (2, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ a   │\n│ 2   ┆ b   │\n└─────┴─────┘\n&gt;&gt;&gt; df.pipe(plg.has_shape, (2, None))\nshape: (2, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ a   │\n│ 2   ┆ b   │\n└─────┴─────┘\n&gt;&gt;&gt; df.pipe(plg.has_shape, (1, 2))\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;The data has not the expected shape: (1, 2)\n&gt;&gt;&gt; group_example_df = pl.DataFrame(\n...     {\n...         \"a\": [1, 2, 3],\n...         \"b\": [\"a\", \"b\", \"b\"],\n...     }\n... )\n&gt;&gt;&gt; group_example_df.pipe(plg.has_shape, (1, None), group_by=\"b\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 2)\n┌─────┬─────┐\n│ b   ┆ len │\n│ --- ┆ --- │\n│ str ┆ u32 │\n╞═════╪═════╡\n│ b   ┆ 2   │\n└─────┴─────┘\nError with the DataFrame passed to the check function:\n--&gt;The number of rows per group does not match the specified value: 1",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "has_shape"
+    ]
+  },
+  {
+    "objectID": "reference/has_shape.html#parameters",
+    "href": "reference/has_shape.html#parameters",
+    "title": "has_shape",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\nInput data\n\nshape: Tuple[IntOrNone, IntOrNone]\n\nTuple with the expected dataframe shape, as from the .shape() method. You can use None for one of the two elements of the shape tuple if you do not want to check this dimension.\nEx: (5, None) will ensure that the dataframe has 5 rows regardless of the number of columns.\n\ngroup_by: Optional[PolarsOverClauseInput] = None\n\nWhen specified compares the number of lines per group with the expected value, by default None",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "has_shape"
+    ]
+  },
+  {
+    "objectID": "reference/has_shape.html#returns",
+    "href": "reference/has_shape.html#returns",
+    "title": "has_shape",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "has_shape"
+    ]
+  },
+  {
+    "objectID": "reference/has_shape.html#examples",
+    "href": "reference/has_shape.html#examples",
+    "title": "has_shape",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [1, 2], \"b\": [\"a\", \"b\"]})\n&gt;&gt;&gt; df.pipe(plg.has_shape, (2, 2))\nshape: (2, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ a   │\n│ 2   ┆ b   │\n└─────┴─────┘\n&gt;&gt;&gt; df.pipe(plg.has_shape, (2, None))\nshape: (2, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ a   │\n│ 2   ┆ b   │\n└─────┴─────┘\n&gt;&gt;&gt; df.pipe(plg.has_shape, (1, 2))\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;The data has not the expected shape: (1, 2)\n&gt;&gt;&gt; group_example_df = pl.DataFrame(\n...     {\n...         \"a\": [1, 2, 3],\n...         \"b\": [\"a\", \"b\", \"b\"],\n...     }\n... )\n&gt;&gt;&gt; group_example_df.pipe(plg.has_shape, (1, None), group_by=\"b\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 2)\n┌─────┬─────┐\n│ b   ┆ len │\n│ --- ┆ --- │\n│ str ┆ u32 │\n╞═════╪═════╡\n│ b   ┆ 2   │\n└─────┴─────┘\nError with the DataFrame passed to the check function:\n--&gt;The number of rows per group does not match the specified value: 1",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "has_shape"
+    ]
+  },
+  {
+    "objectID": "reference/at_least_one.html",
+    "href": "reference/at_least_one.html",
+    "title": "at_least_one",
+    "section": "",
+    "text": "checks.at_least_one(data, columns=None, group_by=None)\nEnsure that there is at least one not null value in the designated columns.\n\n\n\ndata: PolarsLazyOrDataFrame\n\nPolars DataFrame or LazyFrame containing data to check.\n\ncolumns: Optional[PolarsColumnType] = None\n\nColumns to consider to check the presence of at least one value. By default, all columns are checked.\n\ngroup_by: Optional[PolarsOverClauseInput] = None\n\nWhen specified perform the check per group instead of the whole column, by default None\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [None, None], \"b\": [1, None]})\n&gt;&gt;&gt; df.pipe(plg.at_least_one, \"b\")\nshape: (2, 2)\n┌──────┬──────┐\n│ a    ┆ b    │\n│ ---  ┆ ---  │\n│ null ┆ i64  │\n╞══════╪══════╡\n│ null ┆ 1    │\n│ null ┆ null │\n└──────┴──────┘\n&gt;&gt;&gt; df.pipe(plg.at_least_one)\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;Some columns contains only null values: ['a']\nThe folloing example details how to perform this checks for groups:\n&gt;&gt;&gt; df = pl.DataFrame(\n...         {\n...             \"a\": [None, None, None, 2],\n...             \"group\": [\"G1\", \"G1\", \"G2\", \"G2\"],\n...         }\n...     )\n&gt;&gt;&gt; df.pipe(plg.at_least_one, \"a\")\nshape: (4, 2)\n┌──────┬───────┐\n│ a    ┆ group │\n│ ---  ┆ ---   │\n│ i64  ┆ str   │\n╞══════╪═══════╡\n│ null ┆ G1    │\n│ null ┆ G1    │\n│ null ┆ G2    │\n│ 2    ┆ G2    │\n└──────┴───────┘\n&gt;&gt;&gt; df.pipe(plg.at_least_one, \"a\", group_by=\"group\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 3)\n┌───────┬─────────┬──────────────┐\n│ group ┆ columns ┆ at_least_one │\n│ ---   ┆ ---     ┆ ---          │\n│ str   ┆ str     ┆ bool         │\n╞═══════╪═════════╪══════════════╡\n│ G1    ┆ a       ┆ false        │\n└───────┴─────────┴──────────────┘\nError with the DataFrame passed to the check function:\n--&gt;Some columns contains only null values per group",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "at_least_one"
+    ]
+  },
+  {
+    "objectID": "reference/at_least_one.html#parameters",
+    "href": "reference/at_least_one.html#parameters",
+    "title": "at_least_one",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\nPolars DataFrame or LazyFrame containing data to check.\n\ncolumns: Optional[PolarsColumnType] = None\n\nColumns to consider to check the presence of at least one value. By default, all columns are checked.\n\ngroup_by: Optional[PolarsOverClauseInput] = None\n\nWhen specified perform the check per group instead of the whole column, by default None",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "at_least_one"
+    ]
+  },
+  {
+    "objectID": "reference/at_least_one.html#returns",
+    "href": "reference/at_least_one.html#returns",
+    "title": "at_least_one",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "at_least_one"
+    ]
+  },
+  {
+    "objectID": "reference/at_least_one.html#examples",
+    "href": "reference/at_least_one.html#examples",
+    "title": "at_least_one",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame({\"a\": [None, None], \"b\": [1, None]})\n&gt;&gt;&gt; df.pipe(plg.at_least_one, \"b\")\nshape: (2, 2)\n┌──────┬──────┐\n│ a    ┆ b    │\n│ ---  ┆ ---  │\n│ null ┆ i64  │\n╞══════╪══════╡\n│ null ┆ 1    │\n│ null ┆ null │\n└──────┴──────┘\n&gt;&gt;&gt; df.pipe(plg.at_least_one)\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nError with the DataFrame passed to the check function:\n--&gt;Some columns contains only null values: ['a']\nThe folloing example details how to perform this checks for groups:\n&gt;&gt;&gt; df = pl.DataFrame(\n...         {\n...             \"a\": [None, None, None, 2],\n...             \"group\": [\"G1\", \"G1\", \"G2\", \"G2\"],\n...         }\n...     )\n&gt;&gt;&gt; df.pipe(plg.at_least_one, \"a\")\nshape: (4, 2)\n┌──────┬───────┐\n│ a    ┆ group │\n│ ---  ┆ ---   │\n│ i64  ┆ str   │\n╞══════╪═══════╡\n│ null ┆ G1    │\n│ null ┆ G1    │\n│ null ┆ G2    │\n│ 2    ┆ G2    │\n└──────┴───────┘\n&gt;&gt;&gt; df.pipe(plg.at_least_one, \"a\", group_by=\"group\")\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (1, 3)\n┌───────┬─────────┬──────────────┐\n│ group ┆ columns ┆ at_least_one │\n│ ---   ┆ ---     ┆ ---          │\n│ str   ┆ str     ┆ bool         │\n╞═══════╪═════════╪══════════════╡\n│ G1    ┆ a       ┆ false        │\n└───────┴─────────┴──────────────┘\nError with the DataFrame passed to the check function:\n--&gt;Some columns contains only null values per group",
+    "crumbs": [
+      "API Reference",
+      "Checks with group_by",
+      "at_least_one"
+    ]
+  },
+  {
+    "objectID": "reference/PolarsAssertError.html",
+    "href": "reference/PolarsAssertError.html",
+    "title": "PolarsAssertError",
+    "section": "",
+    "text": "checks.PolarsAssertError(self, df=pl.DataFrame(), supp_message='')\nCustom Error providing detailed information about the failed check.\nTo investigate the last error in a jupyter notebook you can use:\n\n\n&gt;&gt;&gt; from pelage import PolarsAssertError\n&gt;&gt;&gt; raise PolarsAssertError\n&gt;&gt;&gt; import sys\n&gt;&gt;&gt; error = sys.last_value\n&gt;&gt;&gt; print(error) # prints the string representation\n&gt;&gt;&gt; error.df # access the dataframe object\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\ndf\npl.DataFrame, optional, by default pl.DataFrame()\nA subset of the original dataframe passed to the check function with a highlight on the values that caused the check to fail,\n\n\nsupp_message\n(str, optional)\nA human readable description of the check failure, and when available a possible way to solve the issue, by default “”",
+    "crumbs": [
+      "API Reference",
+      "Exceptions",
+      "PolarsAssertError"
+    ]
+  },
+  {
+    "objectID": "reference/PolarsAssertError.html#examples",
+    "href": "reference/PolarsAssertError.html#examples",
+    "title": "PolarsAssertError",
+    "section": "",
+    "text": "&gt;&gt;&gt; from pelage import PolarsAssertError\n&gt;&gt;&gt; raise PolarsAssertError\n&gt;&gt;&gt; import sys\n&gt;&gt;&gt; error = sys.last_value\n&gt;&gt;&gt; print(error) # prints the string representation\n&gt;&gt;&gt; error.df # access the dataframe object",
+    "crumbs": [
+      "API Reference",
+      "Exceptions",
+      "PolarsAssertError"
+    ]
+  },
+  {
+    "objectID": "reference/PolarsAssertError.html#attributes",
+    "href": "reference/PolarsAssertError.html#attributes",
+    "title": "PolarsAssertError",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\ndf\npl.DataFrame, optional, by default pl.DataFrame()\nA subset of the original dataframe passed to the check function with a highlight on the values that caused the check to fail,\n\n\nsupp_message\n(str, optional)\nA human readable description of the check failure, and when available a possible way to solve the issue, by default “”",
+    "crumbs": [
+      "API Reference",
+      "Exceptions",
+      "PolarsAssertError"
+    ]
+  },
+  {
+    "objectID": "reference/not_accepted_values.html",
+    "href": "reference/not_accepted_values.html",
+    "title": "not_accepted_values",
+    "section": "",
+    "text": "checks.not_accepted_values(data, items)\nRaises error if columns contains values specified in List of forbbiden items\n\n\n\ndata: PolarsLazyOrDataFrame\n\n\n\nitems: Dict[str, List]\n\nA dictionnary where keys are a string compatible with a pl.Expr, to be used with pl.col(). The value for each key is a List of all forbidden values in the dataframe.\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame(\n...     {\"a\": [1, 2, 3], \"b\": [\"a\", \"b\", \"c\"]}\n... )\n&gt;&gt;&gt; df.pipe(plg.not_accepted_values, {\"a\": [4, 5]})\nshape: (3, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ a   │\n│ 2   ┆ b   │\n│ 3   ┆ c   │\n└─────┴─────┘\n&gt;&gt;&gt; df.pipe(plg.not_accepted_values, {\"b\": [\"a\", \"b\"]})\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (2, 1)\n┌─────┐\n│ b   │\n│ --- │\n│ str │\n╞═════╡\n│ a   │\n│ b   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;This DataFrame contains values marked as forbidden",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "not_accepted_values"
+    ]
+  },
+  {
+    "objectID": "reference/not_accepted_values.html#parameters",
+    "href": "reference/not_accepted_values.html#parameters",
+    "title": "not_accepted_values",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\n\n\nitems: Dict[str, List]\n\nA dictionnary where keys are a string compatible with a pl.Expr, to be used with pl.col(). The value for each key is a List of all forbidden values in the dataframe.",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "not_accepted_values"
+    ]
+  },
+  {
+    "objectID": "reference/not_accepted_values.html#returns",
+    "href": "reference/not_accepted_values.html#returns",
+    "title": "not_accepted_values",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "not_accepted_values"
+    ]
+  },
+  {
+    "objectID": "reference/not_accepted_values.html#examples",
+    "href": "reference/not_accepted_values.html#examples",
+    "title": "not_accepted_values",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; import pelage as plg\n&gt;&gt;&gt; df = pl.DataFrame(\n...     {\"a\": [1, 2, 3], \"b\": [\"a\", \"b\", \"c\"]}\n... )\n&gt;&gt;&gt; df.pipe(plg.not_accepted_values, {\"a\": [4, 5]})\nshape: (3, 2)\n┌─────┬─────┐\n│ a   ┆ b   │\n│ --- ┆ --- │\n│ i64 ┆ str │\n╞═════╪═════╡\n│ 1   ┆ a   │\n│ 2   ┆ b   │\n│ 3   ┆ c   │\n└─────┴─────┘\n&gt;&gt;&gt; df.pipe(plg.not_accepted_values, {\"b\": [\"a\", \"b\"]})\nTraceback (most recent call last):\n...\npelage.checks.PolarsAssertError: Details\nshape: (2, 1)\n┌─────┐\n│ b   │\n│ --- │\n│ str │\n╞═════╡\n│ a   │\n│ b   │\n└─────┘\nError with the DataFrame passed to the check function:\n--&gt;This DataFrame contains values marked as forbidden",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "not_accepted_values"
+    ]
+  },
+  {
+    "objectID": "reference/has_no_nulls.html",
+    "href": "reference/has_no_nulls.html",
+    "title": "has_no_nulls",
+    "section": "",
+    "text": "checks.has_no_nulls(data, columns=None)\nCheck if a DataFrame has any null (missing) values.\n\n\n\ndata: PolarsLazyOrDataFrame\n\nThe input DataFrame to check for null values.\n\ncolumns: Optional[PolarsColumnType] = None\n\nColumns to consider for null value check. By default, all columns are checked.\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes\n\n\n\n\n\n\n&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; from pelage import checks\n&gt;&gt;&gt; df = pl.DataFrame({\n...     \"A\": [1, 2],\n...     \"B\": [None, 5]\n... })\n&gt;&gt;&gt; df\nshape: (2, 2)\n┌─────┬──────┐\n│ A   ┆ B    │\n│ --- ┆ ---  │\n│ i64 ┆ i64  │\n╞═════╪══════╡\n│ 1   ┆ null │\n│ 2   ┆ 5    │\n└─────┴──────┘\n&gt;&gt;&gt; checks.has_no_nulls(df)\nTraceback (most recent call last):\n    ...\npelage.checks.PolarsAssertError: Details\nshape: (1, 2)\n┌────────┬────────────┐\n│ column ┆ null_count │\n│ ---    ┆ ---        │\n│ str    ┆ u32        │\n╞════════╪════════════╡\n│ B      ┆ 1          │\n└────────┴────────────┘\nError with the DataFrame passed to the check function:\n--&gt;There were unexpected nulls in the columns above",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_no_nulls"
+    ]
+  },
+  {
+    "objectID": "reference/has_no_nulls.html#parameters",
+    "href": "reference/has_no_nulls.html#parameters",
+    "title": "has_no_nulls",
+    "section": "",
+    "text": "data: PolarsLazyOrDataFrame\n\nThe input DataFrame to check for null values.\n\ncolumns: Optional[PolarsColumnType] = None\n\nColumns to consider for null value check. By default, all columns are checked.",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_no_nulls"
+    ]
+  },
+  {
+    "objectID": "reference/has_no_nulls.html#returns",
+    "href": "reference/has_no_nulls.html#returns",
+    "title": "has_no_nulls",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nPolarsLazyOrDataFrame\nThe original polars DataFrame or LazyFrame when the check passes",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_no_nulls"
+    ]
+  },
+  {
+    "objectID": "reference/has_no_nulls.html#examples",
+    "href": "reference/has_no_nulls.html#examples",
+    "title": "has_no_nulls",
+    "section": "",
+    "text": "&gt;&gt;&gt; import polars as pl\n&gt;&gt;&gt; from pelage import checks\n&gt;&gt;&gt; df = pl.DataFrame({\n...     \"A\": [1, 2],\n...     \"B\": [None, 5]\n... })\n&gt;&gt;&gt; df\nshape: (2, 2)\n┌─────┬──────┐\n│ A   ┆ B    │\n│ --- ┆ ---  │\n│ i64 ┆ i64  │\n╞═════╪══════╡\n│ 1   ┆ null │\n│ 2   ┆ 5    │\n└─────┴──────┘\n&gt;&gt;&gt; checks.has_no_nulls(df)\nTraceback (most recent call last):\n    ...\npelage.checks.PolarsAssertError: Details\nshape: (1, 2)\n┌────────┬────────────┐\n│ column ┆ null_count │\n│ ---    ┆ ---        │\n│ str    ┆ u32        │\n╞════════╪════════════╡\n│ B      ┆ 1          │\n└────────┴────────────┘\nError with the DataFrame passed to the check function:\n--&gt;There were unexpected nulls in the columns above",
+    "crumbs": [
+      "API Reference",
+      "Check functions",
+      "has_no_nulls"
+    ]
+  }
+]
