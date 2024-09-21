@@ -1,0 +1,98 @@
+# not_constant { #pelage.checks.not_constant }
+
+`checks.not_constant(data, columns=None, group_by=None)`
+
+Check if a DataFrame has constant columns.
+
+## Parameters
+
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+
+:   The input DataFrame to check for null values.
+
+<code><span class="parameter-name">columns</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[PolarsColumnType\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+
+:   Columns to consider for null value check. By default, all columns are checked.
+
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[PolarsOverClauseInput\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+
+:   When specified perform the check per group instead of the whole column,
+    by default None
+
+## Returns
+
+| Type                  | Description                                                      |
+|-----------------------|------------------------------------------------------------------|
+| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+
+## Examples
+
+```python
+>>> import polars as pl
+>>> import pelage as plg
+>>> df = pl.DataFrame({"a": [1, 2]})
+>>> df.pipe(plg.not_constant, "a")
+shape: (2, 1)
+┌─────┐
+│ a   │
+│ --- │
+│ i64 │
+╞═════╡
+│ 1   │
+│ 2   │
+└─────┘
+>>> df = pl.DataFrame({"b": [1, 1]})
+>>> df.pipe(plg.not_constant)
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+shape: (1, 2)
+┌────────┬────────────┐
+│ column ┆ n_distinct │
+│ ---    ┆ ---        │
+│ str    ┆ u32        │
+╞════════╪════════════╡
+│ b      ┆ 1          │
+└────────┴────────────┘
+Error with the DataFrame passed to the check function:
+-->Some columns are constant
+```
+
+The folloing example details how to perform this checks for groups:
+
+```python
+>>> import polars as pl
+>>> import pelage as plg
+>>> df = pl.DataFrame(
+...     {
+...         "a": [1, 2, 1, 1],
+...         "b": ["A", "A", "B", "B"],
+...     }
+... )
+>>> df.pipe(plg.not_constant, "a")
+shape: (4, 2)
+┌─────┬─────┐
+│ a   ┆ b   │
+│ --- ┆ --- │
+│ i64 ┆ str │
+╞═════╪═════╡
+│ 1   ┆ A   │
+│ 2   ┆ A   │
+│ 1   ┆ B   │
+│ 1   ┆ B   │
+└─────┴─────┘
+>>> df.pipe(plg.not_constant, "a", group_by="b")
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+shape: (1, 3)
+┌─────┬────────┬────────────┐
+│ b   ┆ column ┆ n_distinct │
+│ --- ┆ ---    ┆ ---        │
+│ str ┆ str    ┆ u32        │
+╞═════╪════════╪════════════╡
+│ B   ┆ a      ┆ 1          │
+└─────┴────────┴────────────┘
+Error with the DataFrame passed to the check function:
+-->Some columns are constant within a given group
+```

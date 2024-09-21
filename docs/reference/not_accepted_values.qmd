@@ -1,0 +1,59 @@
+# not_accepted_values { #pelage.checks.not_accepted_values }
+
+`checks.not_accepted_values(data, items)`
+
+Raises error if columns contains values specified in List of forbbiden `items`
+
+## Parameters
+
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+
+:   
+
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict\[str, List\]</span></code>
+
+:   A dictionnary where keys are a string compatible with a pl.Expr, to be used with
+    pl.col(). The value for each key is a List of all forbidden values in the
+    dataframe.
+
+## Returns
+
+| Type                  | Description                                                      |
+|-----------------------|------------------------------------------------------------------|
+| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+
+## Examples
+
+```python
+>>> import polars as pl
+>>> import pelage as plg
+>>> df = pl.DataFrame(
+...     {"a": [1, 2, 3], "b": ["a", "b", "c"]}
+... )
+>>> df.pipe(plg.not_accepted_values, {"a": [4, 5]})
+shape: (3, 2)
+┌─────┬─────┐
+│ a   ┆ b   │
+│ --- ┆ --- │
+│ i64 ┆ str │
+╞═════╪═════╡
+│ 1   ┆ a   │
+│ 2   ┆ b   │
+│ 3   ┆ c   │
+└─────┴─────┘
+>>> df.pipe(plg.not_accepted_values, {"b": ["a", "b"]})
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+shape: (2, 1)
+┌─────┐
+│ b   │
+│ --- │
+│ str │
+╞═════╡
+│ a   │
+│ b   │
+└─────┘
+Error with the DataFrame passed to the check function:
+-->This DataFrame contains values marked as forbidden
+```

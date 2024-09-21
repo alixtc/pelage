@@ -1,0 +1,52 @@
+# maintains_relationships { #pelage.checks.maintains_relationships }
+
+`checks.maintains_relationships(data, other_df, column)`
+
+Function to help ensuring that set of values in selected column remains  the
+    same in both DataFrames. This helps to maintain referential integrity.
+
+## Parameters
+
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+
+:   Dataframe after transformation
+
+<code><span class="parameter-name">other_df</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Union\[pl.DataFrame, pl.LazyFrame\]</span></code>
+
+:   Distant dataframe usually the one before transformation
+
+<code><span class="parameter-name">column</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">str</span></code>
+
+:   Column to check for keys/ids
+
+## Returns
+
+| Type                  | Description                                                      |
+|-----------------------|------------------------------------------------------------------|
+| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+
+## Examples
+
+```python
+>>> import polars as pl
+>>> import pelage as plg
+>>> initial_df = pl.DataFrame({"a": ["a", "b"]})
+>>> final_df = pl.DataFrame({"a": ["a", "b"]})
+>>> final_df.pipe(plg.maintains_relationships, initial_df, "a")
+shape: (2, 1)
+┌─────┐
+│ a   │
+│ --- │
+│ str │
+╞═════╡
+│ a   │
+│ b   │
+└─────┘
+>>> final_df = pl.DataFrame({"a": ["a"]})
+>>> final_df.pipe(plg.maintains_relationships, initial_df, "a")
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+Error with the DataFrame passed to the check function:
+-->Some values were removed from col 'a', for ex: ('b',)
+```

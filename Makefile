@@ -39,7 +39,7 @@ pre_commit:
 render docs:
 	quartodoc build --config docs/_quarto.yml
 	quarto render docs
-	quarto render docs/notebooks/initial_readme.ipynb --to gfm --output README.md
+	quarto render docs/index.ipynb --to gfm --output README.md
 	mv docs/README.md README.md
 
 

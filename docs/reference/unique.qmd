@@ -1,0 +1,58 @@
+# unique { #pelage.checks.unique }
+
+`checks.unique(data, columns=None)`
+
+Check if there are no duplicated values in each one of the selected columns.
+
+This is a column oriented check, for a row oriented check see
+`unique_combination_of_columns`
+
+## Parameters
+
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+
+:   The input DataFrame to check for unique values.
+
+<code><span class="parameter-name">columns</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[PolarsColumnType\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+
+:   Columns to consider for uniqueness check. By default, all columns are checked.
+
+## Returns
+
+| Type                  | Description                                                      |
+|-----------------------|------------------------------------------------------------------|
+| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+
+## Examples
+
+```python
+>>> import polars as pl
+>>> import pelage as plg
+>>> df = pl.DataFrame({"a": [1, 2]})
+>>> df.pipe(plg.unique, "a")  # Can also use ["a", ...], pl.col("a)
+shape: (2, 1)
+┌─────┐
+│ a   │
+│ --- │
+│ i64 │
+╞═════╡
+│ 1   │
+│ 2   │
+└─────┘
+>>> df = pl.DataFrame({"a": [1, 1, 2]})
+>>> df.pipe(plg.unique, "a")
+Traceback (most recent call last):
+...
+pelage.checks.PolarsAssertError: Details
+shape: (2, 1)
+┌─────┐
+│ a   │
+│ --- │
+│ i64 │
+╞═════╡
+│ 1   │
+│ 1   │
+└─────┘
+Error with the DataFrame passed to the check function:
+-->Somes values are duplicated within the specified columns
+```

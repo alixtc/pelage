@@ -1,0 +1,25 @@
+# PolarsAssertError { #pelage.checks.PolarsAssertError }
+
+`checks.PolarsAssertError(self, df=pl.DataFrame(), supp_message='')`
+
+Custom Error providing detailed information about the failed check.
+
+To investigate the last error in a jupyter notebook you can use:
+
+## Examples
+
+```python
+>>> from pelage import PolarsAssertError
+>>> raise PolarsAssertError
+>>> import sys
+>>> error = sys.last_value
+>>> print(error) # prints the string representation
+>>> error.df # access the dataframe object
+```
+
+## Attributes
+
+| Name         | Type                                               | Description                                                                                                                   |
+|--------------|----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| df           | pl.DataFrame, optional,  by default pl.DataFrame() | A subset of the original dataframe passed to the check function with a highlight on the values that caused the check to fail, |
+| supp_message | (str, optional)                                    | A human readable description of the check failure, and when available a possible way to solve the issue, by default ""        |

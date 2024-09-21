@@ -1,7 +1,7 @@
 project:
   title: Pelage
   type: website
-  output-dir: .
+  output-dir: _site
 
 execute:
   freeze: auto
@@ -26,7 +26,7 @@ website:
     pinned: true
     left:
       - text: Get started
-        file: notebooks/initial_readme.html
+        file: index.html
       - text: API Reference
         file: reference/index.html
       - text: Examples
