@@ -114,7 +114,8 @@ a way that enable the polars API to work its magic. We try to use a
 syntax that is compatible with fast execution and parallelism provided
 by polars.
 
-![](../assets/presentation.gif)
+![Site-Readme](assets/presentation.gif)
+![Github-Readme](docs/assets/presentation.gif)
 
 ## Interoperability:
 
