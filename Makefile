@@ -7,8 +7,6 @@ install:
 	poetry shell
 	poetry install
 
-check_code:
-	@pre-commit run --all-files
 
 
 black:
@@ -31,19 +29,17 @@ tox:
 	@coverage report --data-file=".coverage/.coverage" --show-missing  --precision=3
 
 
-all: clean test tox publish_checks check_code pre_commit
+all: clean test tox render-docs doctest pre-commit
 
 pre_commit:
 	pre-commit run --files docs/*
 
-render docs:
+render-docs:
 	quartodoc build --config docs/_quarto.yml
 	quarto render docs
 	quarto render docs/index.ipynb --to gfm --output README.md
 	mv docs/README.md README.md
 
-
-publish_checks:
-	make render docs
+doctest:
 	@python -m doctest pelage/checks.py
 	@echo "doctest check passed"

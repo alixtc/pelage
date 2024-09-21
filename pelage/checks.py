@@ -1244,6 +1244,9 @@ def not_null_proportion(
     if isinstance(null_proportions, pl.LazyFrame):
         null_proportions = null_proportions.collect()
 
+    if "constant__" in null_proportions.columns:
+        null_proportions = null_proportions.drop("constant__")
+
     out_of_range_null_proportions = (
         null_proportions.join(pl_ranges, on="column", how="inner")
         .filter(
@@ -1807,7 +1810,7 @@ def custom_check(
     │ 3   │
     └─────┘
     Error with the DataFrame passed to the check function:
-    -->Unexpected data in `Custom Check`: [(col("a")) != (3)]
+    -->Unexpected data in `Custom Check`: [(col("a")) != (dyn int: 3)]
     """
     columns_in_expression = set(expresion.meta.root_names())
     bad_data = data.select(columns_in_expression).filter(expresion.not_())
@@ -2017,28 +2020,42 @@ def column_is_within_n_std(
         (_sanitize_column_inputs(col), n_std) for col, n_std in check_items
     ]
 
-    columns_not_within_stds = [
-        col.is_between(
-            col.mean() - n_std * col.std(),
-            col.mean() + n_std * col.std(),
-        ).not_()
+    keep_outlier_nullify_others = [
+        pl.when(
+            col.is_between(
+                col.mean() - n_std * col.std(),
+                col.mean() + n_std * col.std(),
+            )
+        )
+        .then(None)
+        .otherwise(col)
+        .name.suffix("_out__")
         for col, n_std in pairs_to_check
     ]
 
-    outliers = data.select(pl.Expr.or_(*columns_not_within_stds))
+    tagged_outliers = data.select(*keep_outlier_nullify_others).filter(
+        pl.any_horizontal(pl.all().is_not_null())
+    )
+    if _has_sufficient_polars_version("0.20.0"):
+        tagged_outliers = tagged_outliers.rename(lambda col: col.replace("_out__", ""))
+    else:
+        tagged_outliers = tagged_outliers.rename(
+            {col: col.replace("_out__", "") for col in tagged_outliers.columns}
+        )
 
-    if isinstance(outliers, pl.LazyFrame):
-        outliers = outliers.collect()
+    if isinstance(tagged_outliers, pl.LazyFrame):
+        tagged_outliers = tagged_outliers.collect()
 
-    bad_column_names = [col.name for col in outliers if col.any()]
+    columns_with_null = [col.name for col in tagged_outliers if col.is_not_null().any()]
 
-    if bad_column_names:
+    if columns_with_null:
+        bad_examples = tagged_outliers.select(columns_with_null)
         raise PolarsAssertError(
-            df=outliers.select(bad_column_names),
+            df=bad_examples,
             supp_message=(
                 "There are some outliers outside the specified mean±std range"
                 + "\n"
-                + f"Impacted columns: {bad_column_names}"
+                + f"Impacted columns: {columns_with_null}"
             ),
         )
 
