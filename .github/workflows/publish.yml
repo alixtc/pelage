@@ -17,19 +17,6 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Install Python and Dependencies
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-          cache: 'pip'
-      - run: pip install poetry
-      - run: poetry install
-      - run: poetry shell || echo "poetry shell failed"
-      - run: pip install quartodoc griffe==0.42.1
-      - run: which quartodoc
-      - run: which python
-      - run: which python3
-      - run: quartodoc build --config docs/_quarto.yml
       - name: Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
