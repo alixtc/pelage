@@ -1,8 +1,10 @@
 project:
   title: Pelage
   type: website
-  output-dir: .
+  output-dir: _site
 
+execute:
+  freeze: auto
 
 format:
   html:

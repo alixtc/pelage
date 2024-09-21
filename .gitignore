@@ -19,4 +19,5 @@ TODO.md
 dist/
 
 /.quarto/
+./docs/_site/
 .coverage/.coverage
