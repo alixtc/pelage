@@ -1,0 +1,22 @@
+*.egg-info
+.ipynb_checkpoints
+.DS_Store
+raw_data/
+*.csv
+**/__pycache__/
+.env
+
+.python-version
+.vscode
+poetry.lock
+
+notebooks/
+
+TODO.md
+
+# For publication
+.tox/
+dist/
+
+/.quarto/
+.coverage/.coverage
