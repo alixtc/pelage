@@ -1,34 +1,40 @@
-[tool.poetry]
+[project]
 name = "pelage"
 version = "0.3.0"
 description = "This package contains a collection of tests to improve your Polars data analysis superpowers"
-authors = ["Alix Tiran-Cappello <alix.tiran-cappello@laposte.net>"]
-license = "MIT"
 readme = "README.md"
+
+authors = [
+    { name = "Alix Tiran-Cappello", email = "alix.tiran-cappello@laposte.net" },
+]
+license = { text = "MIT" }
+
+requires-python = ">=3.8, <3.13"
+dependencies = [
+    "polars>=0.19",
+]
+
+[project.urls]
 homepage = "https://alixtc.github.io/pelage"
 repository = "https://github.com/alixtc/pelage/"
 documentation = "https://alixtc.github.io/pelage/notebooks/examples.html"
 
-[tool.poetry.dependencies]
-python = ">= 3.8, < 3.13"
-polars = " >= 0.19"
+[tool.setuptools]
+py-modules = [] # Required for tox: https://stackoverflow.com/questions/72294299/multiple-top-level-packages-discovered-in-a-flat-layout
 
-[tool.poetry.group.dev.dependencies]
-black = ">=24.2.0"
-pytest = ">=8.0.2"
-isort = ">=5.13.2"
-ruff = ">=0.3.0"
-pre-commit = "*"
-coverage = ">=7.4.3"
-ipykernel = ">=6.29.3"
-
-
-
-[tool.poetry.group.extras.dependencies]
-seaborn = "^0.13.2"
-pyarrow = "^15.0.2"
-genbadge = {extras = ["all"], version = "^1.1.1"}
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "tox>=4.23.2",
+    "black>=24.2.0",
+    "pytest>=8.0.2",
+    "isort>=5.13.2",
+    "ruff>=0.3.0",
+    "pre-commit",
+    "coverage>=7.4.3",
+    "ipykernel>=6.29.3",
+]
+extras = [
+    "seaborn<1.0.0,>=0.13.2",
+    "pyarrow<16.0.0,>=15.0.2",
+    "genbadge[all]<2.0.0,>=1.1.1",
+]
