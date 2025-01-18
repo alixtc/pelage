@@ -29,7 +29,7 @@ tox:
 	@coverage report --data-file=".coverage/.coverage" --show-missing  --precision=3
 
 
-all: clean test tox render-docs doctest pre-commit
+all: clean test tox render-docs doctest pre_commit
 
 pre_commit:
 	pre-commit run --files docs/*
