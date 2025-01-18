@@ -7,6 +7,11 @@ repos:
         exclude: '^.+coverage.+$'
     -   id: check-yaml
 
+- repo: https://github.com/google/go-jsonnet
+  rev: v0.20.0
+  hooks:
+    - id: jsonnet-format
+    - id: jsonnet-lint
 
 -   repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.0.283
