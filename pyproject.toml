@@ -1,6 +1,6 @@
 [project]
 name = "pelage"
-version = "0.3.0"
+version = "0.3.1"
 description = "This package contains a collection of tests to improve your Polars data analysis superpowers"
 readme = "README.md"
 
@@ -9,10 +9,8 @@ authors = [
 ]
 license = { text = "MIT" }
 
-requires-python = ">=3.9, <3.14"
-dependencies = [
-    "polars>=0.19",
-]
+requires-python = ">=3.8, <3.14"
+dependencies = ["polars>=0.19"]
 
 [project.urls]
 homepage = "https://alixtc.github.io/pelage"
@@ -20,7 +18,8 @@ repository = "https://github.com/alixtc/pelage/"
 documentation = "https://alixtc.github.io/pelage/notebooks/examples.html"
 
 [tool.setuptools]
-py-modules = [] # Required for tox: https://stackoverflow.com/questions/72294299/multiple-top-level-packages-discovered-in-a-flat-layout
+py-modules = [
+] # Required for tox: https://stackoverflow.com/questions/72294299/multiple-top-level-packages-discovered-in-a-flat-layout
 
 [dependency-groups]
 dev = [
@@ -32,7 +31,7 @@ dev = [
     "pre-commit",
     "coverage>=7.4.3",
     "ipykernel>=6.29.3",
-    "quartodoc==0.7.*",
+    "quartodoc==0.7.*; python_version >= '3.10'",
     "griffe==0.41.*",
 ]
 extras = [
