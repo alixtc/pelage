@@ -790,6 +790,34 @@ def test_is_monotonic_should_allow_to_specify_interval_compatible_with_group_by(
         given.pipe(plg.is_monotonic, "dates", interval="3m", group_by="group")
 
 
+def test_is_monotonic_should_handle_larger_intervals():
+    given = pl.DataFrame(
+        {
+            "monthly_interval": pl.date_range(
+                pl.date(2024, 1, 1), pl.date(2024, 6, 1), "1mo", eager=True
+            )
+        }
+    )
+
+    when = given.pipe(plg.is_monotonic, "monthly_interval", interval="1mo")
+    testing.assert_frame_equal(given, when)
+
+
+def test_is_monotonic_should_handle_larger_intervals_reversed():
+    given = pl.DataFrame(
+        {
+            "monthly_interval": pl.date_range(
+                pl.date(2024, 1, 1), pl.date(2024, 6, 1), "1mo", eager=True
+            )
+        }
+    ).sort("monthly_interval", descending=True)
+
+    when = given.pipe(
+        plg.is_monotonic, "monthly_interval", decreasing=True, interval="-1mo"
+    )
+    testing.assert_frame_equal(given, when)
+
+
 def test_is_monotonic_error_give_out_specifyic_error_message():
     given = pl.DataFrame({"int": [1, 2, 1]})
     with pytest.raises(plg.PolarsAssertError) as err:

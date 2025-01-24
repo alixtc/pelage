@@ -1702,11 +1702,7 @@ def is_monotonic(
     Error with the DataFrame passed to the check function:
     -->Intervals differ from the specified 3m interval. Unexpected: {datetime.timedelta(seconds=60)}
     """  # noqa: E501
-    select_diff_expression = (
-        pl.col(column).diff()
-        if group_by is None
-        else pl.col(column).diff().over(group_by)
-    )
+    select_diff_expression = pl.col(column).diff().over(group_by)
 
     # Cast necessary for dates and datetimes
     if isinstance(data, pl.DataFrame):
@@ -1736,11 +1732,31 @@ def is_monotonic(
         return data
 
     if diff_column.dtype == pl.Duration:
-        assert isinstance(interval, str)
-        dummy_time = pl.Series(["1970-01-01 00:00:00"]).str.to_datetime()
-        expected_timedelta = dummy_time.dt.offset_by(interval) - dummy_time
-        actual_timedelta = diff_column.drop_nulls().unique()
-        bad_intervals = set(actual_timedelta) - set(expected_timedelta)
+        assert isinstance(
+            interval, str
+        ), "The interval should be a string compatible with polars time definitions"
+
+        bad_intervals = (
+            data.with_columns(
+                pl.col(column)
+                .dt.offset_by(interval)
+                .shift()
+                .over(group_by)
+                .alias(f"_previous_entry_offset_by_{interval}")
+            )
+            .drop_nulls()
+            .filter(pl.col(column) != pl.col(f"_previous_entry_offset_by_{interval}"))
+        )
+
+        if isinstance(bad_intervals, pl.LazyFrame):
+            bad_intervals = bad_intervals.collect()
+
+        if not bad_intervals.is_empty():
+            raise PolarsAssertError(
+                supp_message=f"Intervals differ from the specified {interval} interval.",
+                df=bad_intervals,
+            )
+        return data
 
     else:
         bad_intervals = (diff_column != interval).any()
