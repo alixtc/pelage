@@ -364,7 +364,7 @@ def has_dtypes(
     return data
 
 
-def _get_frame_schema(data: PolarsLazyOrDataFrame) -> pl.Schema:
+def _get_frame_schema(data: PolarsLazyOrDataFrame):
     if isinstance(data, pl.DataFrame):
         return data.schema
     if _has_sufficient_polars_version("1.0.0"):
