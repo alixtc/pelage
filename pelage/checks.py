@@ -1702,6 +1702,10 @@ def is_monotonic(
     Error with the DataFrame passed to the check function:
     -->Intervals differ from the specified 3m interval. Unexpected: {datetime.timedelta(seconds=60)}
     """  # noqa: E501
+    if not _has_sufficient_polars_version("0.20") and group_by is None:
+        # with version >= 0.20 .over(None) does nothing, but before it fails
+        group_by = 1
+
     select_diff_expression = pl.col(column).diff().over(group_by)
 
     # Cast necessary for dates and datetimes
@@ -1739,13 +1743,13 @@ def is_monotonic(
         bad_intervals = (
             data.with_columns(
                 pl.col(column)
-                .dt.offset_by(interval)
                 .shift()
                 .over(group_by)
-                .alias(f"_previous_entry_offset_by_{interval}")
+                .dt.offset_by(interval)
+                .alias(f"_previous_entry_with_{interval}_offset")
             )
             .drop_nulls()
-            .filter(pl.col(column) != pl.col(f"_previous_entry_offset_by_{interval}"))
+            .filter(pl.col(column) != pl.col(f"_previous_entry_with_{interval}_offset"))
         )
 
         if isinstance(bad_intervals, pl.LazyFrame):

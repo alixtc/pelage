@@ -790,8 +790,11 @@ def test_is_monotonic_should_allow_to_specify_interval_compatible_with_group_by(
         given.pipe(plg.is_monotonic, "dates", interval="3m", group_by="group")
 
 
-def test_is_monotonic_should_handle_larger_intervals():
-    given = pl.DataFrame(
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_is_monotonic_should_handle_larger_intervals(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+):
+    given = frame(
         {
             "monthly_interval": pl.date_range(
                 pl.date(2024, 1, 1), pl.date(2024, 6, 1), "1mo", eager=True
@@ -803,8 +806,11 @@ def test_is_monotonic_should_handle_larger_intervals():
     testing.assert_frame_equal(given, when)
 
 
-def test_is_monotonic_should_handle_larger_intervals_reversed():
-    given = pl.DataFrame(
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_is_monotonic_should_handle_larger_intervals_reversed(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+):
+    given = frame(
         {
             "monthly_interval": pl.date_range(
                 pl.date(2024, 1, 1), pl.date(2024, 6, 1), "1mo", eager=True
