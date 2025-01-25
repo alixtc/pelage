@@ -1,12 +1,12 @@
 on:
   workflow_dispatch:
   push:
-    branches: ["*"]
+    branches: [master]
 
 name: Quarto Publish
 
 jobs:
-  build-deploy:
+  quarto-publish-pages:
     runs-on: ubuntu-latest
     permissions:
       contents: write
