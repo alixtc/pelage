@@ -10,19 +10,17 @@ from pathlib import Path
 from typing import Literal, TypedDict
 
 import quartodoc.ast as qast
-
 from griffe import (
     Alias,
     DocstringAttribute,
-    DocstringSectionText,
     DocstringParameter,
     DocstringSectionParameters,
+    DocstringSectionText,
     Expr,
     ExprName,
     Function,
     Object,
 )
-
 from plum import dispatch
 from quartodoc import MdRenderer
 from quartodoc.pandoc.blocks import DefinitionList
