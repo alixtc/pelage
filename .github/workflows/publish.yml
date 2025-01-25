@@ -2,6 +2,7 @@ on:
   workflow_dispatch:
   push:
     branches: ["*"]
+    tags: ["*"]
 
 name: Test & Publish Pipeline
 
