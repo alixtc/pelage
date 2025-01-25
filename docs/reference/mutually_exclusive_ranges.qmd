@@ -78,7 +78,7 @@ shape: (4, 3)
 │ 3     ┆ 6   ┆ 8   │
 └───────┴─────┴─────┘
 Error with the DataFrame passed to the check function:
--->There were overlapping intervals:
+--> There were overlapping intervals:
 DataFrame was sorted by: ['a', 'b'],
 Interval columns: low_bound='a', high_bound='b'
 ```

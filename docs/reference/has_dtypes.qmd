@@ -61,7 +61,7 @@ Traceback (most recent call last):
     ...
 pelage.checks.PolarsAssertError: Details
 Error with the DataFrame passed to the check function:
--->Some columns don't have the expected type:
+--> Some columns don't have the expected type:
 column='age', expected_type=String, real_dtype=Int64
 column='city', expected_type=Int64, real_dtype=String
 ```

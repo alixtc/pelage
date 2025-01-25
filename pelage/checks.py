@@ -73,7 +73,7 @@ class PolarsAssertError(Exception):
         if not self.df.is_empty():
             base_message = f"{self.df}\n{base_message}"
 
-        return f"Details\n{base_message}\n-->{self.supp_message}"
+        return f"Details\n{base_message}\n--> {self.supp_message}"
 
 
 def has_shape(
@@ -136,7 +136,7 @@ def has_shape(
     ...
     pelage.checks.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
-    -->The data has not the expected shape: (1, 2)
+    --> The data has not the expected shape: (1, 2)
 
     >>> group_example_df = pl.DataFrame(
     ...     {
@@ -157,7 +157,7 @@ def has_shape(
     │ b   ┆ 2   │
     └─────┴─────┘
     Error with the DataFrame passed to the check function:
-    -->The number of rows per group does not match the specified value: 1
+    --> The number of rows per group does not match the specified value: 1
     """
 
     if shape[0] is None and shape[1] is None:
@@ -251,7 +251,7 @@ def has_columns(
         ...
     pelage.checks.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
-    -->
+    --> Missing columns if the dataframe: {'c'}
     >>> df.pipe(plg.has_columns, ["a", "b"])
     shape: (3, 2)
     ┌─────┬─────┐
@@ -275,7 +275,9 @@ def has_columns(
     )
     mising_columns = set(names) - column_names_set
     if mising_columns:
-        raise PolarsAssertError
+        raise PolarsAssertError(
+            supp_message=f"Missing columns if the dataframe: {mising_columns}"
+        )
     return data
 
 
@@ -344,7 +346,7 @@ def has_dtypes(
         ...
     pelage.checks.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
-    -->Some columns don't have the expected type:
+    --> Some columns don't have the expected type:
     column='age', expected_type=String, real_dtype=Int64
     column='city', expected_type=Int64, real_dtype=String
     """
@@ -423,7 +425,7 @@ def has_no_nulls(
     │ B      ┆ 1          │
     └────────┴────────────┘
     Error with the DataFrame passed to the check function:
-    -->There were unexpected nulls in the columns above
+    --> There were unexpected nulls in the columns above
     """
     selected_columns = _sanitize_column_inputs(columns)
     null_count = (
@@ -503,7 +505,7 @@ def has_no_infs(
     │ 2   ┆ inf │
     └─────┴─────┘
     Error with the DataFrame passed to the check function:
-    -->
+    --> The were unexpeted infinites in the dataframe. See above.
     >>> plg.has_no_infs(df, ["a"])  # or  plg.has_no_infs(df, "a")
     shape: (2, 2)
     ┌─────┬─────┐
@@ -522,7 +524,9 @@ def has_no_infs(
         inf_values = inf_values.collect()
 
     if not inf_values.is_empty():
-        raise PolarsAssertError(inf_values)
+        raise PolarsAssertError(
+            inf_values, "The were unexpeted infinites in the dataframe. See above."
+        )
     return data
 
 
@@ -578,7 +582,7 @@ def unique(
     │ 1   │
     └─────┘
     Error with the DataFrame passed to the check function:
-    -->Somes values are duplicated within the specified columns
+    --> Somes values are duplicated within the specified columns
     """
     selected_cols = _sanitize_column_inputs(columns)
     improper_data = data.filter(pl.any_horizontal(selected_cols.is_duplicated()))
@@ -655,7 +659,7 @@ def unique_combination_of_columns(
     │ X   ┆ 2   │
     └─────┴─────┘
     Error with the DataFrame passed to the check function:
-    -->Some combinations of columns are not unique. See above, selected: col("a")
+    --> Some combinations of columns are not unique. See above, selected: col("a")
     """
     cols = _sanitize_column_inputs(columns)
     non_unique_combinations = _safe_group_by_length(data, cols).filter(
@@ -725,7 +729,7 @@ def not_constant(
     │ b      ┆ 1          │
     └────────┴────────────┘
     Error with the DataFrame passed to the check function:
-    -->Some columns are constant
+    --> Some columns are constant
 
     The folloing example details how to perform this checks for groups:
     >>> import polars as pl
@@ -761,7 +765,7 @@ def not_constant(
     │ B   ┆ a      ┆ 1          │
     └─────┴────────┴────────────┘
     Error with the DataFrame passed to the check function:
-    -->Some columns are constant within a given group
+    --> Some columns are constant within a given group
     """
     selected_cols = _sanitize_column_inputs(columns)
 
@@ -859,7 +863,7 @@ def accepted_values(
     │ 3   │
     └─────┘
     Error with the DataFrame passed to the check function:
-    -->It contains values that have not been white-Listed in `items`.
+    --> It contains values that have not been white-Listed in `items`.
     Showing problematic columns only.
     """
     mask_for_improper_values = [
@@ -936,7 +940,7 @@ def not_accepted_values(
     │ b   │
     └─────┘
     Error with the DataFrame passed to the check function:
-    -->This DataFrame contains values marked as forbidden
+    --> This DataFrame contains values marked as forbidden
     """
     mask_for_forbidden_values = [
         pl.col(col).is_in(values) for col, values in items.items()
@@ -1002,7 +1006,7 @@ def has_mandatory_values(
     ...
     pelage.checks.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
-    -->Missing mandatory values in the following columns: {'a': [3, 4]}
+    --> Missing mandatory values in the following columns: {'a': [3, 4]}
 
     The folloing example details how to perform this checks for groups:
     >>> group_df_example = pl.DataFrame(
@@ -1036,7 +1040,7 @@ def has_mandatory_values(
     │ G1    ┆ [1]       ┆ [1, 2]         │
     └───────┴───────────┴────────────────┘
     Error with the DataFrame passed to the check function:
-    -->Some groups are missing mandatory values
+    --> Some groups are missing mandatory values
     """
     if group_by is not None:
         groups_missing_mandatory = (
@@ -1170,7 +1174,7 @@ def not_null_proportion(
     │ a      ┆ 0.333333          ┆ 0.7      ┆ 1        │
     └────────┴───────────────────┴──────────┴──────────┘
     Error with the DataFrame passed to the check function:
-    -->Some columns contains a proportion of nulls beyond specified limits
+    --> Some columns contains a proportion of nulls beyond specified limits
 
      The folloing example details how to perform this checks for groups:
     >>> group_df = pl.DataFrame(
@@ -1204,7 +1208,7 @@ def not_null_proportion(
     │ B     ┆ a      ┆ 0.0               ┆ 0.5      ┆ 1        │
     └───────┴────────┴───────────────────┴──────────┴──────────┘
     Error with the DataFrame passed to the check function:
-    -->Some columns contains a proportion of nulls beyond specified limits
+    --> Some columns contains a proportion of nulls beyond specified limits
     """
 
     pl_ranges = _format_ranges_by_columns(items)
@@ -1321,7 +1325,7 @@ def at_least_one(
     ...
     pelage.checks.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
-    -->Some columns contains only null values: ['a']
+    --> Some columns contains only null values: ['a']
 
     The folloing example details how to perform this checks for groups:
     >>> df = pl.DataFrame(
@@ -1355,7 +1359,7 @@ def at_least_one(
     │ G1    ┆ a       ┆ false        │
     └───────┴─────────┴──────────────┘
     Error with the DataFrame passed to the check function:
-    -->Some columns contains only null values per group
+    --> Some columns contains only null values per group
     """
 
     selected_columns = _sanitize_column_inputs(columns)
@@ -1463,7 +1467,7 @@ def accepted_range(
     │ 3   │
     └─────┘
     Error with the DataFrame passed to the check function:
-    -->Some values are beyond the acceptable ranges defined
+    --> Some values are beyond the acceptable ranges defined
     >>> df.pipe(plg.accepted_range, {"a": (1, 3)})
     shape: (3, 1)
     ┌─────┐
@@ -1561,7 +1565,7 @@ def maintains_relationships(
     ...
     pelage.checks.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
-    -->Some values were removed from col 'a', for ex: ('b',)
+    --> Some values were removed from col 'a', for ex: ('b',)
     """
 
     if isinstance(data, pl.LazyFrame):
@@ -1669,7 +1673,7 @@ def is_monotonic(
     ...
     pelage.checks.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
-    -->Column "int" expected to be monotonic but is not, try .sort("int")
+    --> Column "int" expected to be monotonic but is not, try .sort("int")
 
     The folloing example details how to perform this checks for groups:
     >>> given = pl.DataFrame(
@@ -1681,6 +1685,7 @@ def is_monotonic(
     ...         ("2021-12-12 01:44:00", "B"),
     ...     ],
     ...     schema=["dates", "group"],
+    ...     orient="row",
     ... ).with_columns(pl.col("dates").str.to_datetime())
     >>> given.pipe(plg.is_monotonic, "dates", interval="1m", group_by="group")
     shape: (5, 2)
@@ -1699,14 +1704,24 @@ def is_monotonic(
     Traceback (most recent call last):
     ...
     pelage.checks.PolarsAssertError: Details
+    shape: (3, 3)
+    ┌─────────────────────┬───────┬────────────────────────────────┐
+    │ dates               ┆ group ┆ _previous_entry_with_3m_offset │
+    │ ---                 ┆ ---   ┆ ---                            │
+    │ datetime[μs]        ┆ str   ┆ datetime[μs]                   │
+    ╞═════════════════════╪═══════╪════════════════════════════════╡
+    │ 2020-01-01 01:43:00 ┆ A     ┆ 2020-01-01 01:45:00            │
+    │ 2020-01-01 01:44:00 ┆ A     ┆ 2020-01-01 01:46:00            │
+    │ 2021-12-12 01:44:00 ┆ B     ┆ 2021-12-12 01:46:00            │
+    └─────────────────────┴───────┴────────────────────────────────┘
     Error with the DataFrame passed to the check function:
-    -->Intervals differ from the specified 3m interval. Unexpected: {datetime.timedelta(seconds=60)}
+    --> Intervals differ from the specified 3m interval.
     """  # noqa: E501
-    select_diff_expression = (
-        pl.col(column).diff()
-        if group_by is None
-        else pl.col(column).diff().over(group_by)
-    )
+    if not _has_sufficient_polars_version("0.20") and group_by is None:
+        # with version >= 0.20 .over(None) does nothing, but before it fails
+        group_by = 1
+
+    select_diff_expression = pl.col(column).diff().over(group_by)
 
     # Cast necessary for dates and datetimes
     if isinstance(data, pl.DataFrame):
@@ -1736,11 +1751,31 @@ def is_monotonic(
         return data
 
     if diff_column.dtype == pl.Duration:
-        assert isinstance(interval, str)
-        dummy_time = pl.Series(["1970-01-01 00:00:00"]).str.to_datetime()
-        expected_timedelta = dummy_time.dt.offset_by(interval) - dummy_time
-        actual_timedelta = diff_column.drop_nulls().unique()
-        bad_intervals = set(actual_timedelta) - set(expected_timedelta)
+        assert isinstance(
+            interval, str
+        ), "The interval should be a string compatible with polars time definitions"
+
+        bad_intervals = (
+            data.with_columns(
+                pl.col(column)
+                .shift()
+                .over(group_by)
+                .dt.offset_by(interval)
+                .alias(f"_previous_entry_with_{interval}_offset")
+            )
+            .drop_nulls()
+            .filter(pl.col(column) != pl.col(f"_previous_entry_with_{interval}_offset"))
+        )
+
+        if isinstance(bad_intervals, pl.LazyFrame):
+            bad_intervals = bad_intervals.collect()
+
+        if not bad_intervals.is_empty():
+            raise PolarsAssertError(
+                supp_message=f"Intervals differ from the specified {interval} interval.",
+                df=bad_intervals,
+            )
+        return data
 
     else:
         bad_intervals = (diff_column != interval).any()
@@ -1810,7 +1845,7 @@ def custom_check(
     │ 3   │
     └─────┘
     Error with the DataFrame passed to the check function:
-    -->Unexpected data in `Custom Check`: [(col("a")) != (dyn int: 3)]
+    --> Unexpected data in `Custom Check`: [(col("a")) != (dyn int: 3)]
     """
     columns_in_expression = set(expresion.meta.root_names())
     bad_data = data.select(columns_in_expression).filter(expresion.not_())
@@ -1901,7 +1936,7 @@ def mutually_exclusive_ranges(
     │ 3     ┆ 6   ┆ 8   │
     └───────┴─────┴─────┘
     Error with the DataFrame passed to the check function:
-    -->There were overlapping intervals:
+    --> There were overlapping intervals:
     DataFrame was sorted by: ['a', 'b'],
     Interval columns: low_bound='a', high_bound='b'
     """
@@ -2011,7 +2046,7 @@ def column_is_within_n_std(
     │ 5000 │
     └──────┘
     Error with the DataFrame passed to the check function:
-    -->There are some outliers outside the specified mean±std range
+    --> There are some outliers outside the specified mean±std range
     Impacted columns: ['c']
     """
     check_items = [items, *args]

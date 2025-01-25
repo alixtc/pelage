@@ -66,6 +66,6 @@ shape: (1, 1)
 │ 5000 │
 └──────┘
 Error with the DataFrame passed to the check function:
--->There are some outliers outside the specified mean±std range
+--> There are some outliers outside the specified mean±std range
 Impacted columns: ['c']
 ```

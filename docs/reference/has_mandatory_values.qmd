@@ -47,7 +47,7 @@ Traceback (most recent call last):
 ...
 pelage.checks.PolarsAssertError: Details
 Error with the DataFrame passed to the check function:
--->Missing mandatory values in the following columns: {'a': [3, 4]}
+--> Missing mandatory values in the following columns: {'a': [3, 4]}
 ```
 
 The folloing example details how to perform this checks for groups:
@@ -84,5 +84,5 @@ shape: (1, 3)
 │ G1    ┆ [1]       ┆ [1, 2]         │
 └───────┴───────────┴────────────────┘
 Error with the DataFrame passed to the check function:
--->Some groups are missing mandatory values
+--> Some groups are missing mandatory values
 ```

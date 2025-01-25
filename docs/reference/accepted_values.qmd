@@ -53,6 +53,6 @@ shape: (1, 1)
 │ 3   │
 └─────┘
 Error with the DataFrame passed to the check function:
--->It contains values that have not been white-Listed in `items`.
+--> It contains values that have not been white-Listed in `items`.
 Showing problematic columns only.
 ```

@@ -55,5 +55,5 @@ shape: (2, 1)
 │ b   │
 └─────┘
 Error with the DataFrame passed to the check function:
--->This DataFrame contains values marked as forbidden
+--> This DataFrame contains values marked as forbidden
 ```

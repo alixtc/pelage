@@ -25,7 +25,7 @@ def test_dataframe_error_message_format():
     │ b   ┆ 2   │
     └─────┴─────┘
     Error with the DataFrame passed to the check function:
-    -->Additional message
+    --> Additional message
     """
     formatted_msg = str(plg.PolarsAssertError(data, message))
     assert dedent(expected_message).strip() == formatted_msg
@@ -37,7 +37,7 @@ def test_dataframe_error_message_format_accept_only_message():
     expected_message = """
     Details
     Error with the DataFrame passed to the check function:
-    -->Additional message
+    --> Additional message
     """
 
     formatted_msg = str(plg.PolarsAssertError(supp_message=message))
@@ -52,7 +52,7 @@ def test_dataframe_error_message_format_accepts_no_arguments():
     """
 
     formatted_msg = str(plg.PolarsAssertError())
-    assert formatted_msg == dedent(expected_message).strip()
+    assert formatted_msg == (dedent(expected_message).strip() + " ")
 
 
 @pytest.mark.parametrize(
@@ -83,7 +83,7 @@ def test_is_shape(frame: Type[Union[pl.DataFrame, pl.LazyFrame]]):
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_is_shape_should_error_when_expected_shape_has_only_nones(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame(
         {
@@ -127,7 +127,7 @@ def test_is_shape_should__error_with_wrong_expected_dimensions(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_is_shape_should_accept_group_by_option(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame(
         {
@@ -170,7 +170,7 @@ def test_has_columns_accepts_lists(frame: Type[Union[pl.DataFrame, pl.LazyFrame]
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_has_columns_should_error_on_missing_column(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": [1, 2, 3]})
     with pytest.raises(plg.PolarsAssertError):
@@ -190,7 +190,7 @@ def test_has_dtypes_accepts_dict(frame: Type[Union[pl.DataFrame, pl.LazyFrame]])
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_has_dtypes_accepts_dict_should_error_if_types_are_not_matched(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": [1, 2, 3]})
     with pytest.raises(plg.PolarsAssertError) as err:
@@ -201,7 +201,7 @@ def test_has_dtypes_accepts_dict_should_error_if_types_are_not_matched(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_has_dtypes_accepts_dict_should_error_if_columns_are_missing(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": [1, 2, 3]})
     with pytest.raises(plg.PolarsAssertError):
@@ -210,7 +210,7 @@ def test_has_dtypes_accepts_dict_should_error_if_columns_are_missing(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_has_dtypes_accepts_dict_should_indicate_mismatched_dtypes(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": [1, 2, 3]})
     with pytest.raises(plg.PolarsAssertError) as err:
@@ -231,7 +231,7 @@ def test_is_shape_should_error_on_wrong_shape():
     "given", [pl.DataFrame({"a": [1, 2]}), pl.LazyFrame({"a": [1, 2]})]
 )
 def test_has_no_nulls_returns_df_when_all_values_defined(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     when = given.pipe(plg.has_no_nulls)
     testing.assert_frame_equal(given, when)
@@ -252,7 +252,7 @@ def test_has_no_nulls_throws_error_on_null_values(frame):
     ],
 )
 def test_has_no_nulls_indicates_columns_with_nulls_in_error_message(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     expected = pl.DataFrame(
         {"column": ["a"], "null_count": [1]},
@@ -267,7 +267,7 @@ def test_has_no_nulls_indicates_columns_with_nulls_in_error_message(
     "given", [pl.DataFrame({"a": [1, 2]}), pl.LazyFrame({"a": [1, 2]})]
 )
 def test_has_no_infs_returns_df_when_all_values_defined(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     when = given.pipe(plg.has_no_infs)
     testing.assert_frame_equal(given, when)
@@ -281,7 +281,7 @@ def test_has_no_infs_returns_df_when_all_values_defined(
     ],
 )
 def test_has_no_infs_throws_error_on_inf_values(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     with pytest.raises(plg.PolarsAssertError) as err:
         given.pipe(plg.has_no_infs)
@@ -293,7 +293,7 @@ def test_has_no_infs_throws_error_on_inf_values(
     "given", [pl.DataFrame({"a": [1, 2]}), pl.LazyFrame({"a": [1, 2]})]
 )
 def test_unique_should_return_df_if_column_has_unique_values(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     when = given.pipe(plg.unique, "a")
     testing.assert_frame_equal(given, when)
@@ -326,7 +326,7 @@ def test_not_constant():
     "given", [pl.DataFrame({"b": [1, 1]}), pl.LazyFrame({"b": [1, 1]})]
 )
 def test_not_constant_throws_error_on_constant_columns(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     with pytest.raises(plg.PolarsAssertError):
         given.pipe(plg.not_constant, "b")
@@ -394,7 +394,7 @@ def test_accepted_values_should_accept_pl_expr():
     ],
 )
 def test_accepted_values_should_error_on_out_of_range_values(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     items = {"a": [1, 2], "b": ["a", "b", "c"]}
 
@@ -425,7 +425,7 @@ def test_not_accepted_values_should_accept_pl_expr():
     ],
 )
 def test_not_accepted_values_should_error_on_forbidden_values(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     items = {"a": [1], "b": ["a", "c"]}
 
@@ -441,7 +441,7 @@ def test_not_accepted_values_should_error_on_forbidden_values(
     ],
 )
 def test_not_null_proportion_accept_proportion_range_or_single_input(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     when = given.pipe(plg.not_null_proportion, {"a": (0.1, 1.0)})
     testing.assert_frame_equal(given, when)
@@ -470,7 +470,7 @@ def test_not_null_proportion_accept_group_by_option():
     ],
 )
 def test_not_null_proportion_should_error_with_too_many_nulls_per_group(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     with pytest.raises(plg.PolarsAssertError):
         given.pipe(plg.not_null_proportion, {"a": 0.5}, group_by="group")
@@ -484,7 +484,7 @@ def test_not_null_proportion_should_error_with_too_many_nulls_per_group(
     ],
 )
 def test_not_null_proportion_errors_with_too_many_nulls(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     with pytest.raises(plg.PolarsAssertError) as err:
         given.pipe(plg.not_null_proportion, {"a": 0.9})
@@ -517,7 +517,7 @@ def test_accepted_range(frame: Type[Union[pl.DataFrame, pl.LazyFrame]]):
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_accepted_range_is_compatible_with_is_between_syntax(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": ["b", "c"]})
     when = given.pipe(plg.accepted_range, {"a": (pl.lit("a"), pl.lit("d"), "right")})
@@ -532,7 +532,7 @@ def test_accepted_range_is_compatible_with_is_between_syntax(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_accepted_range_erros_when_values_are_out_of_range(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": [1, 2, 3]})
     with pytest.raises(plg.PolarsAssertError) as err:
@@ -542,7 +542,7 @@ def test_accepted_range_erros_when_values_are_out_of_range(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_accepted_range_errors_on_two_different_ranges(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": [1, 2, 3], "b": [1, 2, 3]})
     with pytest.raises(plg.PolarsAssertError) as err:
@@ -625,7 +625,7 @@ def test_unique_combination_of_columns(frame: Type[Union[pl.DataFrame, pl.LazyFr
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_unique_combination_of_columns_use_all_columns_by_default(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": ["a", "b"]})
     when = given.pipe(plg.unique_combination_of_columns)
@@ -634,7 +634,7 @@ def test_unique_combination_of_columns_use_all_columns_by_default(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_unique_combination_of_columns_accepts_list_as_input(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": ["a", "a"], "b": [1, 2]})
     when = given.pipe(plg.unique_combination_of_columns, ["a", "b"])
@@ -643,7 +643,7 @@ def test_unique_combination_of_columns_accepts_list_as_input(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_unique_combination_of_columns_should_err_for_non_unicity(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": ["a", "a"]})
     with pytest.raises(plg.PolarsAssertError):
@@ -652,7 +652,7 @@ def test_unique_combination_of_columns_should_err_for_non_unicity(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_unique_combination_of_columns_base_error_message_format(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": ["a", "a"]})
     with pytest.raises(plg.PolarsAssertError) as err:
@@ -711,7 +711,7 @@ def test_is_monotonic_works_with_int_float_dates_datetimes(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_is_monotonic_error_when_not_monotonic(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"int": [1, 2, 1]})
     with pytest.raises(plg.PolarsAssertError):
@@ -724,7 +724,7 @@ def test_is_monotonic_error_when_not_monotonic(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_is_monotonic_can_specify_decreasing_monotonic(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"int": [3, 2, 1]})
     when = given.pipe(plg.is_monotonic, "int", decreasing=True)
@@ -733,7 +733,7 @@ def test_is_monotonic_can_specify_decreasing_monotonic(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_is_monotonic_can_accept_non_strictly_monotonic(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"int": [1, 2, 2]})
     when = given.pipe(plg.is_monotonic, "int", strict=False)
@@ -756,15 +756,14 @@ def test_is_monotonic_should_allow_to_specify_interval_between_each_row():
 
 def test_is_monotonic_should_allow_to_specify_interval_compatible_with_timedelta():
     given = pl.DataFrame(
-        dict(
-            dates=pl.Series(
-                [
-                    "2020-01-01 01:42:00",
-                    "2020-01-01 01:43:00",
-                    "2020-01-01 01:44:00",
-                ]
-            ).str.to_datetime()
-        )
+        pl.Series(
+            "dates",
+            [
+                "2020-01-01 01:42:00",
+                "2020-01-01 01:43:00",
+                "2020-01-01 01:44:00",
+            ],
+        ).str.to_datetime()
     )
     when = given.pipe(plg.is_monotonic, "dates", interval="1m")
     testing.assert_frame_equal(given, when)
@@ -790,6 +789,40 @@ def test_is_monotonic_should_allow_to_specify_interval_compatible_with_group_by(
         given.pipe(plg.is_monotonic, "dates", interval="3m", group_by="group")
 
 
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_is_monotonic_should_handle_larger_intervals(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+):
+    given = frame(
+        {
+            "monthly_interval": pl.date_range(
+                pl.date(2024, 1, 1), pl.date(2024, 6, 1), "1mo", eager=True
+            )
+        }
+    )
+
+    when = given.pipe(plg.is_monotonic, "monthly_interval", interval="1mo")
+    testing.assert_frame_equal(given, when)
+
+
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_is_monotonic_should_handle_larger_intervals_reversed(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+):
+    given = frame(
+        {
+            "monthly_interval": pl.date_range(
+                pl.date(2024, 1, 1), pl.date(2024, 6, 1), "1mo", eager=True
+            )
+        }
+    ).sort("monthly_interval", descending=True)
+
+    when = given.pipe(
+        plg.is_monotonic, "monthly_interval", decreasing=True, interval="-1mo"
+    )
+    testing.assert_frame_equal(given, when)
+
+
 def test_is_monotonic_error_give_out_specifyic_error_message():
     given = pl.DataFrame({"int": [1, 2, 1]})
     with pytest.raises(plg.PolarsAssertError) as err:
@@ -800,7 +833,7 @@ def test_is_monotonic_error_give_out_specifyic_error_message():
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_custom_checks_works_for_simple_filter(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"int": [1, 1, 1]})
     when = given.pipe(plg.custom_check, pl.col("int") == 1)
@@ -809,7 +842,7 @@ def test_custom_checks_works_for_simple_filter(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_custom_checks_errors_the_condition_returns_a_non_empty(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"int": [1, 2, 1]})
     with pytest.raises(plg.PolarsAssertError):
@@ -818,7 +851,7 @@ def test_custom_checks_errors_the_condition_returns_a_non_empty(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_custom_checks_accept_over_clauses(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": [1, 1, 2, 2], "b": [1, 2, 3, 4]})
     when = given.pipe(plg.custom_check, pl.col("b").max().over("a") <= 4)
@@ -827,7 +860,7 @@ def test_custom_checks_accept_over_clauses(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_custom_checks_should_select_only_affected_columns(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame(
         {
@@ -862,7 +895,7 @@ def test_has_mandatory_values(given: Union[pl.DataFrame, pl.LazyFrame]):
     ],
 )
 def test_has_mandatory_values_should_error_on_missing_elements(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     with pytest.raises(plg.PolarsAssertError):
         given.pipe(plg.has_mandatory_values, {"a": [3]})
@@ -885,7 +918,7 @@ def test_has_mandatory_values_should_give_feedback_on_missing_values():
     ],
 )
 def test_has_mandatory_values_should_accept_group_by_option(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     when = given.pipe(plg.has_mandatory_values, {"a": [1]}, group_by="group")
     testing.assert_frame_equal(given, when)
@@ -899,7 +932,7 @@ def test_has_mandatory_values_should_accept_group_by_option(
     ],
 )
 def test_has_mandatory_values_by_group_should_error_when_not_all_values_are_present(
-    given: Union[pl.DataFrame, pl.LazyFrame]
+    given: Union[pl.DataFrame, pl.LazyFrame],
 ):
     with pytest.raises(plg.PolarsAssertError):
         given.pipe(plg.has_mandatory_values, {"a": [1, 2]}, group_by="group")
@@ -907,7 +940,7 @@ def test_has_mandatory_values_by_group_should_error_when_not_all_values_are_pres
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_mutually_exclusive_ranges_allows_to_specify_low_and_high_bounds(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame(
         [
@@ -923,7 +956,7 @@ def test_mutually_exclusive_ranges_allows_to_specify_low_and_high_bounds(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_mutually_exclusive_ranges_should_error_on_overlapping_intervals(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame(
         [
@@ -939,7 +972,7 @@ def test_mutually_exclusive_ranges_should_error_on_overlapping_intervals(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_mutually_exclusive_ranges_should_return_both_overlapping_intervals_and_index(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame(
         [
@@ -964,7 +997,7 @@ def test_mutually_exclusive_ranges_should_return_both_overlapping_intervals_and_
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_mutually_exclusive_ranges_allows_to_group_by_anoterh_column(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame(
         [
@@ -985,7 +1018,7 @@ def test_mutually_exclusive_ranges_allows_to_group_by_anoterh_column(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_column_is_within_n_std_accepts_tuple_args(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": [1, 2, 2, 1]})
 
@@ -996,7 +1029,7 @@ def test_column_is_within_n_std_accepts_tuple_args(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_column_is_within_n_std_shoud_error_on_outliers(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": list(range(0, 10)) + [5000]})
 
@@ -1006,7 +1039,7 @@ def test_column_is_within_n_std_shoud_error_on_outliers(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_column_is_within_n_std_accepts_list_of_tuple_args(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame(
         {
@@ -1025,7 +1058,7 @@ def test_column_is_within_n_std_accepts_list_of_tuple_args(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_at_least_one_should_return_df_is_one_value_is_not_null(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": [None, 1]})
     when = given.pipe(plg.at_least_one)
@@ -1034,7 +1067,7 @@ def test_at_least_one_should_return_df_is_one_value_is_not_null(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_at_least_one_should_error_if_all_values_are_nulls(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": [None, None]})
     with pytest.raises(plg.PolarsAssertError):
@@ -1043,7 +1076,7 @@ def test_at_least_one_should_error_if_all_values_are_nulls(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_at_least_one_should_accept_column_selection(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": [None, None], "b": [1, None]})
 
@@ -1056,7 +1089,7 @@ def test_at_least_one_should_accept_column_selection(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_at_least_one_should_accept_group_by_option(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame({"a": [None, 1, None, 2], "group": ["G1", "G1", "G2", "G2"]})
     when = given.pipe(plg.at_least_one, group_by="group")
@@ -1065,7 +1098,7 @@ def test_at_least_one_should_accept_group_by_option(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_at_least_one_should_error_when_only_null_for_given_group(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]]
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
     given = frame(
         {

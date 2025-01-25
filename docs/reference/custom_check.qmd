@@ -60,5 +60,5 @@ shape: (1, 1)
 │ 3   │
 └─────┘
 Error with the DataFrame passed to the check function:
--->Unexpected data in `Custom Check`: [(col("a")) != (dyn int: 3)]
+--> Unexpected data in `Custom Check`: [(col("a")) != (dyn int: 3)]
 ```
