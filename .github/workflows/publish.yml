@@ -50,8 +50,7 @@ jobs:
     name: Publish On PyPI
     runs-on: ubuntu-latest
     needs: [tox-test]
-    # if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
-
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
@@ -62,10 +61,11 @@ jobs:
           python-version: "3.10"
       - run: uv sync --no-dev
       - run: uv build
-
+      - run: uv publish --trusted-publishing automatic
 
   quarto-publish-pages:
     runs-on: ubuntu-latest
+    needs: [tox-test]
     if: github.ref == 'refs/heads/master'
     permissions:
       contents: write
