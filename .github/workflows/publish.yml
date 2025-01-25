@@ -52,6 +52,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [tox-test]
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    environment: pypi
+    permissions:
+      # IMPORTANT: this permission is mandatory for Trusted Publishing
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
@@ -62,12 +66,13 @@ jobs:
           python-version: "3.10"
       - run: uv sync --no-dev
       - run: uv build
-      - run: uv publish --trusted-publishing automatic
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
 
   quarto-publish-pages:
     runs-on: ubuntu-latest
     needs: [tox-test]
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/tags/')
     permissions:
       contents: write
     steps:
