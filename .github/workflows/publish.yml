@@ -3,7 +3,7 @@ on:
   push:
     branches: ["*"]
 
-name: Quarto Publish
+name: Test & Publish Pipeline
 
 jobs:
   tox-test:
@@ -43,9 +43,10 @@ jobs:
 
       - name: Install the project
         run: uv sync --dev
-      - name: Install the project
-        run: uv sync --dev
-      - run: uv run tox
+      - name: Run Tox Tests
+        run: |
+          uv run tox run-parallel
+          uv run coverage report --data-file=".coverage/.coverage" --show-missing  --precision=3
 
   quarto-publish-pages:
     runs-on: ubuntu-latest

@@ -17,9 +17,6 @@ homepage = "https://alixtc.github.io/pelage"
 repository = "https://github.com/alixtc/pelage/"
 documentation = "https://alixtc.github.io/pelage/notebooks/examples.html"
 
-[tool.setuptools]
-py-modules = [
-] # Required for tox: https://stackoverflow.com/questions/72294299/multiple-top-level-packages-discovered-in-a-flat-layout
 
 [dependency-groups]
 dev = [
@@ -33,6 +30,7 @@ dev = [
     "ipykernel>=6.29.3",
     "quartodoc==0.7.*; python_version >= '3.10'",
     "griffe==1.5.*; python_version >= '3.10'",
+    "tox-uv>=1.13.1",
 ]
 extras = [
     "seaborn<1.0.0,>=0.13.2",
