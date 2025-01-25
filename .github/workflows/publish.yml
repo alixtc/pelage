@@ -9,10 +9,8 @@ jobs:
   tox-test:
     name: Version Tests with Tox
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
@@ -48,8 +46,26 @@ jobs:
           uv run tox run-parallel
           uv run coverage report --data-file=".coverage/.coverage" --show-missing  --precision=3
 
+  pypi-publish:
+    name: Publish On PyPI
+    runs-on: ubuntu-latest
+    needs: [tox-test]
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: "Set up Python 3.10"
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: uv sync --no-dev
+      - run: uv build
+      - run: uv publish --trusted-publishing automatic
+
   quarto-publish-pages:
     runs-on: ubuntu-latest
+    needs: [tox-test]
     if: github.ref == 'refs/heads/master'
     permissions:
       contents: write
