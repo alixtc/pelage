@@ -45,7 +45,7 @@ jobs:
         run: uv sync --dev
       - name: Install the project
         run: uv sync --dev
-      - run: make tox
+      - run: uv run tox
 
   quarto-publish-pages:
     runs-on: ubuntu-latest
