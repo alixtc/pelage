@@ -19,34 +19,33 @@ jobs:
       - name: "Set up Python 3.8"
         uses: actions/setup-python@v5
         with:
-          python-version-file: "3.8"
+          python-version: "3.8"
       - name: "Set up Python 3.9"
         uses: actions/setup-python@v5
         with:
-          python-version-file: "3.9"
+          python-version: "3.9"
       - name: "Set up Python 3.10"
         uses: actions/setup-python@v5
         with:
-          python-version-file: "3.10"
+          python-version: "3.10"
       - name: "Set up Python 3.11"
         uses: actions/setup-python@v5
         with:
-          python-version-file: "3.11"
+          python-version: "3.11"
       - name: "Set up Python 3.12"
         uses: actions/setup-python@v5
         with:
-          python-version-file: "3.12"
+          python-version: "3.12"
       - name: "Set up Python 3.13"
         uses: actions/setup-python@v5
         with:
-          python-version-file: "3.13"
+          python-version: "3.13"
 
       - name: Install the project
         run: uv sync --dev
       - name: Install the project
         run: uv sync --dev
       - run: make tox
-
 
   quarto-publish-pages:
     runs-on: ubuntu-latest
