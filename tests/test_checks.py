@@ -756,15 +756,14 @@ def test_is_monotonic_should_allow_to_specify_interval_between_each_row():
 
 def test_is_monotonic_should_allow_to_specify_interval_compatible_with_timedelta():
     given = pl.DataFrame(
-        dict(
-            dates=pl.Series(
-                [
-                    "2020-01-01 01:42:00",
-                    "2020-01-01 01:43:00",
-                    "2020-01-01 01:44:00",
-                ]
-            ).str.to_datetime()
-        )
+        pl.Series(
+            "dates",
+            [
+                "2020-01-01 01:42:00",
+                "2020-01-01 01:43:00",
+                "2020-01-01 01:44:00",
+            ],
+        ).str.to_datetime()
     )
     when = given.pipe(plg.is_monotonic, "dates", interval="1m")
     testing.assert_frame_equal(given, when)
