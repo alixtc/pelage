@@ -1681,6 +1681,7 @@ def is_monotonic(
     ...         ("2021-12-12 01:44:00", "B"),
     ...     ],
     ...     schema=["dates", "group"],
+    ...     orient="row",
     ... ).with_columns(pl.col("dates").str.to_datetime())
     >>> given.pipe(plg.is_monotonic, "dates", interval="1m", group_by="group")
     shape: (5, 2)
@@ -1699,8 +1700,18 @@ def is_monotonic(
     Traceback (most recent call last):
     ...
     pelage.checks.PolarsAssertError: Details
+    shape: (3, 3)
+    ┌─────────────────────┬───────┬────────────────────────────────┐
+    │ dates               ┆ group ┆ _previous_entry_with_3m_offset │
+    │ ---                 ┆ ---   ┆ ---                            │
+    │ datetime[μs]        ┆ str   ┆ datetime[μs]                   │
+    ╞═════════════════════╪═══════╪════════════════════════════════╡
+    │ 2020-01-01 01:43:00 ┆ A     ┆ 2020-01-01 01:45:00            │
+    │ 2020-01-01 01:44:00 ┆ A     ┆ 2020-01-01 01:46:00            │
+    │ 2021-12-12 01:44:00 ┆ B     ┆ 2021-12-12 01:46:00            │
+    └─────────────────────┴───────┴────────────────────────────────┘
     Error with the DataFrame passed to the check function:
-    -->Intervals differ from the specified 3m interval. Unexpected: {datetime.timedelta(seconds=60)}
+    -->Intervals differ from the specified 3m interval.
     """  # noqa: E501
     if not _has_sufficient_polars_version("0.20") and group_by is None:
         # with version >= 0.20 .over(None) does nothing, but before it fails
