@@ -1,7 +1,7 @@
 on:
   workflow_dispatch:
   push:
-    branches: [master]
+    branches: ["*"]
 
 name: Quarto Publish
 
@@ -50,6 +50,7 @@ jobs:
 
   quarto-publish-pages:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     permissions:
       contents: write
     steps:
