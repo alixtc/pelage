@@ -52,5 +52,5 @@ shape: (1, 2)
 │ B      ┆ 1          │
 └────────┴────────────┘
 Error with the DataFrame passed to the check function:
--->There were unexpected nulls in the columns above
+--> There were unexpected nulls in the columns above
 ```

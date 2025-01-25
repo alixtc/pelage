@@ -74,7 +74,7 @@ shape: (1, 4)
 │ a      ┆ 0.333333          ┆ 0.7      ┆ 1        │
 └────────┴───────────────────┴──────────┴──────────┘
 Error with the DataFrame passed to the check function:
--->Some columns contains a proportion of nulls beyond specified limits
+--> Some columns contains a proportion of nulls beyond specified limits
 ```
 
  The folloing example details how to perform this checks for groups:
@@ -111,5 +111,5 @@ shape: (1, 5)
 │ B     ┆ a      ┆ 0.0               ┆ 0.5      ┆ 1        │
 └───────┴────────┴───────────────────┴──────────┴──────────┘
 Error with the DataFrame passed to the check function:
--->Some columns contains a proportion of nulls beyond specified limits
+--> Some columns contains a proportion of nulls beyond specified limits
 ```

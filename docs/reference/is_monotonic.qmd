@@ -87,7 +87,7 @@ Traceback (most recent call last):
 ...
 pelage.checks.PolarsAssertError: Details
 Error with the DataFrame passed to the check function:
--->Column "int" expected to be monotonic but is not, try .sort("int")
+--> Column "int" expected to be monotonic but is not, try .sort("int")
 ```
 
 The folloing example details how to perform this checks for groups:
@@ -132,5 +132,5 @@ shape: (3, 3)
 │ 2021-12-12 01:44:00 ┆ B     ┆ 2021-12-12 01:46:00            │
 └─────────────────────┴───────┴────────────────────────────────┘
 Error with the DataFrame passed to the check function:
--->Intervals differ from the specified 3m interval.
+--> Intervals differ from the specified 3m interval.
 ```

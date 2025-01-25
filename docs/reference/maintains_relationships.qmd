@@ -48,5 +48,5 @@ Traceback (most recent call last):
 ...
 pelage.checks.PolarsAssertError: Details
 Error with the DataFrame passed to the check function:
--->Some values were removed from col 'a', for ex: ('b',)
+--> Some values were removed from col 'a', for ex: ('b',)
 ```

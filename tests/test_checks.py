@@ -25,7 +25,7 @@ def test_dataframe_error_message_format():
     │ b   ┆ 2   │
     └─────┴─────┘
     Error with the DataFrame passed to the check function:
-    -->Additional message
+    --> Additional message
     """
     formatted_msg = str(plg.PolarsAssertError(data, message))
     assert dedent(expected_message).strip() == formatted_msg
@@ -37,7 +37,7 @@ def test_dataframe_error_message_format_accept_only_message():
     expected_message = """
     Details
     Error with the DataFrame passed to the check function:
-    -->Additional message
+    --> Additional message
     """
 
     formatted_msg = str(plg.PolarsAssertError(supp_message=message))
@@ -52,7 +52,7 @@ def test_dataframe_error_message_format_accepts_no_arguments():
     """
 
     formatted_msg = str(plg.PolarsAssertError())
-    assert formatted_msg == dedent(expected_message).strip()
+    assert formatted_msg == (dedent(expected_message).strip() + " ")
 
 
 @pytest.mark.parametrize(

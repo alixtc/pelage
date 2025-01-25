@@ -53,5 +53,5 @@ shape: (1, 2)
 │ X   ┆ 2   │
 └─────┴─────┘
 Error with the DataFrame passed to the check function:
--->Some combinations of columns are not unique. See above, selected: col("a")
+--> Some combinations of columns are not unique. See above, selected: col("a")
 ```

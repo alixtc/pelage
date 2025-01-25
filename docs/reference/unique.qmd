@@ -54,5 +54,5 @@ shape: (2, 1)
 │ 1   │
 └─────┘
 Error with the DataFrame passed to the check function:
--->Somes values are duplicated within the specified columns
+--> Somes values are duplicated within the specified columns
 ```
