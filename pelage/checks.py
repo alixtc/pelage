@@ -6,7 +6,6 @@ Use the syntax `import pelage as plg` rather than `from pelage import checks`
 from typing import Dict, Iterable, List, Optional, Set, Tuple, TypeVar, Union
 
 import polars as pl
-from packaging import version
 
 from pelage import utils
 
@@ -33,7 +32,9 @@ PolarsOverClauseInput = Union[IntoExpr, Iterable[IntoExpr]]
 
 
 def _has_sufficient_polars_version(version_number: str = "0.20.0") -> bool:
-    return version.parse(pl.__version__) >= version.parse(version_number)
+    required_version = tuple(map(int, (version_number.split("."))))
+    polars_version = tuple(map(int, (pl.__version__.split("."))))
+    return polars_version >= required_version
 
 
 class PolarsAssertError(Exception):
