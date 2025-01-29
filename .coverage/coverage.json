@@ -2,18 +2,20 @@
     "meta": {
         "format": 3,
         "version": "7.6.10",
-        "timestamp": "2025-01-27T14:54:17.177998",
+        "timestamp": "2025-01-27T20:13:26.770456",
         "branch_coverage": false,
         "show_contexts": false
     },
     "files": {
         "pelage/__init__.py": {
             "executed_lines": [
-                3
+                2,
+                3,
+                5
             ],
             "summary": {
-                "covered_lines": 1,
-                "num_statements": 1,
+                "covered_lines": 3,
+                "num_statements": 3,
                 "percent_covered": 100.0,
                 "percent_covered_display": "100",
                 "missing_lines": 0,
@@ -24,11 +26,13 @@
             "functions": {
                 "": {
                     "executed_lines": [
-                        3
+                        2,
+                        3,
+                        5
                     ],
                     "summary": {
-                        "covered_lines": 1,
-                        "num_statements": 1,
+                        "covered_lines": 3,
+                        "num_statements": 3,
                         "percent_covered": 100.0,
                         "percent_covered_display": "100",
                         "missing_lines": 0,
@@ -41,11 +45,13 @@
             "classes": {
                 "": {
                     "executed_lines": [
-                        3
+                        2,
+                        3,
+                        5
                     ],
                     "summary": {
-                        "covered_lines": 1,
-                        "num_statements": 1,
+                        "covered_lines": 3,
+                        "num_statements": 3,
                         "percent_covered": 100.0,
                         "percent_covered_display": "100",
                         "missing_lines": 0,
@@ -4650,8 +4656,8 @@
         }
     },
     "totals": {
-        "covered_lines": 856,
-        "num_statements": 856,
+        "covered_lines": 858,
+        "num_statements": 858,
         "percent_covered": 100.0,
         "percent_covered_display": "100",
         "missing_lines": 0,

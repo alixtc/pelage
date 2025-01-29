@@ -1752,9 +1752,10 @@ def is_monotonic(
         return data
 
     if diff_column.dtype == pl.Duration:
-        assert isinstance(
-            interval, str
-        ), "The interval should be a string compatible with polars time definitions"
+        assert isinstance(interval, str), (
+            "The interval should be a string compatible with polars time definitions, "
+            + f"but was {interval}."
+        )
 
         bad_intervals = (
             data.with_columns(
