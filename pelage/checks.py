@@ -1719,18 +1719,19 @@ def is_monotonic(
     --> Intervals differ from the specified 3m interval.
     """  # noqa: E501
     if not _has_sufficient_polars_version("0.20") and group_by is None:
-        # with version >= 0.20 .over(None) does nothing, but before it fails
+        # with version >= 0.20 .over(None) does nothing, but before it fails, use dummy.
         group_by = 1
 
     select_diff_expression = pl.col(column).diff().over(group_by)
 
-    # Cast necessary for dates and datetimes
     if isinstance(data, pl.DataFrame):
         diff_column = data.select(select_diff_expression).get_column(column)
     else:
         diff_column = data.select(select_diff_expression).collect().get_column(column)
 
-    diff_column_sign = diff_column.cast(int)
+    # pl.Duration does not have .sign() method out of the blue.
+    # Cast necessary for dates and datetimes
+    diff_column_sign = diff_column.cast(int).sign()
 
     if not decreasing and not strict:
         comparisons = (diff_column_sign >= 0).all()
