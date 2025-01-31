@@ -1,9 +1,13 @@
+import datetime
 from textwrap import dedent
 from typing import Type, Union
 
 import polars as pl
 import pytest
+from hypothesis import given, strategies as st
 from polars import testing
+from polars.testing.parametric import dataframes, column
+
 
 
 import pelage as plg
@@ -831,6 +835,48 @@ def test_is_monotonic_error_give_out_specifyic_error_message():
     expected_msg = 'Column "int" expected to be monotonic but is not, try .sort("int")'
     assert expected_msg in str(err.value)
 
+
+@given(data=dataframes(column(name="col0", dtype=pl.Date, unique=True), min_size=5))
+def test_is_monotonic_should_work_on_generic_inputs(data: pl.DataFrame):
+    given_df = data.sort("col0")
+    result = given_df.pipe(plg.is_monotonic, "col0")
+    testing.assert_frame_equal(result, given_df)
+
+    given_df = data.sort("col0", descending=True)
+    result = given_df.pipe(plg.is_monotonic, "col0", decreasing=True)
+    testing.assert_frame_equal(result, given_df)
+
+
+@given(data=dataframes(column(name="col0", dtype=pl.Date), min_size=5))
+def test_is_monotonic_should_work_on_generic_inputs_with_duplicates(data: pl.DataFrame):
+    given_df = data.sort("col0")
+    result = given_df.pipe(plg.is_monotonic, "col0", strict=False)
+    testing.assert_frame_equal(result, given_df)
+
+    given_df = data.sort("col0", descending=True)
+    result = given_df.pipe(plg.is_monotonic, "col0", decreasing=True, strict=False)
+    testing.assert_frame_equal(result, given_df)
+
+
+@given(
+    data=dataframes(
+        column(
+            name="col0",
+            dtype=pl.Datetime,
+            unique=True,
+            strategy=st.datetimes(min_value=datetime.datetime(1970, 1, 1, 0, 0, 0)),
+        ),
+        min_size=5,
+    )
+)
+def test_is_monotonic_should_work_on_generic_datetime(data: pl.DataFrame):
+    given_df = data.sort("col0")
+    result = given_df.pipe(plg.is_monotonic, "col0")
+    testing.assert_frame_equal(result, given_df)
+
+    given_df = data.sort("col0", descending=True)
+    result = given_df.pipe(plg.is_monotonic, "col0", decreasing=True)
+    testing.assert_frame_equal(result, given_df)
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_custom_checks_works_for_simple_filter(
