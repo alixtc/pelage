@@ -264,8 +264,7 @@ def has_columns(
     │ 2   ┆ b   │
     │ 3   ┆ c   │
     └─────┴─────┘
-    >>>
-    """  # noqa: E501
+    """
     if isinstance(names, str):
         # Because set(str) explodes the string
         names = [names]
