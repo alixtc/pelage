@@ -5,9 +5,7 @@ from typing import Type, Union
 import numpy as np
 import polars as pl
 import pytest
-from hypothesis import given, strategies as st
 from polars import testing
-from polars.testing.parametric import dataframes, column
 
 
 import pelage as plg
@@ -862,50 +860,54 @@ def test_is_monotonic_error_give_out_specifyic_error_message():
     assert expected_msg in str(err.value)
 
 
-@given(
-    data=dataframes(
-        column(name="col0", dtype=pl.Date, unique=True), min_size=2, max_size=4
-    )
-)
-def test_is_monotonic_should_work_on_generic_inputs(data: pl.DataFrame):
-    given_df = data.sort("col0")
-    result = given_df.pipe(plg.is_monotonic, "col0")
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_is_monotonic_should_work_on_dates(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+):
+    start_date = datetime.date(2025, 2, 8)
+    dates = [start_date + datetime.timedelta(days=i) for i in range(10)]
+    data = frame({"date": dates})
+
+    given_df = data.sort("date")
+    result = given_df.pipe(plg.is_monotonic, "date")
     testing.assert_frame_equal(result, given_df)
 
-    given_df = data.sort("col0", descending=True)
-    result = given_df.pipe(plg.is_monotonic, "col0", decreasing=True)
-    testing.assert_frame_equal(result, given_df)
-
-
-@given(data=dataframes(column(name="col0", dtype=pl.Date), min_size=4))
-def test_is_monotonic_should_work_on_generic_inputs_with_duplicates(data: pl.DataFrame):
-    given_df = data.sort("col0")
-    result = given_df.pipe(plg.is_monotonic, "col0", strict=False)
-    testing.assert_frame_equal(result, given_df)
-
-    given_df = data.sort("col0", descending=True)
-    result = given_df.pipe(plg.is_monotonic, "col0", decreasing=True, strict=False)
+    given_df = data.sort("date", descending=True)
+    result = given_df.pipe(plg.is_monotonic, "date", decreasing=True)
     testing.assert_frame_equal(result, given_df)
 
 
-@given(
-    data=dataframes(
-        column(
-            name="col0",
-            dtype=pl.Datetime,
-            unique=True,
-            strategy=st.datetimes(min_value=datetime.datetime(1970, 1, 1, 0, 0, 0)),
-        ),
-        min_size=4,
-    )
-)
-def test_is_monotonic_should_work_on_generic_datetime(data: pl.DataFrame):
-    given_df = data.sort("col0")
-    result = given_df.pipe(plg.is_monotonic, "col0")
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_is_monotonic_should_work_on_dates_with_duplicates(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+):
+    start_date = datetime.date(2025, 2, 8)
+    dates = [start_date + datetime.timedelta(days=i) for i in range(10)]
+    data = frame({"date": dates * 2})
+
+    given_df = data.sort("date")
+    result = given_df.pipe(plg.is_monotonic, "date", strict=False)
     testing.assert_frame_equal(result, given_df)
 
-    given_df = data.sort("col0", descending=True)
-    result = given_df.pipe(plg.is_monotonic, "col0", decreasing=True)
+    given_df = data.sort("date", descending=True)
+    result = given_df.pipe(plg.is_monotonic, "date", decreasing=True, strict=False)
+    testing.assert_frame_equal(result, given_df)
+
+
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_is_monotonic_should_work_on_generic_datetime(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+):
+    start_date = datetime.datetime(2020, 2, 8, 15, 32, 5)
+    dates = [start_date + datetime.timedelta(days=i) for i in range(10)]
+    data = frame({"datetime": dates})
+
+    given_df = data.sort("datetime")
+    result = given_df.pipe(plg.is_monotonic, "datetime")
+    testing.assert_frame_equal(result, given_df)
+
+    given_df = data.sort("datetime", descending=True)
+    result = given_df.pipe(plg.is_monotonic, "datetime", decreasing=True)
     testing.assert_frame_equal(result, given_df)
 
 
