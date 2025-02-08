@@ -836,7 +836,7 @@ def test_is_monotonic_error_give_out_specifyic_error_message():
     assert expected_msg in str(err.value)
 
 
-@given(data=dataframes(column(name="col0", dtype=pl.Date, unique=True), min_size=5))
+@given(data=dataframes(column(name="col0", dtype=pl.Date, unique=True), min_size=4))
 def test_is_monotonic_should_work_on_generic_inputs(data: pl.DataFrame):
     given_df = data.sort("col0")
     result = given_df.pipe(plg.is_monotonic, "col0")
@@ -847,7 +847,7 @@ def test_is_monotonic_should_work_on_generic_inputs(data: pl.DataFrame):
     testing.assert_frame_equal(result, given_df)
 
 
-@given(data=dataframes(column(name="col0", dtype=pl.Date), min_size=5))
+@given(data=dataframes(column(name="col0", dtype=pl.Date), min_size=4))
 def test_is_monotonic_should_work_on_generic_inputs_with_duplicates(data: pl.DataFrame):
     given_df = data.sort("col0")
     result = given_df.pipe(plg.is_monotonic, "col0", strict=False)
@@ -866,7 +866,7 @@ def test_is_monotonic_should_work_on_generic_inputs_with_duplicates(data: pl.Dat
             unique=True,
             strategy=st.datetimes(min_value=datetime.datetime(1970, 1, 1, 0, 0, 0)),
         ),
-        min_size=5,
+        min_size=4,
     )
 )
 def test_is_monotonic_should_work_on_generic_datetime(data: pl.DataFrame):
