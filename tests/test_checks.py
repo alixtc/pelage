@@ -2,12 +2,12 @@ import datetime
 from textwrap import dedent
 from typing import Type, Union
 
+import numpy as np
 import polars as pl
 import pytest
 from hypothesis import given, strategies as st
 from polars import testing
 from polars.testing.parametric import dataframes, column
-
 
 
 import pelage as plg
@@ -408,6 +408,32 @@ def test_accepted_values_should_error_on_out_of_range_values(
 
     expected = pl.DataFrame({"a": [3]})
     testing.assert_frame_equal(err.value.df, expected)
+
+
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_accepted_value_should_throw_error_on_nulls_by_default(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+):
+    given_df = frame({"a": [1, 2, None]})
+
+    with pytest.raises(plg.PolarsAssertError):
+        given_df.pipe(plg.accepted_values, {"a": [1, 2]})
+
+    result = given_df.pipe(plg.accepted_values, {"a": [1, 2, None]})
+    testing.assert_frame_equal(result, given_df)
+
+
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_accepted_value_should_throw_error_on_infs_by_default(
+    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+):
+    given_df = frame({"a": [1.0, 2.0, np.inf]})
+
+    with pytest.raises(plg.PolarsAssertError):
+        given_df.pipe(plg.accepted_values, {"a": [1, 2]})
+
+    result = given_df.pipe(plg.accepted_values, {"a": [1.0, 2.0, np.inf]})
+    testing.assert_frame_equal(result, given_df)
 
 
 def test_not_accepted_values():
@@ -877,6 +903,7 @@ def test_is_monotonic_should_work_on_generic_datetime(data: pl.DataFrame):
     given_df = data.sort("col0", descending=True)
     result = given_df.pipe(plg.is_monotonic, "col0", decreasing=True)
     testing.assert_frame_equal(result, given_df)
+
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_custom_checks_works_for_simple_filter(
