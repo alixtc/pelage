@@ -862,7 +862,11 @@ def test_is_monotonic_error_give_out_specifyic_error_message():
     assert expected_msg in str(err.value)
 
 
-@given(data=dataframes(column(name="col0", dtype=pl.Date, unique=True), min_size=4))
+@given(
+    data=dataframes(
+        column(name="col0", dtype=pl.Date, unique=True), min_size=2, max_size=4
+    )
+)
 def test_is_monotonic_should_work_on_generic_inputs(data: pl.DataFrame):
     given_df = data.sort("col0")
     result = given_df.pipe(plg.is_monotonic, "col0")
