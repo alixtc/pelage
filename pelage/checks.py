@@ -1725,12 +1725,9 @@ def is_monotonic(
         # with version >= 0.20 .over(None) does nothing, but before it fails, use dummy.
         group_by = 1
 
-    select_diff_expression = pl.col(column).diff().over(group_by)
+    select_diff_expr = pl.col(column).diff().over(group_by)
 
-    if isinstance(data, pl.DataFrame):
-        diff_column = data.select(select_diff_expression).get_column(column)
-    else:
-        diff_column = data.select(select_diff_expression).collect().get_column(column)
+    diff_column = data.lazy().select(select_diff_expr).collect().get_column(column)
 
     # pl.Duration does not have .sign() method out of the blue.
     # Cast necessary for dates and datetimes
