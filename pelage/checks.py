@@ -1585,11 +1585,13 @@ def maintains_relationships(
     if local_keys != other_keys:
         if local_keys > other_keys:
             set_diff = sorted(list(local_keys - other_keys)[:5])
-            msg = f"Some values were added to col '{column}', for ex: {*set_diff,}"
+            msg = f"Some values were added to col '{column}', for ex: {(*set_diff,)}"
             raise PolarsAssertError(supp_message=msg)
         else:
             set_diff = sorted(list(other_keys - local_keys)[:5])
-            msg = f"Some values were removed from col '{column}', for ex: {*set_diff,}"
+            msg = (
+                f"Some values were removed from col '{column}', for ex: {(*set_diff,)}"
+            )
             raise PolarsAssertError(supp_message=msg)
 
     return data
@@ -1671,13 +1673,22 @@ def is_monotonic(
     │ 2   ┆ y   │
     │ 3   ┆ z   │
     └─────┴─────┘
-    >>> bad = pl.DataFrame({"int": [1, 2, 1], "str": ["x", "y", "z"]})
-    >>> bad.pipe(plg.is_monotonic, "int")
+    >>> bad = pl.DataFrame({"data": [1, 2, 3, 1]})
+    >>> bad.pipe(plg.is_monotonic, "data")
     Traceback (most recent call last):
     ...
     pelage.checks.PolarsAssertError: Details
+    shape: (2, 1)
+    ┌──────┐
+    │ data │
+    │ ---  │
+    │ i64  │
+    ╞══════╡
+    │ 3    │
+    │ 1    │
+    └──────┘
     Error with the DataFrame passed to the check function:
-    --> Column "int" expected to be monotonic but is not, try .sort("int")
+    --> Column "data" expected to be monotonic but is not, try .sort("data")
 
     The folloing example details how to perform this checks for groups:
     >>> given = pl.DataFrame(
@@ -1735,19 +1746,36 @@ def is_monotonic(
 
     if not decreasing and not strict:
         comparisons = (diff_column_sign >= 0).all()
+        previous_and_current_match_expr = (select_diff_expr >= 0) & (
+            pl.col(column).diff().shift(-1).over(group_by) >= 0
+        )
     elif not decreasing and strict:
         comparisons = (diff_column_sign > 0).all()
+        previous_and_current_match_expr = (select_diff_expr > 0) & (
+            pl.col(column).diff().shift(-1).over(group_by) > 0
+        )
     elif decreasing and not strict:
         comparisons = (diff_column_sign <= 0).all()
+        previous_and_current_match_expr = (select_diff_expr <= 0) & (
+            pl.col(column).diff().shift(-1).over(group_by) <= 0
+        )
     else:
         comparisons = (diff_column_sign < 0).all()
+        previous_and_current_match_expr = (select_diff_expr < 0) & (
+            pl.col(column).diff().shift(-1).over(group_by) < 0
+        )
 
     if not comparisons:
+        consecutive_bad_lines = (
+            data.lazy()
+            .filter(previous_and_current_match_expr.not_())
+            .collect()
+        )
         error_msg = (
             f'Column "{column}" expected to be monotonic but is not,'
             + f' try .sort("{column}")'
         )
-        raise PolarsAssertError(supp_message=error_msg)
+        raise PolarsAssertError(df=consecutive_bad_lines, supp_message=error_msg)
 
     if interval is None:
         return data
@@ -1759,7 +1787,8 @@ def is_monotonic(
         )
 
         bad_intervals = (
-            data.with_columns(
+            data.lazy()
+            .with_columns(
                 pl.col(column)
                 .shift()
                 .over(group_by)
@@ -1768,10 +1797,8 @@ def is_monotonic(
             )
             .drop_nulls()
             .filter(pl.col(column) != pl.col(f"_previous_entry_with_{interval}_offset"))
+            .collect()
         )
-
-        if isinstance(bad_intervals, pl.LazyFrame):
-            bad_intervals = bad_intervals.collect()
 
         if not bad_intervals.is_empty():
             raise PolarsAssertError(
@@ -1784,7 +1811,14 @@ def is_monotonic(
         bad_intervals = (diff_column != interval).any()
 
     if bad_intervals:
+        highlight_bad_intervals = (
+            data.lazy()
+            .with_columns(_previous_delta=select_diff_expr)
+            .filter(select_diff_expr != interval)
+            .collect()
+        )
         raise PolarsAssertError(
+            df=highlight_bad_intervals,
             supp_message=f"Intervals differ from the specified {interval} interval."
             + f" Unexpected: {bad_intervals}"
         )
