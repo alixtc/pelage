@@ -81,13 +81,22 @@ shape: (3, 2)
 │ 2   ┆ y   │
 │ 3   ┆ z   │
 └─────┴─────┘
->>> bad = pl.DataFrame({"int": [1, 2, 1], "str": ["x", "y", "z"]})
->>> bad.pipe(plg.is_monotonic, "int")
+>>> bad = pl.DataFrame({"data": [1, 2, 3, 1]})
+>>> bad.pipe(plg.is_monotonic, "data")
 Traceback (most recent call last):
 ...
 pelage.checks.PolarsAssertError: Details
+shape: (2, 1)
+┌──────┐
+│ data │
+│ ---  │
+│ i64  │
+╞══════╡
+│ 3    │
+│ 1    │
+└──────┘
 Error with the DataFrame passed to the check function:
---> Column "int" expected to be monotonic but is not, try .sort("int")
+--> Column "data" expected to be monotonic but is not, try .sort("data")
 ```
 
 The folloing example details how to perform this checks for groups:
