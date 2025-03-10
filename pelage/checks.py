@@ -167,11 +167,11 @@ def has_shape(
         )
 
     if group_by is not None:
-        non_matching_row_count = _safe_group_by_length(data, group_by).filter(
-            pl.col("len") != shape[0]
+        non_matching_row_count = (
+            _safe_group_by_length(data.lazy(), group_by)
+            .filter(pl.col("len") != shape[0])
+            .collect()
         )
-        if isinstance(non_matching_row_count, pl.LazyFrame):
-            non_matching_row_count = non_matching_row_count.collect()
 
         if len(non_matching_row_count) > 0:
             raise PolarsAssertError(
@@ -430,19 +430,21 @@ def has_no_nulls(
     selected_columns = _sanitize_column_inputs(columns)
     null_count = (
         (
-            data.select(selected_columns.null_count())
+            data.lazy()
+            .select(selected_columns.null_count())
             .unpivot(variable_name="column", value_name="null_count")
             .filter(pl.col("null_count") > 0)
+            .collect()
         )
         if _has_sufficient_polars_version("1.1.0")
         else (
-            data.select(selected_columns.null_count())
+            data.lazy()
+            .select(selected_columns.null_count())
             .melt(variable_name="column", value_name="null_count")
             .filter(pl.col("null_count") > 0)
+            .collect()
         )
     )
-    if isinstance(null_count, pl.LazyFrame):
-        null_count = null_count.collect()
 
     if not null_count.is_empty():
         raise PolarsAssertError(
@@ -518,10 +520,9 @@ def has_no_infs(
     └─────┴─────┘
     """
     selected_columns = _sanitize_column_inputs(columns)
-    inf_values = data.filter(pl.any_horizontal(selected_columns.is_infinite()))
-
-    if isinstance(inf_values, pl.LazyFrame):
-        inf_values = inf_values.collect()
+    inf_values = (
+        data.lazy().filter(pl.any_horizontal(selected_columns.is_infinite())).collect()
+    )
 
     if not inf_values.is_empty():
         raise PolarsAssertError(
@@ -585,10 +586,9 @@ def unique(
     --> Somes values are duplicated within the specified columns
     """
     selected_cols = _sanitize_column_inputs(columns)
-    improper_data = data.filter(pl.any_horizontal(selected_cols.is_duplicated()))
-
-    if isinstance(improper_data, pl.LazyFrame):
-        improper_data = improper_data.collect()
+    improper_data = (
+        data.lazy().filter(pl.any_horizontal(selected_cols.is_duplicated())).collect()
+    )
 
     if not improper_data.is_empty():
         raise PolarsAssertError(
@@ -662,11 +662,9 @@ def unique_combination_of_columns(
     --> Some combinations of columns are not unique. See above, selected: col("a")
     """
     cols = _sanitize_column_inputs(columns)
-    non_unique_combinations = _safe_group_by_length(data, cols).filter(
-        pl.col("len") > 1
+    non_unique_combinations = (
+        _safe_group_by_length(data.lazy(), cols).filter(pl.col("len") > 1).collect()
     )
-    if isinstance(non_unique_combinations, pl.LazyFrame):
-        non_unique_combinations = non_unique_combinations.collect()
 
     if not non_unique_combinations.is_empty():
         raise PolarsAssertError(
@@ -772,36 +770,41 @@ def not_constant(
     if group_by is None:
         if _has_sufficient_polars_version("1.0.0"):
             constant_columns = (
-                data.select(selected_cols.n_unique())
+                data.lazy()
+                .select(selected_cols.n_unique())
                 .unpivot(variable_name="column", value_name="n_distinct")
                 .filter(pl.col("n_distinct") == 1)
+                .collect()
             )
         else:
             constant_columns = (
-                data.select(selected_cols.n_unique())
+                data.lazy()
+                .select(selected_cols.n_unique())
                 .melt(variable_name="column", value_name="n_distinct")
                 .filter(pl.col("n_distinct") == 1)
+                .collect()
             )
     else:
         if _has_sufficient_polars_version("1.0.0"):
             constant_columns = (
-                data.group_by(group_by)
+                data.lazy()
+                .group_by(group_by)
                 .agg(selected_cols.n_unique())
                 .unpivot(
                     index=group_by, variable_name="column", value_name="n_distinct"
                 )
                 .filter(pl.col("n_distinct") == 1)
+                .collect()
             )
         else:
             constant_columns = (
-                data.group_by(group_by)
+                data.lazy()
+                .group_by(group_by)
                 .agg(selected_cols.n_unique())
                 .melt(id_vars=group_by, variable_name="column", value_name="n_distinct")
                 .filter(pl.col("n_distinct") == 1)
+                .collect()
             )
-
-    if isinstance(constant_columns, pl.LazyFrame):
-        constant_columns = constant_columns.collect()
 
     if not constant_columns.is_empty():
         group_message = " within a given group" if group_by is not None else ""
@@ -873,10 +876,7 @@ def accepted_values(
         else pl.col(col).is_in(values).not_() | pl.col(col).is_null()
         for col, values in items.items()
     ]
-    improper_data = data.filter(pl.Expr.or_(*mask_for_improper_values))
-
-    if isinstance(improper_data, pl.LazyFrame):
-        improper_data = improper_data.collect()
+    improper_data = data.lazy().filter(pl.Expr.or_(*mask_for_improper_values)).collect()
 
     if not improper_data.is_empty():
         bad_column_names = [
@@ -949,10 +949,9 @@ def not_accepted_values(
     mask_for_forbidden_values = [
         pl.col(col).is_in(values) for col, values in items.items()
     ]
-    forbidden_values = data.filter(pl.Expr.or_(*mask_for_forbidden_values))
-
-    if isinstance(forbidden_values, pl.LazyFrame):
-        forbidden_values = forbidden_values.collect()
+    forbidden_values = (
+        data.lazy().filter(pl.Expr.or_(*mask_for_forbidden_values)).collect()
+    )
 
     if not forbidden_values.is_empty():
         bad_column_names = [
@@ -1048,13 +1047,12 @@ def has_mandatory_values(
     """
     if group_by is not None:
         groups_missing_mandatory = (
-            data.group_by(group_by)
+            data.lazy()
+            .group_by(group_by)
             .agg(pl.col(k).unique() for k in items.keys())
             .pipe(compare_sets_per_column, items)
+            .collect()
         )
-
-        if isinstance(groups_missing_mandatory, pl.LazyFrame):
-            groups_missing_mandatory = groups_missing_mandatory.collect()
 
         if len(groups_missing_mandatory) > 0:
             raise PolarsAssertError(
@@ -1063,9 +1061,7 @@ def has_mandatory_values(
             )
         return data
 
-    selected_data = data.select(pl.col(items.keys())).unique()
-    if isinstance(selected_data, pl.LazyFrame):
-        selected_data = selected_data.collect()
+    selected_data = data.lazy().select(pl.col(items.keys())).unique().collect()
 
     missing = _format_missing_elements(selected_data, items)
 
@@ -1228,7 +1224,8 @@ def not_null_proportion(
     pl_len = pl.len() if _has_sufficient_polars_version("0.20.0") else pl.count()
     if _has_sufficient_polars_version("1.0.0"):
         null_proportions = (
-            formatted_data.group_by(group_by)
+            formatted_data.lazy()
+            .group_by(group_by)
             .agg(pl.all().null_count() / pl_len)
             .unpivot(
                 index=group_by,  # type: ignore
@@ -1236,10 +1233,12 @@ def not_null_proportion(
                 value_name="null_proportion",
             )
             .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+            .collect()
         )
     else:
         null_proportions = (
-            formatted_data.group_by(group_by)
+            formatted_data.lazy()
+            .group_by(group_by)
             .agg(pl.all().null_count() / pl_len)
             .melt(
                 id_vars=group_by,  # type: ignore
@@ -1247,10 +1246,8 @@ def not_null_proportion(
                 value_name="null_proportion",
             )
             .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+            .collect()
         )
-
-    if isinstance(null_proportions, pl.LazyFrame):
-        null_proportions = null_proportions.collect()
 
     if "constant__" in null_proportions.columns:
         null_proportions = null_proportions.drop("constant__")
@@ -1373,7 +1370,8 @@ def at_least_one(
     if group_by is not None:
         if _has_sufficient_polars_version("1.0.0"):
             only_nulls_per_group = (
-                data.group_by(group_by)
+                data.lazy()
+                .group_by(group_by)
                 .agg(selected_columns.null_count() < pl_len)
                 .unpivot(
                     index=group_by,  # type: ignore
@@ -1381,10 +1379,12 @@ def at_least_one(
                     value_name="at_least_one",
                 )
                 .filter(pl.col("at_least_one").not_())
+                .collect()
             )
         else:
             only_nulls_per_group = (
-                data.group_by(group_by)
+                data.lazy()
+                .group_by(group_by)
                 .agg(selected_columns.null_count() < pl_len)
                 .melt(
                     id_vars=group_by,  # type: ignore
@@ -1392,10 +1392,8 @@ def at_least_one(
                     value_name="at_least_one",
                 )
                 .filter(pl.col("at_least_one").not_())
+                .collect()
             )
-
-        if isinstance(only_nulls_per_group, pl.LazyFrame):
-            only_nulls_per_group = only_nulls_per_group.collect()
 
         if len(only_nulls_per_group) > 0:
             raise PolarsAssertError(
@@ -1406,15 +1404,14 @@ def at_least_one(
 
     # Implementation that work for both Dataframe and Lazyframe
     are_column_nulls = (
-        data.select(selected_columns)
+        data.lazy()
+        .select(selected_columns)
         .with_columns(constant__=1)
         .group_by("constant__")
         .agg(pl.all().null_count() == pl_len)
         .drop("constant__")
+        .collect()
     )
-
-    if isinstance(are_column_nulls, pl.LazyFrame):
-        are_column_nulls = are_column_nulls.collect()
 
     null_columns = [col.name for col in are_column_nulls if col.all()]
 
@@ -1512,10 +1509,7 @@ def accepted_range(
         pl.col(k).is_between(*v).not_()  # type: ignore
         for k, v in closed_boundaries.items()
     ]
-    out_of_range = data.filter(pl.Expr.or_(*forbidden_ranges))
-
-    if isinstance(out_of_range, pl.LazyFrame):
-        out_of_range = out_of_range.collect()
+    out_of_range = data.lazy().filter(pl.Expr.or_(*forbidden_ranges)).collect()
 
     if not out_of_range.is_empty():
         raise PolarsAssertError(
@@ -1572,15 +1566,8 @@ def maintains_relationships(
     --> Some values were removed from col 'a', for ex: ('b',)
     """
 
-    if isinstance(data, pl.LazyFrame):
-        local_keys = set(data.select(column).collect().get_column(column))
-    else:
-        local_keys = set(data.get_column(column))
-
-    if isinstance(other_df, pl.LazyFrame):
-        other_keys = set(other_df.select(column).collect().get_column(column))
-    else:
-        other_keys = set(other_df.get_column(column))
+    local_keys = set(data.lazy().select(column).collect().get_column(column))
+    other_keys = set(other_df.lazy().select(column).collect().get_column(column))
 
     if local_keys != other_keys:
         if local_keys > other_keys:
@@ -1767,9 +1754,7 @@ def is_monotonic(
 
     if not comparisons:
         consecutive_bad_lines = (
-            data.lazy()
-            .filter(previous_and_current_match_expr.not_())
-            .collect()
+            data.lazy().filter(previous_and_current_match_expr.not_()).collect()
         )
         error_msg = (
             f'Column "{column}" expected to be monotonic but is not,'
@@ -1820,7 +1805,7 @@ def is_monotonic(
         raise PolarsAssertError(
             df=highlight_bad_intervals,
             supp_message=f"Intervals differ from the specified {interval} interval."
-            + f" Unexpected: {bad_intervals}"
+            + f" Unexpected: {bad_intervals}",
         )
     return data
 
@@ -1884,11 +1869,8 @@ def custom_check(
     Error with the DataFrame passed to the check function:
     --> Unexpected data in `Custom Check`: [(col("a")) != (dyn int: 3)]
     """
-    columns_in_expression = set(expresion.meta.root_names())
-    bad_data = data.select(columns_in_expression).filter(expresion.not_())
-
-    if isinstance(bad_data, pl.LazyFrame):
-        bad_data = bad_data.collect()
+    columns_in_expr = set(expresion.meta.root_names())
+    bad_data = data.lazy().select(columns_in_expr).filter(expresion.not_()).collect()
 
     if not bad_data.is_empty():
         raise PolarsAssertError(
@@ -1987,16 +1969,15 @@ def mutually_exclusive_ranges(
     indexes_of_overlaps = is_overlapping_interval.arg_true()
 
     overlapping_ranges = (
-        data.sort(*sorting_columns)
+        data.lazy()
+        .sort(*sorting_columns)
         .pipe(_add_row_index)
         .filter(
             pl.col("index").is_in(indexes_of_overlaps)
             | pl.col("index").is_in(indexes_of_overlaps - 1)
         )
+        .collect()
     )
-
-    if isinstance(overlapping_ranges, pl.LazyFrame):
-        overlapping_ranges = overlapping_ranges.collect()
 
     if len(overlapping_ranges) > 0:
         message = (
@@ -2105,8 +2086,11 @@ def column_is_within_n_std(
         for col, n_std in pairs_to_check
     ]
 
-    tagged_outliers = data.select(*keep_outlier_nullify_others).filter(
-        pl.any_horizontal(pl.all().is_not_null())
+    tagged_outliers = (
+        data.lazy()
+        .select(*keep_outlier_nullify_others)
+        .filter(pl.any_horizontal(pl.all().is_not_null()))
+        .collect()
     )
     if _has_sufficient_polars_version("0.20.0"):
         tagged_outliers = tagged_outliers.rename(lambda col: col.replace("_out__", ""))
@@ -2114,9 +2098,6 @@ def column_is_within_n_std(
         tagged_outliers = tagged_outliers.rename(
             {col: col.replace("_out__", "") for col in tagged_outliers.columns}
         )
-
-    if isinstance(tagged_outliers, pl.LazyFrame):
-        tagged_outliers = tagged_outliers.collect()
 
     columns_with_null = [col.name for col in tagged_outliers if col.is_not_null().any()]
 
