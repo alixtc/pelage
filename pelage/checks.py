@@ -870,11 +870,7 @@ def accepted_values(
     Showing problematic columns only.
     """
     mask_for_improper_values = [
-        # If/else required because .is_in() ignore nulls, must add a specific filter.
-        ~pl.col(col).is_in(values)
-        if None in values
-        else pl.col(col).is_in(values).not_() | pl.col(col).is_null()
-        for col, values in items.items()
+        ~pl.col(col).is_in(values) for col, values in items.items()
     ]
     improper_data = data.lazy().filter(pl.Expr.or_(*mask_for_improper_values)).collect()
 

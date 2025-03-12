@@ -1,6 +1,6 @@
 [project]
 name = "pelage"
-version = "0.3.6"
+version = "0.3.5"
 description = "This package contains a collection of tests to improve your Polars data analysis superpowers"
 readme = "README.md"
 
@@ -32,6 +32,7 @@ dev = [
     "griffe==1.5.*; python_version >= '3.10'",
     "tox-uv>=1.13.1",
     "numpy>=1.24.4",
+    "hypothesis>=6.113.0",
 ]
 extras = [
     "seaborn<1.0.0,>=0.13.2",
