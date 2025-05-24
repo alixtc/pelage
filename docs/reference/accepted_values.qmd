@@ -8,7 +8,7 @@ Raises error if columns contains values not specified in `items`
 
 <code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
 
-:   
+:
 
 <code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict\[str, List\]</span></code>
 
