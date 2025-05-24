@@ -1714,8 +1714,8 @@ def is_monotonic(
     └─────────────────────┴───────┴────────────────────────────────┘
     Error with the DataFrame passed to the check function:
     --> Intervals differ from the specified 3m interval.
-    """  # noqa: E501
-    if not _has_sufficient_polars_version("0.20") and group_by is None:
+    """  
+    if group_by is None:
         # with version >= 0.20 .over(None) does nothing, but before it fails, use dummy.
         group_by = 1
 
