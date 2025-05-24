@@ -62,11 +62,9 @@ class PolarsAssertError(Exception):
         by default ""
     """
 
-    def __init__(
-        self, df: pl.DataFrame = pl.DataFrame(), supp_message: str = ""
-    ) -> None:
+    def __init__(self, df: pl.DataFrame | None = None, supp_message: str = "") -> None:
         self.supp_message = supp_message
-        self.df = df
+        self.df = df if df is not None else pl.DataFrame()
 
     def __str__(self) -> str:
         base_message = "Error with the DataFrame passed to the check function:"
@@ -1045,7 +1043,7 @@ def has_mandatory_values(
         groups_missing_mandatory = (
             data.lazy()
             .group_by(group_by)
-            .agg(pl.col(k).unique() for k in items.keys())
+            .agg(pl.col(k).unique() for k in items)
             .pipe(compare_sets_per_column, items)
             .collect()
         )
@@ -1092,7 +1090,7 @@ def compare_sets_per_column(
             *[
                 pl.col(f"{k}_expected_set").list.set_difference(pl.col(k)).list.len()
                 != 0
-                for k in items.keys()
+                for k in items
             ]
         )
     )
@@ -1713,8 +1711,8 @@ def is_monotonic(
     │ 2021-12-12 01:44:00 ┆ B     ┆ 2021-12-12 01:46:00            │
     └─────────────────────┴───────┴────────────────────────────────┘
     Error with the DataFrame passed to the check function:
-    --> Intervals differ from the specified 3m interval.
-    """  
+    --> Intervals differ from the specified one: 3m.
+    """
     if group_by is None:
         # with version >= 0.20 .over(None) does nothing, but before it fails, use dummy.
         group_by = 1
@@ -1783,7 +1781,7 @@ def is_monotonic(
 
         if not bad_intervals.is_empty():
             raise PolarsAssertError(
-                supp_message=f"Intervals differ from the specified {interval} interval.",
+                supp_message=f"Intervals differ from the specified one: {interval}.",
                 df=bad_intervals,
             )
         return data

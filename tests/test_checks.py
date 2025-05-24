@@ -6,8 +6,6 @@ import polars as pl
 import pytest
 from polars import testing
 
-
-
 import pelage as plg
 from pelage import checks
 
@@ -883,6 +881,7 @@ def test_is_monotonic_should_work_on_generic_datetime(
     given_df = data.sort("datetime", descending=True)
     result = given_df.pipe(plg.is_monotonic, "datetime", decreasing=True)
     testing.assert_frame_equal(result, given_df)
+
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_custom_checks_works_for_simple_filter(
