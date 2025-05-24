@@ -1,6 +1,6 @@
 # PolarsAssertError { #pelage.checks.PolarsAssertError }
 
-`checks.PolarsAssertError(self, df=pl.DataFrame(), supp_message='')`
+`checks.PolarsAssertError(self, df=None, supp_message='')`
 
 Custom Error providing detailed information about the failed check.
 

@@ -141,5 +141,5 @@ shape: (3, 3)
 │ 2021-12-12 01:44:00 ┆ B     ┆ 2021-12-12 01:46:00            │
 └─────────────────────┴───────┴────────────────────────────────┘
 Error with the DataFrame passed to the check function:
---> Intervals differ from the specified 3m interval.
+--> Intervals differ from the specified one: 3m.
 ```

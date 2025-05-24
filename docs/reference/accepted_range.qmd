@@ -9,7 +9,7 @@ Check that all the values from specifed columns in the dict `items` are within
 
 <code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
 
-:   
+:
 
 <code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict\[str, PolarsColumnBounds\]</span></code>
 
