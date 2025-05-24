@@ -360,11 +360,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Raises error if columns contains values specified in List of forbbiden <code>items</code></p>
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<p><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code></p>
+<p>:</p>
 <dl>
-<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code></dt>
-<dd>
-
-</dd>
 <dt><code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict[str, List]</span></code></dt>
 <dd>
 <p>A dictionnary where keys are a string compatible with a pl.Expr, to be used with pl.col(). The value for each key is a List of all forbidden values in the dataframe.</p>

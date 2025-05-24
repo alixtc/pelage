@@ -360,11 +360,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Check that all the values from specifed columns in the dict <code>items</code> are within the indicated range.</p>
 <section id="parameters" class="level2">
 <h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<p><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code></p>
+<p>:</p>
 <dl>
-<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code></dt>
-<dd>
-
-</dd>
 <dt><code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict[str, PolarsColumnBounds]</span></code></dt>
 <dd>
 <p>Any type of inputs that match the following signature: <code>column_name: (boundaries)</code> where boundaries is compatible with the Polars method <code>is_between()</code> syntax.</p>
