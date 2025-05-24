@@ -41,3 +41,6 @@ extras = [
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[ tool.ruff.lint]
+select = ["E", "F", "UP", "B", "SIM", "I", "PD"]
