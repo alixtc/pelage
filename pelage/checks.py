@@ -1967,7 +1967,10 @@ def mutually_exclusive_ranges(
         .sort(*sorting_columns)
         .pipe(_add_row_index)
         .filter(
-            pl.col("index").is_in(indexes_of_overlaps)
+            pl.col("index").is_in(indexes_of_overlaps.implode())
+            | pl.col("index").is_in((indexes_of_overlaps - 1).implode())
+            if _has_sufficient_polars_version("1.30.0")
+            else pl.col("index").is_in(indexes_of_overlaps)
             | pl.col("index").is_in(indexes_of_overlaps - 1)
         )
         .collect()
