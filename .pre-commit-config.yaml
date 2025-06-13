@@ -3,7 +3,7 @@ repos:
     rev: v4.4.0
     hooks:
     -   id: end-of-file-fixer
-        exclude: '^.+coverage.+$'
+        exclude: '^.+coverage$'
     -   id: trailing-whitespace
     -   id: check-yaml
 
