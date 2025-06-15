@@ -1805,7 +1805,7 @@ def is_monotonic(
 
 
 def custom_check(
-    data: PolarsLazyOrDataFrame, expresion: pl.Expr
+    data: PolarsLazyOrDataFrame, expression: pl.Expr
 ) -> PolarsLazyOrDataFrame:
     """Use custom Polars expression to check the DataFrame, based on `.filter()`.
 
@@ -1821,7 +1821,7 @@ def custom_check(
     ----------
     data : PolarsLazyOrDataFrame
         Polars DataFrame or LazyFrame containing data to check.
-    expresion : pl.Expr
+    expression : pl.Expr
         Polar Expression that can be passed to the `.filter()` method. As describe
         above, use an expression that should keep forbidden values when passed to the
         filter
@@ -1863,13 +1863,13 @@ def custom_check(
     Error with the DataFrame passed to the check function:
     --> Unexpected data in `Custom Check`: [(col("a")) != (dyn int: 3)]
     """
-    columns_in_expr = set(expresion.meta.root_names())
-    bad_data = data.lazy().select(columns_in_expr).filter(expresion.not_()).collect()
+    columns_in_expr = set(expression.meta.root_names())
+    bad_data = data.lazy().select(columns_in_expr).filter(expression.not_()).collect()
 
     if not bad_data.is_empty():
         raise PolarsAssertError(
             df=bad_data,
-            supp_message=f"Unexpected data in `Custom Check`: {str(expresion)}",
+            supp_message=f"Unexpected data in `Custom Check`: {str(expression)}",
         )
     return data
 

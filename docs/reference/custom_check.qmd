@@ -1,6 +1,6 @@
 # custom_check { #pelage.checks.custom_check }
 
-`checks.custom_check(data, expresion)`
+`checks.custom_check(data, expression)`
 
 Use custom Polars expression to check the DataFrame, based on `.filter()`.
 
@@ -18,7 +18,7 @@ Analog to dbt-utils fonction: `expression_is_true`
 
 :   Polars DataFrame or LazyFrame containing data to check.
 
-<code><span class="parameter-name">expresion</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">pl.Expr</span></code>
+<code><span class="parameter-name">expression</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">pl.Expr</span></code>
 
 :   Polar Expression that can be passed to the `.filter()` method. As describe
     above, use an expression that should keep forbidden values when passed to the
