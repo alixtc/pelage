@@ -1,0 +1,72 @@
+from typing import Optional
+
+import polars as pl
+
+from pelage.checks import PolarsAssertError, _sanitize_column_inputs
+from pelage.types import PolarsColumnType, PolarsLazyOrDataFrame
+
+
+def has_no_infs(
+    data: PolarsLazyOrDataFrame,
+    columns: Optional[PolarsColumnType] = None,
+) -> PolarsLazyOrDataFrame:
+    """Check if a DataFrame has any infinite (inf) values.
+
+    Parameters
+    ----------
+    data : PolarsLazyOrDataFrame
+        The input DataFrame to check for null values.
+    columns : Optional[PolarsColumnType] , optional
+        Columns to consider for null value check. By default, all columns are checked.
+
+    Returns
+    -------
+    PolarsLazyOrDataFrame
+        The original polars DataFrame or LazyFrame when the check passes
+
+
+    Examples
+    --------
+    >>> import polars as pl
+    >>> import pelage as plg
+    >>> df = pl.DataFrame(
+    ...     {
+    ...         "a": [1, 2],
+    ...         "b": [1.0, float("inf")],
+    ...     }
+    ... )
+    >>> plg.has_no_infs(df)
+    Traceback (most recent call last):
+      ...
+    pelage.checks.PolarsAssertError: Details
+    shape: (1, 2)
+    ┌─────┬─────┐
+    │ a   ┆ b   │
+    │ --- ┆ --- │
+    │ i64 ┆ f64 │
+    ╞═════╪═════╡
+    │ 2   ┆ inf │
+    └─────┴─────┘
+    Error with the DataFrame passed to the check function:
+    --> The were unexpeted infinites in the dataframe. See above.
+    >>> plg.has_no_infs(df, ["a"])  # or  plg.has_no_infs(df, "a")
+    shape: (2, 2)
+    ┌─────┬─────┐
+    │ a   ┆ b   │
+    │ --- ┆ --- │
+    │ i64 ┆ f64 │
+    ╞═════╪═════╡
+    │ 1   ┆ 1.0 │
+    │ 2   ┆ inf │
+    └─────┴─────┘
+    """
+    selected_columns = _sanitize_column_inputs(columns)
+    inf_values = (
+        data.lazy().filter(pl.any_horizontal(selected_columns.is_infinite())).collect()
+    )
+
+    if not inf_values.is_empty():
+        raise PolarsAssertError(
+            inf_values, "The were unexpeted infinites in the dataframe. See above."
+        )
+    return data
