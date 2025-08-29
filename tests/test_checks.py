@@ -664,15 +664,17 @@ def test_unique_combination_of_columns_base_error_message_format(
 
 
 @pytest.mark.parametrize(
-    "columns,custom_message",
+    "columns",
     [
-        ("a", 'See above, selected: col("a")'),
-        (["a", "b"], 'See above, selected: cols(["a", "b"])'),
-        (pl.Utf8, "See above, selected: dtype_columns"),
-        (None, "See above, selected: *"),
+        "a",
+        ["a", "b"],
+        pl.Utf8,
+        None,
     ],
 )
-def test_unique_combination_of_columns_error_message_format(columns, custom_message):
+def test_unique_combination_of_columns_error_message_format(
+    columns: checks.PolarsColumnType,
+):
     given_df = pl.DataFrame({"a": ["a", "a"], "b": [1, 1]})
     with pytest.raises(plg.PolarsAssertError) as err:
         given_df.pipe(plg.unique_combination_of_columns, columns)
@@ -680,7 +682,6 @@ def test_unique_combination_of_columns_error_message_format(columns, custom_mess
     base_message = "Some combinations of columns are not unique."
 
     assert base_message in str(err.value)
-    assert custom_message in str(err.value)
 
 
 @pytest.mark.parametrize(

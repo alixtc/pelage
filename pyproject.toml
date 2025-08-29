@@ -1,6 +1,6 @@
 [project]
 name = "pelage"
-version = "0.4.2"
+version = "0.4.3"
 description = "This package contains a collection of tests to improve your Polars data analysis superpowers"
 readme = "README.md"
 
@@ -10,7 +10,9 @@ authors = [
 license = { text = "MIT" }
 
 requires-python = ">=3.8, <3.14"
-dependencies = ["polars>=0.19"]
+dependencies = [
+    "polars>=0.19",
+]
 
 [project.urls]
 homepage = "https://alixtc.github.io/pelage"

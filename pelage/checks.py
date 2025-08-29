@@ -2075,10 +2075,10 @@ def column_is_within_n_std(
             col.is_between(
                 col.mean() - n_std * col.std(),
                 col.mean() + n_std * col.std(),
-            )
+            ).not_()
         )
-        .then(None)
-        .otherwise(col)
+        .then(col)  # Then `col` must come first to propagate column name for suffix
+        .otherwise(None)
         .name.suffix("_out__")
         for col, n_std in pairs_to_check
     ]
