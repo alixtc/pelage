@@ -58,6 +58,8 @@ def has_shape(
     │ 1   ┆ a   │
     │ 2   ┆ b   │
     └─────┴─────┘
+
+    Without specifying the number of columns:
     >>> df.pipe(plg.has_shape, (2, None))
     shape: (2, 2)
     ┌─────┬─────┐
@@ -68,6 +70,7 @@ def has_shape(
     │ 1   ┆ a   │
     │ 2   ┆ b   │
     └─────┴─────┘
+
     >>> df.pipe(plg.has_shape, (1, 2))
     Traceback (most recent call last):
     ...
@@ -75,6 +78,7 @@ def has_shape(
     Error with the DataFrame passed to the check function:
     --> The data has not the expected shape: (1, 2)
 
+    Checking the number of rows per group:
     >>> group_example_df = pl.DataFrame(
     ...     {
     ...         "a": [1, 2, 3],

@@ -43,6 +43,7 @@ def accepted_values(
     │ 2   ┆ b   │
     │ 3   ┆ c   │
     └─────┴─────┘
+
     >>> df.pipe(plg.accepted_values, {"a": [1, 2]})
     Traceback (most recent call last):
     ...

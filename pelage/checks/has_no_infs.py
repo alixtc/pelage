@@ -49,6 +49,7 @@ def has_no_infs(
     └─────┴─────┘
     Error with the DataFrame passed to the check function:
     --> The were unexpeted infinites in the dataframe. See above.
+
     >>> plg.has_no_infs(df, ["a"])  # or  plg.has_no_infs(df, "a")
     shape: (2, 2)
     ┌─────┬─────┐

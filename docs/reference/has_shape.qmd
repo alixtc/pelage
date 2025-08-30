@@ -1,18 +1,20 @@
-# has_shape { #pelage.checks.has_shape }
+# has_shape { #pelage.has_shape }
 
-`checks.has_shape(data, shape, group_by=None)`
+```python
+has_shape(data, shape, group_by=None)
+```
 
 Check if a DataFrame has the specified shape.
 
 When used with the group_by option, this can be used to get the row count per group.
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
-<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`)</span></code>
 
 :   Input data
 
-<code><span class="parameter-name">shape</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Tuple\[IntOrNone, IntOrNone\]</span></code>
+<code><span class="parameter-name">shape</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Tuple](`typing.Tuple`)\[[IntOrNone](`pelage.checks.utils.types.IntOrNone`), [IntOrNone](`pelage.checks.utils.types.IntOrNone`)\]</span></code>
 
 :   Tuple with the expected dataframe shape, as from the `.shape()` method.
     You can use `None` for one of the two elements of the shape tuple if you do not
@@ -21,18 +23,18 @@ When used with the group_by option, this can be used to get the row count per gr
     Ex: `(5, None)` will ensure that the dataframe has 5 rows regardless of the
     number of columns.
 
-<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[PolarsOverClauseInput\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[PolarsOverClauseInput](`pelage.checks.utils.types.PolarsOverClauseInput`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
 
 :   When specified compares the number of lines per group with the expected value,
     by default None
 
-## Returns
+## Returns {.doc-section .doc-section-returns}
 
-| Type                  | Description                                                      |
-|-----------------------|------------------------------------------------------------------|
-| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+| Name   | Type                                                                       | Description                                                      |
+|--------|----------------------------------------------------------------------------|------------------------------------------------------------------|
+|        | [PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`) | The original polars DataFrame or LazyFrame when the check passes |
 
-## Examples
+## Examples {.doc-section .doc-section-examples}
 
 ```python
 >>> import polars as pl
@@ -48,6 +50,11 @@ shape: (2, 2)
 │ 1   ┆ a   │
 │ 2   ┆ b   │
 └─────┴─────┘
+```
+
+Without specifying the number of columns:
+
+```python
 >>> df.pipe(plg.has_shape, (2, None))
 shape: (2, 2)
 ┌─────┬─────┐
@@ -58,6 +65,9 @@ shape: (2, 2)
 │ 1   ┆ a   │
 │ 2   ┆ b   │
 └─────┴─────┘
+```
+
+```python
 >>> df.pipe(plg.has_shape, (1, 2))
 Traceback (most recent call last):
 ...
@@ -65,6 +75,8 @@ pelage.checks.PolarsAssertError: Details
 Error with the DataFrame passed to the check function:
 --> The data has not the expected shape: (1, 2)
 ```
+
+Checking the number of rows per group:
 
 ```python
 >>> group_example_df = pl.DataFrame(

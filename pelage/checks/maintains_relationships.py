@@ -46,6 +46,7 @@ def maintains_relationships(
     │ b   │
     └─────┘
     >>> final_df = pl.DataFrame({"a": ["a"]})
+
     >>> final_df.pipe(plg.maintains_relationships, initial_df, "a")
     Traceback (most recent call last):
     ...

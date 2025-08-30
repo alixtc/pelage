@@ -1,18 +1,20 @@
-# not_null_proportion { #pelage.checks.not_null_proportion }
+# not_null_proportion { #pelage.not_null_proportion }
 
-`checks.not_null_proportion(data, items, group_by=None)`
+```python
+not_null_proportion(data, items, group_by=None)
+```
 
 Checks that the proportion of non-null values in a column is within a
 a specified range [at_least, at_most] where at_most is an optional argument
 (default: 1.0).
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
-<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`)</span></code>
 
 :   _description_
 
-<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict\[str, float \| Tuple\[float, float\]\]</span></code>
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Dict](`typing.Dict`)\[[str](`str`), [float](`float`) \| [Tuple](`typing.Tuple`)\[[float](`float`), [float](`float`)\]\]</span></code>
 
 :   Ranges for the proportion of not null values for selected columns.
 
@@ -28,18 +30,18 @@ a specified range [at_least, at_most] where at_most is an optional argument
     When specifying a single float, the higher bound of the range will automatically
     be set to 1.0, i.e. (given_float, 1.0)
 
-<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[PolarsOverClauseInput\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[PolarsOverClauseInput](`pelage.checks.utils.types.PolarsOverClauseInput`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
 
 :   When specified perform the check per group instead of the whole column,
     by default None
 
-## Returns
+## Returns {.doc-section .doc-section-returns}
 
-| Type                  | Description                                                      |
-|-----------------------|------------------------------------------------------------------|
-| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+| Name   | Type                                                                       | Description                                                      |
+|--------|----------------------------------------------------------------------------|------------------------------------------------------------------|
+|        | [PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`) | The original polars DataFrame or LazyFrame when the check passes |
 
-## Examples
+## Examples {.doc-section .doc-section-examples}
 
 ```python
 >>> import polars as pl
@@ -61,6 +63,9 @@ shape: (3, 2)
 │ null ┆ 2    │
 │ null ┆ null │
 └──────┴──────┘
+```
+
+```python
 >>> df.pipe(plg.not_null_proportion, {"a": 0.7})
 Traceback (most recent call last):
 ...
@@ -77,7 +82,7 @@ Error with the DataFrame passed to the check function:
 --> Some columns contains a proportion of nulls beyond specified limits
 ```
 
- The folloing example details how to perform this checks for groups:
+The following example details how to perform this checks for groups:
 
 ```python
 >>> group_df = pl.DataFrame(
@@ -98,6 +103,9 @@ shape: (4, 2)
 │ null ┆ B     │
 │ null ┆ B     │
 └──────┴───────┘
+```
+
+```python
 >>> group_df.pipe(plg.not_null_proportion, {"a": 0.5}, group_by="group")
 Traceback (most recent call last):
 ...

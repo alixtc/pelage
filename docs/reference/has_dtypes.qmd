@@ -1,16 +1,18 @@
-# has_dtypes { #pelage.checks.has_dtypes }
+# has_dtypes { #pelage.has_dtypes }
 
-`checks.has_dtypes(data, items)`
+```python
+has_dtypes(data, items)
+```
 
 Check that the columns have the expected types
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
-<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`)</span></code>
 
 :   Polars DataFrame or LazyFrame containing data to check.
 
-<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict\[str, PolarsDataType\]</span></code>
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Dict](`typing.Dict`)\[[str](`str`), [PolarsDataType](`pelage.checks.utils.types.PolarsDataType`)\]</span></code>
 
 :   A dictionnary of column name with their expected polars data type:
     ```
@@ -22,23 +24,23 @@ Check that the columns have the expected types
     }
     ```
 
-## Returns
+## Returns {.doc-section .doc-section-returns}
 
-| Type                  | Description                                                      |
-|-----------------------|------------------------------------------------------------------|
-| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+| Name   | Type                                                                       | Description                                                      |
+|--------|----------------------------------------------------------------------------|------------------------------------------------------------------|
+|        | [PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`) | The original polars DataFrame or LazyFrame when the check passes |
 
-## Examples
+## Examples {.doc-section .doc-section-examples}
 
 ```python
 >>> import polars as pl
->>> from pelage import checks
+>>> import pelage as plg
 >>> df = pl.DataFrame({
 ...     "name": ["Alice", "Bob", "Charlie"],
 ...     "age": [20, 30, 40],
 ...     "city": ["New York", "London", "Paris"],
 ... })
->>> checks.has_dtypes(df, {
+>>> df.pipe(plg.has_dtypes, {
 ...     "name": pl.String,
 ...     "age": pl.Int64,
 ...     "city": pl.String,
@@ -53,7 +55,10 @@ shape: (3, 3)
 │ Bob     ┆ 30  ┆ London   │
 │ Charlie ┆ 40  ┆ Paris    │
 └─────────┴─────┴──────────┘
->>> checks.has_dtypes(df, {
+```
+
+```python
+>>> df.pipe(plg.has_dtypes, {
 ...     "age": pl.String,
 ...     "city": pl.Int64,
 ... })

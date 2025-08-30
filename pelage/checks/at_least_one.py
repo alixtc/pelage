@@ -80,6 +80,7 @@ def at_least_one(
     │ null ┆ G2    │
     │ 2    ┆ G2    │
     └──────┴───────┘
+
     >>> df.pipe(plg.at_least_one, "a", group_by="group")
     Traceback (most recent call last):
     ...

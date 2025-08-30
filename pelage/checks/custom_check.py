@@ -48,6 +48,7 @@ def custom_check(
     │ 2   │
     │ 3   │
     └─────┘
+
     >>> df.pipe(plg.custom_check, pl.col("a") != 3)
     Traceback (most recent call last):
     ...

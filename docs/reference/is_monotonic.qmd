@@ -1,29 +1,38 @@
-# is_monotonic { #pelage.checks.is_monotonic }
+# is_monotonic { #pelage.is_monotonic }
 
-`checks.is_monotonic(data, column, decreasing=False, strict=True, interval=None, group_by=None)`
+```python
+is_monotonic(
+    data,
+    column,
+    decreasing=False,
+    strict=True,
+    interval=None,
+    group_by=None,
+)
+```
 
 Verify that values in a column are consecutively increasing or decreasing.
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
-<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`)</span></code>
 
 :   Polars DataFrame or LazyFrame containing data to check.
 
-<code><span class="parameter-name">column</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">str</span></code>
+<code><span class="parameter-name">column</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[str](`str`)</span></code>
 
 :   Name of the column that should be monotonic.
 
-<code><span class="parameter-name">decreasing</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">bool</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">False</span></code>
+<code><span class="parameter-name">decreasing</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[bool](`bool`)</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">False</span></code>
 
 :   Should the column be decreasing, by default False
 
-<code><span class="parameter-name">strict</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">bool</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">True</span></code>
+<code><span class="parameter-name">strict</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[bool](`bool`)</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">True</span></code>
 
 :   The series must be stricly increasing or decreasing, no consecutive equal values
     are allowed, by default True
 
-<code><span class="parameter-name">interval</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[Union\[int, float, str, pl.Duration\]\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+<code><span class="parameter-name">interval</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[Union](`typing.Union`)\[[int](`int`), [float](`float`), [str](`str`), [pl](`polars`).[Duration](`polars.Duration`)\]\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
 
 :   For time-based column, the interval can be specified as a string as in the
     function `dt.offset_by` or `pl.DataFrame().rolling`. It can also be specified
@@ -50,20 +59,20 @@ Verify that values in a column are consecutively increasing or decreasing.
 
     By default None
 
-<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[PolarsOverClauseInput\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[PolarsOverClauseInput](`pelage.checks.utils.types.PolarsOverClauseInput`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
 
 :   When specified, the monotonic characteristics and intervals are estimated for
     each group independently.
 
     by default None
 
-## Returns
+## Returns {.doc-section .doc-section-returns}
 
-| Type                  | Description                                                      |
-|-----------------------|------------------------------------------------------------------|
-| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+| Name   | Type                                                                       | Description                                                      |
+|--------|----------------------------------------------------------------------------|------------------------------------------------------------------|
+|        | [PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`) | The original polars DataFrame or LazyFrame when the check passes |
 
-## Examples
+## Examples {.doc-section .doc-section-examples}
 
 ```python
 >>> import polars as pl
@@ -81,6 +90,9 @@ shape: (3, 2)
 │ 2   ┆ y   │
 │ 3   ┆ z   │
 └─────┴─────┘
+```
+
+```python
 >>> bad = pl.DataFrame({"data": [1, 2, 3, 1]})
 >>> bad.pipe(plg.is_monotonic, "data")
 Traceback (most recent call last):

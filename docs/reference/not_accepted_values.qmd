@@ -1,28 +1,30 @@
-# not_accepted_values { #pelage.checks.not_accepted_values }
+# not_accepted_values { #pelage.not_accepted_values }
 
-`checks.not_accepted_values(data, items)`
+```python
+not_accepted_values(data, items)
+```
 
 Raises error if columns contains values specified in List of forbbiden `items`
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
-<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`)</span></code>
 
 :
 
-<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict\[str, List\]</span></code>
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Dict](`typing.Dict`)\[[str](`str`), [List](`typing.List`)\]</span></code>
 
 :   A dictionnary where keys are a string compatible with a pl.Expr, to be used with
     pl.col(). The value for each key is a List of all forbidden values in the
     dataframe.
 
-## Returns
+## Returns {.doc-section .doc-section-returns}
 
-| Type                  | Description                                                      |
-|-----------------------|------------------------------------------------------------------|
-| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+| Name   | Type                                                                       | Description                                                      |
+|--------|----------------------------------------------------------------------------|------------------------------------------------------------------|
+|        | [PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`) | The original polars DataFrame or LazyFrame when the check passes |
 
-## Examples
+## Examples {.doc-section .doc-section-examples}
 
 ```python
 >>> import polars as pl
@@ -41,6 +43,9 @@ shape: (3, 2)
 │ 2   ┆ b   │
 │ 3   ┆ c   │
 └─────┴─────┘
+```
+
+```python
 >>> df.pipe(plg.not_accepted_values, {"b": ["a", "b"]})
 Traceback (most recent call last):
 ...

@@ -1,35 +1,37 @@
-# mutually_exclusive_ranges { #pelage.checks.mutually_exclusive_ranges }
+# mutually_exclusive_ranges { #pelage.mutually_exclusive_ranges }
 
-`checks.mutually_exclusive_ranges(data, low_bound, high_bound, group_by=None)`
+```python
+mutually_exclusive_ranges(data, low_bound, high_bound, group_by=None)
+```
 
 Ensure that the specified columns contains no overlapping intervals.
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
-<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`)</span></code>
 
 :   Data to check
 
-<code><span class="parameter-name">low_bound</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">str</span></code>
+<code><span class="parameter-name">low_bound</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[str](`str`)</span></code>
 
 :   Name of column containing the lower bound of the interval
 
-<code><span class="parameter-name">high_bound</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">str</span></code>
+<code><span class="parameter-name">high_bound</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[str](`str`)</span></code>
 
 :   Name of column containing the higher bound of the interval
 
-<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">IntoExpr \| Iterable\[IntoExpr\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[IntoExpr](`IntoExpr`) \| [Iterable](`Iterable`)\[[IntoExpr](`IntoExpr`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
 
 :   Parameter compatible with `.over()` function to split the check by groups,
     by default None
 
-## Returns
+## Returns {.doc-section .doc-section-returns}
 
-| Type                  | Description                                                      |
-|-----------------------|------------------------------------------------------------------|
-| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+| Name   | Type                                                                       | Description                                                      |
+|--------|----------------------------------------------------------------------------|------------------------------------------------------------------|
+|        | [PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`) | The original polars DataFrame or LazyFrame when the check passes |
 
-## Examples
+## Examples {.doc-section .doc-section-examples}
 
 ```python
 >>> import polars as pl
@@ -51,6 +53,9 @@ shape: (2, 2)
 │ 1   ┆ 2   │
 │ 3   ┆ 4   │
 └─────┴─────┘
+```
+
+```python
 >>> df = pl.DataFrame(
 ...     [
 ...         [1, 3],
