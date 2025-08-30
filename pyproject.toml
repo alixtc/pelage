@@ -10,9 +10,7 @@ authors = [
 license = { text = "MIT" }
 
 requires-python = ">=3.8, <3.14"
-dependencies = [
-    "polars>=0.19",
-]
+dependencies = ["polars>=0.19"]
 
 [project.urls]
 homepage = "https://alixtc.github.io/pelage"
@@ -30,10 +28,9 @@ dev = [
     "pre-commit",
     "coverage>=7.4.3",
     "ipykernel>=6.29.3",
-    "quartodoc==0.7.*; python_version >= '3.10'",
-    "griffe==1.5.*; python_version >= '3.10'",
     "tox-uv>=1.13.1",
 ]
+doc = ["quartodoc>=0.7.0; python_version >= '3.10'"]
 extras = [
     "seaborn<1.0.0,>=0.13.2",
     "pyarrow<16.0.0,>=15.0.2",
@@ -44,5 +41,5 @@ extras = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[ tool.ruff.lint]
+[tool.ruff.lint]
 select = ["E", "F", "UP", "B", "SIM", "I", "PD"]
