@@ -103,6 +103,7 @@ def has_mandatory_values(
     │ 1   ┆ G2    │
     │ 2   ┆ G2    │
     └─────┴───────┘
+
     >>> group_df_example.pipe(plg.has_mandatory_values, {"a": [1, 2]}, group_by="group")
     Traceback (most recent call last):
     ...

@@ -53,6 +53,7 @@ def accepted_range(
     └─────┘
     Error with the DataFrame passed to the check function:
     --> Some values are beyond the acceptable ranges defined
+
     >>> df.pipe(plg.accepted_range, {"a": (1, 3)})
     shape: (3, 1)
     ┌─────┐
@@ -64,6 +65,8 @@ def accepted_range(
     │ 2   │
     │ 3   │
     └─────┘
+
+    Examples with string containing columns and specifying boundaries:
     >>> df = pl.DataFrame({"a": ["b", "c"]})
     >>> df.pipe(plg.accepted_range, {"a": (pl.lit("a"), pl.lit("d"), "right")})
     shape: (2, 1)

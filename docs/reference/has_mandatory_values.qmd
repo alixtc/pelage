@@ -1,32 +1,34 @@
-# has_mandatory_values { #pelage.checks.has_mandatory_values }
+# has_mandatory_values { #pelage.has_mandatory_values }
 
-`checks.has_mandatory_values(data, items, group_by=None)`
+```python
+has_mandatory_values(data, items, group_by=None)
+```
 
 Ensure that all specified values are present in their respective column.
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
 <code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"> PolarsLazyOrDataFrame</span></code>
 
 :   Polars DataFrame or LazyFrame containing data to check.
 
-<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Dict\[str, list\]</span></code>
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Dict](`typing.Dict`)\[[str](`str`), [list](`list`)\]</span></code>
 
 :   A dictionnary where the keys are the columns names and the values are lists that
     contains all the required values for a given column.
 
-<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">Optional\[PolarsOverClauseInput\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[PolarsOverClauseInput](`pelage.checks.utils.types.PolarsOverClauseInput`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
 
 :   When specified perform the check per group instead of the whole column,
     by default None
 
-## Returns
+## Returns {.doc-section .doc-section-returns}
 
-| Type                  | Description                                                      |
-|-----------------------|------------------------------------------------------------------|
-| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
+| Name   | Type                  | Description                                                      |
+|--------|-----------------------|------------------------------------------------------------------|
+|        | PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes |
 
-## Examples
+## Examples {.doc-section .doc-section-examples}
 
 ```python
 >>> import polars as pl
@@ -71,6 +73,9 @@ shape: (4, 2)
 │ 1   ┆ G2    │
 │ 2   ┆ G2    │
 └─────┴───────┘
+```
+
+```python
 >>> group_df_example.pipe(plg.has_mandatory_values, {"a": [1, 2]}, group_by="group")
 Traceback (most recent call last):
 ...

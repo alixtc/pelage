@@ -32,7 +32,7 @@ def has_no_nulls(
     Examples
     --------
     >>> import polars as pl
-    >>> from pelage import checks
+    >>> import pelage as plg
     >>> df = pl.DataFrame({
     ...     "A": [1, 2],
     ...     "B": [None, 5]
@@ -47,7 +47,7 @@ def has_no_nulls(
     │ 1   ┆ null │
     │ 2   ┆ 5    │
     └─────┴──────┘
-    >>> checks.has_no_nulls(df)
+    >>> df.pipe(plg.has_no_nulls)
     Traceback (most recent call last):
         ...
     pelage.checks.PolarsAssertError: Details

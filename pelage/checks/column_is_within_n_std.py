@@ -62,6 +62,7 @@ def column_is_within_n_std(
     │ 9   ┆ 9   ┆ 9    │
     │ 10  ┆ 10  ┆ 5000 │
     └─────┴─────┴──────┘
+
     >>> df.pipe(plg.column_is_within_n_std, ("b", 2), ("c", 2))
     Traceback (most recent call last):
     ...

@@ -50,6 +50,7 @@ def not_constant(
     │ 2   │
     └─────┘
     >>> df = pl.DataFrame({"b": [1, 1]})
+
     >>> df.pipe(plg.not_constant)
     Traceback (most recent call last):
     ...
@@ -86,6 +87,7 @@ def not_constant(
     │ 1   ┆ B   │
     │ 1   ┆ B   │
     └─────┴─────┘
+
     >>> df.pipe(plg.not_constant, "a", group_by="b")
     Traceback (most recent call last):
     ...

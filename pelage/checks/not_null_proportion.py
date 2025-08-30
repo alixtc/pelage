@@ -69,6 +69,7 @@ def not_null_proportion(
     │ null ┆ 2    │
     │ null ┆ null │
     └──────┴──────┘
+
     >>> df.pipe(plg.not_null_proportion, {"a": 0.7})
     Traceback (most recent call last):
     ...
@@ -84,7 +85,7 @@ def not_null_proportion(
     Error with the DataFrame passed to the check function:
     --> Some columns contains a proportion of nulls beyond specified limits
 
-     The folloing example details how to perform this checks for groups:
+    The following example details how to perform this checks for groups:
     >>> group_df = pl.DataFrame(
     ...     {
     ...         "a": [1, 1, None, None],
@@ -103,6 +104,7 @@ def not_null_proportion(
     │ null ┆ B     │
     │ null ┆ B     │
     └──────┴───────┘
+
     >>> group_df.pipe(plg.not_null_proportion, {"a": 0.5}, group_by="group")
     Traceback (most recent call last):
     ...

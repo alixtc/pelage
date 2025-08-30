@@ -82,6 +82,7 @@ def is_monotonic(
     │ 2   ┆ y   │
     │ 3   ┆ z   │
     └─────┴─────┘
+
     >>> bad = pl.DataFrame({"data": [1, 2, 3, 1]})
     >>> bad.pipe(plg.is_monotonic, "data")
     Traceback (most recent call last):

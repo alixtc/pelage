@@ -1,6 +1,8 @@
-# custom_check { #pelage.checks.custom_check }
+# custom_check { #pelage.custom_check }
 
-`checks.custom_check(data, expression)`
+```python
+custom_check(data, expression)
+```
 
 Use custom Polars expression to check the DataFrame, based on `.filter()`.
 
@@ -12,25 +14,25 @@ use the expression `pl.col("column") != 4`.
 
 Analog to dbt-utils fonction: `expression_is_true`
 
-## Parameters
+## Parameters {.doc-section .doc-section-parameters}
 
-<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">PolarsLazyOrDataFrame</span></code>
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`)</span></code>
 
 :   Polars DataFrame or LazyFrame containing data to check.
 
-<code><span class="parameter-name">expression</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">pl.Expr</span></code>
+<code><span class="parameter-name">expression</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[pl](`polars`).[Expr](`polars.Expr`)</span></code>
 
 :   Polar Expression that can be passed to the `.filter()` method. As describe
     above, use an expression that should keep forbidden values when passed to the
     filter
 
-## Returns
+## Returns {.doc-section .doc-section-returns}
 
-| Type                  | Description                                                       |
-|-----------------------|-------------------------------------------------------------------|
-| PolarsLazyOrDataFrame | The original polars DataFrame or LazyFrame when the check passes. |
+| Name   | Type                                                                       | Description                                                       |
+|--------|----------------------------------------------------------------------------|-------------------------------------------------------------------|
+|        | [PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`) | The original polars DataFrame or LazyFrame when the check passes. |
 
-## Examples
+## Examples {.doc-section .doc-section-examples}
 
 ```python
 >>> import polars as pl
@@ -47,6 +49,9 @@ shape: (3, 1)
 │ 2   │
 │ 3   │
 └─────┘
+```
+
+```python
 >>> df.pipe(plg.custom_check, pl.col("a") != 3)
 Traceback (most recent call last):
 ...

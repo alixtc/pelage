@@ -43,6 +43,7 @@ def unique(
     │ 1   │
     │ 2   │
     └─────┘
+
     >>> df = pl.DataFrame({"a": [1, 1, 2]})
     >>> df.pipe(plg.unique, "a")
     Traceback (most recent call last):

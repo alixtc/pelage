@@ -64,6 +64,7 @@ def mutually_exclusive_ranges(
     │ 1   ┆ 2   │
     │ 3   ┆ 4   │
     └─────┴─────┘
+
     >>> df = pl.DataFrame(
     ...     [
     ...         [1, 3],

@@ -47,6 +47,7 @@ def unique_combination_of_columns(
     │ a   ┆ 1   │
     │ a   ┆ 2   │
     └─────┴─────┘
+
     >>> bad = pl.DataFrame({"a": ["X", "X"]})
     >>> bad.pipe(plg.unique_combination_of_columns, "a")
     Traceback (most recent call last):

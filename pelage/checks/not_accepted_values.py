@@ -44,6 +44,7 @@ def not_accepted_values(
     │ 2   ┆ b   │
     │ 3   ┆ c   │
     └─────┴─────┘
+
     >>> df.pipe(plg.not_accepted_values, {"b": ["a", "b"]})
     Traceback (most recent call last):
     ...

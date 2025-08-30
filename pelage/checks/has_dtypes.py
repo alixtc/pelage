@@ -48,13 +48,13 @@ def has_dtypes(
     Examples
     --------
     >>> import polars as pl
-    >>> from pelage import checks
+    >>> import pelage as plg
     >>> df = pl.DataFrame({
     ...     "name": ["Alice", "Bob", "Charlie"],
     ...     "age": [20, 30, 40],
     ...     "city": ["New York", "London", "Paris"],
     ... })
-    >>> checks.has_dtypes(df, {
+    >>> df.pipe(plg.has_dtypes, {
     ...     "name": pl.String,
     ...     "age": pl.Int64,
     ...     "city": pl.String,
@@ -69,7 +69,8 @@ def has_dtypes(
     │ Bob     ┆ 30  ┆ London   │
     │ Charlie ┆ 40  ┆ Paris    │
     └─────────┴─────┴──────────┘
-    >>> checks.has_dtypes(df, {
+
+    >>> df.pipe(plg.has_dtypes, {
     ...     "age": pl.String,
     ...     "city": pl.Int64,
     ... })
