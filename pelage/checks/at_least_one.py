@@ -2,12 +2,16 @@ from typing import Optional
 
 import polars as pl
 
-from pelage.checks import (
+from pelage.checks.utils.checks import (
     PolarsAssertError,
     _has_sufficient_polars_version,
     _sanitize_column_inputs,
 )
-from pelage.types import PolarsColumnType, PolarsLazyOrDataFrame, PolarsOverClauseInput
+from pelage.checks.utils.types import (
+    PolarsColumnType,
+    PolarsLazyOrDataFrame,
+    PolarsOverClauseInput,
+)
 
 
 def at_least_one(

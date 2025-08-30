@@ -7,7 +7,7 @@ from typing import Dict, Optional, Tuple, Union
 
 import polars as pl
 
-from pelage.types import PolarsColumnType, PolarsLazyOrDataFrame
+from pelage.checks.utils.types import PolarsColumnType
 
 
 def _has_sufficient_polars_version(version_number: str = "0.20.0") -> bool:
@@ -38,13 +38,6 @@ def _format_ranges_by_columns(
         orient="row",
     )
     return pl_ranges
-
-
-def _add_row_index(data: PolarsLazyOrDataFrame) -> PolarsLazyOrDataFrame:
-    if _has_sufficient_polars_version():
-        return data.with_row_index()
-    else:
-        return data.with_row_count().rename({"row_nr": "index"})
 
 
 class PolarsAssertError(Exception):

@@ -7,7 +7,7 @@ import pytest
 from polars import testing
 
 import pelage as plg
-from pelage import checks
+from pelage.checks.utils import checks
 
 
 def test_dataframe_error_message_format():
@@ -1042,10 +1042,9 @@ def test_mutually_exclusive_ranges_should_return_both_overlapping_intervals_and_
     with pytest.raises(plg.PolarsAssertError) as err:
         given_df.pipe(plg.mutually_exclusive_ranges, low_bound="a", high_bound="b")
 
-    expected = given_df.pipe(plg.checks._add_row_index).head(4)
-    if isinstance(expected, pl.LazyFrame):
-        expected = expected.collect()
-    testing.assert_frame_equal(err.value.df, expected)
+    expected = given_df.lazy().head(4).collect()
+    result = err.value.df.drop("index")
+    testing.assert_frame_equal(result, expected)
 
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])

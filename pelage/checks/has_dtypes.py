@@ -2,9 +2,12 @@ from typing import Dict
 
 import polars as pl
 
-from pelage import utils
-from pelage.checks import PolarsAssertError, _has_sufficient_polars_version
-from pelage.types import PolarsDataType, PolarsLazyOrDataFrame
+from pelage.checks.utils import utils
+from pelage.checks.utils.checks import (
+    PolarsAssertError,
+    _has_sufficient_polars_version,
+)
+from pelage.checks.utils.types import PolarsDataType, PolarsLazyOrDataFrame
 
 
 def _get_frame_schema(data: PolarsLazyOrDataFrame):

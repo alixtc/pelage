@@ -2,8 +2,8 @@ from typing import Dict, List
 
 import polars as pl
 
-from pelage.checks import PolarsAssertError
-from pelage.types import PolarsLazyOrDataFrame
+from pelage.checks.utils.checks import PolarsAssertError
+from pelage.checks.utils.types import PolarsLazyOrDataFrame
 
 
 def not_accepted_values(
