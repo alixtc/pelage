@@ -1,13 +1,12 @@
 # ruff: noqa
 from __future__ import annotations
 
-import base64
 import html
 import os
 import re
 from importlib.resources import files
 from pathlib import Path
-from typing import Literal, TypedDict
+from typing import Literal, Optional, TypedDict, Union
 
 import quartodoc.ast as qast
 from griffe import (
@@ -25,6 +24,7 @@ from plum import dispatch
 from quartodoc import MdRenderer
 from quartodoc.pandoc.blocks import DefinitionList
 from quartodoc.renderers.base import convert_rst_link_to_md, sanitize
+from quartodoc.renderers.md_renderer import ParamRow
 
 # from quartodoc.ast import preview
 
@@ -51,7 +51,7 @@ class Renderer(MdRenderer):
         return prefix_bare_functions_with_func(el.value)
 
     @dispatch
-    def render(self, el: Object | Alias):
+    def render(self, el: Union[Object, Alias]):
         # If `el` is a protocol class that only has a `__call__` method,
         # then we want to display information about the method, not the class.
         if len(el.members) == 1 and "__call__" in el.members.keys():
@@ -102,12 +102,12 @@ class Renderer(MdRenderer):
     # TODO-future; Can be removed once we use quartodoc 0.3.5
     # Related: https://github.com/machow/quartodoc/pull/205
     @dispatch
-    def render(self, el: DocstringAttribute):
-        row = [
-            sanitize(el.name),
-            self.render_annotation(el.annotation),
-            sanitize(el.description or "", allow_markdown=True),
-        ]
+    def render(self, el: DocstringAttribute) -> ParamRow:
+        row = ParamRow(
+            el.name,
+            el.description or "",
+            annotation=self.render_annotation(el.annotation),
+        )
         return row
 
     @dispatch
@@ -125,13 +125,13 @@ class Renderer(MdRenderer):
     @dispatch
     def render_annotation(self, el: ExprName):
         # e.g. Name(source="Optional", full="typing.Optional")
-        return f"{el.name}"
+        return f"[{el.name}](`{el.canonical_path}`)"
 
     @dispatch
     # Overload of `quartodoc.renderers.md_renderer` to fix bug where the descriptions
     # are cut off and never display other places. Fixing by always displaying the
     # documentation.
-    def summarize(self, obj: Object | Alias) -> str:
+    def summarize(self, obj: Union[Object, Alias]) -> str:
         # get high-level description
         doc = obj.docstring
         if doc is None:
@@ -194,7 +194,7 @@ class Renderer(MdRenderer):
         return str(DefinitionList(rows))
 
     @dispatch
-    def signature(self, el: Function, source: Alias | None = None):
+    def signature(self, el: Function, source: Optional[Alias] = None):
         if el.name == "__call__":
             # Ex: experimental.ui._card.ImgContainer.__call__(self, *args: Tag) -> Tagifiable
             sig = super().signature(el, source)
@@ -237,13 +237,13 @@ def prefix_bare_functions_with_func(s: str) -> str:
     The See Also section in the Shiny docs has bare function references, ones that lack
     a leading :func: and backticks. This function fixes them.
 
-    If there are bare function references, like "~shiny.ui.panel_sidebar", this will
+    If there are bare function references, like "~shiny.ui.sidebar", this will
     prepend with :func: and wrap in backticks.
 
     For example, if the input is this:
-        "~shiny.ui.panel_sidebar  :func:`~shiny.ui.panel_sidebar`"
+        "~shiny.ui.sidebar  :func:`~shiny.ui.sidebar`"
     This function will return:
-        ":func:`~shiny.ui.panel_sidebar`  :func:`~shiny.ui.panel_sidebar`"
+        ":func:`~shiny.ui.sidebar`  :func:`~shiny.ui.sidebar`"
     """
 
     def replacement(match: re.Match[str]) -> str:
@@ -253,34 +253,8 @@ def prefix_bare_functions_with_func(s: str) -> str:
     return re.sub(pattern, replacement, s)
 
 
-def read_file(file: str | Path, root_dir: str | Path | None = None) -> FileContentJson:
-    file = Path(file)
-    if root_dir is None:
-        root_dir = Path("/")
-    root_dir = Path(root_dir)
-
-    type: Literal["text", "binary"] = "text"
-
-    try:
-        with open(file) as f:
-            file_content = f.read()
-            type = "text"
-    except UnicodeDecodeError:
-        # If text failed, try binary.
-        with open(file, "rb") as f:
-            file_content_bin = f.read()
-            file_content = base64.b64encode(file_content_bin).decode("utf-8")
-            type = "binary"
-
-    return {
-        "name": str(file.relative_to(root_dir)),
-        "content": file_content,
-        "type": type,
-    }
-
-
 def check_if_missing_expected_example(el, converted):
-    if re.search(r"(^|\n)#{2,6} Examples\n", converted):
+    if re.search(r"(^|\n)#{2,6} Examples", converted):
         # Manually added examples are fine
         return
 
@@ -289,7 +263,9 @@ def check_if_missing_expected_example(el, converted):
         return
 
     def is_no_ex_decorator(x):
-        if x == "no_example()":
+        # With griffe<0.42.0, it kept parentheses on decorators, but as of 0.42.0, it
+        # removes them. At some point in the future we can just use the no-parens case.
+        if x == "no_example()" or x == "no_example":
             return True
 
         no_ex_decorators = [
@@ -309,7 +285,7 @@ def check_if_missing_expected_example(el, converted):
         # Don't throw for things that can't be decorated
         return
 
-    if not el.is_explicitely_exported:
+    if not el.is_exported:
         # Don't require examples on "implicitly exported" functions
         # In practice, this covers methods of exported classes (class still needs ex)
         return

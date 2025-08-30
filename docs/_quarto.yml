@@ -52,7 +52,7 @@ quartodoc:
   sections:
     - title: Check functions
       desc: List of check functions.
-      package: pelage.checks
+      package: pelage
       contents:
       - has_columns
       - has_dtypes
@@ -67,7 +67,7 @@ quartodoc:
       - column_is_within_n_std
       - custom_check
     - title: Checks with group_by
-      package: pelage.checks
+      package: pelage
       desc: List of check functions with optional `group_by` option.
       contents:
       - has_shape
@@ -79,6 +79,6 @@ quartodoc:
       - is_monotonic
     - title: Exceptions
       desc: Types aliases and custom exceptions
-      package: pelage.checks
+      package: pelage
       contents:
         - PolarsAssertError
