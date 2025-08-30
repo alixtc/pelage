@@ -2,19 +2,19 @@ from typing import Tuple
 
 import polars as pl
 
-from pelage import checks
-from pelage.checks import (
+from pelage.checks.utils.checks import (
     PolarsAssertError,
     _has_sufficient_polars_version,
     _sanitize_column_inputs,
 )
+from pelage.checks.utils.types import PolarsColumnType, PolarsLazyOrDataFrame
 
 
 def column_is_within_n_std(
-    data: checks.PolarsLazyOrDataFrame,
-    items: Tuple[checks.PolarsColumnType, int],
-    *args: Tuple[checks.PolarsColumnType, int],
-) -> checks.PolarsLazyOrDataFrame:
+    data: PolarsLazyOrDataFrame,
+    items: Tuple[PolarsColumnType, int],
+    *args: Tuple[PolarsColumnType, int],
+) -> PolarsLazyOrDataFrame:
     """Function asserting values are within a given STD range, thus ensuring the absence
     of outliers.
 

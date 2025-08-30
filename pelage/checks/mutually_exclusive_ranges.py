@@ -2,12 +2,18 @@ from typing import Optional
 
 import polars as pl
 
-from pelage.checks import (
+from pelage.checks.utils.checks import (
     PolarsAssertError,
-    _add_row_index,
     _has_sufficient_polars_version,
 )
-from pelage.types import PolarsLazyOrDataFrame, PolarsOverClauseInput
+from pelage.checks.utils.types import PolarsLazyOrDataFrame, PolarsOverClauseInput
+
+
+def _add_row_index(data: PolarsLazyOrDataFrame) -> PolarsLazyOrDataFrame:
+    if _has_sufficient_polars_version():
+        return data.with_row_index()
+    else:
+        return data.with_row_count().rename({"row_nr": "index"})
 
 
 def mutually_exclusive_ranges(

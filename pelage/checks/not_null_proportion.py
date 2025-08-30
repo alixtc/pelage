@@ -2,12 +2,12 @@ from typing import Dict, Optional, Tuple, Union
 
 import polars as pl
 
-from pelage.checks import (
+from pelage.checks.utils.checks import (
     PolarsAssertError,
     _format_ranges_by_columns,
     _has_sufficient_polars_version,
 )
-from pelage.types import PolarsLazyOrDataFrame, PolarsOverClauseInput
+from pelage.checks.utils.types import PolarsLazyOrDataFrame, PolarsOverClauseInput
 
 
 def not_null_proportion(

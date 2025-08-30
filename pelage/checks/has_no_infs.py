@@ -2,8 +2,8 @@ from typing import Optional
 
 import polars as pl
 
-from pelage.checks import PolarsAssertError, _sanitize_column_inputs
-from pelage.types import PolarsColumnType, PolarsLazyOrDataFrame
+from pelage.checks.utils.checks import PolarsAssertError, _sanitize_column_inputs
+from pelage.checks.utils.types import PolarsColumnType, PolarsLazyOrDataFrame
 
 
 def has_no_infs(

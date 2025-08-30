@@ -2,12 +2,12 @@ from typing import List, Optional, Union
 
 import polars as pl
 
-from pelage.checks import (
+from pelage.checks.utils.checks import (
     PolarsAssertError,
     _has_sufficient_polars_version,
     _sanitize_column_inputs,
 )
-from pelage.types import PolarsColumnType, PolarsLazyOrDataFrame
+from pelage.checks.utils.types import PolarsColumnType, PolarsLazyOrDataFrame
 
 
 def not_constant(
