@@ -35,26 +35,19 @@ validated_data = (
     )
 )
 
-display(validated_data)
+print(validated_data)
 ```
 
-<div><style>
-.dataframe > thead > tr,
-.dataframe > tbody > tr {
-  text-align: right;
-  white-space: pre-wrap;
-}
-</style>
-<small>shape: (3, 3)</small>
-
-| a   | b   | new_a |
-|-----|-----|-------|
-| i64 | str | str   |
-| 1   | "a" | "1"   |
-| 2   | "b" | "2"   |
-| 3   | "c" | "3"   |
-
-</div>
+    shape: (3, 3)
+    ┌─────┬─────┬───────┐
+    │ a   ┆ b   ┆ new_a │
+    │ --- ┆ --- ┆ ---   │
+    │ i64 ┆ str ┆ str   │
+    ╞═════╪═════╪═══════╡
+    │ 1   ┆ a   ┆ 1     │
+    │ 2   ┆ b   ┆ 2     │
+    │ 3   ┆ c   ┆ 3     │
+    └─────┴─────┴───────┘
 
 Here is a example of the error messages that if the checks fail:
 
@@ -75,7 +68,7 @@ except plg.PolarsAssertError as err:
     │ 3     │
     └───────┘
     Error with the DataFrame passed to the check function:
-    -->This DataFrame contains values marked as forbidden
+    --> This DataFrame contains values marked as forbidden
 
 Here are the main keys points:
 
