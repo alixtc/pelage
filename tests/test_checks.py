@@ -7,7 +7,8 @@ import pytest
 from polars import testing
 
 import pelage as plg
-from pelage.checks.utils import checks
+import pelage.checks.utils.utils
+from pelage.checks.utils import types
 
 
 def test_dataframe_error_message_format():
@@ -66,12 +67,12 @@ def test_dataframe_error_message_format_accepts_no_arguments():
     ],
 )
 def test_sanitize_column_inputs_works_with_(input, expected):
-    given_df = checks._sanitize_column_inputs(input)
+    given_df = pelage.checks.utils.utils._sanitize_column_inputs(input)
     assert str(given_df) == str(expected)
 
 
 def test_sanitize_column_inputs_for_type_checker_pl_dtypes():
-    given_df = checks._sanitize_column_inputs(pl.Int64)
+    given_df = pelage.checks.utils.utils._sanitize_column_inputs(pl.Int64)
     assert str(given_df) == str(pl.col(pl.Int64))
 
 
@@ -122,7 +123,7 @@ def test_is_shape_should__error_with_wrong_expected_dimensions(
             "b": ["a", "b", "c"],
         }
     )
-    with pytest.raises(checks.PolarsAssertError):
+    with pytest.raises(plg.PolarsAssertError):
         given_df.pipe(plg.has_shape, expected_shape)
 
 
@@ -151,7 +152,7 @@ def test_is_shape_should_should_error_when_row_count_per_group_does_not_match(
             "b": ["a", "b", "b"],
         }
     )
-    with pytest.raises(checks.PolarsAssertError):
+    with pytest.raises(plg.PolarsAssertError):
         given_df.pipe(plg.has_shape, (1, None), group_by="b")
 
 
@@ -496,7 +497,7 @@ def test_not_null_proportion_errors_with_too_many_nulls(
 
 def test_format_ranges_by_has_columns_and_min_max():
     items = {"a": 0.5, "b": (0.9, 0.95)}
-    given_df = checks._format_ranges_by_columns(items)
+    given_df = pelage.checks.utils.utils._format_ranges_by_columns(items)
 
     expected = pl.DataFrame(
         [
@@ -673,7 +674,7 @@ def test_unique_combination_of_columns_base_error_message_format(
     ],
 )
 def test_unique_combination_of_columns_error_message_format(
-    columns: checks.PolarsColumnType,
+    columns: types.PolarsColumnType,
 ):
     given_df = pl.DataFrame({"a": ["a", "a"], "b": [1, 1]})
     with pytest.raises(plg.PolarsAssertError) as err:

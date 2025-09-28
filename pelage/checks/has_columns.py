@@ -2,11 +2,8 @@ from typing import List, Set, Union
 
 import polars as pl
 
-from pelage.checks.utils.checks import (
-    PolarsAssertError,
-    _has_sufficient_polars_version,
-)
-from pelage.checks.utils.types import PolarsLazyOrDataFrame
+from pelage.checks.utils.types import PolarsAssertError, PolarsLazyOrDataFrame
+from pelage.checks.utils.utils import _has_sufficient_polars_version
 
 
 def _get_lazyframe_columns(data: pl.LazyFrame) -> Set[str]:
