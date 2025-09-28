@@ -2,15 +2,13 @@ from typing import Optional, Tuple
 
 import polars as pl
 
-from pelage.checks.utils.checks import (
-    PolarsAssertError,
-    _has_sufficient_polars_version,
-)
 from pelage.checks.utils.types import (
     IntOrNone,
+    PolarsAssertError,
     PolarsLazyOrDataFrame,
     PolarsOverClauseInput,
 )
+from pelage.checks.utils.utils import _has_sufficient_polars_version
 
 
 def has_shape(

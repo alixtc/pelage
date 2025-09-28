@@ -36,4 +36,4 @@ from pelage.checks.unique import unique as unique
 from pelage.checks.unique_combination_of_columns import (
     unique_combination_of_columns as unique_combination_of_columns,
 )
-from pelage.checks.utils.checks import PolarsAssertError as PolarsAssertError
+from pelage.checks.utils.types import PolarsAssertError as PolarsAssertError

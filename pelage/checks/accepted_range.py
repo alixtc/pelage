@@ -2,8 +2,11 @@ from typing import Dict
 
 import polars as pl
 
-from pelage.checks.utils.checks import PolarsAssertError
-from pelage.checks.utils.types import PolarsColumnBounds, PolarsLazyOrDataFrame
+from pelage.checks.utils.types import (
+    PolarsAssertError,
+    PolarsColumnBounds,
+    PolarsLazyOrDataFrame,
+)
 
 
 def accepted_range(

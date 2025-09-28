@@ -2,12 +2,15 @@ from typing import Tuple
 
 import polars as pl
 
-from pelage.checks.utils.checks import (
+from pelage.checks.utils.types import (
     PolarsAssertError,
+    PolarsColumnType,
+    PolarsLazyOrDataFrame,
+)
+from pelage.checks.utils.utils import (
     _has_sufficient_polars_version,
     _sanitize_column_inputs,
 )
-from pelage.checks.utils.types import PolarsColumnType, PolarsLazyOrDataFrame
 
 
 def column_is_within_n_std(
