@@ -1,14 +1,15 @@
-from typing import Union
+from typing import List, Union
 
 import polars as pl
 
 from pelage.checks.utils.types import PolarsAssertError, PolarsLazyOrDataFrame
+from pelage.checks.utils.utils import _has_sufficient_polars_version
 
 
 def maintains_relationships(
     data: PolarsLazyOrDataFrame,
     other_df: Union[pl.DataFrame, pl.LazyFrame],
-    column: str,
+    column: Union[str, List[str]],
 ) -> PolarsLazyOrDataFrame:
     """Function to help ensuring that set of values in selected column remains  the
         same in both DataFrames. This helps to maintain referential integrity.
@@ -53,20 +54,40 @@ def maintains_relationships(
     Error with the DataFrame passed to the check function:
     --> Some values were removed from col 'a', for ex: ('b',)
     """
+    current_df = (
+        data.lazy().select(column).unique().with_columns(_current=pl.lit("_current"))
+    )
 
-    local_keys = set(data.lazy().select(column).collect().get_column(column))
-    other_keys = set(other_df.lazy().select(column).collect().get_column(column))
+    reference_df = (
+        other_df.lazy()
+        .select(column)
+        .unique()
+        .with_columns(_reference=pl.lit("_reference"))
+    )
+    key_mismatches = (
+        current_df.join(
+            reference_df,
+            on=column,
+            how=("full" if _has_sufficient_polars_version("0.20.0") else "outer"),
+            # coalesce=True,
+        )
+        .filter(pl.col("_reference").is_null() | pl.col("_current").is_null())
+        .head(200)
+        .collect()
+    )
 
-    if local_keys != other_keys:
-        if local_keys > other_keys:
-            set_diff = sorted(list(local_keys - other_keys)[:5])
-            msg = f"Some values were added to col '{column}', for ex: {(*set_diff,)}"
-            raise PolarsAssertError(supp_message=msg)
-        else:
-            set_diff = sorted(list(other_keys - local_keys)[:5])
-            msg = (
-                f"Some values were removed from col '{column}', for ex: {(*set_diff,)}"
-            )
-            raise PolarsAssertError(supp_message=msg)
+    added_keys_from_ref = key_mismatches.filter(pl.col("_reference").is_null()).drop(
+        "_current", "_reference"
+    )
+    missing_keys_from_ref = key_mismatches.filter(pl.col("_current").is_null()).drop(
+        "_current", "_reference"
+    )
+    if not added_keys_from_ref.is_empty():
+        msg = f"Some values were added to col '{column}', see above!"
+        raise PolarsAssertError(supp_message=msg, df=added_keys_from_ref)
+
+    if not missing_keys_from_ref.is_empty():
+        msg = f"Some values were removed from col '{column}', see above!"
+        raise PolarsAssertError(supp_message=msg, df=missing_keys_from_ref)
 
     return data
