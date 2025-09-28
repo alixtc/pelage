@@ -3,14 +3,9 @@
 # ----------------------------------
 
 install:
-	pip install poetry tox
-	poetry shell
-	poetry install
-
-
-
-black:
-	@black scripts/* pelage/*.py testsma/*.py
+	uv venv --python 3.11
+	. .venv/bin/activate
+	uv sync --all-groups --python 3.11
 
 test:
 	@coverage run --data-file=".coverage/pytest" -m pytest tests/*.py
@@ -38,6 +33,7 @@ render-docs:
 	quarto render docs
 	quarto render docs/index.ipynb --to gfm --output README.md
 	mv docs/README.md README.md
+	git ls-files -- 'docs/*' | xargs pre-commit run --files
 
 doctest:
 	@python -m doctest pelage/checks.py
