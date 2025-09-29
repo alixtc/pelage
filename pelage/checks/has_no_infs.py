@@ -42,7 +42,7 @@ def has_no_infs(
     >>> plg.has_no_infs(df)
     Traceback (most recent call last):
       ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (1, 2)
     ┌─────┬─────┐
     │ a   ┆ b   │

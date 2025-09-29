@@ -46,7 +46,7 @@ def accepted_values(
     >>> df.pipe(plg.accepted_values, {"a": [1, 2]})
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (1, 1)
     ┌─────┐
     │ a   │

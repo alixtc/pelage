@@ -50,7 +50,7 @@ def has_columns(
     >>> df.pipe(plg.has_columns, "c")
     Traceback (most recent call last):
         ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
     --> Missing columns if the dataframe: {'c'}
 

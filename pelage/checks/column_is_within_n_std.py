@@ -69,7 +69,7 @@ def column_is_within_n_std(
     >>> df.pipe(plg.column_is_within_n_std, ("b", 2), ("c", 2))
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (1, 1)
     ┌──────┐
     │ c    │

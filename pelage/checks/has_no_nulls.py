@@ -53,7 +53,7 @@ def has_no_nulls(
     >>> df.pipe(plg.has_no_nulls)
     Traceback (most recent call last):
         ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (1, 2)
     ┌────────┬────────────┐
     │ column ┆ null_count │

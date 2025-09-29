@@ -72,7 +72,7 @@ def has_shape(
     >>> df.pipe(plg.has_shape, (1, 2))
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
     --> The data has not the expected shape: (1, 2)
 
@@ -86,7 +86,7 @@ def has_shape(
     >>> group_example_df.pipe(plg.has_shape, (1, None), group_by="b")
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (1, 2)
     ┌─────┬─────┐
     │ b   ┆ len │

@@ -55,7 +55,7 @@ def unique_combination_of_columns(
     >>> bad.pipe(plg.unique_combination_of_columns, "a")
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (1, 2)
     ┌─────┬─────┐
     │ a   ┆ len │

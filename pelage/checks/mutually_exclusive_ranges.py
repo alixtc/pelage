@@ -80,7 +80,7 @@ def mutually_exclusive_ranges(
     >>> df.pipe(plg.mutually_exclusive_ranges, low_bound="a", high_bound="b")
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (4, 3)
     ┌───────┬─────┬─────┐
     │ index ┆ a   ┆ b   │
