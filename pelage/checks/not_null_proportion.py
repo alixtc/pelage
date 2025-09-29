@@ -2,12 +2,12 @@ from typing import Dict, Optional, Tuple, Union
 
 import polars as pl
 
-from pelage.checks.utils.types import (
+from pelage.types import (
     PolarsAssertError,
     PolarsLazyOrDataFrame,
     PolarsOverClauseInput,
 )
-from pelage.checks.utils.utils import (
+from pelage.utils import (
     _format_ranges_by_columns,
     _has_sufficient_polars_version,
 )

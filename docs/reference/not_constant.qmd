@@ -8,11 +8,11 @@ Check if a DataFrame has constant columns.
 
 ## Parameters {.doc-section .doc-section-parameters}
 
-<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`)</span></code>
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.types.PolarsLazyOrDataFrame`)</span></code>
 
 :   The input DataFrame to check for null values.
 
-<code><span class="parameter-name">columns</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[PolarsColumnType](`pelage.checks.utils.types.PolarsColumnType`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+<code><span class="parameter-name">columns</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[PolarsColumnType](`pelage.types.PolarsColumnType`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
 
 :   Columns to consider for null value check. By default, all columns are checked.
 
@@ -23,9 +23,9 @@ Check if a DataFrame has constant columns.
 
 ## Returns {.doc-section .doc-section-returns}
 
-| Name   | Type                                                                       | Description                                                      |
-|--------|----------------------------------------------------------------------------|------------------------------------------------------------------|
-|        | [PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`) | The original polars DataFrame or LazyFrame when the check passes |
+| Name   | Type                                                          | Description                                                      |
+|--------|---------------------------------------------------------------|------------------------------------------------------------------|
+|        | [PolarsLazyOrDataFrame](`pelage.types.PolarsLazyOrDataFrame`) | The original polars DataFrame or LazyFrame when the check passes |
 
 ## Examples {.doc-section .doc-section-examples}
 

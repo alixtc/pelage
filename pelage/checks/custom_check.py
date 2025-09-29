@@ -1,6 +1,6 @@
 import polars as pl
 
-from pelage.checks.utils.types import PolarsAssertError, PolarsLazyOrDataFrame
+from pelage.types import PolarsAssertError, PolarsLazyOrDataFrame
 
 
 def custom_check(

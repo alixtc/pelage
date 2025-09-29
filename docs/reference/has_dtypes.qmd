@@ -8,11 +8,11 @@ Check that the columns have the expected types
 
 ## Parameters {.doc-section .doc-section-parameters}
 
-<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`)</span></code>
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.types.PolarsLazyOrDataFrame`)</span></code>
 
 :   Polars DataFrame or LazyFrame containing data to check.
 
-<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Dict](`typing.Dict`)\[[str](`str`), [PolarsDataType](`pelage.checks.utils.types.PolarsDataType`)\]</span></code>
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Dict](`typing.Dict`)\[[str](`str`), [PolarsDataType](`pelage.types.PolarsDataType`)\]</span></code>
 
 :   A dictionnary of column name with their expected polars data type:
     ```
@@ -26,9 +26,9 @@ Check that the columns have the expected types
 
 ## Returns {.doc-section .doc-section-returns}
 
-| Name   | Type                                                                       | Description                                                      |
-|--------|----------------------------------------------------------------------------|------------------------------------------------------------------|
-|        | [PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`) | The original polars DataFrame or LazyFrame when the check passes |
+| Name   | Type                                                          | Description                                                      |
+|--------|---------------------------------------------------------------|------------------------------------------------------------------|
+|        | [PolarsLazyOrDataFrame](`pelage.types.PolarsLazyOrDataFrame`) | The original polars DataFrame or LazyFrame when the check passes |
 
 ## Examples {.doc-section .doc-section-examples}
 

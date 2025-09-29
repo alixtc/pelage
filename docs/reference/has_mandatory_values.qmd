@@ -17,7 +17,7 @@ Ensure that all specified values are present in their respective column.
 :   A dictionnary where the keys are the columns names and the values are lists that
     contains all the required values for a given column.
 
-<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[PolarsOverClauseInput](`pelage.checks.utils.types.PolarsOverClauseInput`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[PolarsOverClauseInput](`pelage.types.PolarsOverClauseInput`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
 
 :   When specified perform the check per group instead of the whole column,
     by default None

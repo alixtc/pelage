@@ -4,7 +4,7 @@ from typing import Dict, Optional, Tuple, Union
 
 import polars as pl
 
-from pelage.checks.utils.types import PolarsColumnType
+from pelage.types import PolarsColumnType
 
 
 def compare_schema(data_schema: dict, expected_schema: dict) -> str:

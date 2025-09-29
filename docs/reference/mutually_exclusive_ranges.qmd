@@ -8,7 +8,7 @@ Ensure that the specified columns contains no overlapping intervals.
 
 ## Parameters {.doc-section .doc-section-parameters}
 
-<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`)</span></code>
+<code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.types.PolarsLazyOrDataFrame`)</span></code>
 
 :   Data to check
 
@@ -27,9 +27,9 @@ Ensure that the specified columns contains no overlapping intervals.
 
 ## Returns {.doc-section .doc-section-returns}
 
-| Name   | Type                                                                       | Description                                                      |
-|--------|----------------------------------------------------------------------------|------------------------------------------------------------------|
-|        | [PolarsLazyOrDataFrame](`pelage.checks.utils.types.PolarsLazyOrDataFrame`) | The original polars DataFrame or LazyFrame when the check passes |
+| Name   | Type                                                          | Description                                                      |
+|--------|---------------------------------------------------------------|------------------------------------------------------------------|
+|        | [PolarsLazyOrDataFrame](`pelage.types.PolarsLazyOrDataFrame`) | The original polars DataFrame or LazyFrame when the check passes |
 
 ## Examples {.doc-section .doc-section-examples}
 

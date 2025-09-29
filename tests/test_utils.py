@@ -2,7 +2,7 @@ from collections import OrderedDict
 
 import polars as pl
 
-from pelage.checks.utils import utils
+from pelage import utils
 
 
 def test_compare_schema_should_be_empty_when_types_matche():
