@@ -2,8 +2,8 @@ from typing import List, Union
 
 import polars as pl
 
-from pelage.checks.utils.types import PolarsAssertError, PolarsLazyOrDataFrame
-from pelage.checks.utils.utils import _has_sufficient_polars_version
+from pelage.types import PolarsAssertError, PolarsLazyOrDataFrame
+from pelage.utils import _has_sufficient_polars_version
 
 
 def maintains_relationships(

@@ -2,7 +2,7 @@ from typing import Optional, Union
 
 import polars as pl
 
-from pelage.checks.utils.types import (
+from pelage.types import (
     PolarsAssertError,
     PolarsLazyOrDataFrame,
     PolarsOverClauseInput,

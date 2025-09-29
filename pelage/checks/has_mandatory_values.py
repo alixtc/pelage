@@ -2,12 +2,12 @@ from typing import Dict, Optional
 
 import polars as pl
 
-from pelage.checks.utils.types import (
+from pelage.types import (
     PolarsAssertError,
     PolarsLazyOrDataFrame,
     PolarsOverClauseInput,
 )
-from pelage.checks.utils.utils import _has_sufficient_polars_version
+from pelage.utils import _has_sufficient_polars_version
 
 
 def _format_missing_elements(selected_data: pl.DataFrame, items: Dict):

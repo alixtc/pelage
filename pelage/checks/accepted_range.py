@@ -2,7 +2,7 @@ from typing import Dict
 
 import polars as pl
 
-from pelage.checks.utils.types import (
+from pelage.types import (
     PolarsAssertError,
     PolarsColumnBounds,
     PolarsLazyOrDataFrame,
