@@ -90,7 +90,7 @@ def is_monotonic(
     >>> bad.pipe(plg.is_monotonic, "data")
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (2, 1)
     ┌──────┐
     │ data │
@@ -131,7 +131,7 @@ def is_monotonic(
     >>> given.pipe(plg.is_monotonic, "dates", interval="3m", group_by="group")
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (3, 3)
     ┌─────────────────────┬───────┬────────────────────────────────┐
     │ dates               ┆ group ┆ _previous_entry_with_3m_offset │

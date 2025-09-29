@@ -47,7 +47,7 @@ def not_accepted_values(
     >>> df.pipe(plg.not_accepted_values, {"b": ["a", "b"]})
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (2, 1)
     ┌─────┐
     │ b   │

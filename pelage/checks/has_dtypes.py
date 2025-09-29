@@ -77,7 +77,7 @@ def has_dtypes(
     ... })
     Traceback (most recent call last):
         ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
     --> Some columns don't have the expected type:
     column='age', expected_type=String, real_dtype=Int64

@@ -51,7 +51,7 @@ def custom_check(
     >>> df.pipe(plg.custom_check, pl.col("a") != 3)
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (1, 1)
     ┌─────┐
     │ a   │

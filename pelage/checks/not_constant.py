@@ -57,7 +57,7 @@ def not_constant(
     >>> df.pipe(plg.not_constant)
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (1, 2)
     ┌────────┬────────────┐
     │ column ┆ n_distinct │
@@ -94,7 +94,7 @@ def not_constant(
     >>> df.pipe(plg.not_constant, "a", group_by="b")
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (1, 3)
     ┌─────┬────────┬────────────┐
     │ b   ┆ column ┆ n_distinct │

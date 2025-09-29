@@ -54,7 +54,7 @@ def at_least_one(
     >>> df.pipe(plg.at_least_one)
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
     --> Some columns contains only null values: ['a']
 
@@ -81,7 +81,7 @@ def at_least_one(
     >>> df.pipe(plg.at_least_one, "a", group_by="group")
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (1, 3)
     ┌───────┬─────────┬──────────────┐
     │ group ┆ columns ┆ at_least_one │

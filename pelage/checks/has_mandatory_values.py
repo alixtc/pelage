@@ -81,7 +81,7 @@ def has_mandatory_values(
     >>> df.pipe(plg.has_mandatory_values, {"a": [3, 4]})
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     Error with the DataFrame passed to the check function:
     --> Missing mandatory values in the following columns: {'a': [3, 4]}
 
@@ -108,7 +108,7 @@ def has_mandatory_values(
     >>> group_df_example.pipe(plg.has_mandatory_values, {"a": [1, 2]}, group_by="group")
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (1, 3)
     ┌───────┬───────────┬────────────────┐
     │ group ┆ a         ┆ a_expected_set │

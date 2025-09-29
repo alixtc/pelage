@@ -52,7 +52,7 @@ def unique(
     >>> df.pipe(plg.unique, "a")
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
     shape: (2, 1)
     ┌─────┐
     │ a   │

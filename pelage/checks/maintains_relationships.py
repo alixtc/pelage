@@ -50,9 +50,17 @@ def maintains_relationships(
     >>> final_df.pipe(plg.maintains_relationships, initial_df, "a")
     Traceback (most recent call last):
     ...
-    pelage.checks.PolarsAssertError: Details
+    pelage.types.PolarsAssertError: Details
+    shape: (1, 2)
+    ┌──────┬──────────┐
+    │ a    ┆ a_in_ref │
+    │ ---  ┆ ---      │
+    │ str  ┆ str      │
+    ╞══════╪══════════╡
+    │ null ┆ b        │
+    └──────┴──────────┘
     Error with the DataFrame passed to the check function:
-    --> Some values were removed from col 'a', for ex: ('b',)
+    --> Some values were removed from col 'a', see above!
     """
     current_df = (
         data.lazy().select(column).unique().with_columns(_current=pl.lit("_current"))
@@ -69,6 +77,7 @@ def maintains_relationships(
             reference_df,
             on=column,
             how=("full" if _has_sufficient_polars_version("0.20.0") else "outer"),
+            suffix="_in_ref",
             # coalesce=True,
         )
         .filter(pl.col("_reference").is_null() | pl.col("_current").is_null())
