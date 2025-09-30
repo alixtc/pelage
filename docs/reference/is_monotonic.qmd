@@ -97,7 +97,7 @@ shape: (3, 2)
 >>> bad.pipe(plg.is_monotonic, "data")
 Traceback (most recent call last):
 ...
-pelage.checks.PolarsAssertError: Details
+pelage.types.PolarsAssertError: Details
 shape: (2, 1)
 ┌──────┐
 │ data │
@@ -141,7 +141,7 @@ shape: (5, 2)
 >>> given.pipe(plg.is_monotonic, "dates", interval="3m", group_by="group")
 Traceback (most recent call last):
 ...
-pelage.checks.PolarsAssertError: Details
+pelage.types.PolarsAssertError: Details
 shape: (3, 3)
 ┌─────────────────────┬───────┬────────────────────────────────┐
 │ dates               ┆ group ┆ _previous_entry_with_3m_offset │

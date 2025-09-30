@@ -69,7 +69,7 @@ shape: (3, 2)
 >>> df.pipe(plg.not_null_proportion, {"a": 0.7})
 Traceback (most recent call last):
 ...
-pelage.checks.PolarsAssertError: Details
+pelage.types.PolarsAssertError: Details
 shape: (1, 4)
 ┌────────┬───────────────────┬──────────┬──────────┐
 │ column ┆ not_null_fraction ┆ min_prop ┆ max_prop │
@@ -109,7 +109,7 @@ shape: (4, 2)
 >>> group_df.pipe(plg.not_null_proportion, {"a": 0.5}, group_by="group")
 Traceback (most recent call last):
 ...
-pelage.checks.PolarsAssertError: Details
+pelage.types.PolarsAssertError: Details
 shape: (1, 5)
 ┌───────┬────────┬───────────────────┬──────────┬──────────┐
 │ group ┆ column ┆ not_null_fraction ┆ min_prop ┆ max_prop │
