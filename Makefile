@@ -8,7 +8,7 @@ install:
 	uv sync --all-groups --python 3.11
 
 test:
-	@coverage run --data-file=".coverage/pytest" -m pytest tests/*.py
+	@coverage run --data-file=".coverage/pytest" -m pytest
 	@coverage report --data-file=".coverage/pytest" -m --omit="${VIRTUAL_ENV}/lib/python*"
 	@coverage erase --data-file=".coverage/pytest"
 
@@ -36,5 +36,5 @@ render-docs:
 	git ls-files -- 'docs/*' | xargs pre-commit run --files
 
 doctest:
-	@python -m doctest pelage/checks.py
+	@python -m doctest pelage/checks/*.py
 	@echo "doctest check passed"
