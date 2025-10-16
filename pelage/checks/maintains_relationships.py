@@ -3,7 +3,6 @@ from typing import List, Union
 import polars as pl
 
 from pelage.types import PolarsAssertError, PolarsLazyOrDataFrame
-from pelage.utils import _has_sufficient_polars_version
 
 
 def maintains_relationships(
@@ -76,7 +75,7 @@ def maintains_relationships(
         current_df.join(
             reference_df,
             on=column,
-            how=("full" if _has_sufficient_polars_version("0.20.0") else "outer"),
+            how="full",
             suffix="_in_ref",
             # coalesce=True,
         )

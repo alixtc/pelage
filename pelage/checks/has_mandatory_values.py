@@ -7,7 +7,6 @@ from pelage.types import (
     PolarsLazyOrDataFrame,
     PolarsOverClauseInput,
 )
-from pelage.utils import _has_sufficient_polars_version
 
 
 def _format_missing_elements(selected_data: pl.DataFrame, items: Dict):
@@ -24,10 +23,7 @@ def _format_missing_elements(selected_data: pl.DataFrame, items: Dict):
 def compare_sets_per_column(
     data: PolarsLazyOrDataFrame, items: dict
 ) -> PolarsLazyOrDataFrame:
-    if _has_sufficient_polars_version():
-        expected_sets = {f"{k}_expected_set": pl.lit(v) for k, v in items.items()}
-    else:
-        expected_sets = {f"{k}_expected_set": v for k, v in items.items()}
+    expected_sets = {f"{k}_expected_set": pl.lit(v) for k, v in items.items()}
 
     return data.with_columns(**expected_sets).filter(
         pl.Expr.or_(

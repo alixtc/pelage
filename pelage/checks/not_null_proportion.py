@@ -134,12 +134,11 @@ def not_null_proportion(
     else:
         formatted_data = data
 
-    pl_len = pl.len() if _has_sufficient_polars_version("0.20.0") else pl.count()
     if _has_sufficient_polars_version("1.0.0"):
         null_proportions = (
             formatted_data.lazy()
             .group_by(group_by)
-            .agg(pl.all().null_count() / pl_len)
+            .agg(pl.all().null_count() / pl.len())
             .unpivot(
                 index=group_by,  # type: ignore
                 variable_name="column",
@@ -152,7 +151,7 @@ def not_null_proportion(
         null_proportions = (
             formatted_data.lazy()
             .group_by(group_by)
-            .agg(pl.all().null_count() / pl_len)
+            .agg(pl.all().null_count() / pl.len())
             .melt(
                 id_vars=group_by,  # type: ignore
                 variable_name="column",
