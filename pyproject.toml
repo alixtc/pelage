@@ -42,7 +42,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.ruff.lint]
-select = ["E", "F", "UP", "B", "SIM", "I", "PD"]
+select = ["E", "F", "UP", "B", "SIM", "I", "PD", "ARG"]
 
 [tool.coverage.run]
 omit = ["tests/*"]

@@ -146,7 +146,7 @@ def test_is_shape_should_accept_group_by_option(
 def test_is_shape_should_should_error_when_row_count_per_group_does_not_match(
     frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
 ):
-    given_df = pl.DataFrame(
+    given_df = frame(
         {
             "a": [1, 2, 3],
             "b": ["a", "b", "b"],
