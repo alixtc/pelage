@@ -8,7 +8,6 @@ from pelage.types import (
     PolarsLazyOrDataFrame,
 )
 from pelage.utils import (
-    _has_sufficient_polars_version,
     _sanitize_column_inputs,
 )
 
@@ -107,12 +106,8 @@ def column_is_within_n_std(
         .filter(pl.any_horizontal(pl.all().is_not_null()))
         .collect()
     )
-    if _has_sufficient_polars_version("0.20.0"):
-        tagged_outliers = tagged_outliers.rename(lambda col: col.replace("_out__", ""))
-    else:
-        tagged_outliers = tagged_outliers.rename(
-            {col: col.replace("_out__", "") for col in tagged_outliers.columns}
-        )
+
+    tagged_outliers = tagged_outliers.rename(lambda col: col.replace("_out__", ""))
 
     columns_with_null = [col.name for col in tagged_outliers if col.is_not_null().any()]
 

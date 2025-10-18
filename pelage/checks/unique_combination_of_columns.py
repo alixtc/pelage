@@ -8,7 +8,6 @@ from pelage.types import (
     PolarsLazyOrDataFrame,
 )
 from pelage.utils import (
-    _has_sufficient_polars_version,
     _sanitize_column_inputs,
 )
 
@@ -68,13 +67,8 @@ def unique_combination_of_columns(
     --> Some combinations of columns are not unique. See above, selected: col("a")
     """
     cols = _sanitize_column_inputs(columns)
-    pl_len = (
-        pl.len()
-        if _has_sufficient_polars_version("0.20.0")
-        else pl.count().alias("len")
-    )
     non_unique_combinations = (
-        data.lazy().group_by(cols).agg(pl_len).filter(pl.col("len") > 1).collect()
+        data.lazy().group_by(cols).agg(pl.len()).filter(pl.col("len") > 1).collect()
     )
 
     if not non_unique_combinations.is_empty():

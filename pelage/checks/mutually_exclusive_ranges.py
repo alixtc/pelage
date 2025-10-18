@@ -10,13 +10,6 @@ from pelage.types import (
 from pelage.utils import _has_sufficient_polars_version
 
 
-def _add_row_index(data: PolarsLazyOrDataFrame) -> PolarsLazyOrDataFrame:
-    if _has_sufficient_polars_version():
-        return data.with_row_index()
-    else:
-        return data.with_row_count().rename({"row_nr": "index"})
-
-
 def mutually_exclusive_ranges(
     data: PolarsLazyOrDataFrame,
     low_bound: str,
@@ -109,7 +102,7 @@ def mutually_exclusive_ranges(
     overlapping_ranges = (
         data.lazy()
         .sort(*sorting_columns)
-        .pipe(_add_row_index)
+        .with_row_index()
         .filter(
             pl.col("index").is_in(indexes_of_overlaps.implode())
             | pl.col("index").is_in((indexes_of_overlaps - 1).implode())

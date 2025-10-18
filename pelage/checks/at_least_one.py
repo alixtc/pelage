@@ -96,14 +96,12 @@ def at_least_one(
 
     selected_columns = _sanitize_column_inputs(columns)
 
-    pl_len = pl.len() if _has_sufficient_polars_version() else pl.count()
-
     if group_by is not None:
         if _has_sufficient_polars_version("1.0.0"):
             only_nulls_per_group = (
                 data.lazy()
                 .group_by(group_by)
-                .agg(selected_columns.null_count() < pl_len)
+                .agg(selected_columns.null_count() < pl.len())
                 .unpivot(
                     index=group_by,  # type: ignore
                     variable_name="columns",
@@ -116,7 +114,7 @@ def at_least_one(
             only_nulls_per_group = (
                 data.lazy()
                 .group_by(group_by)
-                .agg(selected_columns.null_count() < pl_len)
+                .agg(selected_columns.null_count() < pl.len())
                 .melt(
                     id_vars=group_by,  # type: ignore
                     variable_name="columns",
@@ -139,7 +137,7 @@ def at_least_one(
         .select(selected_columns)
         .with_columns(constant__=1)
         .group_by("constant__")
-        .agg(pl.all().null_count() == pl_len)
+        .agg(pl.all().null_count() == pl.len())
         .drop("constant__")
         .collect()
     )

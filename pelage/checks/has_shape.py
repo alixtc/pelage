@@ -104,17 +104,11 @@ def has_shape(
             "Both dimensions for expected shape cannot be set None simultaneously"
         )
 
-    pl_len = (
-        pl.len()
-        if _has_sufficient_polars_version("0.20.0")
-        else pl.count().alias("len")
-    )
-
     if group_by is not None:
         non_matching_row_count = (
             data.lazy()
             .group_by(group_by)
-            .agg(pl_len)
+            .agg(pl.len())
             .filter(pl.col("len") != shape[0])
             .collect()
         )
@@ -146,15 +140,13 @@ def _get_frame_shape(data: PolarsLazyOrDataFrame) -> Tuple[int, int]:
     if isinstance(data, pl.DataFrame):
         return data.shape
 
-    pl_len = pl.len() if _has_sufficient_polars_version("0.20.0") else pl.count()
-
     if _has_sufficient_polars_version("1.0.0"):
         return (
-            data.select(pl_len).collect().item(),
+            data.select(pl.len()).collect().item(),
             len(data.collect_schema()),
         )
     else:
         return (
-            data.select(pl_len).collect().item(),
+            data.select(pl.len()).collect().item(),
             len(data.columns),
         )
