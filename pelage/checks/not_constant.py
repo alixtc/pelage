@@ -1,4 +1,4 @@
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 import polars as pl
 
@@ -16,7 +16,7 @@ from pelage.utils import (
 def not_constant(
     data: PolarsLazyOrDataFrame,
     columns: Optional[PolarsColumnType] = None,
-    group_by: Optional[Union[str, List[str]]] = None,
+    group_by: Optional[Union[str, list[str]]] = None,
 ) -> PolarsLazyOrDataFrame:
     """Check if a DataFrame has constant columns.
 

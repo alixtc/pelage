@@ -1,5 +1,3 @@
-from typing import Dict
-
 import polars as pl
 
 from pelage.types import (
@@ -10,7 +8,7 @@ from pelage.types import (
 
 
 def accepted_range(
-    data: PolarsLazyOrDataFrame, items: Dict[str, PolarsColumnBounds]
+    data: PolarsLazyOrDataFrame, items: dict[str, PolarsColumnBounds]
 ) -> PolarsLazyOrDataFrame:
     """Check that all the values from specifed columns in the dict `items` are within
         the indicated range.

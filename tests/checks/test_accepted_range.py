@@ -1,5 +1,3 @@
-from typing import Type, Union
-
 import polars as pl
 import pytest
 from polars import testing
@@ -9,7 +7,7 @@ import pelage.utils
 
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
-def test_accepted_range(frame: Type[Union[pl.DataFrame, pl.LazyFrame]]):
+def test_accepted_range(frame: type[pl.DataFrame | pl.LazyFrame]):
     given_df = frame({"a": [1, 2, 3]})
     when = given_df.pipe(plg.accepted_range, {"a": (1, 3)})
     testing.assert_frame_equal(given_df, when)
@@ -17,7 +15,7 @@ def test_accepted_range(frame: Type[Union[pl.DataFrame, pl.LazyFrame]]):
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_accepted_range_is_compatible_with_is_between_syntax(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"a": ["b", "c"]})
     when = given_df.pipe(plg.accepted_range, {"a": (pl.lit("a"), pl.lit("d"), "right")})
@@ -32,7 +30,7 @@ def test_accepted_range_is_compatible_with_is_between_syntax(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_accepted_range_erros_when_values_are_out_of_range(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"a": [1, 2, 3]})
     with pytest.raises(plg.PolarsAssertError) as err:
@@ -42,7 +40,7 @@ def test_accepted_range_erros_when_values_are_out_of_range(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_accepted_range_errors_on_two_different_ranges(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"a": [1, 2, 3], "b": [1, 2, 3]})
     with pytest.raises(plg.PolarsAssertError) as err:
