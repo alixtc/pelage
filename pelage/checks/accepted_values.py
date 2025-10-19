@@ -1,12 +1,10 @@
-from typing import Dict, List
-
 import polars as pl
 
 from pelage.types import PolarsAssertError, PolarsLazyOrDataFrame
 
 
 def accepted_values(
-    data: PolarsLazyOrDataFrame, items: Dict[str, List]
+    data: PolarsLazyOrDataFrame, items: dict[str, list]
 ) -> PolarsLazyOrDataFrame:
     """Raises error if columns contains values not specified in `items`
 

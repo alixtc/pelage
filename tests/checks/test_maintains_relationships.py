@@ -1,5 +1,3 @@
-from typing import Type, Union
-
 import polars as pl
 import pytest
 from polars import testing
@@ -17,8 +15,8 @@ import pelage as plg
     ],
 )
 def test_maintains_relationships(
-    first_frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
-    second_frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    first_frame: type[pl.DataFrame | pl.LazyFrame],
+    second_frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     initial_df = first_frame({"a": ["a", "b"]})
     final_df = second_frame({"a": ["a", "b"]})
@@ -36,8 +34,8 @@ def test_maintains_relationships(
     ],
 )
 def test_maintains_relationships_accepts_multiple_columns_as_input(
-    first_frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
-    second_frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    first_frame: type[pl.DataFrame | pl.LazyFrame],
+    second_frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     initial_df = first_frame({"col1": ["a", "b"], "col2": [1, 2]})
     final_df = second_frame({"col1": ["a", "b"], "col2": [1, 2]})
@@ -55,8 +53,8 @@ def test_maintains_relationships_accepts_multiple_columns_as_input(
     ],
 )
 def test_maintains_relationships_should_errors_if_some_values_are_dropped(
-    first_frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
-    second_frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    first_frame: type[pl.DataFrame | pl.LazyFrame],
+    second_frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     initial_df = first_frame({"a": ["a", "b"]})
     final_df = second_frame({"a": ["a"]})
@@ -74,8 +72,8 @@ def test_maintains_relationships_should_errors_if_some_values_are_dropped(
     ],
 )
 def test_maintains_relationships_should_specify_some_changing_values(
-    first_frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
-    second_frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    first_frame: type[pl.DataFrame | pl.LazyFrame],
+    second_frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     initial_df = first_frame({"a": ["a", "b", "c"]})
     final_df = second_frame({"a": ["a"]})

@@ -1,5 +1,4 @@
 import datetime
-from typing import Type, Union
 
 import polars as pl
 import pytest
@@ -20,7 +19,7 @@ import pelage as plg
     ],
 )
 def test_is_monotonic_works_with_int_float_dates_datetimes(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]], column
+    frame: type[pl.DataFrame | pl.LazyFrame], column
 ):
     given_df = frame(
         {
@@ -37,7 +36,7 @@ def test_is_monotonic_works_with_int_float_dates_datetimes(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_is_monotonic_error_when_not_monotonic(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"int": [1, 2, 1]})
     with pytest.raises(plg.PolarsAssertError):
@@ -50,7 +49,7 @@ def test_is_monotonic_error_when_not_monotonic(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_is_monotonic_can_specify_decreasing_monotonic(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"int": [3, 2, 1]})
     when = given_df.pipe(plg.is_monotonic, "int", decreasing=True)
@@ -59,7 +58,7 @@ def test_is_monotonic_can_specify_decreasing_monotonic(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_is_monotonic_can_accept_non_strictly_monotonic(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"int": [1, 2, 2]})
     when = given_df.pipe(plg.is_monotonic, "int", strict=False)
@@ -117,7 +116,7 @@ def test_is_monotonic_should_allow_to_specify_interval_compatible_with_group_by(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_is_monotonic_should_handle_larger_intervals(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame(
         {
@@ -133,7 +132,7 @@ def test_is_monotonic_should_handle_larger_intervals(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_is_monotonic_should_handle_larger_intervals_reversed(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame(
         {
@@ -159,7 +158,7 @@ def test_is_monotonic_error_give_out_specifyic_error_message():
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_is_monotonic_should_work_on_dates(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     start_date = datetime.date(2025, 2, 8)
     dates = [start_date + datetime.timedelta(days=i) for i in range(10)]
@@ -176,7 +175,7 @@ def test_is_monotonic_should_work_on_dates(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_is_monotonic_should_work_on_dates_with_duplicates(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     start_date = datetime.date(2025, 2, 8)
     dates = [start_date + datetime.timedelta(days=i) for i in range(10)]
@@ -193,7 +192,7 @@ def test_is_monotonic_should_work_on_dates_with_duplicates(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_is_monotonic_should_work_on_generic_datetime(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     start_date = datetime.datetime(2020, 2, 8, 15, 32, 5)
     dates = [start_date + datetime.timedelta(days=i) for i in range(10)]

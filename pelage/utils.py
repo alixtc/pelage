@@ -1,6 +1,6 @@
 """Utility functions for pelage."""
 
-from typing import Dict, Optional, Tuple, Union
+from typing import Optional, Union
 
 import polars as pl
 
@@ -41,7 +41,7 @@ def _sanitize_column_inputs(
 
 
 def _format_ranges_by_columns(
-    items: Dict[str, Union[float, Tuple[float, float]]],
+    items: dict[str, Union[float, tuple[float, float]]],
 ) -> pl.DataFrame:
     ranges = {k: (v if isinstance(v, tuple) else (v, 1)) for k, v in items.items()}
     pl_ranges = pl.DataFrame(

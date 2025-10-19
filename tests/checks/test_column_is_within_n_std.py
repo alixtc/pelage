@@ -1,5 +1,3 @@
-from typing import Type, Union
-
 import polars as pl
 import pytest
 from polars import testing
@@ -9,7 +7,7 @@ import pelage as plg
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_column_is_within_n_std_accepts_tuple_args(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"a": [1, 2, 2, 1]})
 
@@ -20,7 +18,7 @@ def test_column_is_within_n_std_accepts_tuple_args(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_column_is_within_n_std_shoud_error_on_outliers(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"a": list(range(0, 10)) + [5000]})
 
@@ -30,7 +28,7 @@ def test_column_is_within_n_std_shoud_error_on_outliers(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_column_is_within_n_std_accepts_list_of_tuple_args(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame(
         {

@@ -1,5 +1,3 @@
-from typing import Type, Union
-
 import polars as pl
 import pytest
 from polars import testing
@@ -9,7 +7,7 @@ import pelage as plg
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_mutually_exclusive_ranges_allows_to_specify_low_and_high_bounds(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame(
         [
@@ -25,7 +23,7 @@ def test_mutually_exclusive_ranges_allows_to_specify_low_and_high_bounds(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_mutually_exclusive_ranges_should_error_on_overlapping_intervals(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame(
         [
@@ -41,7 +39,7 @@ def test_mutually_exclusive_ranges_should_error_on_overlapping_intervals(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_mutually_exclusive_ranges_should_return_both_overlapping_intervals_and_index(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame(
         [
@@ -65,7 +63,7 @@ def test_mutually_exclusive_ranges_should_return_both_overlapping_intervals_and_
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_mutually_exclusive_ranges_allows_to_group_by_anoterh_column(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame(
         [

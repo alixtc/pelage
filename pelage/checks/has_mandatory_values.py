@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Optional
 
 import polars as pl
 
@@ -9,7 +9,7 @@ from pelage.types import (
 )
 
 
-def _format_missing_elements(selected_data: pl.DataFrame, items: Dict):
+def _format_missing_elements(selected_data: pl.DataFrame, items: dict):
     missing = {}
     for key in items:
         required_values = set(items[key])
@@ -38,7 +38,7 @@ def compare_sets_per_column(
 
 def has_mandatory_values(
     data: PolarsLazyOrDataFrame,
-    items: Dict[str, list],
+    items: dict[str, list],
     group_by: Optional[PolarsOverClauseInput] = None,
 ) -> PolarsLazyOrDataFrame:
     """Ensure that all specified values are present in their respective column.

@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional
 
 import polars as pl
 
@@ -13,7 +13,7 @@ from pelage.utils import _has_sufficient_polars_version
 
 def has_shape(
     data: PolarsLazyOrDataFrame,
-    shape: Tuple[IntOrNone, IntOrNone],
+    shape: tuple[IntOrNone, IntOrNone],
     group_by: Optional[PolarsOverClauseInput] = None,
 ) -> PolarsLazyOrDataFrame:
     """Check if a DataFrame has the specified shape.
@@ -135,7 +135,7 @@ def has_shape(
     return data
 
 
-def _get_frame_shape(data: PolarsLazyOrDataFrame) -> Tuple[int, int]:
+def _get_frame_shape(data: PolarsLazyOrDataFrame) -> tuple[int, int]:
     """Convenience function to get shape of Lazyframe given available methods"""
     if isinstance(data, pl.DataFrame):
         return data.shape

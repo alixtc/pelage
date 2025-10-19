@@ -1,5 +1,3 @@
-from typing import Type, Union
-
 import polars as pl
 import pytest
 from polars import testing
@@ -9,7 +7,7 @@ import pelage as plg
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_at_least_one_should_return_df_is_one_value_is_not_null(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"a": [None, 1]})
     when = given_df.pipe(plg.at_least_one)
@@ -18,7 +16,7 @@ def test_at_least_one_should_return_df_is_one_value_is_not_null(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_at_least_one_should_error_if_all_values_are_nulls(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"a": [None, None]})
     with pytest.raises(plg.PolarsAssertError):
@@ -27,7 +25,7 @@ def test_at_least_one_should_error_if_all_values_are_nulls(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_at_least_one_should_accept_column_selection(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"a": [None, None], "b": [1, None]})
 
@@ -40,7 +38,7 @@ def test_at_least_one_should_accept_column_selection(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_at_least_one_should_accept_group_by_option(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"a": [None, 1, None, 2], "group": ["G1", "G1", "G2", "G2"]})
     when = given_df.pipe(plg.at_least_one, group_by="group")
@@ -49,7 +47,7 @@ def test_at_least_one_should_accept_group_by_option(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_at_least_one_should_error_when_only_null_for_given_group(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame(
         {

@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Tuple, Union
+from typing import Optional, Union
 
 import polars as pl
 
@@ -15,7 +15,7 @@ from pelage.utils import (
 
 def not_null_proportion(
     data: PolarsLazyOrDataFrame,
-    items: Dict[str, Union[float, Tuple[float, float]]],
+    items: dict[str, Union[float, tuple[float, float]]],
     group_by: Optional[PolarsOverClauseInput] = None,
 ) -> PolarsLazyOrDataFrame:
     """Checks that the proportion of non-null values in a column is within a

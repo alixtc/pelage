@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import Union
 
 import polars as pl
 
@@ -8,7 +8,7 @@ from pelage.types import PolarsAssertError, PolarsLazyOrDataFrame
 def maintains_relationships(
     data: PolarsLazyOrDataFrame,
     other_df: Union[pl.DataFrame, pl.LazyFrame],
-    column: Union[str, List[str]],
+    column: Union[str, list[str]],
 ) -> PolarsLazyOrDataFrame:
     """Function to help ensuring that set of values in selected column remains  the
         same in both DataFrames. This helps to maintain referential integrity.
