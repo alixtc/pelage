@@ -12,7 +12,7 @@ format:
     theme: [zephyr, shiny-docs.css]
     toc: true
     code-block-border-left: true
-    highlight-style: breezedark
+    # highlight-style: breezedark
 
 # tell quarto to read the generated sidebar
 metadata-files:
