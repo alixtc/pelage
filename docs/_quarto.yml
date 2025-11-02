@@ -58,7 +58,6 @@ quartodoc:
       - has_dtypes
       - has_no_nulls
       - has_no_infs
-      - unique
       - unique_combination_of_columns
       - accepted_values
       - not_accepted_values
@@ -70,13 +69,14 @@ quartodoc:
       package: pelage
       desc: List of check functions with optional `group_by` option.
       contents:
-      - has_shape
       - at_least_one
+      - has_mandatory_values
+      - has_shape
+      - is_monotonic
+      - mutually_exclusive_ranges
       - not_constant
       - not_null_proportion
-      - has_mandatory_values
-      - mutually_exclusive_ranges
-      - is_monotonic
+      - unique
     - title: Exceptions
       desc: Types aliases and custom exceptions
       package: pelage

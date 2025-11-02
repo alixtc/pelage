@@ -32,3 +32,15 @@ def test_unique_should_throw_error_on_duplicates():
     with pytest.raises(plg.PolarsAssertError) as err:
         given_df.pipe(plg.unique, "a")
     testing.assert_frame_equal(err.value.df, pl.DataFrame({"a": [1, 1]}))
+
+
+def test_unique_should_should_accept_group_by_option():
+    given_df = pl.DataFrame({"a": [1, 1], "group": ["g1", "g2"]})
+    when = given_df.pipe(plg.unique, ["a"], group_by="group")
+    testing.assert_frame_equal(given_df, when)
+
+
+def test_unique_should_should_throw_error_on_duplicated_values_per_group():
+    given_df = pl.DataFrame({"a": [1, 1], "group": ["g1", "g1"]})
+    with pytest.raises(plg.PolarsAssertError):
+        given_df.pipe(plg.unique, ["a"], group_by="group")

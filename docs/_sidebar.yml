@@ -7,7 +7,6 @@ website:
       - reference/has_dtypes.qmd
       - reference/has_no_nulls.qmd
       - reference/has_no_infs.qmd
-      - reference/unique.qmd
       - reference/unique_combination_of_columns.qmd
       - reference/accepted_values.qmd
       - reference/not_accepted_values.qmd
@@ -17,13 +16,14 @@ website:
       - reference/custom_check.qmd
       section: Check functions
     - contents:
-      - reference/has_shape.qmd
       - reference/at_least_one.qmd
+      - reference/has_mandatory_values.qmd
+      - reference/has_shape.qmd
+      - reference/is_monotonic.qmd
+      - reference/mutually_exclusive_ranges.qmd
       - reference/not_constant.qmd
       - reference/not_null_proportion.qmd
-      - reference/has_mandatory_values.qmd
-      - reference/mutually_exclusive_ranges.qmd
-      - reference/is_monotonic.qmd
+      - reference/unique.qmd
       section: Checks with group_by
     - contents:
       - reference/PolarsAssertError.qmd
