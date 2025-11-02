@@ -1,5 +1,3 @@
-from typing import Dict
-
 import polars as pl
 
 from pelage import utils
@@ -22,7 +20,7 @@ def _get_frame_schema(data: PolarsLazyOrDataFrame):
 
 def has_dtypes(
     data: PolarsLazyOrDataFrame,
-    items: Dict[str, PolarsDataType],  # type: ignore
+    items: dict[str, PolarsDataType],  # type: ignore
 ) -> PolarsLazyOrDataFrame:
     """Check that the columns have the expected types
 

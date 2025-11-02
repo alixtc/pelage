@@ -1,5 +1,3 @@
-from typing import Tuple
-
 import polars as pl
 
 from pelage.types import (
@@ -14,8 +12,8 @@ from pelage.utils import (
 
 def column_is_within_n_std(
     data: PolarsLazyOrDataFrame,
-    items: Tuple[PolarsColumnType, int],
-    *args: Tuple[PolarsColumnType, int],
+    items: tuple[PolarsColumnType, int],
+    *args: tuple[PolarsColumnType, int],
 ) -> PolarsLazyOrDataFrame:
     """Function asserting values are within a given STD range, thus ensuring the absence
     of outliers.

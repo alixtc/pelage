@@ -1,5 +1,3 @@
-from typing import Type, Union
-
 import polars as pl
 import pytest
 from polars import testing
@@ -9,7 +7,7 @@ from pelage import types
 
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
-def test_unique_combination_of_columns(frame: Type[Union[pl.DataFrame, pl.LazyFrame]]):
+def test_unique_combination_of_columns(frame: type[pl.DataFrame | pl.LazyFrame]):
     given_df = frame({"a": ["a", "b"]})
     when = given_df.pipe(plg.unique_combination_of_columns, "a")
     testing.assert_frame_equal(given_df, when)
@@ -17,7 +15,7 @@ def test_unique_combination_of_columns(frame: Type[Union[pl.DataFrame, pl.LazyFr
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_unique_combination_of_columns_use_all_columns_by_default(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"a": ["a", "b"]})
     when = given_df.pipe(plg.unique_combination_of_columns)
@@ -26,7 +24,7 @@ def test_unique_combination_of_columns_use_all_columns_by_default(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_unique_combination_of_columns_accepts_list_as_input(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"a": ["a", "a"], "b": [1, 2]})
     when = given_df.pipe(plg.unique_combination_of_columns, ["a", "b"])
@@ -35,7 +33,7 @@ def test_unique_combination_of_columns_accepts_list_as_input(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_unique_combination_of_columns_should_err_for_non_unicity(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"a": ["a", "a"]})
     with pytest.raises(plg.PolarsAssertError):
@@ -44,7 +42,7 @@ def test_unique_combination_of_columns_should_err_for_non_unicity(
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
 def test_unique_combination_of_columns_base_error_message_format(
-    frame: Type[Union[pl.DataFrame, pl.LazyFrame]],
+    frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame({"a": ["a", "a"]})
     with pytest.raises(plg.PolarsAssertError) as err:

@@ -1,6 +1,7 @@
 """Module containing the type definitions for pelage."""
 
-from typing import Iterable, Tuple, TypeVar, Union
+from collections.abc import Iterable
+from typing import TypeVar, Union
 
 import polars as pl
 
@@ -14,7 +15,7 @@ except ImportError:
 PolarsLazyOrDataFrame = TypeVar("PolarsLazyOrDataFrame", pl.DataFrame, pl.LazyFrame)
 
 PolarsColumnBounds = Union[
-    Tuple[IntoExpr, IntoExpr], Tuple[IntoExpr, IntoExpr, ClosedInterval]
+    tuple[IntoExpr, IntoExpr], tuple[IntoExpr, IntoExpr, ClosedInterval]
 ]
 
 PolarsColumnType = Union[
