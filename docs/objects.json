@@ -1,1 +1,327 @@
-{"project": "pelage", "version": "0.0.9999", "count": 40, "items": [{"name": "pelage.has_columns", "domain": "py", "role": "function", "priority": "1", "uri": "reference/has_columns.html#pelage.has_columns", "dispname": "-"}, {"name": "pelage.checks.has_columns.has_columns", "domain": "py", "role": "function", "priority": "1", "uri": "reference/has_columns.html#pelage.has_columns", "dispname": "pelage.has_columns"}, {"name": "pelage.has_dtypes", "domain": "py", "role": "function", "priority": "1", "uri": "reference/has_dtypes.html#pelage.has_dtypes", "dispname": "-"}, {"name": "pelage.checks.has_dtypes.has_dtypes", "domain": "py", "role": "function", "priority": "1", "uri": "reference/has_dtypes.html#pelage.has_dtypes", "dispname": "pelage.has_dtypes"}, {"name": "pelage.has_no_nulls", "domain": "py", "role": "function", "priority": "1", "uri": "reference/has_no_nulls.html#pelage.has_no_nulls", "dispname": "-"}, {"name": "pelage.checks.has_no_nulls.has_no_nulls", "domain": "py", "role": "function", "priority": "1", "uri": "reference/has_no_nulls.html#pelage.has_no_nulls", "dispname": "pelage.has_no_nulls"}, {"name": "pelage.has_no_infs", "domain": "py", "role": "function", "priority": "1", "uri": "reference/has_no_infs.html#pelage.has_no_infs", "dispname": "-"}, {"name": "pelage.checks.has_no_infs.has_no_infs", "domain": "py", "role": "function", "priority": "1", "uri": "reference/has_no_infs.html#pelage.has_no_infs", "dispname": "pelage.has_no_infs"}, {"name": "pelage.unique", "domain": "py", "role": "function", "priority": "1", "uri": "reference/unique.html#pelage.unique", "dispname": "-"}, {"name": "pelage.checks.unique.unique", "domain": "py", "role": "function", "priority": "1", "uri": "reference/unique.html#pelage.unique", "dispname": "pelage.unique"}, {"name": "pelage.unique_combination_of_columns", "domain": "py", "role": "function", "priority": "1", "uri": "reference/unique_combination_of_columns.html#pelage.unique_combination_of_columns", "dispname": "-"}, {"name": "pelage.checks.unique_combination_of_columns.unique_combination_of_columns", "domain": "py", "role": "function", "priority": "1", "uri": "reference/unique_combination_of_columns.html#pelage.unique_combination_of_columns", "dispname": "pelage.unique_combination_of_columns"}, {"name": "pelage.accepted_values", "domain": "py", "role": "function", "priority": "1", "uri": "reference/accepted_values.html#pelage.accepted_values", "dispname": "-"}, {"name": "pelage.checks.accepted_values.accepted_values", "domain": "py", "role": "function", "priority": "1", "uri": "reference/accepted_values.html#pelage.accepted_values", "dispname": "pelage.accepted_values"}, {"name": "pelage.not_accepted_values", "domain": "py", "role": "function", "priority": "1", "uri": "reference/not_accepted_values.html#pelage.not_accepted_values", "dispname": "-"}, {"name": "pelage.checks.not_accepted_values.not_accepted_values", "domain": "py", "role": "function", "priority": "1", "uri": "reference/not_accepted_values.html#pelage.not_accepted_values", "dispname": "pelage.not_accepted_values"}, {"name": "pelage.accepted_range", "domain": "py", "role": "function", "priority": "1", "uri": "reference/accepted_range.html#pelage.accepted_range", "dispname": "-"}, {"name": "pelage.checks.accepted_range.accepted_range", "domain": "py", "role": "function", "priority": "1", "uri": "reference/accepted_range.html#pelage.accepted_range", "dispname": "pelage.accepted_range"}, {"name": "pelage.maintains_relationships", "domain": "py", "role": "function", "priority": "1", "uri": "reference/maintains_relationships.html#pelage.maintains_relationships", "dispname": "-"}, {"name": "pelage.checks.maintains_relationships.maintains_relationships", "domain": "py", "role": "function", "priority": "1", "uri": "reference/maintains_relationships.html#pelage.maintains_relationships", "dispname": "pelage.maintains_relationships"}, {"name": "pelage.column_is_within_n_std", "domain": "py", "role": "function", "priority": "1", "uri": "reference/column_is_within_n_std.html#pelage.column_is_within_n_std", "dispname": "-"}, {"name": "pelage.checks.column_is_within_n_std.column_is_within_n_std", "domain": "py", "role": "function", "priority": "1", "uri": "reference/column_is_within_n_std.html#pelage.column_is_within_n_std", "dispname": "pelage.column_is_within_n_std"}, {"name": "pelage.custom_check", "domain": "py", "role": "function", "priority": "1", "uri": "reference/custom_check.html#pelage.custom_check", "dispname": "-"}, {"name": "pelage.checks.custom_check.custom_check", "domain": "py", "role": "function", "priority": "1", "uri": "reference/custom_check.html#pelage.custom_check", "dispname": "pelage.custom_check"}, {"name": "pelage.has_shape", "domain": "py", "role": "function", "priority": "1", "uri": "reference/has_shape.html#pelage.has_shape", "dispname": "-"}, {"name": "pelage.checks.has_shape.has_shape", "domain": "py", "role": "function", "priority": "1", "uri": "reference/has_shape.html#pelage.has_shape", "dispname": "pelage.has_shape"}, {"name": "pelage.at_least_one", "domain": "py", "role": "function", "priority": "1", "uri": "reference/at_least_one.html#pelage.at_least_one", "dispname": "-"}, {"name": "pelage.checks.at_least_one.at_least_one", "domain": "py", "role": "function", "priority": "1", "uri": "reference/at_least_one.html#pelage.at_least_one", "dispname": "pelage.at_least_one"}, {"name": "pelage.not_constant", "domain": "py", "role": "function", "priority": "1", "uri": "reference/not_constant.html#pelage.not_constant", "dispname": "-"}, {"name": "pelage.checks.not_constant.not_constant", "domain": "py", "role": "function", "priority": "1", "uri": "reference/not_constant.html#pelage.not_constant", "dispname": "pelage.not_constant"}, {"name": "pelage.not_null_proportion", "domain": "py", "role": "function", "priority": "1", "uri": "reference/not_null_proportion.html#pelage.not_null_proportion", "dispname": "-"}, {"name": "pelage.checks.not_null_proportion.not_null_proportion", "domain": "py", "role": "function", "priority": "1", "uri": "reference/not_null_proportion.html#pelage.not_null_proportion", "dispname": "pelage.not_null_proportion"}, {"name": "pelage.has_mandatory_values", "domain": "py", "role": "function", "priority": "1", "uri": "reference/has_mandatory_values.html#pelage.has_mandatory_values", "dispname": "-"}, {"name": "pelage.checks.has_mandatory_values.has_mandatory_values", "domain": "py", "role": "function", "priority": "1", "uri": "reference/has_mandatory_values.html#pelage.has_mandatory_values", "dispname": "pelage.has_mandatory_values"}, {"name": "pelage.mutually_exclusive_ranges", "domain": "py", "role": "function", "priority": "1", "uri": "reference/mutually_exclusive_ranges.html#pelage.mutually_exclusive_ranges", "dispname": "-"}, {"name": "pelage.checks.mutually_exclusive_ranges.mutually_exclusive_ranges", "domain": "py", "role": "function", "priority": "1", "uri": "reference/mutually_exclusive_ranges.html#pelage.mutually_exclusive_ranges", "dispname": "pelage.mutually_exclusive_ranges"}, {"name": "pelage.is_monotonic", "domain": "py", "role": "function", "priority": "1", "uri": "reference/is_monotonic.html#pelage.is_monotonic", "dispname": "-"}, {"name": "pelage.checks.is_monotonic.is_monotonic", "domain": "py", "role": "function", "priority": "1", "uri": "reference/is_monotonic.html#pelage.is_monotonic", "dispname": "pelage.is_monotonic"}, {"name": "pelage.PolarsAssertError", "domain": "py", "role": "class", "priority": "1", "uri": "reference/PolarsAssertError.html#pelage.PolarsAssertError", "dispname": "-"}, {"name": "pelage.types.PolarsAssertError", "domain": "py", "role": "class", "priority": "1", "uri": "reference/PolarsAssertError.html#pelage.PolarsAssertError", "dispname": "pelage.PolarsAssertError"}]}
+{
+    "project": "pelage",
+    "version": "0.0.9999",
+    "count": 40,
+    "items": [
+        {
+            "name": "pelage.has_columns",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/has_columns.html#pelage.has_columns",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.has_columns.has_columns",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/has_columns.html#pelage.has_columns",
+            "dispname": "pelage.has_columns"
+        },
+        {
+            "name": "pelage.has_dtypes",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/has_dtypes.html#pelage.has_dtypes",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.has_dtypes.has_dtypes",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/has_dtypes.html#pelage.has_dtypes",
+            "dispname": "pelage.has_dtypes"
+        },
+        {
+            "name": "pelage.has_no_nulls",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/has_no_nulls.html#pelage.has_no_nulls",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.has_no_nulls.has_no_nulls",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/has_no_nulls.html#pelage.has_no_nulls",
+            "dispname": "pelage.has_no_nulls"
+        },
+        {
+            "name": "pelage.has_no_infs",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/has_no_infs.html#pelage.has_no_infs",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.has_no_infs.has_no_infs",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/has_no_infs.html#pelage.has_no_infs",
+            "dispname": "pelage.has_no_infs"
+        },
+        {
+            "name": "pelage.unique_combination_of_columns",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/unique_combination_of_columns.html#pelage.unique_combination_of_columns",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.unique_combination_of_columns.unique_combination_of_columns",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/unique_combination_of_columns.html#pelage.unique_combination_of_columns",
+            "dispname": "pelage.unique_combination_of_columns"
+        },
+        {
+            "name": "pelage.accepted_values",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/accepted_values.html#pelage.accepted_values",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.accepted_values.accepted_values",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/accepted_values.html#pelage.accepted_values",
+            "dispname": "pelage.accepted_values"
+        },
+        {
+            "name": "pelage.not_accepted_values",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/not_accepted_values.html#pelage.not_accepted_values",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.not_accepted_values.not_accepted_values",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/not_accepted_values.html#pelage.not_accepted_values",
+            "dispname": "pelage.not_accepted_values"
+        },
+        {
+            "name": "pelage.accepted_range",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/accepted_range.html#pelage.accepted_range",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.accepted_range.accepted_range",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/accepted_range.html#pelage.accepted_range",
+            "dispname": "pelage.accepted_range"
+        },
+        {
+            "name": "pelage.maintains_relationships",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/maintains_relationships.html#pelage.maintains_relationships",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.maintains_relationships.maintains_relationships",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/maintains_relationships.html#pelage.maintains_relationships",
+            "dispname": "pelage.maintains_relationships"
+        },
+        {
+            "name": "pelage.column_is_within_n_std",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/column_is_within_n_std.html#pelage.column_is_within_n_std",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.column_is_within_n_std.column_is_within_n_std",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/column_is_within_n_std.html#pelage.column_is_within_n_std",
+            "dispname": "pelage.column_is_within_n_std"
+        },
+        {
+            "name": "pelage.custom_check",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/custom_check.html#pelage.custom_check",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.custom_check.custom_check",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/custom_check.html#pelage.custom_check",
+            "dispname": "pelage.custom_check"
+        },
+        {
+            "name": "pelage.at_least_one",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/at_least_one.html#pelage.at_least_one",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.at_least_one.at_least_one",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/at_least_one.html#pelage.at_least_one",
+            "dispname": "pelage.at_least_one"
+        },
+        {
+            "name": "pelage.has_mandatory_values",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/has_mandatory_values.html#pelage.has_mandatory_values",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.has_mandatory_values.has_mandatory_values",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/has_mandatory_values.html#pelage.has_mandatory_values",
+            "dispname": "pelage.has_mandatory_values"
+        },
+        {
+            "name": "pelage.has_shape",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/has_shape.html#pelage.has_shape",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.has_shape.has_shape",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/has_shape.html#pelage.has_shape",
+            "dispname": "pelage.has_shape"
+        },
+        {
+            "name": "pelage.is_monotonic",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/is_monotonic.html#pelage.is_monotonic",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.is_monotonic.is_monotonic",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/is_monotonic.html#pelage.is_monotonic",
+            "dispname": "pelage.is_monotonic"
+        },
+        {
+            "name": "pelage.mutually_exclusive_ranges",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/mutually_exclusive_ranges.html#pelage.mutually_exclusive_ranges",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.mutually_exclusive_ranges.mutually_exclusive_ranges",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/mutually_exclusive_ranges.html#pelage.mutually_exclusive_ranges",
+            "dispname": "pelage.mutually_exclusive_ranges"
+        },
+        {
+            "name": "pelage.not_constant",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/not_constant.html#pelage.not_constant",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.not_constant.not_constant",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/not_constant.html#pelage.not_constant",
+            "dispname": "pelage.not_constant"
+        },
+        {
+            "name": "pelage.not_null_proportion",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/not_null_proportion.html#pelage.not_null_proportion",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.not_null_proportion.not_null_proportion",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/not_null_proportion.html#pelage.not_null_proportion",
+            "dispname": "pelage.not_null_proportion"
+        },
+        {
+            "name": "pelage.unique",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/unique.html#pelage.unique",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.checks.unique.unique",
+            "domain": "py",
+            "role": "function",
+            "priority": "1",
+            "uri": "reference/unique.html#pelage.unique",
+            "dispname": "pelage.unique"
+        },
+        {
+            "name": "pelage.PolarsAssertError",
+            "domain": "py",
+            "role": "class",
+            "priority": "1",
+            "uri": "reference/PolarsAssertError.html#pelage.PolarsAssertError",
+            "dispname": "-"
+        },
+        {
+            "name": "pelage.types.PolarsAssertError",
+            "domain": "py",
+            "role": "class",
+            "priority": "1",
+            "uri": "reference/PolarsAssertError.html#pelage.PolarsAssertError",
+            "dispname": "pelage.PolarsAssertError"
+        }
+    ]
+}
