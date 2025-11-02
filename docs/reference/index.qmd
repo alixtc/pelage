@@ -10,7 +10,6 @@ List of check functions.
 | [has_dtypes](has_dtypes.qmd#pelage.has_dtypes) | Check that the columns have the expected types |
 | [has_no_nulls](has_no_nulls.qmd#pelage.has_no_nulls) | Check if a DataFrame has any null (missing) values. |
 | [has_no_infs](has_no_infs.qmd#pelage.has_no_infs) | Check if a DataFrame has any infinite (inf) values. |
-| [unique](unique.qmd#pelage.unique) | Check if there are no duplicated values in each one of the selected columns. |
 | [unique_combination_of_columns](unique_combination_of_columns.qmd#pelage.unique_combination_of_columns) | Ensure that the selected column have a unique combination per row. |
 | [accepted_values](accepted_values.qmd#pelage.accepted_values) | Raises error if columns contains values not specified in `items` |
 | [not_accepted_values](not_accepted_values.qmd#pelage.not_accepted_values) | Raises error if columns contains values specified in List of forbbiden `items` |
@@ -25,13 +24,14 @@ List of check functions with optional `group_by` option.
 
 | | |
 | --- | --- |
-| [has_shape](has_shape.qmd#pelage.has_shape) | Check if a DataFrame has the specified shape. |
 | [at_least_one](at_least_one.qmd#pelage.at_least_one) | Ensure that there is at least one not null value in the designated columns. |
+| [has_mandatory_values](has_mandatory_values.qmd#pelage.has_mandatory_values) | Ensure that all specified values are present in their respective column. |
+| [has_shape](has_shape.qmd#pelage.has_shape) | Check if a DataFrame has the specified shape. |
+| [is_monotonic](is_monotonic.qmd#pelage.is_monotonic) | Verify that values in a column are consecutively increasing or decreasing. |
+| [mutually_exclusive_ranges](mutually_exclusive_ranges.qmd#pelage.mutually_exclusive_ranges) | Ensure that the specified columns contains no overlapping intervals. |
 | [not_constant](not_constant.qmd#pelage.not_constant) | Check if a DataFrame has constant columns. |
 | [not_null_proportion](not_null_proportion.qmd#pelage.not_null_proportion) | Checks that the proportion of non-null values in a column is within a a specified range [at_least, at_most] where at_most is an optional argument (default: 1.0). |
-| [has_mandatory_values](has_mandatory_values.qmd#pelage.has_mandatory_values) | Ensure that all specified values are present in their respective column. |
-| [mutually_exclusive_ranges](mutually_exclusive_ranges.qmd#pelage.mutually_exclusive_ranges) | Ensure that the specified columns contains no overlapping intervals. |
-| [is_monotonic](is_monotonic.qmd#pelage.is_monotonic) | Verify that values in a column are consecutively increasing or decreasing. |
+| [unique](unique.qmd#pelage.unique) | Check if there are no duplicated values in each one of the selected columns. |
 
 ## Exceptions
 

@@ -1,13 +1,13 @@
 # unique { #pelage.unique }
 
 ```python
-unique(data, columns=None)
+unique(data, columns=None, group_by=None)
 ```
 
 Check if there are no duplicated values in each one of the selected columns.
 
-This is a column oriented check, for a row oriented check see
-`unique_combination_of_columns`
+This is a column oriented check, where each columns are search independently for
+duplicated values. For a row oriented check see `unique_combination_of_columns`
 
 ## Parameters {.doc-section .doc-section-parameters}
 
@@ -58,6 +58,54 @@ shape: (2, 1)
 │ 1   │
 │ 1   │
 └─────┘
+Error with the DataFrame passed to the check function:
+--> Somes values are duplicated within the specified columns
+```
+
+```python
+>>> df = pl.DataFrame(
+...     [
+...         [1, 1, 1],
+...         [1, 1, 2],
+...     ],
+...     schema=["col1", "col2", "group"],
+...     orient="row",
+... )
+>>> df.pipe(plg.unique, ["col1", "col2"], group_by="group")
+shape: (2, 3)
+┌──────┬──────┬───────┐
+│ col1 ┆ col2 ┆ group │
+│ ---  ┆ ---  ┆ ---   │
+│ i64  ┆ i64  ┆ i64   │
+╞══════╪══════╪═══════╡
+│ 1    ┆ 1    ┆ 1     │
+│ 1    ┆ 1    ┆ 2     │
+└──────┴──────┴───────┘
+```
+
+```python
+>>> df = pl.DataFrame(
+...     [
+...         [1, 1, 1],
+...         [1, 1, 1],
+...         [1, 1, 2],
+...     ],
+...     schema=["col1", "col2", "group"],
+...     orient="row",
+... )
+>>> df.pipe(plg.unique, ["col1", "col2"], group_by="group")
+Traceback (most recent call last):
+...
+pelage.types.PolarsAssertError: Details
+shape: (2, 3)
+┌──────┬──────┬───────┐
+│ col1 ┆ col2 ┆ group │
+│ ---  ┆ ---  ┆ ---   │
+│ i64  ┆ i64  ┆ i64   │
+╞══════╪══════╪═══════╡
+│ 1    ┆ 1    ┆ 1     │
+│ 1    ┆ 1    ┆ 1     │
+└──────┴──────┴───────┘
 Error with the DataFrame passed to the check function:
 --> Somes values are duplicated within the specified columns
 ```
