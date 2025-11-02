@@ -1,6 +1,6 @@
 [project]
 name = "pelage"
-version = "0.5.1"
+version = "0.6.0"
 description = "This package contains a collection of tests to improve your Polars data analysis superpowers"
 readme = "README.md"
 
