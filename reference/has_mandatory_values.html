@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../reference/mutually_exclusive_ranges.html" rel="next">
-<link href="../reference/not_null_proportion.html" rel="prev">
+<link href="../reference/has_shape.html" rel="next">
+<link href="../reference/at_least_one.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -161,7 +161,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/has_shape.html">Checks with group_by</a></li><li class="breadcrumb-item"><a href="../reference/has_mandatory_values.html">has_mandatory_values</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/at_least_one.html">Checks with group_by</a></li><li class="breadcrumb-item"><a href="../reference/has_mandatory_values.html">has_mandatory_values</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -214,12 +214,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../reference/has_no_infs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">has_no_infs</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../reference/unique.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">unique</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -277,14 +271,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../reference/at_least_one.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">at_least_one</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reference/has_mandatory_values.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">has_mandatory_values</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../reference/has_shape.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">has_shape</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reference/at_least_one.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">at_least_one</span></a>
+  <a href="../reference/is_monotonic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">is_monotonic</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reference/mutually_exclusive_ranges.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">mutually_exclusive_ranges</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -301,20 +313,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reference/has_mandatory_values.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">has_mandatory_values</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../reference/mutually_exclusive_ranges.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">mutually_exclusive_ranges</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../reference/is_monotonic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">is_monotonic</span></a>
+  <a href="../reference/unique.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">unique</span></a>
   </div>
 </li>
       </ul>
@@ -356,7 +356,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
     </div>
 <!-- main -->
-<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/has_shape.html">Checks with group_by</a></li><li class="breadcrumb-item"><a href="../reference/has_mandatory_values.html">has_mandatory_values</a></li></ol></nav></header>
+<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../reference/at_least_one.html">Checks with group_by</a></li><li class="breadcrumb-item"><a href="../reference/has_mandatory_values.html">has_mandatory_values</a></li></ol></nav></header>
 
 
 
@@ -868,13 +868,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
-      <a href="../reference/not_null_proportion.html" class="pagination-link" aria-label="not_null_proportion">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">not_null_proportion</span>
+      <a href="../reference/at_least_one.html" class="pagination-link" aria-label="at_least_one">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">at_least_one</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../reference/mutually_exclusive_ranges.html" class="pagination-link" aria-label="mutually_exclusive_ranges">
-        <span class="nav-page-text">mutually_exclusive_ranges</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../reference/has_shape.html" class="pagination-link" aria-label="has_shape">
+        <span class="nav-page-text">has_shape</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

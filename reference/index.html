@@ -182,12 +182,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reference/unique.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">unique</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../reference/unique_combination_of_columns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">unique_combination_of_columns</span></a>
   </div>
@@ -241,14 +235,32 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../reference/at_least_one.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">at_least_one</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reference/has_mandatory_values.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">has_mandatory_values</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../reference/has_shape.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">has_shape</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reference/at_least_one.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">at_least_one</span></a>
+  <a href="../reference/is_monotonic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">is_monotonic</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reference/mutually_exclusive_ranges.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">mutually_exclusive_ranges</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -265,20 +277,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reference/has_mandatory_values.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">has_mandatory_values</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../reference/mutually_exclusive_ranges.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">mutually_exclusive_ranges</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../reference/is_monotonic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">is_monotonic</span></a>
+  <a href="../reference/unique.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">unique</span></a>
   </div>
 </li>
       </ul>
@@ -349,34 +349,30 @@ ul.task-list li input[type="checkbox"] {
 <td>Check if a DataFrame has any infinite (inf) values.</td>
 </tr>
 <tr class="odd">
-<td><a href="../reference/unique.html#pelage.unique">unique</a></td>
-<td>Check if there are no duplicated values in each one of the selected columns.</td>
-</tr>
-<tr class="even">
 <td><a href="../reference/unique_combination_of_columns.html#pelage.unique_combination_of_columns">unique_combination_of_columns</a></td>
 <td>Ensure that the selected column have a unique combination per row.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="../reference/accepted_values.html#pelage.accepted_values">accepted_values</a></td>
 <td>Raises error if columns contains values not specified in <code>items</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="../reference/not_accepted_values.html#pelage.not_accepted_values">not_accepted_values</a></td>
 <td>Raises error if columns contains values specified in List of forbbiden <code>items</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="../reference/accepted_range.html#pelage.accepted_range">accepted_range</a></td>
 <td>Check that all the values from specifed columns in the dict <code>items</code> are within the indicated range.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="../reference/maintains_relationships.html#pelage.maintains_relationships">maintains_relationships</a></td>
 <td>Function to help ensuring that set of values in selected column remains the same in both DataFrames. This helps to maintain referential integrity.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="../reference/column_is_within_n_std.html#pelage.column_is_within_n_std">column_is_within_n_std</a></td>
 <td>Function asserting values are within a given STD range, thus ensuring the absence of outliers.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="../reference/custom_check.html#pelage.custom_check">custom_check</a></td>
 <td>Use custom Polars expression to check the DataFrame, based on <code>.filter()</code>.</td>
 </tr>
@@ -389,32 +385,36 @@ ul.task-list li input[type="checkbox"] {
 <table class="caption-top table">
 <tbody>
 <tr class="odd">
+<td><a href="../reference/at_least_one.html#pelage.at_least_one">at_least_one</a></td>
+<td>Ensure that there is at least one not null value in the designated columns.</td>
+</tr>
+<tr class="even">
+<td><a href="../reference/has_mandatory_values.html#pelage.has_mandatory_values">has_mandatory_values</a></td>
+<td>Ensure that all specified values are present in their respective column.</td>
+</tr>
+<tr class="odd">
 <td><a href="../reference/has_shape.html#pelage.has_shape">has_shape</a></td>
 <td>Check if a DataFrame has the specified shape.</td>
 </tr>
 <tr class="even">
-<td><a href="../reference/at_least_one.html#pelage.at_least_one">at_least_one</a></td>
-<td>Ensure that there is at least one not null value in the designated columns.</td>
+<td><a href="../reference/is_monotonic.html#pelage.is_monotonic">is_monotonic</a></td>
+<td>Verify that values in a column are consecutively increasing or decreasing.</td>
 </tr>
 <tr class="odd">
-<td><a href="../reference/not_constant.html#pelage.not_constant">not_constant</a></td>
-<td>Check if a DataFrame has constant columns.</td>
-</tr>
-<tr class="even">
-<td><a href="../reference/not_null_proportion.html#pelage.not_null_proportion">not_null_proportion</a></td>
-<td>Checks that the proportion of non-null values in a column is within a a specified range [at_least, at_most] where at_most is an optional argument (default: 1.0).</td>
-</tr>
-<tr class="odd">
-<td><a href="../reference/has_mandatory_values.html#pelage.has_mandatory_values">has_mandatory_values</a></td>
-<td>Ensure that all specified values are present in their respective column.</td>
-</tr>
-<tr class="even">
 <td><a href="../reference/mutually_exclusive_ranges.html#pelage.mutually_exclusive_ranges">mutually_exclusive_ranges</a></td>
 <td>Ensure that the specified columns contains no overlapping intervals.</td>
 </tr>
+<tr class="even">
+<td><a href="../reference/not_constant.html#pelage.not_constant">not_constant</a></td>
+<td>Check if a DataFrame has constant columns.</td>
+</tr>
 <tr class="odd">
-<td><a href="../reference/is_monotonic.html#pelage.is_monotonic">is_monotonic</a></td>
-<td>Verify that values in a column are consecutively increasing or decreasing.</td>
+<td><a href="../reference/not_null_proportion.html#pelage.not_null_proportion">not_null_proportion</a></td>
+<td>Checks that the proportion of non-null values in a column is within a a specified range [at_least, at_most] where at_most is an optional argument (default: 1.0).</td>
+</tr>
+<tr class="even">
+<td><a href="../reference/unique.html#pelage.unique">unique</a></td>
+<td>Check if there are no duplicated values in each one of the selected columns.</td>
 </tr>
 </tbody>
 </table>
