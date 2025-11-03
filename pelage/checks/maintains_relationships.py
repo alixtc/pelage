@@ -16,7 +16,7 @@ def maintains_relationships(
     Parameters
     ----------
     data : PolarsLazyOrDataFrame
-        Dataframe after transformation
+        The polars DataFrame or LazyFrame to test.
     other_df : Union[pl.DataFrame, pl.LazyFrame]
         Distant dataframe usually the one before transformation
     column : str

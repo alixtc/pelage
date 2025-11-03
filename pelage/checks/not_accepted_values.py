@@ -11,6 +11,7 @@ def not_accepted_values(
     Parameters
     ----------
     data : PolarsLazyOrDataFrame
+        The polars DataFrame or LazyFrame to test.
     items : Dict[str, List]
         A dictionnary where keys are a string compatible with a pl.Expr, to be used with
         pl.col(). The value for each key is a List of all forbidden values in the

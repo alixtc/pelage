@@ -21,7 +21,7 @@ def has_columns(
     Parameters
     ----------
     data : PolarsLazyOrDataFrame
-        The DataFrame to check for column presence.
+        The polars DataFrame or LazyFrame to test.
     names : Union[str, List[str]]
         The names of the columns to check.
 

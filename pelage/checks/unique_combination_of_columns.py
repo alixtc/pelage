@@ -24,7 +24,7 @@ def unique_combination_of_columns(
     Parameters
     ----------
     data : PolarsLazyOrDataFrame
-        _description_
+        The polars DataFrame or LazyFrame to test.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for row unicity. By default, all columns are checked.
 
