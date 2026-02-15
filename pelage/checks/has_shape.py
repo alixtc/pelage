@@ -23,7 +23,7 @@ def has_shape(
     Parameters
     ----------
     data : PolarsLazyOrDataFrame
-        Input data
+        The polars DataFrame or LazyFrame to test.
     shape : Tuple[IntOrNone, IntOrNone]
         Tuple with the expected dataframe shape, as from the `.shape()` method.
         You can use `None` for one of the two elements of the shape tuple if you do not

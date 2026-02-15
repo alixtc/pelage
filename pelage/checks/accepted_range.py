@@ -16,6 +16,7 @@ def accepted_range(
     Parameters
     ----------
     data : PolarsLazyOrDataFrame
+        The polars DataFrame or LazyFrame to test.
     items : Dict[str, PolarsColumnBounds]
         Any type of inputs that match the following signature:
         `column_name: (boundaries)` where boundaries is compatible with the Polars

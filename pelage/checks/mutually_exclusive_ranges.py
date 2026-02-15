@@ -21,7 +21,7 @@ def mutually_exclusive_ranges(
     Parameters
     ----------
     data : PolarsLazyOrDataFrame
-        Data to check
+        The polars DataFrame or LazyFrame to test.
     low_bound : str
         Name of column containing the lower bound of the interval
     high_bound : str

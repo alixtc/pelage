@@ -27,6 +27,9 @@ def unique(
         The input DataFrame to check for unique values.
     columns : Optional[PolarsColumnType] , optional
         Columns to consider for uniqueness check. By default, all columns are checked.
+    group_by : Optional[PolarsOverClauseInput], optional
+        Use this option to ensure uniqueness with data segmented by group.
+        by default None
 
     Returns
     -------
@@ -67,6 +70,7 @@ def unique(
     Error with the DataFrame passed to the check function:
     --> Somes values are duplicated within the specified columns
 
+    Below are examples with `group_by` option:
     >>> df = pl.DataFrame(
     ...     [
     ...         [1, 1, 1],

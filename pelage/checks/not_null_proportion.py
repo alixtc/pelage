@@ -25,7 +25,7 @@ def not_null_proportion(
     Parameters
     ----------
     data : PolarsLazyOrDataFrame
-        _description_
+        The polars DataFrame or LazyFrame to test.
     items : Dict[str, float  |  Tuple[float, float]]
         Ranges for the proportion of not null values for selected columns.
 
