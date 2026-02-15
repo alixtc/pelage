@@ -361,10 +361,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Check that all the values from specifed columns in the dict <code>items</code> are within the indicated range.</p>
 <section id="parameters" class="level2 doc-section doc-section-parameters">
 <h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
-<p><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`pelage.types.PolarsLazyOrDataFrame`">PolarsLazyOrDataFrame</a></span></code></p>
-<p>:</p>
 <dl>
-<dt><code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Dict`">Dict</a>[<a href="`str`">str</a>, <a href="`pelage.types.PolarsColumnBounds`">PolarsColumnBounds</a>]</span></code></dt>
+<dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`pelage.types.PolarsLazyOrDataFrame`">PolarsLazyOrDataFrame</a></span></code></dt>
+<dd>
+<p>The polars DataFrame or LazyFrame to test.</p>
+</dd>
+<dt><code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`Dict`">Dict</a>[<a href="`str`">str</a>, <a href="`pelage.types.PolarsColumnBounds`">PolarsColumnBounds</a>]</span></code></dt>
 <dd>
 <p>Any type of inputs that match the following signature: <code>column_name: (boundaries)</code> where boundaries is compatible with the Polars method <code>is_between()</code> syntax.</p>
 <p>For example:</p>

@@ -365,9 +365,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl>
 <dt><code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`pelage.types.PolarsLazyOrDataFrame`">PolarsLazyOrDataFrame</a></span></code></dt>
 <dd>
-<p>Input data</p>
+<p>The polars DataFrame or LazyFrame to test.</p>
 </dd>
-<dt><code><span class="parameter-name">shape</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Tuple`">Tuple</a>[<a href="`pelage.types.IntOrNone`">IntOrNone</a>, <a href="`pelage.types.IntOrNone`">IntOrNone</a>]</span></code></dt>
+<dt><code><span class="parameter-name">shape</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`Tuple`">Tuple</a>[<a href="`pelage.types.IntOrNone`">IntOrNone</a>, <a href="`pelage.types.IntOrNone`">IntOrNone</a>]</span></code></dt>
 <dd>
 <p>Tuple with the expected dataframe shape, as from the <code>.shape()</code> method. You can use <code>None</code> for one of the two elements of the shape tuple if you do not want to check this dimension.</p>
 <p>Ex: <code>(5, None)</code> will ensure that the dataframe has 5 rows regardless of the number of columns.</p>
