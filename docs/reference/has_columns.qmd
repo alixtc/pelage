@@ -10,9 +10,9 @@ Check if a DataFrame has the specified
 
 <code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.types.PolarsLazyOrDataFrame`)</span></code>
 
-:   The DataFrame to check for column presence.
+:   The polars DataFrame or LazyFrame to test.
 
-<code><span class="parameter-name">names</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Union](`typing.Union`)\[[str](`str`), [List](`typing.List`)\[[str](`str`)\]\]</span></code>
+<code><span class="parameter-name">names</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Union](`typing.Union`)\[[str](`str`), [List](`List`)\[[str](`str`)\]\]</span></code>
 
 :   The names of the columns to check.
 

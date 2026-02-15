@@ -11,7 +11,7 @@ Function to help ensuring that set of values in selected column remains  the
 
 <code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.types.PolarsLazyOrDataFrame`)</span></code>
 
-:   Dataframe after transformation
+:   The polars DataFrame or LazyFrame to test.
 
 <code><span class="parameter-name">other_df</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Union](`typing.Union`)\[[pl](`polars`).[DataFrame](`polars.DataFrame`), [pl](`polars`).[LazyFrame](`polars.LazyFrame`)\]</span></code>
 

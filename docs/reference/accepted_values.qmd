@@ -10,9 +10,9 @@ Raises error if columns contains values not specified in `items`
 
 <code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.types.PolarsLazyOrDataFrame`)</span></code>
 
-:
+:   The polars DataFrame or LazyFrame to test.
 
-<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Dict](`typing.Dict`)\[[str](`str`), [List](`typing.List`)\]</span></code>
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Dict](`Dict`)\[[str](`str`), [List](`List`)\]</span></code>
 
 :   A dictionnary where keys are a string compatible with a pl.Expr, to be used with
     pl.col(). The value for each key is a List of all authorized values in the

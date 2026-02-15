@@ -13,7 +13,7 @@ i.e. this is a row oriented check.
 
 <code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.types.PolarsLazyOrDataFrame`)</span></code>
 
-:   _description_
+:   The polars DataFrame or LazyFrame to test.
 
 <code><span class="parameter-name">columns</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[PolarsColumnType](`pelage.types.PolarsColumnType`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
 

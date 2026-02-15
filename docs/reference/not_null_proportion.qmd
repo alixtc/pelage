@@ -12,9 +12,9 @@ a specified range [at_least, at_most] where at_most is an optional argument
 
 <code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.types.PolarsLazyOrDataFrame`)</span></code>
 
-:   _description_
+:   The polars DataFrame or LazyFrame to test.
 
-<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Dict](`typing.Dict`)\[[str](`str`), [float](`float`) \| [Tuple](`typing.Tuple`)\[[float](`float`), [float](`float`)\]\]</span></code>
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Dict](`Dict`)\[[str](`str`), [float](`float`) \| [Tuple](`Tuple`)\[[float](`float`), [float](`float`)\]\]</span></code>
 
 :   Ranges for the proportion of not null values for selected columns.
 

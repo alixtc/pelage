@@ -19,6 +19,11 @@ duplicated values. For a row oriented check see `unique_combination_of_columns`
 
 :   Columns to consider for uniqueness check. By default, all columns are checked.
 
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[PolarsOverClauseInput](`pelage.types.PolarsOverClauseInput`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+
+:   Use this option to ensure uniqueness with data segmented by group.
+    by default None
+
 ## Returns {.doc-section .doc-section-returns}
 
 | Name   | Type                                                          | Description                                                      |
@@ -61,6 +66,8 @@ shape: (2, 1)
 Error with the DataFrame passed to the check function:
 --> Somes values are duplicated within the specified columns
 ```
+
+Below are examples with `group_by` option:
 
 ```python
 >>> df = pl.DataFrame(

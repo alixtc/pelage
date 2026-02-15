@@ -13,7 +13,7 @@ of outliers.
 
 :   Polars DataFrame or LazyFrame containing data to check.
 
-<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Tuple](`typing.Tuple`)\[[PolarsColumnType](`pelage.types.PolarsColumnType`), [int](`int`)\]</span></code>
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Tuple](`Tuple`)\[[PolarsColumnType](`pelage.types.PolarsColumnType`), [int](`int`)\]</span></code>
 
 :   A column name / column type with the number of STD authorized for the values
     within. Must be of the following form: `(col_name, n_std)`

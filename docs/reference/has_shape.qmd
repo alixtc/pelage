@@ -12,9 +12,9 @@ When used with the group_by option, this can be used to get the row count per gr
 
 <code><span class="parameter-name">data</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[PolarsLazyOrDataFrame](`pelage.types.PolarsLazyOrDataFrame`)</span></code>
 
-:   Input data
+:   The polars DataFrame or LazyFrame to test.
 
-<code><span class="parameter-name">shape</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Tuple](`typing.Tuple`)\[[IntOrNone](`pelage.types.IntOrNone`), [IntOrNone](`pelage.types.IntOrNone`)\]</span></code>
+<code><span class="parameter-name">shape</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Tuple](`Tuple`)\[[IntOrNone](`pelage.types.IntOrNone`), [IntOrNone](`pelage.types.IntOrNone`)\]</span></code>
 
 :   Tuple with the expected dataframe shape, as from the `.shape()` method.
     You can use `None` for one of the two elements of the shape tuple if you do not

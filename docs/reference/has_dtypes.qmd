@@ -12,7 +12,7 @@ Check that the columns have the expected types
 
 :   Polars DataFrame or LazyFrame containing data to check.
 
-<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Dict](`typing.Dict`)\[[str](`str`), [PolarsDataType](`pelage.types.PolarsDataType`)\]</span></code>
+<code><span class="parameter-name">items</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Dict](`Dict`)\[[str](`str`), [PolarsDataType](`pelage.types.PolarsDataType`)\]</span></code>
 
 :   A dictionnary of column name with their expected polars data type:
     ```
