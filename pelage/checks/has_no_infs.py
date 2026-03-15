@@ -1,5 +1,3 @@
-from typing import Optional
-
 import polars as pl
 
 from pelage.types import (
@@ -12,7 +10,7 @@ from pelage.utils import _sanitize_column_inputs
 
 def has_no_infs(
     data: PolarsLazyOrDataFrame,
-    columns: Optional[PolarsColumnType] = None,
+    columns: PolarsColumnType | None = None,
 ) -> PolarsLazyOrDataFrame:
     """Check if a DataFrame has any infinite (inf) values.
 

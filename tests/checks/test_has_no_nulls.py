@@ -1,5 +1,3 @@
-from typing import Union
-
 import polars as pl
 import pytest
 from polars import testing
@@ -11,7 +9,7 @@ import pelage as plg
     "given_df", [pl.DataFrame({"a": [1, 2]}), pl.LazyFrame({"a": [1, 2]})]
 )
 def test_has_no_nulls_returns_df_when_all_values_defined(
-    given_df: Union[pl.DataFrame, pl.LazyFrame],
+    given_df: pl.DataFrame | pl.LazyFrame,
 ):
     when = given_df.pipe(plg.has_no_nulls)
     testing.assert_frame_equal(given_df, when)
@@ -32,7 +30,7 @@ def test_has_no_nulls_throws_error_on_null_values(frame):
     ],
 )
 def test_has_no_nulls_indicates_columns_with_nulls_in_error_message(
-    given_df: Union[pl.DataFrame, pl.LazyFrame],
+    given_df: pl.DataFrame | pl.LazyFrame,
 ):
     expected = pl.DataFrame(
         {"column": ["a"], "null_count": [1]},

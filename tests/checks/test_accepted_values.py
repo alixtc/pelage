@@ -1,5 +1,3 @@
-from typing import Union
-
 import polars as pl
 import pytest
 from polars import testing
@@ -14,7 +12,7 @@ import pelage as plg
         pl.LazyFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]}),
     ],
 )
-def test_accepted_values(given_df: Union[pl.DataFrame, pl.LazyFrame]):
+def test_accepted_values(given_df: pl.DataFrame | pl.LazyFrame):
     items = {"a": [1, 2, 3], "b": ["a", "b", "c"]}
     when = given_df.pipe(plg.accepted_values, items)
     testing.assert_frame_equal(given_df, when)
@@ -35,7 +33,7 @@ def test_accepted_values_should_accept_pl_expr():
     ],
 )
 def test_accepted_values_should_error_on_out_of_range_values(
-    given_df: Union[pl.DataFrame, pl.LazyFrame],
+    given_df: pl.DataFrame | pl.LazyFrame,
 ):
     items = {"a": [1, 2], "b": ["a", "b", "c"]}
 

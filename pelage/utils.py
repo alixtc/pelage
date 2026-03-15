@@ -1,7 +1,5 @@
 """Utility functions for pelage."""
 
-from typing import Optional, Union
-
 import polars as pl
 
 from pelage.types import PolarsColumnType
@@ -29,7 +27,7 @@ def _has_sufficient_polars_version(version_number: str = "0.20.0") -> bool:
 
 
 def _sanitize_column_inputs(
-    columns: Optional[PolarsColumnType] = None,
+    columns: PolarsColumnType | None = None,
 ) -> pl.Expr:
     """Ensure that input can be converted to a `pl.col()` expression"""
     if columns is None:
@@ -41,7 +39,7 @@ def _sanitize_column_inputs(
 
 
 def _format_ranges_by_columns(
-    items: dict[str, Union[float, tuple[float, float]]],
+    items: dict[str, float | tuple[float, float]],
 ) -> pl.DataFrame:
     ranges = {k: (v if isinstance(v, tuple) else (v, 1)) for k, v in items.items()}
     pl_ranges = pl.DataFrame(

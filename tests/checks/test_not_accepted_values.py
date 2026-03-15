@@ -1,5 +1,3 @@
-from typing import Union
-
 import polars as pl
 import pytest
 from polars import testing
@@ -27,7 +25,7 @@ def test_not_accepted_values_should_accept_pl_expr():
     ],
 )
 def test_not_accepted_values_should_error_on_forbidden_values(
-    given_df: Union[pl.DataFrame, pl.LazyFrame],
+    given_df: pl.DataFrame | pl.LazyFrame,
 ):
     items = {"a": [1], "b": ["a", "c"]}
 

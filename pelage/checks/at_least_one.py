@@ -1,5 +1,3 @@
-from typing import Optional
-
 import polars as pl
 
 from pelage.types import (
@@ -13,8 +11,8 @@ from pelage.utils import _has_sufficient_polars_version, _sanitize_column_inputs
 
 def at_least_one(
     data: PolarsLazyOrDataFrame,
-    columns: Optional[PolarsColumnType] = None,
-    group_by: Optional[PolarsOverClauseInput] = None,
+    columns: PolarsColumnType | None = None,
+    group_by: PolarsOverClauseInput | None = None,
 ) -> PolarsLazyOrDataFrame:
     """Ensure that there is at least one not null value in the designated columns.
 

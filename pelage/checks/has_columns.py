@@ -1,5 +1,3 @@
-from typing import Union
-
 import polars as pl
 
 from pelage.types import PolarsAssertError, PolarsLazyOrDataFrame
@@ -14,7 +12,7 @@ def _get_lazyframe_columns(data: pl.LazyFrame) -> set[str]:
 
 
 def has_columns(
-    data: PolarsLazyOrDataFrame, names: Union[str, list[str]]
+    data: PolarsLazyOrDataFrame, names: str | list[str]
 ) -> PolarsLazyOrDataFrame:
     """Check if a DataFrame has the specified
 

@@ -1,5 +1,3 @@
-from typing import Optional
-
 import polars as pl
 
 from pelage.types import (
@@ -14,7 +12,7 @@ from pelage.utils import (
 
 def unique_combination_of_columns(
     data: PolarsLazyOrDataFrame,
-    columns: Optional[PolarsColumnType] = None,
+    columns: PolarsColumnType | None = None,
 ) -> PolarsLazyOrDataFrame:
     """Ensure that the selected column have a unique combination per row.
 

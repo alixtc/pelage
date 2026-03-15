@@ -1,5 +1,3 @@
-from typing import Optional
-
 import polars as pl
 
 from pelage.types import (
@@ -39,7 +37,7 @@ def compare_sets_per_column(
 def has_mandatory_values(
     data: PolarsLazyOrDataFrame,
     items: dict[str, list],
-    group_by: Optional[PolarsOverClauseInput] = None,
+    group_by: PolarsOverClauseInput | None = None,
 ) -> PolarsLazyOrDataFrame:
     """Ensure that all specified values are present in their respective column.
 
