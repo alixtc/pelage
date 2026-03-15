@@ -31,6 +31,7 @@ dev = [
     "coverage>=7.4.3",
     "ipykernel>=6.29.3",
     "tox-uv>=1.13.1",
+    "griffe==1.15.0",
 ]
 doc = ["quartodoc>=0.7.0; python_version >= '3.10'"]
 extras = [
