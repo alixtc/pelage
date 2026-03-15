@@ -2,11 +2,10 @@
 from __future__ import annotations
 
 import html
-import os
 import re
 from importlib.resources import files
 from pathlib import Path
-from typing import Literal, Optional, TypedDict, Union
+from typing import Optional, Union
 
 import quartodoc.ast as qast
 from griffe import (
@@ -26,21 +25,12 @@ from quartodoc.pandoc.blocks import DefinitionList
 from quartodoc.renderers.base import convert_rst_link_to_md, sanitize
 from quartodoc.renderers.md_renderer import ParamRow
 
-# from quartodoc.ast import preview
 
-SHINY_PATH = Path(files("pelage").joinpath())
-
-
-# This is the same as the FileContentJson type in TypeScript.
-class FileContentJson(TypedDict):
-    name: str
-    content: str
-    type: Literal["text", "binary"]
+SHINY_PATH = Path(str(files("pelage").joinpath()))
 
 
 class Renderer(MdRenderer):
     style = "shiny"
-    express_api = os.environ.get("SHINY_MODE", "core") == "express"
 
     @dispatch
     def render(self, el: qast.DocstringSectionSeeAlso):
@@ -62,26 +52,6 @@ class Renderer(MdRenderer):
 
         converted = convert_rst_link_to_md(rendered)
 
-        # If we're rendering the API reference for Express, try our best to
-        # keep you in the Express site. For example, something like shiny.ui.input_text()
-        # simply gets re-exported as shiny.express.ui.input_text(), but it's docstrings
-        # will link to shiny.ui, not shiny.express.ui. This fixes that.
-        if self.express_api:
-            converted = converted.replace("shiny.ui.", "shiny.express.ui.")
-            # If this el happens to point to itself, it's probably intentionally
-            # pointing to Core (i.e., express context managers mention that they
-            # wrap Core functions), so don't change that.
-            # TODO: we want to be more aggressive about context managers always
-            # pointing to the Core docs?
-            if f"shiny.express.ui.{el.name}" in converted:
-                print(f"Changing Express link to Core for: {el.name}")
-                converted = converted.replace(
-                    f"shiny.express.ui.{el.name}", f"shiny.ui.{el.name}"
-                )
-            converted = converted.replace("shiny.render.", "shiny.express.render.")
-
-        check_if_missing_expected_example(el, converted)
-
         assert_no_sphinx_comments(el, converted)
 
         return converted
@@ -98,17 +68,6 @@ class Renderer(MdRenderer):
     @dispatch
     def render_annotation(self, el: str):
         return sanitize(el)
-
-    # TODO-future; Can be removed once we use quartodoc 0.3.5
-    # Related: https://github.com/machow/quartodoc/pull/205
-    @dispatch
-    def render(self, el: DocstringAttribute) -> ParamRow:
-        row = ParamRow(
-            el.name,
-            el.description or "",
-            annotation=self.render_annotation(el.annotation),
-        )
-        return row
 
     @dispatch
     def render_annotation(self, el: None):
@@ -253,56 +212,7 @@ def prefix_bare_functions_with_func(s: str) -> str:
     return re.sub(pattern, replacement, s)
 
 
-def check_if_missing_expected_example(el, converted):
-    if re.search(r"(^|\n)#{2,6} Examples", converted):
-        # Manually added examples are fine
-        return
-
-    if not el.canonical_path.startswith("shiny"):
-        # Only check Shiny objects for examples
-        return
-
-    def is_no_ex_decorator(x):
-        # With griffe<0.42.0, it kept parentheses on decorators, but as of 0.42.0, it
-        # removes them. At some point in the future we can just use the no-parens case.
-        if x == "no_example()" or x == "no_example":
-            return True
-
-        no_ex_decorators = [
-            f'no_example("{os.environ.get("SHINY_MODE", "core")}")',
-            f"no_example('{os.environ.get('SHINY_MODE', 'core')}')",
-        ]
-
-        return x in no_ex_decorators
-
-    if hasattr(el, "decorators") and any(
-        [is_no_ex_decorator(d.value.canonical_name) for d in el.decorators]
-    ):
-        # When an example is intentionally omitted, we mark the fn with `@no_example`
-        return
-
-    if not el.is_function:
-        # Don't throw for things that can't be decorated
-        return
-
-    if not el.is_exported:
-        # Don't require examples on "implicitly exported" functions
-        # In practice, this covers methods of exported classes (class still needs ex)
-        return
-
-    no_req_examples = ["shiny.experimental"]
-    if any([el.target_path.startswith(mod) for mod in no_req_examples]):
-        return
-
-    raise RuntimeError(
-        f"{el.name} needs an example, use `@add_example()` or manually add `Examples` section:\n"
-        + (f"> file     : {el.filepath}\n" if hasattr(el, "filepath") else "")
-        + (f"> target   : {el.target_path}\n" if hasattr(el, "target_path") else "")
-        + (f"> canonical: {el.canonical_path}" if hasattr(el, "canonical_path") else "")
-    )
-
-
-def assert_no_sphinx_comments(el, converted: str) -> None:
+def assert_no_sphinx_comments(el: Alias, converted: str) -> None:
     """
     Sphinx allows `..`-prefixed comments in docstrings, which are not valid markdown.
     We don't allow Sphinx comments or directives, sorry!

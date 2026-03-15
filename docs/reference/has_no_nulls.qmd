@@ -12,7 +12,7 @@ Check if a DataFrame has any null (missing) values.
 
 :   The input DataFrame to check for null values.
 
-<code><span class="parameter-name">columns</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[PolarsColumnType](`pelage.types.PolarsColumnType`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+<code><span class="parameter-name">columns</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`Optional`)\[[PolarsColumnType](`pelage.types.PolarsColumnType`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
 
 :   Columns to consider for null value check. By default, all columns are checked.
 
