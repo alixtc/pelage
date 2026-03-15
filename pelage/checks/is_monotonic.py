@@ -1,5 +1,3 @@
-from typing import Optional, Union
-
 import polars as pl
 
 from pelage.types import (
@@ -14,8 +12,8 @@ def is_monotonic(
     column: str,
     decreasing: bool = False,
     strict: bool = True,
-    interval: Optional[Union[int, float, str]] = None,
-    group_by: Optional[PolarsOverClauseInput] = None,
+    interval: int | float | str | None = None,
+    group_by: PolarsOverClauseInput | None = None,
 ) -> PolarsLazyOrDataFrame:
     """Verify that values in a column are consecutively increasing or decreasing.
 

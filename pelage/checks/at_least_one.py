@@ -1,5 +1,3 @@
-from typing import Optional
-
 import polars as pl
 
 from pelage.types import (
@@ -8,13 +6,13 @@ from pelage.types import (
     PolarsLazyOrDataFrame,
     PolarsOverClauseInput,
 )
-from pelage.utils import _has_sufficient_polars_version, _sanitize_column_inputs
+from pelage.utils import _sanitize_column_inputs
 
 
 def at_least_one(
     data: PolarsLazyOrDataFrame,
-    columns: Optional[PolarsColumnType] = None,
-    group_by: Optional[PolarsOverClauseInput] = None,
+    columns: PolarsColumnType | None = None,
+    group_by: PolarsOverClauseInput | None = None,
 ) -> PolarsLazyOrDataFrame:
     """Ensure that there is at least one not null value in the designated columns.
 
@@ -97,32 +95,18 @@ def at_least_one(
     selected_columns = _sanitize_column_inputs(columns)
 
     if group_by is not None:
-        if _has_sufficient_polars_version("1.0.0"):
-            only_nulls_per_group = (
-                data.lazy()
-                .group_by(group_by)
-                .agg(selected_columns.null_count() < pl.len())
-                .unpivot(
-                    index=group_by,  # type: ignore
-                    variable_name="columns",
-                    value_name="at_least_one",
-                )
-                .filter(pl.col("at_least_one").not_())
-                .collect()
+        only_nulls_per_group = (
+            data.lazy()
+            .group_by(group_by)
+            .agg(selected_columns.null_count() < pl.len())
+            .unpivot(
+                index=group_by,  # type: ignore
+                variable_name="columns",
+                value_name="at_least_one",
             )
-        else:
-            only_nulls_per_group = (
-                data.lazy()
-                .group_by(group_by)
-                .agg(selected_columns.null_count() < pl.len())
-                .melt(
-                    id_vars=group_by,  # type: ignore
-                    variable_name="columns",
-                    value_name="at_least_one",
-                )
-                .filter(pl.col("at_least_one").not_())
-                .collect()
-            )
+            .filter(pl.col("at_least_one").not_())
+            .collect()
+        )
 
         if len(only_nulls_per_group) > 0:
             raise PolarsAssertError(

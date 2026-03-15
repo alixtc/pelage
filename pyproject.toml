@@ -9,8 +9,10 @@ authors = [
 ]
 license = { text = "MIT" }
 
-requires-python = ">=3.9"
-dependencies = ["polars>=0.20"]
+requires-python = ">=3.10"
+dependencies = [
+    "polars>=1.2.0",
+]
 
 [project.urls]
 homepage = "https://alixtc.github.io/pelage"
@@ -29,6 +31,7 @@ dev = [
     "coverage>=7.4.3",
     "ipykernel>=6.29.3",
     "tox-uv>=1.13.1",
+    "griffe==1.15.0",
 ]
 doc = ["quartodoc>=0.7.0; python_version >= '3.10'"]
 extras = [

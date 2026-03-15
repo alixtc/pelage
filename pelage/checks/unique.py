@@ -1,5 +1,3 @@
-from typing import Optional
-
 import polars as pl
 
 from pelage.types import (
@@ -13,8 +11,8 @@ from pelage.utils import _sanitize_column_inputs
 
 def unique(
     data: PolarsLazyOrDataFrame,
-    columns: Optional[PolarsColumnType] = None,
-    group_by: Optional[PolarsOverClauseInput] = None,
+    columns: PolarsColumnType | None = None,
+    group_by: PolarsOverClauseInput | None = None,
 ) -> PolarsLazyOrDataFrame:
     """Check if there are no duplicated values in each one of the selected columns.
 

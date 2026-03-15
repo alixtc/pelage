@@ -1,5 +1,3 @@
-from typing import Union
-
 import polars as pl
 import pytest
 from polars import testing
@@ -15,7 +13,7 @@ import pelage as plg
     ],
 )
 def test_not_null_proportion_accept_proportion_range_or_single_input(
-    given_df: Union[pl.DataFrame, pl.LazyFrame],
+    given_df: pl.DataFrame | pl.LazyFrame,
 ):
     when = given_df.pipe(plg.not_null_proportion, {"a": (0.1, 1.0)})
     testing.assert_frame_equal(given_df, when)
@@ -44,7 +42,7 @@ def test_not_null_proportion_accept_group_by_option():
     ],
 )
 def test_not_null_proportion_should_error_with_too_many_nulls_per_group(
-    given_df: Union[pl.DataFrame, pl.LazyFrame],
+    given_df: pl.DataFrame | pl.LazyFrame,
 ):
     with pytest.raises(plg.PolarsAssertError):
         given_df.pipe(plg.not_null_proportion, {"a": 0.5}, group_by="group")
@@ -58,7 +56,7 @@ def test_not_null_proportion_should_error_with_too_many_nulls_per_group(
     ],
 )
 def test_not_null_proportion_errors_with_too_many_nulls(
-    given_df: Union[pl.DataFrame, pl.LazyFrame],
+    given_df: pl.DataFrame | pl.LazyFrame,
 ):
     with pytest.raises(plg.PolarsAssertError) as err:
         given_df.pipe(plg.not_null_proportion, {"a": 0.9})

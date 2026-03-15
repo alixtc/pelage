@@ -1,5 +1,3 @@
-from typing import Union
-
 import polars as pl
 import pytest
 from polars import testing
@@ -11,7 +9,7 @@ import pelage as plg
     "given_df", [pl.DataFrame({"a": [1, 2]}), pl.LazyFrame({"a": [1, 2]})]
 )
 def test_unique_should_return_df_if_column_has_unique_values(
-    given_df: Union[pl.DataFrame, pl.LazyFrame],
+    given_df: pl.DataFrame | pl.LazyFrame,
 ):
     when = given_df.pipe(plg.unique, "a")
     testing.assert_frame_equal(given_df, when)

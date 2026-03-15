@@ -1,5 +1,3 @@
-from typing import Optional, Union
-
 import polars as pl
 
 from pelage.types import (
@@ -8,15 +6,14 @@ from pelage.types import (
     PolarsLazyOrDataFrame,
 )
 from pelage.utils import (
-    _has_sufficient_polars_version,
     _sanitize_column_inputs,
 )
 
 
 def not_constant(
     data: PolarsLazyOrDataFrame,
-    columns: Optional[PolarsColumnType] = None,
-    group_by: Optional[Union[str, list[str]]] = None,
+    columns: PolarsColumnType | None = None,
+    group_by: str | list[str] | None = None,
 ) -> PolarsLazyOrDataFrame:
     """Check if a DataFrame has constant columns.
 
@@ -109,43 +106,23 @@ def not_constant(
     selected_cols = _sanitize_column_inputs(columns)
 
     if group_by is None:
-        if _has_sufficient_polars_version("1.0.0"):
-            constant_columns = (
-                data.lazy()
-                .select(selected_cols.n_unique())
-                .unpivot(variable_name="column", value_name="n_distinct")
-                .filter(pl.col("n_distinct") == 1)
-                .collect()
-            )
-        else:
-            constant_columns = (
-                data.lazy()
-                .select(selected_cols.n_unique())
-                .melt(variable_name="column", value_name="n_distinct")
-                .filter(pl.col("n_distinct") == 1)
-                .collect()
-            )
+        constant_columns = (
+            data.lazy()
+            .select(selected_cols.n_unique())
+            .unpivot(variable_name="column", value_name="n_distinct")
+            .filter(pl.col("n_distinct") == 1)
+            .collect()
+        )
+
     else:
-        if _has_sufficient_polars_version("1.0.0"):
-            constant_columns = (
-                data.lazy()
-                .group_by(group_by)
-                .agg(selected_cols.n_unique())
-                .unpivot(
-                    index=group_by, variable_name="column", value_name="n_distinct"
-                )
-                .filter(pl.col("n_distinct") == 1)
-                .collect()
-            )
-        else:
-            constant_columns = (
-                data.lazy()
-                .group_by(group_by)
-                .agg(selected_cols.n_unique())
-                .melt(id_vars=group_by, variable_name="column", value_name="n_distinct")
-                .filter(pl.col("n_distinct") == 1)
-                .collect()
-            )
+        constant_columns = (
+            data.lazy()
+            .group_by(group_by)
+            .agg(selected_cols.n_unique())
+            .unpivot(index=group_by, variable_name="column", value_name="n_distinct")
+            .filter(pl.col("n_distinct") == 1)
+            .collect()
+        )
 
     if not constant_columns.is_empty():
         group_message = " within a given group" if group_by is not None else ""

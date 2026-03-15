@@ -32,7 +32,7 @@ Verify that values in a column are consecutively increasing or decreasing.
 :   The series must be stricly increasing or decreasing, no consecutive equal values
     are allowed, by default True
 
-<code><span class="parameter-name">interval</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[Union](`typing.Union`)\[[int](`int`), [float](`float`), [str](`str`), [pl](`polars`).[Duration](`polars.Duration`)\]\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+<code><span class="parameter-name">interval</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`Optional`)\[[Union](`Union`)\[[int](`int`), [float](`float`), [str](`str`), [pl](`polars`).[Duration](`polars.Duration`)\]\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
 
 :   For time-based column, the interval can be specified as a string as in the
     function `dt.offset_by` or `pl.DataFrame().rolling`. It can also be specified
@@ -59,7 +59,7 @@ Verify that values in a column are consecutively increasing or decreasing.
 
     By default None
 
-<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[PolarsOverClauseInput](`pelage.types.PolarsOverClauseInput`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`Optional`)\[[PolarsOverClauseInput](`pelage.types.PolarsOverClauseInput`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
 
 :   When specified, the monotonic characteristics and intervals are estimated for
     each group independently.

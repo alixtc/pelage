@@ -1,5 +1,3 @@
-from typing import Optional
-
 import polars as pl
 
 from pelage.types import (
@@ -14,7 +12,7 @@ def mutually_exclusive_ranges(
     data: PolarsLazyOrDataFrame,
     low_bound: str,
     high_bound: str,
-    group_by: Optional[PolarsOverClauseInput] = None,
+    group_by: PolarsOverClauseInput | None = None,
 ) -> PolarsLazyOrDataFrame:
     """Ensure that the specified columns contains no overlapping intervals.
 

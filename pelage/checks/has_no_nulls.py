@@ -1,5 +1,3 @@
-from typing import Optional
-
 import polars as pl
 
 from pelage.types import (
@@ -8,14 +6,13 @@ from pelage.types import (
     PolarsLazyOrDataFrame,
 )
 from pelage.utils import (
-    _has_sufficient_polars_version,
     _sanitize_column_inputs,
 )
 
 
 def has_no_nulls(
     data: PolarsLazyOrDataFrame,
-    columns: Optional[PolarsColumnType] = None,
+    columns: PolarsColumnType | None = None,
 ) -> PolarsLazyOrDataFrame:
     """Check if a DataFrame has any null (missing) values.
 
@@ -67,21 +64,11 @@ def has_no_nulls(
     """
     selected_columns = _sanitize_column_inputs(columns)
     null_count = (
-        (
-            data.lazy()
-            .select(selected_columns.null_count())
-            .unpivot(variable_name="column", value_name="null_count")
-            .filter(pl.col("null_count") > 0)
-            .collect()
-        )
-        if _has_sufficient_polars_version("1.1.0")
-        else (
-            data.lazy()
-            .select(selected_columns.null_count())
-            .melt(variable_name="column", value_name="null_count")
-            .filter(pl.col("null_count") > 0)
-            .collect()
-        )
+        data.lazy()
+        .select(selected_columns.null_count())
+        .unpivot(variable_name="column", value_name="null_count")
+        .filter(pl.col("null_count") > 0)
+        .collect()
     )
 
     if not null_count.is_empty():

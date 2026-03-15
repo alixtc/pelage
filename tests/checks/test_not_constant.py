@@ -1,5 +1,3 @@
-from typing import Union
-
 import polars as pl
 import pytest
 from polars import testing
@@ -17,7 +15,7 @@ def test_not_constant():
     "given_df", [pl.DataFrame({"b": [1, 1]}), pl.LazyFrame({"b": [1, 1]})]
 )
 def test_not_constant_throws_error_on_constant_columns(
-    given_df: Union[pl.DataFrame, pl.LazyFrame],
+    given_df: pl.DataFrame | pl.LazyFrame,
 ):
     with pytest.raises(plg.PolarsAssertError):
         given_df.pipe(plg.not_constant, "b")

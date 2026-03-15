@@ -1,5 +1,3 @@
-from typing import Optional, Union
-
 import polars as pl
 
 from pelage.types import (
@@ -9,14 +7,13 @@ from pelage.types import (
 )
 from pelage.utils import (
     _format_ranges_by_columns,
-    _has_sufficient_polars_version,
 )
 
 
 def not_null_proportion(
     data: PolarsLazyOrDataFrame,
-    items: dict[str, Union[float, tuple[float, float]]],
-    group_by: Optional[PolarsOverClauseInput] = None,
+    items: dict[str, float | tuple[float, float]],
+    group_by: PolarsOverClauseInput | None = None,
 ) -> PolarsLazyOrDataFrame:
     """Checks that the proportion of non-null values in a column is within a
     a specified range [at_least, at_most] where at_most is an optional argument
@@ -134,32 +131,18 @@ def not_null_proportion(
     else:
         formatted_data = data
 
-    if _has_sufficient_polars_version("1.0.0"):
-        null_proportions = (
-            formatted_data.lazy()
-            .group_by(group_by)
-            .agg(pl.all().null_count() / pl.len())
-            .unpivot(
-                index=group_by,  # type: ignore
-                variable_name="column",
-                value_name="null_proportion",
-            )
-            .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
-            .collect()
+    null_proportions = (
+        formatted_data.lazy()
+        .group_by(group_by)
+        .agg(pl.all().null_count() / pl.len())
+        .unpivot(
+            index=group_by,  # type: ignore
+            variable_name="column",
+            value_name="null_proportion",
         )
-    else:
-        null_proportions = (
-            formatted_data.lazy()
-            .group_by(group_by)
-            .agg(pl.all().null_count() / pl.len())
-            .melt(
-                id_vars=group_by,  # type: ignore
-                variable_name="column",
-                value_name="null_proportion",
-            )
-            .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
-            .collect()
-        )
+        .with_columns(not_null_fraction=1 - pl.col("null_proportion"))
+        .collect()
+    )
 
     if "constant__" in null_proportions.columns:
         null_proportions = null_proportions.drop("constant__")

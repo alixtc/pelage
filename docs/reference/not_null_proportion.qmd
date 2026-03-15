@@ -30,7 +30,7 @@ a specified range [at_least, at_most] where at_most is an optional argument
     When specifying a single float, the higher bound of the range will automatically
     be set to 1.0, i.e. (given_float, 1.0)
 
-<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`typing.Optional`)\[[PolarsOverClauseInput](`pelage.types.PolarsOverClauseInput`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
+<code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation">[Optional](`Optional`)\[[PolarsOverClauseInput](`pelage.types.PolarsOverClauseInput`)\]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code>
 
 :   When specified perform the check per group instead of the whole column,
     by default None

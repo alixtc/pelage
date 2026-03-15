@@ -6,16 +6,13 @@ from pelage.types import (
     PolarsDataType,
     PolarsLazyOrDataFrame,
 )
-from pelage.utils import _has_sufficient_polars_version
 
 
 def _get_frame_schema(data: PolarsLazyOrDataFrame):
     if isinstance(data, pl.DataFrame):
         return data.schema
-    if _has_sufficient_polars_version("1.0.0"):
-        return data.collect_schema()
 
-    return data.schema
+    return data.collect_schema()
 
 
 def has_dtypes(
