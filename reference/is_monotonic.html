@@ -385,7 +385,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dd>
 <p>The series must be stricly increasing or decreasing, no consecutive equal values are allowed, by default True</p>
 </dd>
-<dt><code><span class="parameter-name">interval</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Optional`">Optional</a>[<a href="`typing.Union`">Union</a>[<a href="`int`">int</a>, <a href="`float`">float</a>, <a href="`str`">str</a>, <a href="`polars`">pl</a>.<a href="`polars.Duration`">Duration</a>]]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
+<dt><code><span class="parameter-name">interval</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`Optional`">Optional</a>[<a href="`Union`">Union</a>[<a href="`int`">int</a>, <a href="`float`">float</a>, <a href="`str`">str</a>, <a href="`polars`">pl</a>.<a href="`polars.Duration`">Duration</a>]]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
 <dd>
 <p>For time-based column, the interval can be specified as a string as in the function <code>dt.offset_by</code> or <code>pl.DataFrame().rolling</code>. It can also be specified with the <code>pl.duration()</code> function directly in a more explicit manner.</p>
 <p>When using a string, the interval is dictated by the following string language:</p>
@@ -404,7 +404,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>By “calendar day”, we mean the corresponding time on the next day (which may not be 24 hours, due to daylight savings). Similarly for “calendar week”, “calendar month”, “calendar quarter”, and “calendar year”.</p>
 <p>By default None</p>
 </dd>
-<dt><code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`typing.Optional`">Optional</a>[<a href="`pelage.types.PolarsOverClauseInput`">PolarsOverClauseInput</a>]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
+<dt><code><span class="parameter-name">group_by</span><span class="parameter-annotation-sep">:</span> <span class="parameter-annotation"><a href="`Optional`">Optional</a>[<a href="`pelage.types.PolarsOverClauseInput`">PolarsOverClauseInput</a>]</span> <span class="parameter-default-sep">=</span> <span class="parameter-default">None</span></code></dt>
 <dd>
 <p>When specified, the monotonic characteristics and intervals are estimated for each group independently.</p>
 <p>by default None</p>
