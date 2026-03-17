@@ -148,6 +148,7 @@ def is_monotonic(
         group_by = 1
 
     select_diff_expr = pl.col(column).diff().over(group_by)
+    previous_line_diff = pl.col(column).diff().shift(-1).over(group_by)
 
     diff_column = data.lazy().select(select_diff_expr).collect().get_column(column)
 
@@ -155,30 +156,23 @@ def is_monotonic(
     # Cast necessary for dates and datetimes
     diff_column_sign = diff_column.cast(int).sign()
 
-    if not decreasing and not strict:
-        comparisons = (diff_column_sign >= 0).all()
-        previous_and_current_match_expr = (select_diff_expr >= 0) & (
-            pl.col(column).diff().shift(-1).over(group_by) >= 0
-        )
-    elif not decreasing and strict:
-        comparisons = (diff_column_sign > 0).all()
-        previous_and_current_match_expr = (select_diff_expr > 0) & (
-            pl.col(column).diff().shift(-1).over(group_by) > 0
-        )
-    elif decreasing and not strict:
-        comparisons = (diff_column_sign <= 0).all()
-        previous_and_current_match_expr = (select_diff_expr <= 0) & (
-            pl.col(column).diff().shift(-1).over(group_by) <= 0
-        )
-    else:
-        comparisons = (diff_column_sign < 0).all()
-        previous_and_current_match_expr = (select_diff_expr < 0) & (
-            pl.col(column).diff().shift(-1).over(group_by) < 0
-        )
+    match decreasing, strict:
+        case False, False:
+            comparisons = (diff_column_sign >= 0).all()
+            consecutive_bad_lines = (select_diff_expr >= 0) & (previous_line_diff >= 0)
+        case False, True:
+            comparisons = (diff_column_sign > 0).all()
+            consecutive_bad_lines = (select_diff_expr > 0) & (previous_line_diff > 0)
+        case True, False:
+            comparisons = (diff_column_sign <= 0).all()
+            consecutive_bad_lines = (select_diff_expr <= 0) & (previous_line_diff <= 0)
+        case True, True:
+            comparisons = (diff_column_sign < 0).all()
+            consecutive_bad_lines = (select_diff_expr < 0) & (previous_line_diff < 0)
 
     if not comparisons:
         consecutive_bad_lines = (
-            data.lazy().filter(previous_and_current_match_expr.not_()).collect()
+            data.lazy().filter(consecutive_bad_lines.not_()).collect()
         )
         error_msg = (
             f'Column "{column}" expected to be monotonic but is not,'
