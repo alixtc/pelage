@@ -4,32 +4,31 @@ One of the primary objectives of `pelage` is to facilitate the rewriting of data
 
 |       dbt       |   Available in `pelage`   | `group_by` option |
 |:---------------:|:-------------------------:|:-----------------:|
-|     unique      |            ✅             |        \-         |
-|    not_null     |      has_no_nulls ✅      |        \-         |
-| accepted_values |            ✅             |        \-         |
-|  relationship   | maintains_relationship ✅ |        \-         |
+|     unique      |            ✅             |        ✖️         |
+|    not_null     |      has_no_nulls ✅      |        ✖️         |
+| accepted_values |            ✅             |        ✖️         |
+|  relationship   | maintains_relationship ✅ |        ✖️         |
 
 : dbt core test functions {.striped .hover}
-
 
 |           dbt-utils           | Available in `pelage` | `group_by` option |
 |:-----------------------------:|:---------------------:|:-----------------:|
 |        equal_rowcount         |     has_shape ✅      |        ✅         |
 |        fewer_rows_than        |          ❌           |        ❌         |
-|           equality            |          ✅           |        \-         |
-|      expression_is_true       |    custom_check ✅    |        \-         |
+|           equality            |          ❌           |        ❌         |
+|      expression_is_true       |    custom_check ✅    |  custom_check ✅  |
 |            recency            |          ❌           |        ❌         |
-|         at_least_one          |          ✅           |        \-         |
+|         at_least_one          |          ✅           |        ✖️         |
 |         not_constant          |          ✅           |        ✅         |
 |       not_empty_string        |          ❌           |        ❌         |
 |     cardinality_equality      |          ✅           |        ✅         |
-|      not_null_proportion      |          ✅           |        \-         |
-|      not_accepted_values      |          ✅           |        \-         |
+|      not_null_proportion      |          ✅           |        ✖️         |
+|      not_accepted_values      |          ✅           |        ✖️         |
 |      relationships_where      |          ❌           |        ❌         |
 |   mutually_exclusive_ranges   |          ✅           |        ✅         |
-|       sequential_values       |    is_monotonic ✅    |        ✅         |
-| unique_combination_of_columns |          ✅           |        \-         |
-|        accepted_range         |          ✅           |        \-         |
+|       sequential_values       |    is_monotonic ✅    |  is_monotonic ✅  |
+| unique_combination_of_columns |          ✅           |        ✖️         |
+|        accepted_range         |          ✅           |        ✖️         |
 
 : Implementation of dbt-utils tests {.striped .hover}
 
@@ -37,9 +36,9 @@ Some functions that are also coming from other defensive analysis tools in pytho
 
 |         Name         | Available in `pelage` | `group_by` option |
 |:--------------------:|:---------------------:|:-----------------:|
-|     has_columns      |          ✅           |        \-         |
-|      has_dtypes      |          ✅           |        \-         |
-|     has_no_infs      |          ✅           |        \-         |
+|     has_columns      |          ✅           |        ✖️         |
+|      has_dtypes      |          ✅           |        ✖️         |
+|     has_no_infs      |          ✅           |        ✖️         |
 | has_mandatory_values |          ✅           |        ✅         |
 
 : Other defensive functions {.striped .hover}
