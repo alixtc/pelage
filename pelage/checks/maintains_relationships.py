@@ -75,7 +75,6 @@ def maintains_relationships(
             on=column,
             how="full",
             suffix="_in_ref",
-            # coalesce=True,
         )
         .filter(pl.col("_reference").is_null() | pl.col("_current").is_null())
         .head(200)
