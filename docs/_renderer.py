@@ -8,9 +8,9 @@ from pathlib import Path
 from typing import Optional, Union
 
 import quartodoc.ast as qast
+
 from griffe import (
     Alias,
-    DocstringAttribute,
     DocstringParameter,
     DocstringSectionParameters,
     DocstringSectionText,
