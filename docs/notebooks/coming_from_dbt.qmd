@@ -9,7 +9,7 @@ One of the primary objectives of `pelage` is to facilitate the rewriting of data
 | accepted_values |            ✅             |        ✖️         |
 |  relationship   | maintains_relationship ✅ |        ✖️         |
 
-: dbt core test functions {.striped .hover}
+: dbt core test functions
 
 |           dbt-utils           | Available in `pelage` | `group_by` option |
 |:-----------------------------:|:---------------------:|:-----------------:|
@@ -30,7 +30,7 @@ One of the primary objectives of `pelage` is to facilitate the rewriting of data
 | unique_combination_of_columns |          ✅           |        ✖️         |
 |        accepted_range         |          ✅           |        ✖️         |
 
-: Implementation of dbt-utils tests {.striped .hover}
+: Implementation of dbt-utils tests
 
 Some functions that are also coming from other defensive analysis tools in python have been implemented, even though they are not available in dbt:
 
@@ -41,13 +41,13 @@ Some functions that are also coming from other defensive analysis tools in pytho
 |     has_no_infs      |          ✅           |        ✖️         |
 | has_mandatory_values |          ✅           |        ✅         |
 
-: Other defensive functions {.striped .hover}
+: Other defensive functions
 
 # Context
 
 `pelage` was designed in order to reduce the gap between data exploration and production. Working on data related use-cases implies facing many different challenges, one the majors are data quality, data drift.
 
--   One of the best frameworks to test data pipelines is provided by `dbt`.
--   It’s difficult to write tests after the business logic has been implemented.
--   During EDA, data visualization plays a crucial role to identify relevant data or identify quality problems.
--   SQL transformations are a major component of production-ready data pipelines.
+- One of the best frameworks to test data pipelines is provided by `dbt`.
+- It’s difficult to write tests after the business logic has been implemented.
+- During EDA, data visualization plays a crucial role to identify relevant data or identify quality problems.
+- SQL transformations are a major component of production-ready data pipelines.
