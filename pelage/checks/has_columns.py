@@ -1,5 +1,3 @@
-import polars as pl
-
 from pelage.types import PolarsAssertError, PolarsLazyOrDataFrame
 
 
@@ -59,11 +57,8 @@ def has_columns(
     if isinstance(names, str):
         # Because set(str) explodes the string
         names = [names]
-    column_names_set = (
-        set(data.collect_schema().names())
-        if isinstance(data, pl.LazyFrame)
-        else set(data.columns)
-    )
+    column_names_set = set(data.collect_schema().names())
+
     mising_columns = set(names) - column_names_set
     if mising_columns:
         raise PolarsAssertError(

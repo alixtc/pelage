@@ -1,18 +1,9 @@
-import polars as pl
-
 from pelage import utils
 from pelage.types import (
     PolarsAssertError,
     PolarsDataType,
     PolarsLazyOrDataFrame,
 )
-
-
-def _get_frame_schema(data: PolarsLazyOrDataFrame):
-    if isinstance(data, pl.DataFrame):
-        return data.schema
-
-    return data.collect_schema()
 
 
 def has_dtypes(
@@ -79,7 +70,7 @@ def has_dtypes(
     column='city', expected_type=Int64, real_dtype=String
     """
 
-    schema = _get_frame_schema(data)
+    schema = data.collect_schema()
 
     missing_columns = set(items.keys()) - set(schema.keys())
     if missing_columns:
