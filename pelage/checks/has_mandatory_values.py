@@ -18,22 +18,6 @@ def _format_missing_elements(selected_data: pl.DataFrame, items: dict):
     return missing
 
 
-def compare_sets_per_column(
-    data: PolarsLazyOrDataFrame, items: dict
-) -> PolarsLazyOrDataFrame:
-    expected_sets = {f"{k}_expected_set": pl.lit(v) for k, v in items.items()}
-
-    return data.with_columns(**expected_sets).filter(
-        pl.Expr.or_(
-            *[
-                pl.col(f"{k}_expected_set").list.set_difference(pl.col(k)).list.len()
-                != 0
-                for k in items
-            ]
-        )
-    )
-
-
 def has_mandatory_values(
     data: PolarsLazyOrDataFrame,
     items: dict[str, list],
@@ -114,12 +98,21 @@ def has_mandatory_values(
     Error with the DataFrame passed to the check function:
     --> Some groups are missing mandatory values
     """
+
     if group_by is not None:
+        expected_sets = {f"{k}_expected_set": pl.lit(v) for k, v in items.items()}
+
+        has_column_missing_element_from_set = [
+            pl.col(f"{k}_expected_set").list.set_difference(pl.col(k)).list.len() != 0
+            for k in items
+        ]
+
         groups_missing_mandatory = (
             data.lazy()
             .group_by(group_by)
             .agg(pl.col(k).unique() for k in items)
-            .pipe(compare_sets_per_column, items)
+            .with_columns(**expected_sets)
+            .filter(pl.Expr.or_(*has_column_missing_element_from_set))
             .collect()
         )
 
