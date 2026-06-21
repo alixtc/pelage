@@ -3,7 +3,6 @@ import pytest
 from polars import testing
 
 import pelage as plg
-import pelage.utils
 
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
