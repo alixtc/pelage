@@ -36,15 +36,3 @@ def _sanitize_column_inputs(
         return columns
     else:
         return pl.col(columns)
-
-
-def _format_ranges_by_columns(
-    items: dict[str, float | tuple[float, float]],
-) -> pl.DataFrame:
-    ranges = {k: (v if isinstance(v, tuple) else (v, 1)) for k, v in items.items()}
-    pl_ranges = pl.DataFrame(
-        [(k, v[0], v[1]) for k, v in ranges.items()],
-        schema=["column", "min_prop", "max_prop"],
-        orient="row",
-    )
-    return pl_ranges

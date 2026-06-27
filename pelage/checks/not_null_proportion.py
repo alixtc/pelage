@@ -5,9 +5,6 @@ from pelage.types import (
     PolarsLazyOrDataFrame,
     PolarsOverClauseInput,
 )
-from pelage.utils import (
-    _format_ranges_by_columns,
-)
 
 
 def not_null_proportion(
@@ -162,3 +159,15 @@ def not_null_proportion(
             "Some columns contains a proportion of nulls beyond specified limits",
         )
     return data
+
+
+def _format_ranges_by_columns(
+    items: dict[str, float | tuple[float, float]],
+) -> pl.DataFrame:
+    ranges = {k: (v if isinstance(v, tuple) else (v, 1)) for k, v in items.items()}
+    pl_ranges = pl.DataFrame(
+        [(k, v[0], v[1]) for k, v in ranges.items()],
+        schema=["column", "min_prop", "max_prop"],
+        orient="row",
+    )
+    return pl_ranges

@@ -3,6 +3,7 @@ import pytest
 from polars import testing
 
 import pelage as plg
+from pelage.checks.not_null_proportion import _format_ranges_by_columns
 
 
 @pytest.mark.parametrize(
@@ -63,3 +64,18 @@ def test_not_null_proportion_errors_with_too_many_nulls(
 
     expected_df_columns = ["not_null_fraction", "min_prop", "max_prop"]
     assert all([col in err.value.df.columns for col in expected_df_columns])
+
+
+def test_format_ranges_by_has_columns_and_min_max():
+    items = {"a": 0.5, "b": (0.9, 0.95)}
+    given_df = _format_ranges_by_columns(items)
+
+    expected = pl.DataFrame(
+        [
+            ("a", 0.5, 1.0),
+            ("b", 0.9, 0.95),
+        ],
+        schema=["column", "min_prop", "max_prop"],
+        orient="row",
+    )
+    testing.assert_frame_equal(given_df, expected)

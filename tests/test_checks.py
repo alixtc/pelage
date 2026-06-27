@@ -2,7 +2,6 @@ from textwrap import dedent
 
 import polars as pl
 import pytest
-from polars import testing
 
 import pelage as plg
 from pelage import utils
@@ -77,18 +76,3 @@ def test_is_shape_should_error_on_wrong_shape():
     given_df = pl.DataFrame({"a": [1, 2, 3], "b": ["a", "b", "c"]})
     with pytest.raises(plg.PolarsAssertError):
         given_df.pipe(plg.has_shape, (2, 2))
-
-
-def test_format_ranges_by_has_columns_and_min_max():
-    items = {"a": 0.5, "b": (0.9, 0.95)}
-    given_df = utils._format_ranges_by_columns(items)
-
-    expected = pl.DataFrame(
-        [
-            ("a", 0.5, 1.0),
-            ("b", 0.9, 0.95),
-        ],
-        schema=["column", "min_prop", "max_prop"],
-        orient="row",
-    )
-    testing.assert_frame_equal(given_df, expected)
