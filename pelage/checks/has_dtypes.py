@@ -1,4 +1,3 @@
-from pelage import utils
 from pelage.types import (
     PolarsAssertError,
     PolarsDataType,
@@ -70,16 +69,26 @@ def has_dtypes(
     column='city', expected_type=Int64, real_dtype=String
     """
 
-    schema = data.collect_schema()
+    actual_schema = data.collect_schema()
 
-    missing_columns = set(items.keys()) - set(schema.keys())
+    missing_columns = set(items.keys()) - set(actual_schema.keys())
     if missing_columns:
         message = f"Dtype check, some expected columns are missing:{missing_columns}"
         raise PolarsAssertError(supp_message=message)
 
-    bad_column_type_requirement = set(items.items()) - set(schema.items())
-    if bad_column_type_requirement:
-        message = utils.compare_schema(schema, items)
+    unmatched_colum_dtypes = [
+        (key, value, actual_schema[key])
+        for key, value in items.items()
+        if value != actual_schema[key]
+    ]
+
+    if unmatched_colum_dtypes:
+        message = [
+            f"{column=}, {expected_type=}, {real_dtype=}"
+            for (column, expected_type, real_dtype) in unmatched_colum_dtypes
+        ]
+
+        message = "\n".join(message)
         message = f"Some columns don't have the expected type:\n{message}"
         raise PolarsAssertError(supp_message=message)
     return data
