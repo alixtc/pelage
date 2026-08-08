@@ -46,7 +46,7 @@ def test_has_dtypes_accepts_dict_should_indicate_mismatched_dtypes(
 
 
 @pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
-def test_has_dtypes_should_provide_error_messages_for_datetimes(
+def test_has_dtypes_should_with_timbe_based_types_even_without_time_units(
     frame: type[pl.DataFrame | pl.LazyFrame],
 ):
     given_df = frame(
@@ -55,10 +55,15 @@ def test_has_dtypes_should_provide_error_messages_for_datetimes(
         }
     ).with_columns(
         datetimes=pl.col("datetimes").str.to_datetime(),
+        times=pl.col("datetimes").str.to_datetime().dt.time(),
+        dates=pl.col("datetimes").str.to_datetime().dt.date(),
     )
 
-    when = given_df.pipe(plg.has_dtypes, {"datetimes": pl.Datetime})
+    when = given_df.pipe(
+        plg.has_dtypes,
+        {"datetimes": pl.Datetime, "times": pl.Time, "dates": pl.Date},
+    )
     testing.assert_frame_equal(given_df, when)
 
-    when = given_df.pipe(plg.has_dtypes, {"datetimes": pl.Datetime("us")})
-    testing.assert_frame_equal(given_df, when)
+    with_time_unit = given_df.pipe(plg.has_dtypes, {"datetimes": pl.Datetime("us")})
+    testing.assert_frame_equal(given_df, with_time_unit)
