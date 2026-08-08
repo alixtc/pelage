@@ -43,3 +43,27 @@ def test_has_dtypes_accepts_dict_should_indicate_mismatched_dtypes(
     base_message = "Some columns don't have the expected type:\n"
     assert base_message in str(err.value)
     assert "column='a'" in str(err.value)
+
+
+@pytest.mark.parametrize("frame", [pl.DataFrame, pl.LazyFrame])
+def test_has_dtypes_should_with_timbe_based_types_even_without_time_units(
+    frame: type[pl.DataFrame | pl.LazyFrame],
+):
+    given_df = frame(
+        {
+            "datetimes": ["2022-01-01", "2023-01-01", "2023-01-02"],
+        }
+    ).with_columns(
+        datetimes=pl.col("datetimes").str.to_datetime(),
+        times=pl.col("datetimes").str.to_datetime().dt.time(),
+        dates=pl.col("datetimes").str.to_datetime().dt.date(),
+    )
+
+    when = given_df.pipe(
+        plg.has_dtypes,
+        {"datetimes": pl.Datetime, "times": pl.Time, "dates": pl.Date},
+    )
+    testing.assert_frame_equal(given_df, when)
+
+    with_time_unit = given_df.pipe(plg.has_dtypes, {"datetimes": pl.Datetime("us")})
+    testing.assert_frame_equal(given_df, with_time_unit)
